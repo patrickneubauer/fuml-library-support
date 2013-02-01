@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin
+	id="org.modeldriven.fuml.execution"
+	name="fUML Model Execution Plugin"
+	version="1.0"
+	provider-name="Model Driven Solutions"
+	class="org.modeldriven.fuml.plugin.magicdraw.ExecutionPlugin">
+
+	<requires>
+	   <api version="1.0"/>
+	</requires>
+
+	<runtime>
+	   <library name="fuml.jar"/>
+	   <library name="lib/activation.jar"/>
+	   <library name="lib/commons-logging.jar"/>
+	   <library name="lib/log4j.jar"/>
+	   <library name="lib/junit.jar"/>
+	   <library name="lib/jaxb-api-2.1-EA2.jar"/>
+	   <library name="lib/jaxb-impl-2.1-EA2.jar"/>
+	   <library name="lib/jsr173_api.jar"/>
+	   <library name="lib/stax-utils.jar"/>
+	   <library name="lib/xalan.jar"/>
+	   <library name="lib/xerces.jar"/>
+	   <library name="lib/jdom.jar"/>
+	</runtime>
+</plugin>
