@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_K-8U8FWwEeKaTuVFD778jg">
-  <packagedElement xmi:type="uml:Activity" xmi:id="_Nww8UFWwEeKaTuVFD778jg" name="TestActivity" node="_QN6UMFWwEeKaTuVFD778jg">
-    <node xmi:type="uml:CreateObjectAction" xmi:id="_QN6UMFWwEeKaTuVFD778jg">
-      <classifier xmi:type="uml:Class" href="Vehicles.uml#_oA2b0FHQEeKwiMIhkV3wDA"/>
-    </node>
-  </packagedElement>
-</uml:Model>
