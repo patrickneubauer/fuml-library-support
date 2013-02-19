@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/aspectjweaver.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.modelexecution.fuml.extlib"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
