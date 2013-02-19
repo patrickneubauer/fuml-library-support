@@ -32,6 +32,23 @@ public class UML2UMLWithPlaceholderActivitiesConverterTest {
 		// check if every ownedOperation in every uml:Class also has a corresponding ownedBehavior
 		assertTrue(containsPlaceholderActivities(outputFilePath));
 	}
+	
+
+	@Test
+	public void addPlaceholderActivitiesToActivityWithCreateObjectActionUML() {
+		String inputFilePath = "models/activityWithCreateObjectAction/model.uml";
+		String outputFilePath = "models/activityWithCreateObjectAction/modelConverted.uml";
+		String jarFilePath = "libraries/activityWithCreateObjectAction.jar";
+		
+		UML2UMLWithPlaceholderActivitiesConverter converter = new UML2UMLWithPlaceholderActivitiesConverter(inputFilePath, jarFilePath);
+		converter.converter(outputFilePath);
+		
+		// check if every uml:Class contains a ownedComment referring to the JAR file
+		assertTrue(containsComments(outputFilePath, jarFilePath));
+		
+		// check if every ownedOperation in every uml:Class also has a corresponding ownedBehavior
+		assertTrue(containsPlaceholderActivities(outputFilePath));
+	}
 
 	private boolean containsPlaceholderActivities(String outputFilePath) {
 		try {

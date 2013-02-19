@@ -171,7 +171,7 @@ public class UML2ActivityConverterAndRunnerTest {
 	 */
 	@Test
 	public void createAndExecutefUMLActivityOutOfUMLFileCreatedByReverseEngineering() {
-		Activity umlActivity = loadActivity("models/VehiclesActivityDiagram.uml", "VehiclesActivityDiagramActivity", "models/Vehicles.uml");
+		Activity umlActivity = loadActivity("models/VehiclesActivityDiagram.uml", "VehiclesActivityDiagramActivity", "models/VehiclesConverted.uml");
 		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator().next();
 		
 		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
