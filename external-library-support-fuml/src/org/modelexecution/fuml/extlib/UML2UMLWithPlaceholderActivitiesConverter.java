@@ -2,7 +2,6 @@ package org.modelexecution.fuml.extlib;
 
 import java.io.File;
 import java.io.IOException;
-
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -10,6 +9,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -129,11 +130,10 @@ public class UML2UMLWithPlaceholderActivitiesConverter {
 		appendPlaceholderActivities();
 		
 		// write the content into xml file
-		outputDocument.normalizeDocument(); // prettify the formatting
 		DOMSource source = new DOMSource(outputDocument);
 		StreamResult result = new StreamResult(new File(outputFilePath));
 		try {
-			TransformerFactory.newInstance().newTransformer().transform(source, result);
+			TransformerFactory.newInstance().newTransformer(new StreamSource("pretty-print.xsl")).transform(source, result);
 		} catch (TransformerException | TransformerFactoryConfigurationError e) {
 			System.out.println("Something went wrong during the writing of the output document to the file: " + e);
 		}
