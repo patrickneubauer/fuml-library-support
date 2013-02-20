@@ -133,7 +133,7 @@ public class UML2UMLWithPlaceholderActivitiesConverter {
 		DOMSource source = new DOMSource(outputDocument);
 		StreamResult result = new StreamResult(new File(outputFilePath));
 		try {
-			TransformerFactory.newInstance().newTransformer(new StreamSource("pretty-print.xsl")).transform(source, result);
+			TransformerFactory.newInstance().newTransformer().transform(source, result);
 		} catch (TransformerException | TransformerFactoryConfigurationError e) {
 			System.out.println("Something went wrong during the writing of the output document to the file: " + e);
 		}
