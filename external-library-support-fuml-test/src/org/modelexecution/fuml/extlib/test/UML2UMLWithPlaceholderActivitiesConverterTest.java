@@ -38,7 +38,7 @@ public class UML2UMLWithPlaceholderActivitiesConverterTest {
 	 * the necessary new ownedBehavior elements
 	 * 
 	 * @param outputFilePath file path of the output file that has been created by the {@link UML2UMLWithPlaceholderActivitiesConverter}outputFilePath file path of the output file that has been created by the {@link UML2UMLWithPlaceholderActivitiesConverter}
-	 * @return true if it does contain the necessary new elements and false otherwisetrue if it does contain the necessary new elements and false otherwise
+	 * @return true if it does contain the necessary new elements and false otherwise
 	 */
 	private boolean containsPlaceholderActivities(String outputFilePath) {
 		try {
