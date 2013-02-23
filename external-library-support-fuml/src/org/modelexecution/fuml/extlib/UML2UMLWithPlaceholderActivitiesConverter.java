@@ -16,6 +16,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * 
+ * @author patrickneubauer
+ *
+ */
 public class UML2UMLWithPlaceholderActivitiesConverter {
 	
 	private String inputFilePath;
@@ -45,9 +50,11 @@ public class UML2UMLWithPlaceholderActivitiesConverter {
 	 * Append a comment to every UML class that references to the external JAR file.
 	 * 
 	 * Example result:
+	 * <code>
 	 *   <ownedComment xmi:id="_oA2b0FHQEeKwiMIhkV3wDA_comment">
 	 *     <body>@external libraries/Vehicles.jar</body>
 	 *   </ownedComment>
+	 * </code>
 	 */
 	private void appendCommentToUMLClasses() {
 		// Cycle through the number of packagedElements
@@ -77,12 +84,14 @@ public class UML2UMLWithPlaceholderActivitiesConverter {
 	 * Therefore, also all children of ownedOperation are cloned (without xmi:id appending "_placeholder").
 	 * 
 	 * Example result:
+	 * <code>
 	 *   <ownedBehavior name="toString" visibility="public" xmi:id="_oA3CwFHQEeKwiMIhkV3wDA_placeholder" xmi:type="uml:Activity">
      *     <ownedParameter direction="return" type="_oA4Q5VHQEeKwiMIhkV3wDA" visibility="public" xmi:id="_oA3CwVHQEeKwiMIhkV3wDA">
      *       <lowerValue xmi:id="_oA3Cw1HQEeKwiMIhkV3wDA" xmi:type="uml:LiteralInteger"/>
      *       <upperValue value="1" xmi:id="_oA3CwlHQEeKwiMIhkV3wDA" xmi:type="uml:LiteralUnlimitedNatural"/>
      *     </ownedParameter>
      *   </ownedBehavior>
+     * </code>
 	 */
 	private void appendPlaceholderActivities() {
 		// Cycle through the number of packagedElements
@@ -116,10 +125,10 @@ public class UML2UMLWithPlaceholderActivitiesConverter {
 	
 	/**
 	 * Converts the input UML file to a output UML file that contains:
-	 * <list>
+	 * <ul>
 	 *   <li>A ownedComment in every uml:Class referencing to the external JAR file</li>
 	 *   <li>A ownedBehavior (placeholder activity) for every ownedOperation in every uml:Class</li>
-	 * </list>
+	 * </ul>
 	 * 
 	 * @param outputFilePath path where the output file is written to
 	 * @return true on successful conversation and false otherwise

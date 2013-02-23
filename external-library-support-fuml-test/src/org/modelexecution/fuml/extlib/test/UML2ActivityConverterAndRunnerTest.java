@@ -28,8 +28,9 @@ import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
 
 /**
  * This class tests converting a UML file into a fUML Activity and then executing it in the ExecutionContext.
+ * REPRESENTS ONLY A PROOF OF CONCEPT
  * 
- * @author p.neubauer
+ * @author patrickneubauer
  *
  */
 public class UML2ActivityConverterAndRunnerTest {
