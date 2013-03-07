@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Operation;
-import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
@@ -41,7 +40,7 @@ public class UML2UMLWithPlaceholderActivitiesConverter {
 	public UML2UMLWithPlaceholderActivitiesConverter() {
 		copier = new Copier();
 		resourceSet = new ResourceSetImpl();
-		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
+		resourceSet.getPackageRegistry().put("http://www.eclipse.org/uml2/3.0.0/UML", UMLPackage.eINSTANCE);
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 	}
 	

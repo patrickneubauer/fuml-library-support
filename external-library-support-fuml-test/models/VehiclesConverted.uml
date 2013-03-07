@@ -4,49 +4,49 @@
     <packagedElement xmi:type="uml:Package" xmi:id="_vDzwoX_9EeKmEPLZ-QpOVg" name="vehiclelibrary">
       <packagedElement xmi:type="uml:Package" xmi:id="_vDzwon_9EeKmEPLZ-QpOVg" name="test">
         <packagedElement xmi:type="uml:Class" xmi:id="_vDzwo3_9EeKmEPLZ-QpOVg" clientDependency="_vD0XsH_9EeKmEPLZ-QpOVg _vD0XsX_9EeKmEPLZ-QpOVg _vD0Xsn_9EeKmEPLZ-QpOVg" name="VehicleTest">
-          <ownedComment xmi:id="_oBYeeIdKEeKvZrtbfwJ47w">
+          <ownedComment xmi:id="_6g-0CIdPEeKQ8oOp1gkjWQ">
             <body>@external=libraries/Vehicles.jar</body>
           </ownedComment>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBZFgIdKEeKvZrtbfwJ47w" name="VehicleConstructorTest" specification="_vDzwpH_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBZFgYdKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6g_bEIdPEeKQ8oOp1gkjWQ" name="VehicleConstructorTest" specification="_vDzwpH_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6hACIIdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBZFgodKEeKvZrtbfwJ47w" visibility="public" direction="return">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBZFg4dKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBZFhIdKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6hACIYdPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6hACIodPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hACI4dPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBZskIdKEeKvZrtbfwJ47w" name="lastTurnTest" specification="_vDzwqH_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBZskYdKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6hApMIdPEeKQ8oOp1gkjWQ" name="lastTurnTest" specification="_vDzwqH_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6hApMYdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBZskodKEeKvZrtbfwJ47w" visibility="public" direction="return">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBZsk4dKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBZslIdKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6hApModPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6hApM4dPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hApNIdPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBaToIdKEeKvZrtbfwJ47w" name="nextTurnTest" specification="_vDzwrH_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBaToYdKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6hB3UIdPEeKQ8oOp1gkjWQ" name="nextTurnTest" specification="_vDzwrH_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6hB3UYdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBaToodKEeKvZrtbfwJ47w" visibility="public" direction="return">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBaTo4dKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBaTpIdKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6hB3UodPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6hB3U4dPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hB3VIdPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedOperation xmi:id="_vDzwpH_9EeKmEPLZ-QpOVg" name="VehicleConstructorTest" visibility="public" method="_oBZFgIdKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vDzwpH_9EeKmEPLZ-QpOVg" name="VehicleConstructorTest" visibility="public" method="_6g_bEIdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vDzwpX_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l-X_9EeKmEPLZ-QpOVg" direction="return">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vDzwp3_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vDzwpn_9EeKmEPLZ-QpOVg" value="1"/>
             </ownedParameter>
           </ownedOperation>
-          <ownedOperation xmi:id="_vDzwqH_9EeKmEPLZ-QpOVg" name="lastTurnTest" visibility="public" method="_oBZskIdKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vDzwqH_9EeKmEPLZ-QpOVg" name="lastTurnTest" visibility="public" method="_6hApMIdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vDzwqX_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l-X_9EeKmEPLZ-QpOVg" direction="return">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vDzwq3_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vDzwqn_9EeKmEPLZ-QpOVg" value="1"/>
             </ownedParameter>
           </ownedOperation>
-          <ownedOperation xmi:id="_vDzwrH_9EeKmEPLZ-QpOVg" name="nextTurnTest" visibility="public" method="_oBaToIdKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vDzwrH_9EeKmEPLZ-QpOVg" name="nextTurnTest" visibility="public" method="_6hB3UIdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vDzwrX_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l-X_9EeKmEPLZ-QpOVg" direction="return">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vDzwr3_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vDzwrn_9EeKmEPLZ-QpOVg" value="1"/>
@@ -54,49 +54,49 @@
           </ownedOperation>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_vDzwsH_9EeKmEPLZ-QpOVg" clientDependency="_vD0Xs3_9EeKmEPLZ-QpOVg _vD0XtH_9EeKmEPLZ-QpOVg" name="MotorCycleTest">
-          <ownedComment xmi:id="_oBMRMIdKEeKvZrtbfwJ47w">
+          <ownedComment xmi:id="_6gwxkIdPEeKQ8oOp1gkjWQ">
             <body>@external=libraries/Vehicles.jar</body>
           </ownedComment>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBMRMYdKEeKvZrtbfwJ47w" name="MotorCycleConstructorTest" specification="_vDzwsX_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBMRModKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6gwxkYdPEeKQ8oOp1gkjWQ" name="MotorCycleConstructorTest" specification="_vDzwsX_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6gxYoIdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBMRM4dKEeKvZrtbfwJ47w" visibility="public" direction="return">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBMRNIdKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBM4QIdKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6gxYoYdPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6gxYoodPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6gxYo4dPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBM4QYdKEeKvZrtbfwJ47w" name="setSeatsTest" specification="_vDzwtX_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBM4QodKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6gxYpIdPEeKQ8oOp1gkjWQ" name="setSeatsTest" specification="_vDzwtX_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6gxYpYdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBM4Q4dKEeKvZrtbfwJ47w" visibility="public" direction="return">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBM4RIdKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBM4RYdKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6gxYpodPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6gxYp4dPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6gxYqIdPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBNfUIdKEeKvZrtbfwJ47w" name="toStringTest" specification="_vDzwuX_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBNfUYdKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6gx_sIdPEeKQ8oOp1gkjWQ" name="toStringTest" specification="_vDzwuX_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6gx_sYdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBNfUodKEeKvZrtbfwJ47w" visibility="public" direction="return">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBNfU4dKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBNfVIdKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6gx_sodPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6gx_s4dPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6gx_tIdPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedOperation xmi:id="_vDzwsX_9EeKmEPLZ-QpOVg" name="MotorCycleConstructorTest" visibility="public" method="_oBMRMYdKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vDzwsX_9EeKmEPLZ-QpOVg" name="MotorCycleConstructorTest" visibility="public" method="_6gwxkYdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vDzwsn_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l-X_9EeKmEPLZ-QpOVg" direction="return">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vDzwtH_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vDzws3_9EeKmEPLZ-QpOVg" value="1"/>
             </ownedParameter>
           </ownedOperation>
-          <ownedOperation xmi:id="_vDzwtX_9EeKmEPLZ-QpOVg" name="setSeatsTest" visibility="public" method="_oBM4QYdKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vDzwtX_9EeKmEPLZ-QpOVg" name="setSeatsTest" visibility="public" method="_6gxYpIdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vDzwtn_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l-X_9EeKmEPLZ-QpOVg" direction="return">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vDzwuH_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vDzwt3_9EeKmEPLZ-QpOVg" value="1"/>
             </ownedParameter>
           </ownedOperation>
-          <ownedOperation xmi:id="_vDzwuX_9EeKmEPLZ-QpOVg" name="toStringTest" visibility="public" method="_oBNfUIdKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vDzwuX_9EeKmEPLZ-QpOVg" name="toStringTest" visibility="public" method="_6gx_sIdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vDzwun_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l-X_9EeKmEPLZ-QpOVg" direction="return">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vDzwvH_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vDzwu3_9EeKmEPLZ-QpOVg" value="1"/>
@@ -104,34 +104,34 @@
           </ownedOperation>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_vDzwvX_9EeKmEPLZ-QpOVg" clientDependency="_vD0XtX_9EeKmEPLZ-QpOVg _vD0Xtn_9EeKmEPLZ-QpOVg" name="CarTest">
-          <ownedComment xmi:id="_oBRJsIdKEeKvZrtbfwJ47w">
+          <ownedComment xmi:id="_6g24MIdPEeKQ8oOp1gkjWQ">
             <body>@external=libraries/Vehicles.jar</body>
           </ownedComment>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBRJsYdKEeKvZrtbfwJ47w" name="CarConstructorTest" specification="_vDzwvn_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBRJsodKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6g24MYdPEeKQ8oOp1gkjWQ" name="CarConstructorTest" specification="_vDzwvn_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6g24ModPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBRJs4dKEeKvZrtbfwJ47w" visibility="public" direction="return">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBRJtIdKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBRJtYdKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6g24M4dPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g3fQIdPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g3fQYdPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBRwwIdKEeKvZrtbfwJ47w" name="toStringTest" specification="_vDzwwn_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBRwwYdKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6g3fQodPEeKQ8oOp1gkjWQ" name="toStringTest" specification="_vDzwwn_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6g3fQ4dPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBRwwodKEeKvZrtbfwJ47w" visibility="public" direction="return">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBRww4dKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBRwxIdKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6g4GUIdPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g4GUYdPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g4GUodPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedOperation xmi:id="_vDzwvn_9EeKmEPLZ-QpOVg" name="CarConstructorTest" visibility="public" method="_oBRJsYdKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vDzwvn_9EeKmEPLZ-QpOVg" name="CarConstructorTest" visibility="public" method="_6g24MYdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vDzwv3_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l-X_9EeKmEPLZ-QpOVg" direction="return">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vDzwwX_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vDzwwH_9EeKmEPLZ-QpOVg" value="1"/>
             </ownedParameter>
           </ownedOperation>
-          <ownedOperation xmi:id="_vDzwwn_9EeKmEPLZ-QpOVg" name="toStringTest" visibility="public" method="_oBRwwIdKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vDzwwn_9EeKmEPLZ-QpOVg" name="toStringTest" visibility="public" method="_6g3fQodPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vDzww3_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l-X_9EeKmEPLZ-QpOVg" direction="return">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vDzwxX_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vDzwxH_9EeKmEPLZ-QpOVg" value="1"/>
@@ -139,64 +139,64 @@
           </ownedOperation>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_vDzwxn_9EeKmEPLZ-QpOVg" clientDependency="_vD0Xt3_9EeKmEPLZ-QpOVg _vD0XuH_9EeKmEPLZ-QpOVg" name="TruckTest">
-          <ownedComment xmi:id="_oBSX0YdKEeKvZrtbfwJ47w">
+          <ownedComment xmi:id="_6g4GVIdPEeKQ8oOp1gkjWQ">
             <body>@external=libraries/Vehicles.jar</body>
           </ownedComment>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBSX0odKEeKvZrtbfwJ47w" name="TruckDefaultConstructorTest" specification="_vDzwx3_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBSX04dKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6g4tYIdPEeKQ8oOp1gkjWQ" name="TruckDefaultConstructorTest" specification="_vDzwx3_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6g4tYYdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBSX1IdKEeKvZrtbfwJ47w" visibility="public" direction="return">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBSX1YdKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBSX1odKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6g4tYodPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g4tY4dPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g4tZIdPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBS-4IdKEeKvZrtbfwJ47w" name="TruckPickupContructorTest" specification="_vDzwy3_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBS-4YdKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6g5UcIdPEeKQ8oOp1gkjWQ" name="TruckPickupContructorTest" specification="_vDzwy3_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6g5UcYdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBS-4odKEeKvZrtbfwJ47w" visibility="public" direction="return">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBS-44dKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBS-5IdKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6g5UcodPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g5Uc4dPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g5UdIdPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBTl8IdKEeKvZrtbfwJ47w" name="TruckAllValuesConstructorTest" specification="_vDzwz3_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBTl8YdKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6g57gIdPEeKQ8oOp1gkjWQ" name="TruckAllValuesConstructorTest" specification="_vDzwz3_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6g57gYdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBTl8odKEeKvZrtbfwJ47w" visibility="public" direction="return">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBTl84dKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBTl9IdKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6g57godPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g57g4dPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g57hIdPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBUNAIdKEeKvZrtbfwJ47w" name="toStringTest" specification="_vDzw03_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBUNAYdKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6g6ikIdPEeKQ8oOp1gkjWQ" name="toStringTest" specification="_vDzw03_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6g6ikYdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBUNAodKEeKvZrtbfwJ47w" visibility="public" direction="return">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBUNA4dKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBUNBIdKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6g6ikodPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g6ik4dPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g6ilIdPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedOperation xmi:id="_vDzwx3_9EeKmEPLZ-QpOVg" name="TruckDefaultConstructorTest" visibility="public" method="_oBSX0odKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vDzwx3_9EeKmEPLZ-QpOVg" name="TruckDefaultConstructorTest" visibility="public" method="_6g4tYIdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vDzwyH_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l-X_9EeKmEPLZ-QpOVg" direction="return">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vDzwyn_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vDzwyX_9EeKmEPLZ-QpOVg" value="1"/>
             </ownedParameter>
           </ownedOperation>
-          <ownedOperation xmi:id="_vDzwy3_9EeKmEPLZ-QpOVg" name="TruckPickupContructorTest" visibility="public" method="_oBS-4IdKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vDzwy3_9EeKmEPLZ-QpOVg" name="TruckPickupContructorTest" visibility="public" method="_6g5UcIdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vDzwzH_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l-X_9EeKmEPLZ-QpOVg" direction="return">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vDzwzn_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vDzwzX_9EeKmEPLZ-QpOVg" value="1"/>
             </ownedParameter>
           </ownedOperation>
-          <ownedOperation xmi:id="_vDzwz3_9EeKmEPLZ-QpOVg" name="TruckAllValuesConstructorTest" visibility="public" method="_oBTl8IdKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vDzwz3_9EeKmEPLZ-QpOVg" name="TruckAllValuesConstructorTest" visibility="public" method="_6g57gIdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vDzw0H_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l-X_9EeKmEPLZ-QpOVg" direction="return">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vDzw0n_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vDzw0X_9EeKmEPLZ-QpOVg" value="1"/>
             </ownedParameter>
           </ownedOperation>
-          <ownedOperation xmi:id="_vDzw03_9EeKmEPLZ-QpOVg" name="toStringTest" visibility="public" method="_oBUNAIdKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vDzw03_9EeKmEPLZ-QpOVg" name="toStringTest" visibility="public" method="_6g6ikIdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vDzw1H_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l-X_9EeKmEPLZ-QpOVg" direction="return">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vDzw1n_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vDzw1X_9EeKmEPLZ-QpOVg" value="1"/>
@@ -220,7 +220,7 @@
         <ownedLiteral xmi:id="_vD0XvX_9EeKmEPLZ-QpOVg" name="enum literal"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_vD0Xvn_9EeKmEPLZ-QpOVg" name="Truck">
-        <ownedComment xmi:id="_oBU0EIdKEeKvZrtbfwJ47w">
+        <ownedComment xmi:id="_6g6ilYdPEeKQ8oOp1gkjWQ">
           <body>@external=libraries/Vehicles.jar</body>
         </ownedComment>
         <generalization xmi:id="_vD0Xv3_9EeKmEPLZ-QpOVg" general="_vD0-yX_9EeKmEPLZ-QpOVg"/>
@@ -228,58 +228,58 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD0Xwn_9EeKmEPLZ-QpOVg"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD0XwX_9EeKmEPLZ-QpOVg" value="1"/>
         </ownedAttribute>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBU0EYdKEeKvZrtbfwJ47w" name="Truck" specification="_vD0Xw3_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBU0EodKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6g7JoIdPEeKQ8oOp1gkjWQ" name="Truck" specification="_vD0Xw3_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6g7JoYdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBVbIIdKEeKvZrtbfwJ47w" name="Truck" specification="_vD0XxH_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBVbIYdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6g7JoodPEeKQ8oOp1gkjWQ" name="Truck" specification="_vD0XxH_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6g7wsIdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
-          <ownedParameter xmi:id="_oBVbIodKEeKvZrtbfwJ47w" name="aPickup" visibility="public">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBVbI4dKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBVbJIdKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6g7wsYdPEeKQ8oOp1gkjWQ" name="aPickup" visibility="public">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g7wsodPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g7ws4dPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBWpQIdKEeKvZrtbfwJ47w" name="Truck" specification="_vD0XyH_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBWpQYdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6g8-0IdPEeKQ8oOp1gkjWQ" name="Truck" specification="_vD0XyH_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6g8-0YdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
-          <ownedParameter xmi:id="_oBWpQodKEeKvZrtbfwJ47w" name="numberOfDoors" visibility="public">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBWpQ4dKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBWpRIdKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6g8-0odPEeKQ8oOp1gkjWQ" name="numberOfDoors" visibility="public">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g8-04dPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g8-1IdPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
-          <ownedParameter xmi:id="_oBWpRYdKEeKvZrtbfwJ47w" name="numberOfSeats" visibility="public">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBWpRodKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBWpR4dKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6g8-1YdPEeKQ8oOp1gkjWQ" name="numberOfSeats" visibility="public">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g8-1odPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g8-14dPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
-          <ownedParameter xmi:id="_oBWpSIdKEeKvZrtbfwJ47w" name="numberOfWheels" visibility="public">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBWpSYdKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBWpSodKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6g8-2IdPEeKQ8oOp1gkjWQ" name="numberOfWheels" visibility="public">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g8-2YdPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g8-2odPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
-          <ownedParameter xmi:id="_oBWpS4dKEeKvZrtbfwJ47w" name="aPickup" visibility="public">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBWpTIdKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBWpTYdKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6g8-24dPEeKQ8oOp1gkjWQ" name="aPickup" visibility="public">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g8-3IdPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g8-3YdPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBXQUIdKEeKvZrtbfwJ47w" name="toString" specification="_vD0X1X_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBXQUYdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6g9l4IdPEeKQ8oOp1gkjWQ" name="toString" specification="_vD0X1X_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6g9l4YdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
-          <ownedParameter xmi:id="_oBXQUodKEeKvZrtbfwJ47w" visibility="public" direction="return">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBXQU4dKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBXQVIdKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6g9l4odPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g9l44dPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g9l5IdPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
         </ownedBehavior>
-        <ownedOperation xmi:id="_vD0Xw3_9EeKmEPLZ-QpOVg" name="Truck" visibility="public" method="_oBU0EYdKEeKvZrtbfwJ47w"/>
-        <ownedOperation xmi:id="_vD0XxH_9EeKmEPLZ-QpOVg" name="Truck" visibility="public" method="_oBVbIIdKEeKvZrtbfwJ47w">
+        <ownedOperation xmi:id="_vD0Xw3_9EeKmEPLZ-QpOVg" name="Truck" visibility="public" method="_6g7JoIdPEeKQ8oOp1gkjWQ"/>
+        <ownedOperation xmi:id="_vD0XxH_9EeKmEPLZ-QpOVg" name="Truck" visibility="public" method="_6g7JoodPEeKQ8oOp1gkjWQ">
           <ownedParameter xmi:id="_vD0XxX_9EeKmEPLZ-QpOVg" name="aPickup" visibility="public" type="_vD1l-H_9EeKmEPLZ-QpOVg">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD0Xx3_9EeKmEPLZ-QpOVg"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD0Xxn_9EeKmEPLZ-QpOVg" value="1"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:id="_vD0XyH_9EeKmEPLZ-QpOVg" name="Truck" visibility="public" method="_oBWpQIdKEeKvZrtbfwJ47w">
+        <ownedOperation xmi:id="_vD0XyH_9EeKmEPLZ-QpOVg" name="Truck" visibility="public" method="_6g8-0IdPEeKQ8oOp1gkjWQ">
           <ownedParameter xmi:id="_vD0XyX_9EeKmEPLZ-QpOVg" name="numberOfDoors" visibility="public" type="_vD1l9H_9EeKmEPLZ-QpOVg">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD0Xy3_9EeKmEPLZ-QpOVg"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD0Xyn_9EeKmEPLZ-QpOVg" value="1"/>
@@ -297,7 +297,7 @@
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD0X03_9EeKmEPLZ-QpOVg" value="1"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:id="_vD0X1X_9EeKmEPLZ-QpOVg" name="toString" visibility="public" method="_oBXQUIdKEeKvZrtbfwJ47w">
+        <ownedOperation xmi:id="_vD0X1X_9EeKmEPLZ-QpOVg" name="toString" visibility="public" method="_6g9l4IdPEeKQ8oOp1gkjWQ">
           <ownedParameter xmi:id="_vD0X1n_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1mAX_9EeKmEPLZ-QpOVg" direction="return">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD0X2H_9EeKmEPLZ-QpOVg"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD0X13_9EeKmEPLZ-QpOVg" value="1"/>
@@ -305,23 +305,23 @@
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_vD0X2X_9EeKmEPLZ-QpOVg" name="Main">
-        <ownedComment xmi:id="_oBX3YIdKEeKvZrtbfwJ47w">
+        <ownedComment xmi:id="_6g-M8IdPEeKQ8oOp1gkjWQ">
           <body>@external=libraries/Vehicles.jar</body>
         </ownedComment>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBYecIdKEeKvZrtbfwJ47w" name="main" specification="_vD0X2n_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBYecYdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6g-0AIdPEeKQ8oOp1gkjWQ" name="main" specification="_vD0X2n_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6g-0AYdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
-          <ownedParameter xmi:id="_oBYecodKEeKvZrtbfwJ47w" visibility="public" direction="return">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBYec4dKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBYedIdKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6g-0AodPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g-0A4dPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g-0BIdPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
-          <ownedParameter xmi:id="_oBYedYdKEeKvZrtbfwJ47w" name="args" visibility="public">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBYedodKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBYed4dKEeKvZrtbfwJ47w" value="*"/>
+          <ownedParameter xmi:id="_6g-0BYdPEeKQ8oOp1gkjWQ" name="args" visibility="public">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g-0BodPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g-0B4dPEeKQ8oOp1gkjWQ" value="*"/>
           </ownedParameter>
         </ownedBehavior>
-        <ownedOperation xmi:id="_vD0X2n_9EeKmEPLZ-QpOVg" name="main" visibility="public" method="_oBYecIdKEeKvZrtbfwJ47w">
+        <ownedOperation xmi:id="_vD0X2n_9EeKmEPLZ-QpOVg" name="main" visibility="public" method="_6g-0AIdPEeKQ8oOp1gkjWQ">
           <ownedParameter xmi:id="_vD0X23_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l-X_9EeKmEPLZ-QpOVg" direction="return">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD0X3X_9EeKmEPLZ-QpOVg"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD0X3H_9EeKmEPLZ-QpOVg" value="1"/>
@@ -333,34 +333,34 @@
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_vD0-wn_9EeKmEPLZ-QpOVg" name="Car">
-        <ownedComment xmi:id="_oBOGYIdKEeKvZrtbfwJ47w">
+        <ownedComment xmi:id="_6gymwIdPEeKQ8oOp1gkjWQ">
           <body>@external=libraries/Vehicles.jar</body>
         </ownedComment>
         <generalization xmi:id="_vD0-w3_9EeKmEPLZ-QpOVg" general="_vD0-yX_9EeKmEPLZ-QpOVg"/>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBOGYYdKEeKvZrtbfwJ47w" name="toString" specification="_vD0-xH_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBOGYodKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6gzN0IdPEeKQ8oOp1gkjWQ" name="toString" specification="_vD0-xH_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6gzN0YdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
-          <ownedParameter xmi:id="_oBOGY4dKEeKvZrtbfwJ47w" visibility="public" direction="return">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBOGZIdKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBOGZYdKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6gzN0odPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6gzN04dPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6gzN1IdPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBOtcIdKEeKvZrtbfwJ47w" name="Car" specification="_vD0-yH_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBOtcYdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6gzN1YdPEeKQ8oOp1gkjWQ" name="Car" specification="_vD0-yH_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6gzN1odPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
         </ownedBehavior>
-        <ownedOperation xmi:id="_vD0-xH_9EeKmEPLZ-QpOVg" name="toString" visibility="public" method="_oBOGYYdKEeKvZrtbfwJ47w">
+        <ownedOperation xmi:id="_vD0-xH_9EeKmEPLZ-QpOVg" name="toString" visibility="public" method="_6gzN0IdPEeKQ8oOp1gkjWQ">
           <ownedParameter xmi:id="_vD0-xX_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1mAX_9EeKmEPLZ-QpOVg" direction="return">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD0-x3_9EeKmEPLZ-QpOVg"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD0-xn_9EeKmEPLZ-QpOVg" value="1"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:id="_vD0-yH_9EeKmEPLZ-QpOVg" name="Car" visibility="public" method="_oBOtcIdKEeKvZrtbfwJ47w"/>
+        <ownedOperation xmi:id="_vD0-yH_9EeKmEPLZ-QpOVg" name="Car" visibility="public" method="_6gzN1YdPEeKQ8oOp1gkjWQ"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_vD0-yX_9EeKmEPLZ-QpOVg" clientDependency="_vD1l8H_9EeKmEPLZ-QpOVg" name="Vehicle">
-        <ownedComment xmi:id="_oA4IIIdKEeKvZrtbfwJ47w">
+        <ownedComment xmi:id="_6ggS4IdPEeKQ8oOp1gkjWQ">
           <body>@external=libraries/Vehicles.jar</body>
         </ownedComment>
         <ownedAttribute xmi:id="_vD0-yn_9EeKmEPLZ-QpOVg" name="doors" visibility="public" type="_vD1l9H_9EeKmEPLZ-QpOVg">
@@ -383,139 +383,139 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD0-2H_9EeKmEPLZ-QpOVg"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD0-13_9EeKmEPLZ-QpOVg" value="1"/>
         </ownedAttribute>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBDuUIdKEeKvZrtbfwJ47w" name="Vehicle" specification="_vD0-2X_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBEVYIdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6go1wIdPEeKQ8oOp1gkjWQ" name="Vehicle" specification="_vD0-2X_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6gpc0IdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBFjgIdKEeKvZrtbfwJ47w" name="currentAverageWheelAirPressure" specification="_vD0-2n_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBFjgYdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6gqD4IdPEeKQ8oOp1gkjWQ" name="currentAverageWheelAirPressure" specification="_vD0-2n_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6gqq8IdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
-          <ownedParameter xmi:id="_oBFjgodKEeKvZrtbfwJ47w" visibility="public" direction="return">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBFjg4dKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBFjhIdKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6gqq8YdPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6gqq8odPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6gqq84dPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBGKkIdKEeKvZrtbfwJ47w" name="lastTurn" specification="_vD0-3n_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBGKkYdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6gqq9IdPEeKQ8oOp1gkjWQ" name="lastTurn" specification="_vD0-3n_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6gqq9YdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
-          <ownedParameter xmi:id="_oBGKkodKEeKvZrtbfwJ47w" visibility="public" direction="return">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBGKk4dKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBGKlIdKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6grSAIdPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6grSAYdPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6grSAodPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBGxoIdKEeKvZrtbfwJ47w" name="nextTurn" specification="_vD0-4n_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBGxoYdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6grSA4dPEeKQ8oOp1gkjWQ" name="nextTurn" specification="_vD0-4n_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6grSBIdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
-          <ownedParameter xmi:id="_oBGxoodKEeKvZrtbfwJ47w" visibility="public" direction="return">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBGxo4dKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBGxpIdKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6grSBYdPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6grSBodPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6grSB4dPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBHYsIdKEeKvZrtbfwJ47w" name="getDoors" specification="_vD0-5n_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBHYsYdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6gr5EIdPEeKQ8oOp1gkjWQ" name="getDoors" specification="_vD0-5n_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6gr5EYdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
-          <ownedParameter xmi:id="_oBHYsodKEeKvZrtbfwJ47w" visibility="public" direction="return">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBHYs4dKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBHYtIdKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6gr5EodPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6gr5E4dPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6gr5FIdPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBH_wIdKEeKvZrtbfwJ47w" name="setDoors" specification="_vD0-6n_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBIm0IdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6gtHMIdPEeKQ8oOp1gkjWQ" name="setDoors" specification="_vD0-6n_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6gtHMYdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
-          <ownedParameter xmi:id="_oBIm0YdKEeKvZrtbfwJ47w" visibility="public" direction="return">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBIm0odKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBIm04dKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6gtHModPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6gtHM4dPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6gtHNIdPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
-          <ownedParameter xmi:id="_oBIm1IdKEeKvZrtbfwJ47w" name="doors" visibility="public">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBIm1YdKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBIm1odKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6gtHNYdPEeKQ8oOp1gkjWQ" name="doors" visibility="public">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6gtHNodPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6gtHN4dPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBJN4IdKEeKvZrtbfwJ47w" name="getSeats" specification="_vD0-8X_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBJN4YdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6gtuQIdPEeKQ8oOp1gkjWQ" name="getSeats" specification="_vD0-8X_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6gtuQYdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
-          <ownedParameter xmi:id="_oBJN4odKEeKvZrtbfwJ47w" visibility="public" direction="return">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBJN44dKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBJN5IdKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6gtuQodPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6gtuQ4dPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6gtuRIdPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBJ08IdKEeKvZrtbfwJ47w" name="setSeats" specification="_vD1l03_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBJ08YdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6guVUIdPEeKQ8oOp1gkjWQ" name="setSeats" specification="_vD1l03_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6guVUYdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
-          <ownedParameter xmi:id="_oBJ08odKEeKvZrtbfwJ47w" visibility="public" direction="return">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBJ084dKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBJ09IdKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6guVUodPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6guVU4dPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6guVVIdPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
-          <ownedParameter xmi:id="_oBJ09YdKEeKvZrtbfwJ47w" name="seats" visibility="public">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBJ09odKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBJ094dKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6guVVYdPEeKQ8oOp1gkjWQ" name="seats" visibility="public">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6guVVodPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6guVV4dPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBKcAIdKEeKvZrtbfwJ47w" name="getWheels" specification="_vD1l2n_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBKcAYdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6gu8YIdPEeKQ8oOp1gkjWQ" name="getWheels" specification="_vD1l2n_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6gu8YYdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
-          <ownedParameter xmi:id="_oBKcAodKEeKvZrtbfwJ47w" visibility="public" direction="return">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBKcA4dKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBKcBIdKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6gu8YodPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6gu8Y4dPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6gu8ZIdPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBLDEIdKEeKvZrtbfwJ47w" name="setWheels" specification="_vD1l3n_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBLDEYdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6gvjcIdPEeKQ8oOp1gkjWQ" name="setWheels" specification="_vD1l3n_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6gvjcYdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
-          <ownedParameter xmi:id="_oBLDEodKEeKvZrtbfwJ47w" visibility="public" direction="return">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBLDE4dKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBLDFIdKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6gvjcodPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6gvjc4dPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6gvjdIdPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
-          <ownedParameter xmi:id="_oBLDFYdKEeKvZrtbfwJ47w" name="wheels" visibility="public">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBLDFodKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBLDF4dKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6gvjdYdPEeKQ8oOp1gkjWQ" name="wheels" visibility="public">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6gvjdodPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6gvjd4dPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBLqIIdKEeKvZrtbfwJ47w" name="getLastTurn" specification="_vD1l5X_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBLqIYdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6gwKgIdPEeKQ8oOp1gkjWQ" name="getLastTurn" specification="_vD1l5X_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6gwKgYdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
-          <ownedParameter xmi:id="_oBLqIodKEeKvZrtbfwJ47w" visibility="public" direction="return">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBLqI4dKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBLqJIdKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6gwKgodPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6gwKg4dPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6gwKhIdPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
         </ownedBehavior>
-        <ownedOperation xmi:id="_vD0-2X_9EeKmEPLZ-QpOVg" name="Vehicle" visibility="public" method="_oBDuUIdKEeKvZrtbfwJ47w"/>
-        <ownedOperation xmi:id="_vD0-2n_9EeKmEPLZ-QpOVg" name="currentAverageWheelAirPressure" visibility="public" method="_oBFjgIdKEeKvZrtbfwJ47w">
+        <ownedOperation xmi:id="_vD0-2X_9EeKmEPLZ-QpOVg" name="Vehicle" visibility="public" method="_6go1wIdPEeKQ8oOp1gkjWQ"/>
+        <ownedOperation xmi:id="_vD0-2n_9EeKmEPLZ-QpOVg" name="currentAverageWheelAirPressure" visibility="public" method="_6gqD4IdPEeKQ8oOp1gkjWQ">
           <ownedParameter xmi:id="_vD0-23_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l93_9EeKmEPLZ-QpOVg" direction="return">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD0-3X_9EeKmEPLZ-QpOVg"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD0-3H_9EeKmEPLZ-QpOVg" value="1"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:id="_vD0-3n_9EeKmEPLZ-QpOVg" name="lastTurn" visibility="public" method="_oBGKkIdKEeKvZrtbfwJ47w">
+        <ownedOperation xmi:id="_vD0-3n_9EeKmEPLZ-QpOVg" name="lastTurn" visibility="public" method="_6gqq9IdPEeKQ8oOp1gkjWQ">
           <ownedParameter xmi:id="_vD0-33_9EeKmEPLZ-QpOVg" visibility="public" type="_vD0XuX_9EeKmEPLZ-QpOVg" direction="return">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD0-4X_9EeKmEPLZ-QpOVg"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD0-4H_9EeKmEPLZ-QpOVg" value="1"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:id="_vD0-4n_9EeKmEPLZ-QpOVg" name="nextTurn" visibility="public" method="_oBGxoIdKEeKvZrtbfwJ47w">
+        <ownedOperation xmi:id="_vD0-4n_9EeKmEPLZ-QpOVg" name="nextTurn" visibility="public" method="_6grSA4dPEeKQ8oOp1gkjWQ">
           <ownedParameter xmi:id="_vD0-43_9EeKmEPLZ-QpOVg" visibility="public" type="_vD0XuX_9EeKmEPLZ-QpOVg" direction="return">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD0-5X_9EeKmEPLZ-QpOVg"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD0-5H_9EeKmEPLZ-QpOVg" value="1"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:id="_vD0-5n_9EeKmEPLZ-QpOVg" name="getDoors" visibility="public" method="_oBHYsIdKEeKvZrtbfwJ47w">
+        <ownedOperation xmi:id="_vD0-5n_9EeKmEPLZ-QpOVg" name="getDoors" visibility="public" method="_6gr5EIdPEeKQ8oOp1gkjWQ">
           <ownedParameter xmi:id="_vD0-53_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l9H_9EeKmEPLZ-QpOVg" direction="return">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD0-6X_9EeKmEPLZ-QpOVg"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD0-6H_9EeKmEPLZ-QpOVg" value="1"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:id="_vD0-6n_9EeKmEPLZ-QpOVg" name="setDoors" visibility="public" method="_oBH_wIdKEeKvZrtbfwJ47w">
+        <ownedOperation xmi:id="_vD0-6n_9EeKmEPLZ-QpOVg" name="setDoors" visibility="public" method="_6gtHMIdPEeKQ8oOp1gkjWQ">
           <ownedParameter xmi:id="_vD0-63_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l-X_9EeKmEPLZ-QpOVg" direction="return">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD0-7X_9EeKmEPLZ-QpOVg"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD0-7H_9EeKmEPLZ-QpOVg" value="1"/>
@@ -525,13 +525,13 @@
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD0-73_9EeKmEPLZ-QpOVg" value="1"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:id="_vD0-8X_9EeKmEPLZ-QpOVg" name="getSeats" visibility="public" method="_oBJN4IdKEeKvZrtbfwJ47w">
+        <ownedOperation xmi:id="_vD0-8X_9EeKmEPLZ-QpOVg" name="getSeats" visibility="public" method="_6gtuQIdPEeKQ8oOp1gkjWQ">
           <ownedParameter xmi:id="_vD1l0H_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l9H_9EeKmEPLZ-QpOVg" direction="return">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD1l0n_9EeKmEPLZ-QpOVg"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD1l0X_9EeKmEPLZ-QpOVg" value="1"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:id="_vD1l03_9EeKmEPLZ-QpOVg" name="setSeats" visibility="public" method="_oBJ08IdKEeKvZrtbfwJ47w">
+        <ownedOperation xmi:id="_vD1l03_9EeKmEPLZ-QpOVg" name="setSeats" visibility="public" method="_6guVUIdPEeKQ8oOp1gkjWQ">
           <ownedParameter xmi:id="_vD1l1H_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l-X_9EeKmEPLZ-QpOVg" direction="return">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD1l1n_9EeKmEPLZ-QpOVg"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD1l1X_9EeKmEPLZ-QpOVg" value="1"/>
@@ -541,13 +541,13 @@
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD1l2H_9EeKmEPLZ-QpOVg" value="1"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:id="_vD1l2n_9EeKmEPLZ-QpOVg" name="getWheels" visibility="public" method="_oBKcAIdKEeKvZrtbfwJ47w">
+        <ownedOperation xmi:id="_vD1l2n_9EeKmEPLZ-QpOVg" name="getWheels" visibility="public" method="_6gu8YIdPEeKQ8oOp1gkjWQ">
           <ownedParameter xmi:id="_vD1l23_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l9H_9EeKmEPLZ-QpOVg" direction="return">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD1l3X_9EeKmEPLZ-QpOVg"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD1l3H_9EeKmEPLZ-QpOVg" value="1"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:id="_vD1l3n_9EeKmEPLZ-QpOVg" name="setWheels" visibility="public" method="_oBLDEIdKEeKvZrtbfwJ47w">
+        <ownedOperation xmi:id="_vD1l3n_9EeKmEPLZ-QpOVg" name="setWheels" visibility="public" method="_6gvjcIdPEeKQ8oOp1gkjWQ">
           <ownedParameter xmi:id="_vD1l33_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1l-X_9EeKmEPLZ-QpOVg" direction="return">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD1l4X_9EeKmEPLZ-QpOVg"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD1l4H_9EeKmEPLZ-QpOVg" value="1"/>
@@ -557,7 +557,7 @@
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD1l43_9EeKmEPLZ-QpOVg" value="1"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:id="_vD1l5X_9EeKmEPLZ-QpOVg" name="getLastTurn" visibility="public" method="_oBLqIIdKEeKvZrtbfwJ47w">
+        <ownedOperation xmi:id="_vD1l5X_9EeKmEPLZ-QpOVg" name="getLastTurn" visibility="public" method="_6gwKgIdPEeKQ8oOp1gkjWQ">
           <ownedParameter xmi:id="_vD1l5n_9EeKmEPLZ-QpOVg" visibility="public" type="_vD0XuX_9EeKmEPLZ-QpOVg" direction="return">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD1l6H_9EeKmEPLZ-QpOVg"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD1l53_9EeKmEPLZ-QpOVg" value="1"/>
@@ -565,26 +565,26 @@
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_vD1l6X_9EeKmEPLZ-QpOVg" name="MotorCycle">
-        <ownedComment xmi:id="_oBOtc4dKEeKvZrtbfwJ47w">
+        <ownedComment xmi:id="_6gz04YdPEeKQ8oOp1gkjWQ">
           <body>@external=libraries/Vehicles.jar</body>
         </ownedComment>
         <generalization xmi:id="_vD1l6n_9EeKmEPLZ-QpOVg" general="_vD0-yX_9EeKmEPLZ-QpOVg"/>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBOtdIdKEeKvZrtbfwJ47w" name="MotorCycle" specification="_vD1l63_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBOtdYdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6gz04odPEeKQ8oOp1gkjWQ" name="MotorCycle" specification="_vD1l63_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6gz044dPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBPUgIdKEeKvZrtbfwJ47w" name="toString" specification="_vD1l7H_9EeKmEPLZ-QpOVg">
-          <ownedComment xmi:id="_oBPUgYdKEeKvZrtbfwJ47w">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6g0b8IdPEeKQ8oOp1gkjWQ" name="toString" specification="_vD1l7H_9EeKmEPLZ-QpOVg">
+          <ownedComment xmi:id="_6g0b8YdPEeKQ8oOp1gkjWQ">
             <body>@external</body>
           </ownedComment>
-          <ownedParameter xmi:id="_oBPUgodKEeKvZrtbfwJ47w" visibility="public" direction="return">
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBPUg4dKEeKvZrtbfwJ47w"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBPUhIdKEeKvZrtbfwJ47w" value="1"/>
+          <ownedParameter xmi:id="_6g0b8odPEeKQ8oOp1gkjWQ" visibility="public" direction="return">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g0b84dPEeKQ8oOp1gkjWQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g0b9IdPEeKQ8oOp1gkjWQ" value="1"/>
           </ownedParameter>
         </ownedBehavior>
-        <ownedOperation xmi:id="_vD1l63_9EeKmEPLZ-QpOVg" name="MotorCycle" visibility="public" method="_oBOtdIdKEeKvZrtbfwJ47w"/>
-        <ownedOperation xmi:id="_vD1l7H_9EeKmEPLZ-QpOVg" name="toString" visibility="public" method="_oBPUgIdKEeKvZrtbfwJ47w">
+        <ownedOperation xmi:id="_vD1l63_9EeKmEPLZ-QpOVg" name="MotorCycle" visibility="public" method="_6gz04odPEeKQ8oOp1gkjWQ"/>
+        <ownedOperation xmi:id="_vD1l7H_9EeKmEPLZ-QpOVg" name="toString" visibility="public" method="_6g0b8IdPEeKQ8oOp1gkjWQ">
           <ownedParameter xmi:id="_vD1l7X_9EeKmEPLZ-QpOVg" visibility="public" type="_vD1mAX_9EeKmEPLZ-QpOVg" direction="return">
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD1l73_9EeKmEPLZ-QpOVg"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD1l7n_9EeKmEPLZ-QpOVg" value="1"/>
@@ -613,7 +613,7 @@
     <packagedElement xmi:type="uml:Package" xmi:id="_vD1l_3_9EeKmEPLZ-QpOVg" name="java">
       <packagedElement xmi:type="uml:Package" xmi:id="_vD1mAH_9EeKmEPLZ-QpOVg" name="lang">
         <packagedElement xmi:type="uml:Class" xmi:id="_vD1mAX_9EeKmEPLZ-QpOVg" clientDependency="_vD1mAn_9EeKmEPLZ-QpOVg _vD1mA3_9EeKmEPLZ-QpOVg _vD1mBH_9EeKmEPLZ-QpOVg" name="String">
-          <ownedComment xmi:id="_oBP7kIdKEeKvZrtbfwJ47w">
+          <ownedComment xmi:id="_6g1DAIdPEeKQ8oOp1gkjWQ">
             <body>@external=libraries/Vehicles.jar</body>
           </ownedComment>
           <interfaceRealization xmi:id="_vD1mAn_9EeKmEPLZ-QpOVg" client="_vD1mAX_9EeKmEPLZ-QpOVg" supplier="_vD2z9H_9EeKmEPLZ-QpOVg" contract="_vD2z9H_9EeKmEPLZ-QpOVg"/>
@@ -624,7 +624,7 @@
           <ownedTemplateSignature xmi:type="uml:RedefinableTemplateSignature" xmi:id="_vD1mBn_9EeKmEPLZ-QpOVg" name="Comparable&lt;T>" parameter="_vD1mB3_9EeKmEPLZ-QpOVg">
             <ownedParameter xmi:type="uml:ClassifierTemplateParameter" xmi:id="_vD1mB3_9EeKmEPLZ-QpOVg" parameteredElement="_vD1mCH_9EeKmEPLZ-QpOVg">
               <ownedParameteredElement xmi:type="uml:Class" xmi:id="_vD1mCH_9EeKmEPLZ-QpOVg" name="T" templateParameter="_vD1mB3_9EeKmEPLZ-QpOVg">
-                <ownedComment xmi:id="_oBaTpYdKEeKvZrtbfwJ47w">
+                <ownedComment xmi:id="_6hB3VYdPEeKQ8oOp1gkjWQ">
                   <body>@external=libraries/Vehicles.jar</body>
                 </ownedComment>
               </ownedParameteredElement>
@@ -633,7 +633,7 @@
         </packagedElement>
         <packagedElement xmi:type="uml:Interface" xmi:id="_vD2M4H_9EeKmEPLZ-QpOVg" name="CharSequence"/>
         <packagedElement xmi:type="uml:Class" xmi:id="_vD2M4X_9EeKmEPLZ-QpOVg" name="System">
-          <ownedComment xmi:id="_oBSX0IdKEeKvZrtbfwJ47w">
+          <ownedComment xmi:id="_6g4GU4dPEeKQ8oOp1gkjWQ">
             <body>@external=libraries/Vehicles.jar</body>
           </ownedComment>
           <ownedAttribute xmi:id="_vD2M4n_9EeKmEPLZ-QpOVg" name="out" visibility="public">
@@ -642,7 +642,7 @@
           </ownedAttribute>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_vD2z8H_9EeKmEPLZ-QpOVg" name="Object">
-          <ownedComment xmi:id="_oAlNMIdKEeKvZrtbfwJ47w">
+          <ownedComment xmi:id="_6gMJ0IdPEeKQ8oOp1gkjWQ">
             <body>@external=libraries/Vehicles.jar</body>
           </ownedComment>
         </packagedElement>
@@ -652,37 +652,37 @@
       <packagedElement xmi:type="uml:Package" xmi:id="_vD2z83_9EeKmEPLZ-QpOVg" name="io">
         <packagedElement xmi:type="uml:Interface" xmi:id="_vD2z9H_9EeKmEPLZ-QpOVg" name="Serializable"/>
         <packagedElement xmi:type="uml:Class" xmi:id="_vD2z9X_9EeKmEPLZ-QpOVg" clientDependency="_vD2z93_9EeKmEPLZ-QpOVg _vD2z-H_9EeKmEPLZ-QpOVg" name="PrintStream">
-          <ownedComment xmi:id="_oBP7kYdKEeKvZrtbfwJ47w">
+          <ownedComment xmi:id="_6g1DAYdPEeKQ8oOp1gkjWQ">
             <body>@external=libraries/Vehicles.jar</body>
           </ownedComment>
           <generalization xmi:id="_vD2z9n_9EeKmEPLZ-QpOVg" general="_vD20AX_9EeKmEPLZ-QpOVg"/>
           <interfaceRealization xmi:id="_vD2z93_9EeKmEPLZ-QpOVg" client="_vD2z9X_9EeKmEPLZ-QpOVg" supplier="_vD2z8n_9EeKmEPLZ-QpOVg" contract="_vD2z8n_9EeKmEPLZ-QpOVg"/>
           <interfaceRealization xmi:id="_vD2z-H_9EeKmEPLZ-QpOVg" client="_vD2z9X_9EeKmEPLZ-QpOVg" supplier="_vD20Bn_9EeKmEPLZ-QpOVg" contract="_vD20Bn_9EeKmEPLZ-QpOVg"/>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBP7kodKEeKvZrtbfwJ47w" name="println" specification="_vD2z-X_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBP7k4dKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6g1qEIdPEeKQ8oOp1gkjWQ" name="println" specification="_vD2z-X_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6g1qEYdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBP7lIdKEeKvZrtbfwJ47w" name="arg0" visibility="public">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBP7lYdKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBP7lodKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6g1qEodPEeKQ8oOp1gkjWQ" name="arg0" visibility="public">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g1qE4dPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g1qFIdPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBQioIdKEeKvZrtbfwJ47w" name="println" specification="_vD2z_X_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBQioYdKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6g2RIIdPEeKQ8oOp1gkjWQ" name="println" specification="_vD2z_X_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6g2RIYdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBQioodKEeKvZrtbfwJ47w" name="arg0" visibility="public">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBQio4dKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBQipIdKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6g2RIodPEeKQ8oOp1gkjWQ" name="arg0" visibility="public">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g2RI4dPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6g2RJIdPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedOperation xmi:id="_vD2z-X_9EeKmEPLZ-QpOVg" name="println" visibility="public" method="_oBP7kodKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vD2z-X_9EeKmEPLZ-QpOVg" name="println" visibility="public" method="_6g1qEIdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vD2z-n_9EeKmEPLZ-QpOVg" name="arg0" visibility="public" type="_vD2z8H_9EeKmEPLZ-QpOVg">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD2z_H_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD2z-3_9EeKmEPLZ-QpOVg" value="1"/>
             </ownedParameter>
           </ownedOperation>
-          <ownedOperation xmi:id="_vD2z_X_9EeKmEPLZ-QpOVg" name="println" visibility="public" method="_oBQioIdKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vD2z_X_9EeKmEPLZ-QpOVg" name="println" visibility="public" method="_6g2RIIdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vD2z_n_9EeKmEPLZ-QpOVg" name="arg0" visibility="public" type="_vD1mAX_9EeKmEPLZ-QpOVg">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD20AH_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD2z_3_9EeKmEPLZ-QpOVg" value="1"/>
@@ -690,13 +690,13 @@
           </ownedOperation>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_vD20AX_9EeKmEPLZ-QpOVg" name="FilterOutputStream">
-          <ownedComment xmi:id="_oBOtcodKEeKvZrtbfwJ47w">
+          <ownedComment xmi:id="_6gz04IdPEeKQ8oOp1gkjWQ">
             <body>@external=libraries/Vehicles.jar</body>
           </ownedComment>
           <generalization xmi:id="_vD20An_9EeKmEPLZ-QpOVg" general="_vD20A3_9EeKmEPLZ-QpOVg"/>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_vD20A3_9EeKmEPLZ-QpOVg" clientDependency="_vD20BH_9EeKmEPLZ-QpOVg _vD20BX_9EeKmEPLZ-QpOVg" name="OutputStream">
-          <ownedComment xmi:id="_oBdW-IdKEeKvZrtbfwJ47w">
+          <ownedComment xmi:id="_6hFhsIdPEeKQ8oOp1gkjWQ">
             <body>@external=libraries/Vehicles.jar</body>
           </ownedComment>
           <interfaceRealization xmi:id="_vD20BH_9EeKmEPLZ-QpOVg" client="_vD20A3_9EeKmEPLZ-QpOVg" supplier="_vD20Bn_9EeKmEPLZ-QpOVg" contract="_vD20Bn_9EeKmEPLZ-QpOVg"/>
@@ -709,88 +709,88 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Package" xmi:id="_vD20CX_9EeKmEPLZ-QpOVg" name="util">
         <packagedElement xmi:type="uml:Class" xmi:id="_vD20Cn_9EeKmEPLZ-QpOVg" clientDependency="_vD20C3_9EeKmEPLZ-QpOVg" name="Random">
-          <ownedComment xmi:id="_oBd-AIdKEeKvZrtbfwJ47w">
+          <ownedComment xmi:id="_6hFhsYdPEeKQ8oOp1gkjWQ">
             <body>@external=libraries/Vehicles.jar</body>
           </ownedComment>
           <interfaceRealization xmi:id="_vD20C3_9EeKmEPLZ-QpOVg" client="_vD20Cn_9EeKmEPLZ-QpOVg" supplier="_vD2z9H_9EeKmEPLZ-QpOVg" contract="_vD2z9H_9EeKmEPLZ-QpOVg"/>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBd-AYdKEeKvZrtbfwJ47w" name="Random" specification="_vD20DH_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBd-AodKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6hFhsodPEeKQ8oOp1gkjWQ" name="Random" specification="_vD20DH_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6hFhs4dPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
           </ownedBehavior>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBelEIdKEeKvZrtbfwJ47w" name="nextInt" specification="_vD20DX_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBelEYdKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6hGIwIdPEeKQ8oOp1gkjWQ" name="nextInt" specification="_vD20DX_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6hGIwYdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBelEodKEeKvZrtbfwJ47w" name="arg0" visibility="public">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBelE4dKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBelFIdKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6hGIwodPEeKQ8oOp1gkjWQ" name="arg0" visibility="public">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6hGIw4dPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hGIxIdPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBelFYdKEeKvZrtbfwJ47w" name="nextDouble" specification="_vD20EX_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBelFodKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6hGv0IdPEeKQ8oOp1gkjWQ" name="nextDouble" specification="_vD20EX_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6hGv0YdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
           </ownedBehavior>
-          <ownedOperation xmi:id="_vD20DH_9EeKmEPLZ-QpOVg" name="Random" visibility="public" method="_oBd-AYdKEeKvZrtbfwJ47w"/>
-          <ownedOperation xmi:id="_vD20DX_9EeKmEPLZ-QpOVg" name="nextInt" visibility="public" method="_oBelEIdKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vD20DH_9EeKmEPLZ-QpOVg" name="Random" visibility="public" method="_6hFhsodPEeKQ8oOp1gkjWQ"/>
+          <ownedOperation xmi:id="_vD20DX_9EeKmEPLZ-QpOVg" name="nextInt" visibility="public" method="_6hGIwIdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vD20Dn_9EeKmEPLZ-QpOVg" name="arg0" visibility="public" type="_vD1l9H_9EeKmEPLZ-QpOVg">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD20EH_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD20D3_9EeKmEPLZ-QpOVg" value="1"/>
             </ownedParameter>
           </ownedOperation>
-          <ownedOperation xmi:id="_vD20EX_9EeKmEPLZ-QpOVg" name="nextDouble" visibility="public" method="_oBelFYdKEeKvZrtbfwJ47w"/>
+          <ownedOperation xmi:id="_vD20EX_9EeKmEPLZ-QpOVg" name="nextDouble" visibility="public" method="_6hGv0IdPEeKQ8oOp1gkjWQ"/>
         </packagedElement>
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_vD20En_9EeKmEPLZ-QpOVg" name="org">
       <packagedElement xmi:type="uml:Package" xmi:id="_vD20E3_9EeKmEPLZ-QpOVg" name="junit">
         <packagedElement xmi:type="uml:Class" xmi:id="_vD20FH_9EeKmEPLZ-QpOVg" name="Assert">
-          <ownedComment xmi:id="_oBaTpodKEeKvZrtbfwJ47w">
+          <ownedComment xmi:id="_6hCeYIdPEeKQ8oOp1gkjWQ">
             <body>@external=libraries/Vehicles.jar</body>
           </ownedComment>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBa6sIdKEeKvZrtbfwJ47w" name="assertTrue" specification="_vD20FX_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBbhwIdKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6hDFcIdPEeKQ8oOp1gkjWQ" name="assertTrue" specification="_vD20FX_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6hDFcYdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBbhwYdKEeKvZrtbfwJ47w" name="arg0" visibility="public">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBbhwodKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBbhw4dKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6hDFcodPEeKQ8oOp1gkjWQ" name="arg0" visibility="public">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6hDFc4dPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hDFdIdPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBcI0IdKEeKvZrtbfwJ47w" name="assertEquals" specification="_vD20GX_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBcv4IdKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6hDsgIdPEeKQ8oOp1gkjWQ" name="assertEquals" specification="_vD20GX_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6hDsgYdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBcv4YdKEeKvZrtbfwJ47w" name="arg0" visibility="public">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBcv4odKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBcv44dKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6hDsgodPEeKQ8oOp1gkjWQ" name="arg0" visibility="public">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6hDsg4dPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hDshIdPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
-            <ownedParameter xmi:id="_oBcv5IdKEeKvZrtbfwJ47w" name="arg1" visibility="public">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBcv5YdKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBcv5odKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6hDshYdPEeKQ8oOp1gkjWQ" name="arg1" visibility="public">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6hDshodPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hDsh4dPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedBehavior xmi:type="uml:Activity" xmi:id="_oBdW8IdKEeKvZrtbfwJ47w" name="assertEquals" specification="_vD20IH_9EeKmEPLZ-QpOVg">
-            <ownedComment xmi:id="_oBdW8YdKEeKvZrtbfwJ47w">
+          <ownedBehavior xmi:type="uml:Activity" xmi:id="_6hE6oIdPEeKQ8oOp1gkjWQ" name="assertEquals" specification="_vD20IH_9EeKmEPLZ-QpOVg">
+            <ownedComment xmi:id="_6hE6oYdPEeKQ8oOp1gkjWQ">
               <body>@external</body>
             </ownedComment>
-            <ownedParameter xmi:id="_oBdW8odKEeKvZrtbfwJ47w" name="arg0" visibility="public">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBdW84dKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBdW9IdKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6hE6oodPEeKQ8oOp1gkjWQ" name="arg0" visibility="public">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6hE6o4dPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hE6pIdPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
-            <ownedParameter xmi:id="_oBdW9YdKEeKvZrtbfwJ47w" name="arg1" visibility="public">
-              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oBdW9odKEeKvZrtbfwJ47w"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oBdW94dKEeKvZrtbfwJ47w" value="1"/>
+            <ownedParameter xmi:id="_6hE6pYdPEeKQ8oOp1gkjWQ" name="arg1" visibility="public">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6hE6podPEeKQ8oOp1gkjWQ"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hE6p4dPEeKQ8oOp1gkjWQ" value="1"/>
             </ownedParameter>
           </ownedBehavior>
-          <ownedOperation xmi:id="_vD20FX_9EeKmEPLZ-QpOVg" name="assertTrue" visibility="public" method="_oBa6sIdKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vD20FX_9EeKmEPLZ-QpOVg" name="assertTrue" visibility="public" method="_6hDFcIdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vD20Fn_9EeKmEPLZ-QpOVg" name="arg0" visibility="public" type="_vD1l-H_9EeKmEPLZ-QpOVg">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD20GH_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD20F3_9EeKmEPLZ-QpOVg" value="1"/>
             </ownedParameter>
           </ownedOperation>
-          <ownedOperation xmi:id="_vD20GX_9EeKmEPLZ-QpOVg" name="assertEquals" visibility="public" method="_oBcI0IdKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vD20GX_9EeKmEPLZ-QpOVg" name="assertEquals" visibility="public" method="_6hDsgIdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vD20Gn_9EeKmEPLZ-QpOVg" name="arg0" visibility="public" type="_vD1l9X_9EeKmEPLZ-QpOVg">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD20HH_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD20G3_9EeKmEPLZ-QpOVg" value="1"/>
@@ -800,7 +800,7 @@
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD20Hn_9EeKmEPLZ-QpOVg" value="1"/>
             </ownedParameter>
           </ownedOperation>
-          <ownedOperation xmi:id="_vD20IH_9EeKmEPLZ-QpOVg" name="assertEquals" visibility="public" method="_oBdW8IdKEeKvZrtbfwJ47w">
+          <ownedOperation xmi:id="_vD20IH_9EeKmEPLZ-QpOVg" name="assertEquals" visibility="public" method="_6hE6oIdPEeKQ8oOp1gkjWQ">
             <ownedParameter xmi:id="_vD20IX_9EeKmEPLZ-QpOVg" name="arg0" visibility="public" type="_vD2z8H_9EeKmEPLZ-QpOVg">
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vD20I3_9EeKmEPLZ-QpOVg"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vD20In_9EeKmEPLZ-QpOVg" value="1"/>
