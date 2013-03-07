@@ -1,20 +1,26 @@
 package org.modelexecution.fuml.extlib;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
+import java.util.Collection;
+import java.util.HashSet;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.UMLFactory;
+import org.eclipse.uml2.uml.UMLPackage;
+import org.eclipse.uml2.uml.resource.UMLResource;
 
 /**
  * 
@@ -22,131 +28,102 @@ import org.xml.sax.SAXException;
  *
  */
 public class UML2UMLWithPlaceholderActivitiesConverter {
-	
-	private String inputFilePath;
-	private String jarFilePath;
-	
-	private Document inputDocument;
-	private Document outputDocument;
-	
-	public UML2UMLWithPlaceholderActivitiesConverter(String inputFilePath, String jarPath) {
-		this.inputFilePath = inputFilePath;
-		this.jarFilePath = jarPath;
-	}
-	
-	/**
-	 * Initializes the input {@link Document} and output {@link Document} with the given path
-	 */
-	private void initalizeDocuments() {
-		try {
-			inputDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputFilePath);
-			outputDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputFilePath); // initially the same as inputDoc !
-		} catch (SAXException | IOException | ParserConfigurationException e) {
-			System.out.println("Error occured during the initialization of the input and output XML document: " + e);
-		}
-	}
-	
-	/**
-	 * Append a comment to every UML class that references to the external JAR file.
-	 * 
-	 * Example result:
-	 * <code>
-	 *   <ownedComment xmi:id="_oA2b0FHQEeKwiMIhkV3wDA_comment">
-	 *     <body>@external libraries/Vehicles.jar</body>
-	 *   </ownedComment>
-	 * </code>
-	 */
-	private void appendCommentToUMLClasses() {
-		// Cycle through the number of packagedElements
-		for (int i = 0; i < inputDocument.getElementsByTagName("packagedElement").getLength(); i++) {
-			// Get packagedElement and convert into an element to gain access to element methods
-			Element inputPackagedElement = (Element) inputDocument.getElementsByTagName("packagedElement").item(i);				
-			Element outputPackagedElement = (Element) outputDocument.getElementsByTagName("packagedElement").item(i);
-			
-			// Check if the element has the attribute set
-			if (inputPackagedElement.getAttribute("xmi:type").equals("uml:Class")) {
-				// Append "ownedComment" node for the corresponding class with a "body" node referencing to the external library
-				Element ownedComment = outputDocument.createElement("ownedComment");
-				ownedComment.setAttribute("xmi:id", inputPackagedElement.getAttribute("xmi:id").concat("_comment"));
-				
-				Element ownedCommentBody = outputDocument.createElement("body");
-				ownedCommentBody.appendChild(outputDocument.createTextNode("@external " + jarFilePath));
-				
-				ownedComment.appendChild(ownedCommentBody);
-				outputPackagedElement.appendChild(ownedComment);	
-			}
-		}
-	}
+
+	private ResourceSet resourceSet;
+	private Resource resource;
+	private Copier copier;
 
 	/**
-	 * Append a placeholder activity to every ownedOperation of every UML class. 
-	 * Every ownedOperation is cloned and modified s.t. its xmi:id appends "_placeholder".
-	 * Therefore, also all children of ownedOperation are cloned (without xmi:id appending "_placeholder").
-	 * 
-	 * Example result:
-	 * <code>
-	 *   <ownedBehavior name="toString" visibility="public" xmi:id="_oA3CwFHQEeKwiMIhkV3wDA_placeholder" xmi:type="uml:Activity">
-     *     <ownedParameter direction="return" type="_oA4Q5VHQEeKwiMIhkV3wDA" visibility="public" xmi:id="_oA3CwVHQEeKwiMIhkV3wDA">
-     *       <lowerValue xmi:id="_oA3Cw1HQEeKwiMIhkV3wDA" xmi:type="uml:LiteralInteger"/>
-     *       <upperValue value="1" xmi:id="_oA3CwlHQEeKwiMIhkV3wDA" xmi:type="uml:LiteralUnlimitedNatural"/>
-     *     </ownedParameter>
-     *   </ownedBehavior>
-     * </code>
+	 * Initializes an instance of {@link UML2UMLWithPlaceholderActivitiesConverter}.
+	 * Then, the converter can be loaded ("load" method) with an input UML and JAR file
+	 * before converting ("convert" method) it to an output UML file. 
 	 */
-	private void appendPlaceholderActivities() {
-		// Cycle through the number of packagedElements
-		for (int i = 0; i < inputDocument.getElementsByTagName("packagedElement").getLength(); i++) {
-			// Get packagedElement and convert into an element to gain access to element methods
-			Element inputPackagedElement = (Element) inputDocument.getElementsByTagName("packagedElement").item(i);				
-			Element outputPackagedElement = (Element) outputDocument.getElementsByTagName("packagedElement").item(i);
-			
-			// Check if the element has the attribute set
-			if (inputPackagedElement.getAttribute("xmi:type").equals("uml:Class")) {
-				// In "uml:Class", look for child node "ownedOperation"
-				// and create corresponding sibling node (placeholder node)
-				NodeList ownedOperations = inputPackagedElement.getElementsByTagName("ownedOperation");
-				for(int j=0; j < ownedOperations.getLength(); j++) {
-					// create a corresponding (copied) sibling node "ownedOperation" with different xmi:id
-					Element ownedOperation = (Element) ownedOperations.item(j);
-					
-					// Access and clone the same Node in the output document
-					Element ownedBehavior = (Element) outputPackagedElement.getElementsByTagName("ownedOperation").item(j).cloneNode(true);
-					
-					// Modify element and append it to the output document
-					ownedBehavior.setAttribute("xmi:id", ownedOperation.getAttribute("xmi:id").concat("_placeholder"));
-					ownedBehavior.setAttribute("xmi:type", "uml:Activity");
-					ownedBehavior.setAttribute("name", ownedOperation.getAttribute("name"));
-					outputPackagedElement.appendChild(ownedBehavior);	
-					outputDocument.renameNode(ownedBehavior, null, "ownedBehavior");
-				}
-			}
-		}
+	public UML2UMLWithPlaceholderActivitiesConverter() {
+		copier = new Copier();
+		resourceSet = new ResourceSetImpl();
+		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 	}
 	
 	/**
-	 * Converts the input UML file to a output UML file that contains:
+	 * Loads the converter with a UML a JAR file that provide the input for the converter
+	 * necessary to do a conversation
+	 * 
+	 * @param inputFilePath {@link String} representing the relative file path to the input UML file
+	 */
+	public void load(String inputFilePath) {
+		resource = resourceSet.getResource(URI.createFileURI(new File(inputFilePath).getAbsolutePath()), true);		
+	}
+	
+	/**
+	 * Returns all classes of a specific {@link Resource}
+	 * 
+	 * @param resource the {@link Resource} from which the classes should be obtained
+	 * @return a {@link Collection} of {@link Class} from a specific {@link Resource}
+	 */
+	private Collection<Class> getAllClassesFromResource(Resource resource) {
+		Collection<Class> classes = new HashSet<Class>();		
+		
+		for (TreeIterator<EObject> iterator = resource.getAllContents(); iterator.hasNext();) {
+			EObject next = iterator.next();
+			if (next instanceof Class) {
+				Class clazz = (Class) next;
+				classes.add(clazz);
+			}
+		}
+		return classes;
+	}
+	
+	/**
+	 * Converts the previously loaded UML into a UML that contains:
 	 * <ul>
-	 *   <li>A ownedComment in every uml:Class referencing to the external JAR file</li>
-	 *   <li>A ownedBehavior (placeholder activity) for every ownedOperation in every uml:Class</li>
+	 *   <li>Placeholder Activity (represented as OwnedBehavior of Class) for every Operation</li>
+	 *   <li>OwnedComment in every Class referencing the external JAR file in its body element</li>
+	 *   <li>A reference of the Placeholder Activity in its corresponding Operation</li>
 	 * </ul>
 	 * 
-	 * @param outputFilePath path where the output file is written to
-	 * @return true on successful conversation and false otherwise
+	 * @param outputFilePath {@link String} representing the relative file path to the output UML file
+	 * @param jarPath {@link String} representing the relative file path to the input JAR file
 	 */
-	public void converter(String outputFilePath) {
-		initalizeDocuments();
-		appendCommentToUMLClasses();
-		appendPlaceholderActivities();
+	public void convert(String outputFilePath, String jarFilePath) {		
+		Collection<Class> resouceClasses = getAllClassesFromResource(resource);
 		
-		// write the content into xml file
-		DOMSource source = new DOMSource(outputDocument);
-		StreamResult result = new StreamResult(new File(outputFilePath));
-		try {
-			TransformerFactory.newInstance().newTransformer().transform(source, result);
-		} catch (TransformerException | TransformerFactoryConfigurationError e) {
-			System.out.println("Something went wrong during the writing of the output document to the file: " + e);
+		for(Class clazz : resouceClasses) {
+			
+			// add OwnedComment to Class that references the JAR file
+			clazz.createOwnedComment().setBody("@external=" + jarFilePath);
+			
+			for(Operation operation : clazz.getOperations()) {
+				Activity placeholderActivity = UMLFactory.eINSTANCE.createActivity();
+				
+				// add "name" attribute to Placeholder Activity equal the Operation's "name" attribute
+				placeholderActivity.setName(operation.getName()); 	
+								
+				// add OwnedComment to Placeholder Activity identifying it as external
+				placeholderActivity.createOwnedComment().setBody("@external");
+				
+				// copy all the Operation's parameters into the Placeholder Activity
+			    placeholderActivity.getOwnedParameters().addAll(copier.copyAll(operation.getOwnedParameters()));	
+			    // warning: this only copies the parameters with no reference ("specification" attribute) back to them
+			    //TODO Find out if a reference back to the non-placeholder activity's parameter (ownedOperation) is required
+			    
+			    // add OwnedBehavior to Class referencing the Placeholder Activity
+				clazz.getOwnedBehaviors().add(placeholderActivity);	
+				
+				// reference the Placeholder Activity in the Operation
+				operation.getMethods().add(placeholderActivity);
+			    
+			}
 		}
-		System.out.println("Successfully transformed " + inputFilePath + " into " + outputFilePath);
+		
+		// save the modified Resource to the output file path
+		try {
+			resource.save(new FileOutputStream(new File(outputFilePath)), null);
+		} catch (FileNotFoundException e) {
+			System.out.println("Coudln't find output file " + outputFilePath + ". Details: " + e);
+		} catch (IOException e) {
+			System.out.println("Input/Output Exception occured. Details: " + e);
+		}
 	}
-
+	
 }

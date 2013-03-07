@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_vDzJkH_9EeKmEPLZ-QpOVg" name="root model">
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_oA0mgFHQEeKwiMIhkV3wDA" name="root model">
   <packagedElement xmi:type="uml:Model" xmi:id="_vDzwoH_9EeKmEPLZ-QpOVg" name="Vehicles">
     <packagedElement xmi:type="uml:Package" xmi:id="_vDzwoX_9EeKmEPLZ-QpOVg" name="vehiclelibrary">
       <packagedElement xmi:type="uml:Package" xmi:id="_vDzwon_9EeKmEPLZ-QpOVg" name="test">
