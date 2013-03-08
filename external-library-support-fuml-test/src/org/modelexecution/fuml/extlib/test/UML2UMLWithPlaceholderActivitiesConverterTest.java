@@ -27,6 +27,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.modelexecution.fuml.extlib.UML2UMLWithPlaceholderActivitiesConverter;
 
+/**
+ * Class to test the {@link UML2UMLWithPlaceholderActivitiesConverter} 
+ * 
+ * @author patrickneubauer
+ *
+ */
 public class UML2UMLWithPlaceholderActivitiesConverterTest {
 
 	private ResourceSet resourceSet;
@@ -46,7 +52,8 @@ public class UML2UMLWithPlaceholderActivitiesConverterTest {
 		
 		UML2UMLWithPlaceholderActivitiesConverter converter = new UML2UMLWithPlaceholderActivitiesConverter();
 		converter.load(inputFilePath);
-		converter.convert(outputFilePath, jarFilePath);
+		converter.convert(jarFilePath);
+		converter.save(outputFilePath);
 		
 		// check if every Class contains a OwnedComment referring to the JAR file
 		containsComments(outputFilePath, jarFilePath);

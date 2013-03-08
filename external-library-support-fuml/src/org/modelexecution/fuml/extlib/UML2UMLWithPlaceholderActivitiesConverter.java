@@ -24,6 +24,8 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 
 /**
+ * Converter that is capable to load a given UML2 model and convert and save it s.t.
+ * it contains a Placeholder Activity with Comments and references for each Operation
  * 
  * @author patrickneubauer
  *
@@ -83,10 +85,9 @@ public class UML2UMLWithPlaceholderActivitiesConverter {
 	 *   <li>A reference of the Placeholder Activity in its corresponding Operation</li>
 	 * </ul>
 	 * 
-	 * @param outputFilePath {@link String} representing the relative file path to the output UML file
 	 * @param jarPath {@link String} representing the relative file path to the input JAR file
 	 */
-	public void convert(String outputFilePath, String jarFilePath) {		
+	public void convert(String jarFilePath) {		
 		Collection<Class> resouceClasses = getAllClassesFromResource(resource);
 		
 		for(Class clazz : resouceClasses) {
@@ -121,7 +122,14 @@ public class UML2UMLWithPlaceholderActivitiesConverter {
 			    
 			}
 		}
-		
+	}
+	
+	/**
+	 * Saves the current {@link Resource} as a file to the given output file path
+	 * 
+	 * @param outputFilePath {@link String} representing the relative file path to the output UML file
+	 */
+	public void save(String outputFilePath) {
 		// save the modified Resource to the output file path
 		try {
 			resource.save(new FileOutputStream(new File(outputFilePath)), null);
