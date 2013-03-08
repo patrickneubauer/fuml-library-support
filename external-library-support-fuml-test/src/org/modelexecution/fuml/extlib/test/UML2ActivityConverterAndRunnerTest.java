@@ -28,6 +28,8 @@ import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
 
 /**
  * This class tests converting a UML file into a fUML Activity and then executing it in the ExecutionContext.
+ * IMPORTANT: This will only run when using a Run Configuration (Test runner = "JUnit 4" and run vm arguments include "-javaagent:lib/aspectjweaver.jar")
+ * 
  * REPRESENTS ONLY A PROOF OF CONCEPT
  * 
  * @author patrickneubauer

@@ -14,11 +14,13 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.ActivityParameterNode;
+import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
-import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.junit.Before;
@@ -121,6 +123,32 @@ public class UML2UMLWithPlaceholderActivitiesConverterTest {
 	}
 	
 	/**
+	 * Searches if a given Placeholder Activity has a corresponding Operation with equal Parameters
+	 * 
+	 * @param placeholderActivity {@link Activity} Parameters to be searched for in the {@link Operation}
+	 * @param operation {@link Operation} in which the Parameters contained in {@link Activity} are searched
+	 * @return true if found, false otherwise
+	 */
+	private boolean containsParameters(Activity placeholderActivity, Operation operation) {
+		for(ActivityNode activityNode : placeholderActivity.getOwnedNodes()) {
+			
+			if (activityNode instanceof ActivityParameterNode) {
+				ActivityParameterNode activityParameterNode = (ActivityParameterNode)activityNode;
+				
+				for(Parameter operationParameter : operation.getOwnedParameters()) {
+					if (activityParameterNode.getParameter().equals(operationParameter)) {
+						return true; // found
+					}
+				}
+				return false; // not found
+			}
+			
+		}
+		
+		return true; // Placeholder Activity has no nodes
+	}
+	
+	/**
 	 * Checks if the output file created with the {@link UML2UMLWithPlaceholderActivitiesConverter} contains
 	 * the necessary new OwnedBehavior (with all the parameters) elements and OwnedComment element for every Class
 	 */
@@ -128,22 +156,38 @@ public class UML2UMLWithPlaceholderActivitiesConverterTest {
 		Resource resource = resourceSet.getResource(URI.createFileURI(new File(outputFilePath).getAbsolutePath()), true);
 
 		Collection<Class> resouceClasses = getAllClassesFromResource(resource);
-		
+		int classCounter = 0;
+		int operationCounter = 0;
+
 		for(Class clazz : resouceClasses) {
-			for(Operation operation : clazz.getOperations()) {
-				Activity placeholderActivity = (Activity) clazz.getOwnedBehavior(operation.getName());
+			classCounter++;
+			
+			for(Operation classOperation : clazz.getOperations()) {
 				
-				// check if for every Operation there is a corresponding OwnedBehavior
-				assertEquals(operation.getName(), placeholderActivity.getName());
+				// check if the current Operation has a corresponding Placeholder Activity
+				for (Behavior classBehavior : clazz.getOwnedBehaviors()) {
+					if (classBehavior instanceof Activity) {
+						Activity placeholderActivity = (Activity)classBehavior;
+						
+						if (placeholderActivity.equals(classOperation.getMethods().get(0))) {
+								operationCounter++;
 
-				// check if the Placeholder Activity has the expected OwnedComment
-				containsComment(placeholderActivity, "@external");
-
-				//TODO whenever placeholderActivity's ownedParameters are created with a "specification" (or similar) attribute
-				//that references the xmi:id of the actual parameter then check for it
+								// check if their name is equal
+								assertEquals(placeholderActivity.getName(), classOperation.getName());
+	
+								// check if the Placeholder Activity has the expected OwnedComment
+								assertTrue(containsComment(placeholderActivity, "@external"));
+								
+								// check if their Parameters are equal
+								assertTrue(containsParameters(placeholderActivity, classOperation));
+						}
+					}
+				}
 			}
 		}
 		
+		assertEquals(17, classCounter);
+		assertEquals(40, operationCounter);
 	}
-	
+
 }

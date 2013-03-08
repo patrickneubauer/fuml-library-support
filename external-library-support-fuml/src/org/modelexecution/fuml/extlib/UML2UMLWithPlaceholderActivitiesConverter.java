@@ -15,8 +15,10 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.ActivityParameterNode;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
@@ -100,11 +102,16 @@ public class UML2UMLWithPlaceholderActivitiesConverter {
 								
 				// add OwnedComment to Placeholder Activity identifying it as external
 				placeholderActivity.createOwnedComment().setBody("@external");
-				
-				// copy all the Operation's parameters into the Placeholder Activity
-			    placeholderActivity.getOwnedParameters().addAll(copier.copyAll(operation.getOwnedParameters()));	
-			    // warning: this only copies the parameters with no reference ("specification" attribute) back to them
-			    //TODO Find out if a reference back to the non-placeholder activity's parameter (ownedOperation) is required
+			    
+			    for(Parameter operationParameter : operation.getOwnedParameters()) {
+			    	ActivityParameterNode activityParameterNode = UMLFactory.eINSTANCE.createActivityParameterNode();
+			    	
+			    	// reference the Operation Parameter in the ActivityParameterNode
+			    	activityParameterNode.setParameter(operationParameter);
+			    	
+			    	// add the ActivityParameterNode to the Placeholder Activity
+			    	placeholderActivity.getOwnedNodes().add(activityParameterNode);		 
+			    }
 			    
 			    // add OwnedBehavior to Class referencing the Placeholder Activity
 				clazz.getOwnedBehaviors().add(placeholderActivity);	
