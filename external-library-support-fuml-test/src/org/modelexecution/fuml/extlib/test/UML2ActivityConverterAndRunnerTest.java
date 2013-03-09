@@ -74,7 +74,7 @@ public class UML2ActivityConverterAndRunnerTest {
 	/**
 	 * This code shows the steps necessary to create a fUML Activity out of a UML file without execution.
 	 * 
-	 * @author p.neubauer
+	 * @author patrickneubauer
 	 */
 	@Test
 	public void createfUMLActivityOutOfUMLFile() {
@@ -95,7 +95,7 @@ public class UML2ActivityConverterAndRunnerTest {
 	/**
 	 * This code takes a UML file containing one activity only, converts it into a fUML Activity and then executes the Activity in the ExecutionContext.
 	 * 
-	 * @author p.neubauer
+	 * @author patrickneubauer
 	 */
 	@Test
 	public void createAndExecutefUMLActivityOutOfUMLFileContainingOneActivityOnly() {
@@ -113,8 +113,6 @@ public class UML2ActivityConverterAndRunnerTest {
 	
 	/**
 	 * This code takes a UML file, created with Papyrus, converts it into a fUML Activity and then executes the Activity in the ExecutionContext.
-	 * 
-	 * @author p.neubauer
 	 */
 	@Test
 	public void createAndExecutefUMLActivityOutOfUMLFileCreatedWithPapyrus1() {		
@@ -130,8 +128,6 @@ public class UML2ActivityConverterAndRunnerTest {
 	
 	/**
 	 * This code takes a UML file, created with Papyrus, converts it into a fUML Activity and then executes the Activity in the ExecutionContext.
-	 * 
-	 * @author p.neubauer
 	 */
 	@Test
 	@Ignore
@@ -148,8 +144,6 @@ public class UML2ActivityConverterAndRunnerTest {
 	
 	/**
 	 * This code takes a UML file (activityWithCreateObjectAction/model.uml), converts it into a fUML Activity and then executes the Activity in the ExecutionContext.
-	 * 
-	 * @author p.neubauer
 	 */
 	@Test
 	public void createAndExecutefUMLActivityOutOfUMLFileActivityWithCreateObjectAction() {
@@ -169,8 +163,6 @@ public class UML2ActivityConverterAndRunnerTest {
 	
 	/**
 	 * This code takes a UML file (created by MoDisco using reverse engineering), converts it into a fUML Activity and then executes the Activity in the ExecutionContext.
-	 * 
-	 * @author p.neubauer
 	 */
 	@Test
 	public void createAndExecutefUMLActivityOutOfUMLFileCreatedByReverseEngineering() {
@@ -186,6 +178,7 @@ public class UML2ActivityConverterAndRunnerTest {
 		org.modelexecution.fumldebug.core.ExecutionContext.getInstance().execute(fUMLActivity, objcar, new ParameterValueList());
 		
 		System.out.println(objcar);
+		
 	}
 	
 }

@@ -158,6 +158,8 @@ public class UML2UMLWithPlaceholderActivitiesConverterTest {
 	/**
 	 * Checks if the output file created with the {@link UML2UMLWithPlaceholderActivitiesConverter} contains
 	 * the necessary new OwnedBehavior (with all the parameters) elements and OwnedComment element for every Class
+	 * 
+	 * @param outputFilePath File output path where to search for the Placeholder Activities
 	 */
 	private void containsPlaceholderActivities(String outputFilePath) {
 		Resource resource = resourceSet.getResource(URI.createFileURI(new File(outputFilePath).getAbsolutePath()), true);
