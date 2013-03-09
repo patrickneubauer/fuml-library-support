@@ -11,10 +11,6 @@ package org.modelexecution.fumldebug.core.trace.tracemodel;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
-
-import fUML.Syntax.Activities.IntermediateActivities.ActivityParameterNode;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>User Parameter Input</b></em>'.
@@ -24,13 +20,12 @@ import fUML.Syntax.Activities.IntermediateActivities.ActivityParameterNode;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.UserParameterInput#getUserInputTokens <em>User Input Tokens</em>}</li>
- *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.UserParameterInput#getInputParameterNode <em>Input Parameter Node</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public interface UserParameterInput extends EObject {
+public interface UserParameterInput extends ParameterInput {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -51,29 +46,5 @@ public interface UserParameterInput extends EObject {
 	 * @generated
 	 */
 	List<ObjectTokenInstance> getUserInputTokens();
-
-	/**
-	 * Returns the value of the '<em><b>Input Parameter Node</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Input Parameter Node</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Input Parameter Node</em>' attribute.
-	 * @see #setInputParameterNode(ActivityParameterNode)
-	 * @generated
-	 */
-	ActivityParameterNode getInputParameterNode();
-
-	/**
-	 * Sets the value of the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.UserParameterInput#getInputParameterNode <em>Input Parameter Node</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Input Parameter Node</em>' attribute.
-	 * @see #getInputParameterNode()
-	 * @generated
-	 */
-	void setInputParameterNode(ActivityParameterNode value);
 
 } // UserParameterInput

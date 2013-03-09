@@ -9,11 +9,11 @@
  */
 package org.modelexecution.fumldebug.core.trace.tracemodel;
 
+import fUML.Syntax.Actions.BasicActions.InputPin;
+
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-
-import fUML.Syntax.Actions.BasicActions.InputPin;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,7 +25,6 @@ import fUML.Syntax.Actions.BasicActions.InputPin;
  * <ul>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.Input#getTokens <em>Tokens</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.Input#getInputPin <em>Input Pin</em>}</li>
- *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.Input#getConsumedValue <em>Consumed Value</em>}</li>
  * </ul>
  * </p>
  *
@@ -76,29 +75,5 @@ public interface Input extends EObject {
 	 * @generated
 	 */
 	void setInputPin(InputPin value);
-
-	/**
-	 * Returns the value of the '<em><b>Consumed Value</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Consumed Value</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Consumed Value</em>' reference.
-	 * @see #setConsumedValue(ValueInstanceSnapshot)
-	 * @generated
-	 */
-	ValueInstanceSnapshot getConsumedValue();
-
-	/**
-	 * Sets the value of the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.Input#getConsumedValue <em>Consumed Value</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Consumed Value</em>' reference.
-	 * @see #getConsumedValue()
-	 * @generated
-	 */
-	void setConsumedValue(ValueInstanceSnapshot value);
 
 } // Input

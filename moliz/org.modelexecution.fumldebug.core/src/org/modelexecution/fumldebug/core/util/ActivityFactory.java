@@ -698,14 +698,6 @@ public class ActivityFactory {
 		return oflow;
 	}
 	
-	public static ObjectFlow createObjectFlow(Activity activity, ActivityNode source, ActivityNode target, boolean guard) {
-		ObjectFlow oflow = createObjectFlow(activity, source, target);
-		LiteralBoolean guardliteral = new LiteralBoolean();
-		guardliteral.value = guard;
-		oflow.guard = guardliteral;
-		return oflow;
-	}
-	
 	public static CallOperationAction createCallOperationAction(Activity activity, String name, Operation operation) {
 		CallOperationAction action = new CallOperationAction();
 		action.setName(name);
@@ -739,9 +731,7 @@ public class ActivityFactory {
 	public static Operation createOperation(String name, ParameterList parameter, Behavior method, Class_ class_) {
 		Operation operation = new Operation();
 		operation.name = name;
-		if(parameter != null) {
-			operation.ownedParameter.addAll(parameter);
-		}
+		operation.ownedParameter.addAll(parameter);
 		operation.method.add(method);
 		class_.addOwnedOperation(operation);
 		return operation;

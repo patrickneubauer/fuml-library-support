@@ -108,7 +108,11 @@ public abstract class StructuralFeatureActionActivation extends
 						continueSearching = links.getValue(j - 1)
 								.getFeatureValue(end).position < n;
 					}
-					links.addValue(j - 1, (Link) link);
+					if (!continueSearching) {
+						links.addValue(j - 1, (Link) link);
+					} else {
+						links.add((Link) link);
+					}
 				}
 			}
 		}

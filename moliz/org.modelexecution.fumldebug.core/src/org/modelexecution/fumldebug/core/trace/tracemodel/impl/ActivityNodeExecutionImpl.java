@@ -10,7 +10,9 @@
 package org.modelexecution.fumldebug.core.trace.tracemodel.impl;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -22,9 +24,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution;
 import org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution;
+import org.modelexecution.fumldebug.core.trace.tracemodel.Input;
+import org.modelexecution.fumldebug.core.trace.tracemodel.Output;
 import org.modelexecution.fumldebug.core.trace.tracemodel.TokenInstance;
 
-import fUML.Syntax.Activities.IntermediateActivities.ActivityEdge;
+import fUML.Syntax.Actions.BasicActions.InputPin;
+import fUML.Syntax.Actions.BasicActions.OutputPin;
 import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
 
 /**
@@ -34,13 +39,14 @@ import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ActivityNodeExecutionImpl#getInputs <em>Inputs</em>}</li>
+ *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ActivityNodeExecutionImpl#getOutputs <em>Outputs</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ActivityNodeExecutionImpl#getLogicalSuccessor <em>Logical Successor</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ActivityNodeExecutionImpl#getLogicalPredecessor <em>Logical Predecessor</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ActivityNodeExecutionImpl#getChronologicalSuccessor <em>Chronological Successor</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ActivityNodeExecutionImpl#getChronologicalPredecessor <em>Chronological Predecessor</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ActivityNodeExecutionImpl#getNode <em>Node</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ActivityNodeExecutionImpl#getActivityExecution <em>Activity Execution</em>}</li>
- *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ActivityNodeExecutionImpl#isExecuted <em>Executed</em>}</li>
  * </ul>
  * </p>
  *
@@ -53,6 +59,26 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 	 * @generated
 	 */
 	public static final String copyright = "Copyright (c) 2012 Vienna University of Technology.\r\nAll rights reserved. This program and the accompanying materials are made \r\navailable under the terms of the Eclipse Public License v1.0 which accompanies \r\nthis distribution, and is available at http://www.eclipse.org/legal/epl-v10.html\r\n\r\nContributors:\r\nTanja Mayerhofer - initial API and implementation";
+
+	/**
+	 * The cached value of the '{@link #getInputs() <em>Inputs</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInputs()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Input> inputs;
+
+	/**
+	 * The cached value of the '{@link #getOutputs() <em>Outputs</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOutputs()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Output> outputs;
 
 	/**
 	 * The cached value of the '{@link #getLogicalSuccessor() <em>Logical Successor</em>}' reference list.
@@ -115,26 +141,6 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 	protected ActivityNode node = NODE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isExecuted() <em>Executed</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isExecuted()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean EXECUTED_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isExecuted() <em>Executed</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isExecuted()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean executed = EXECUTED_EDEFAULT;
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -156,12 +162,55 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public List<Input> getInputs() {
+		if (inputs == null) {
+			inputs = new BasicInternalEList<Input>(Input.class);
+		}
+		return inputs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public List<Output> getOutputs() {
+		if (outputs == null) {
+			outputs = new BasicInternalEList<Output>(Output.class);
+		}
+		return outputs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated not
 	 */
 	public List<ActivityNodeExecution> getLogicalSuccessor() {
 		if (logicalSuccessor == null) {
 			logicalSuccessor = new BasicInternalEList<ActivityNodeExecution>(ActivityNodeExecution.class);			
-		}		
+		}
+		
+		ActivityExecution activityExecution = this.getActivityExecution();
+		if(activityExecution != null) {
+			List<Output> outputs = this.getOutputs();
+			for (Output output : outputs) {
+				List<TokenInstance> tokens = output.getTokens();
+				for(TokenInstance token : tokens) {
+					List<ActivityNodeExecution> successors = activityExecution.getNodeExecutionsByTokenInput(token);
+					if(successors != null) {
+						for(ActivityNodeExecution e : successors) {
+							if(!logicalSuccessor.contains(e)) {
+								logicalSuccessor.add(e);
+							}
+						}
+					}
+				}
+			}
+		}
+		
 		return logicalSuccessor;		
 	}
 
@@ -173,6 +222,22 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 	public List<ActivityNodeExecution> getLogicalPredecessor() {
 		if (logicalPredecessor == null) {
 			logicalPredecessor = new BasicInternalEList<ActivityNodeExecution>(ActivityNodeExecution.class);
+
+			ActivityExecution activityExecution = this.getActivityExecution();
+			if(activityExecution != null) {
+				List<Input> inputs = this.getInputs();
+				for (Input input : inputs) {
+					List<TokenInstance> tokens = input.getTokens();
+					for(TokenInstance token : tokens) {
+						ActivityNodeExecution predecessor = activityExecution.getNodeExecutionByTokenOutput(token);
+						if(predecessor != null) {
+							if(!logicalPredecessor.contains(predecessor)) {
+								logicalPredecessor.add(predecessor);
+							}
+						}
+					}
+				}
+			}
 		}
 		return logicalPredecessor;
 	}
@@ -183,8 +248,6 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 	 * @generated not
 	 */
 	public ActivityNodeExecution getChronologicalSuccessor() {
-		return this.chronologicalSuccessor;
-		/*TODO
 		if(this.chronologicalSuccessor == null) {
 			if(this.outputs != null && this.outputs.size() > 0) {
 				// node has to be executed already
@@ -201,7 +264,7 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 				}
 			}
 		}		
-		return chronologicalSuccessor;*/
+		return chronologicalSuccessor;
 	}
 
 	/**
@@ -247,8 +310,6 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 	 * @generated not
 	 */
 	public ActivityNodeExecution getChronologicalPredecessor() {
-		return this.chronologicalPredecessor;
-		/*TODO
 		if(this.chronologicalPredecessor == null) {
 			if(this.outputs != null && this.outputs.size() > 0) {
 				// node has to be executed already
@@ -265,7 +326,7 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 				}
 			}
 		}		
-		return chronologicalPredecessor;*/
+		return chronologicalPredecessor;
 	}
 
 	/**
@@ -367,24 +428,6 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isExecuted() {
-		return executed;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setExecuted(boolean newExecuted) {
-		executed = newExecuted;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -417,6 +460,10 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__INPUTS:
+				return ((InternalEList<?>)getInputs()).basicRemove(otherEnd, msgs);
+			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__OUTPUTS:
+				return ((InternalEList<?>)getOutputs()).basicRemove(otherEnd, msgs);
 			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__LOGICAL_SUCCESSOR:
 				return ((InternalEList<?>)getLogicalSuccessor()).basicRemove(otherEnd, msgs);
 			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__LOGICAL_PREDECESSOR:
@@ -453,6 +500,10 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__INPUTS:
+				return getInputs();
+			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__OUTPUTS:
+				return getOutputs();
 			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__LOGICAL_SUCCESSOR:
 				return getLogicalSuccessor();
 			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__LOGICAL_PREDECESSOR:
@@ -467,8 +518,6 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 				return getNode();
 			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__ACTIVITY_EXECUTION:
 				return getActivityExecution();
-			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__EXECUTED:
-				return isExecuted();
 		}
 		return eDynamicGet(featureID, resolve, coreType);
 	}
@@ -482,6 +531,14 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__INPUTS:
+				getInputs().clear();
+				getInputs().addAll((Collection<? extends Input>)newValue);
+				return;
+			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__OUTPUTS:
+				getOutputs().clear();
+				getOutputs().addAll((Collection<? extends Output>)newValue);
+				return;
 			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__LOGICAL_SUCCESSOR:
 				getLogicalSuccessor().clear();
 				getLogicalSuccessor().addAll((Collection<? extends ActivityNodeExecution>)newValue);
@@ -502,9 +559,6 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__ACTIVITY_EXECUTION:
 				setActivityExecution((ActivityExecution)newValue);
 				return;
-			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__EXECUTED:
-				setExecuted((Boolean)newValue);
-				return;
 		}
 		eDynamicSet(featureID, newValue);
 	}
@@ -517,6 +571,12 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__INPUTS:
+				getInputs().clear();
+				return;
+			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__OUTPUTS:
+				getOutputs().clear();
+				return;
 			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__LOGICAL_SUCCESSOR:
 				getLogicalSuccessor().clear();
 				return;
@@ -535,9 +595,6 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__ACTIVITY_EXECUTION:
 				setActivityExecution((ActivityExecution)null);
 				return;
-			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__EXECUTED:
-				setExecuted(EXECUTED_EDEFAULT);
-				return;
 		}
 		eDynamicUnset(featureID);
 	}
@@ -550,6 +607,10 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__INPUTS:
+				return inputs != null && !inputs.isEmpty();
+			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__OUTPUTS:
+				return outputs != null && !outputs.isEmpty();
 			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__LOGICAL_SUCCESSOR:
 				return logicalSuccessor != null && !logicalSuccessor.isEmpty();
 			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__LOGICAL_PREDECESSOR:
@@ -562,8 +623,6 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 				return NODE_EDEFAULT == null ? node != null : !NODE_EDEFAULT.equals(node);
 			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__ACTIVITY_EXECUTION:
 				return getActivityExecution() != null;
-			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION__EXECUTED:
-				return executed != EXECUTED_EDEFAULT;
 		}
 		return eDynamicIsSet(featureID);
 	}
@@ -580,13 +639,10 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (node: ");
 		result.append(node);
-		result.append(", executed: ");
-		result.append(executed);
 		result.append(')');
 		return result.toString();
 	}
-/* TODO
-	@Override
+
 	public void addActivityNodeInput(InputPin inputPin, List<TokenInstance> tokenInstances) {
 		Set<TokenInstance> tokens = new HashSet<TokenInstance>(tokenInstances);
 		Input input = new InputImpl();
@@ -595,7 +651,6 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 		this.getInputs().add(input);
 	}
 
-	@Override
 	public void addActivityNodeOutput(OutputPin outputPin, List<TokenInstance> tokenInstances) {	
 		Output output = new OutputImpl();
 		output.setOutputPin(outputPin);
@@ -603,47 +658,6 @@ public class ActivityNodeExecutionImpl extends EObjectImpl implements ActivityNo
 			output.getTokens().addAll(tokenInstances);
 		}
 		this.getOutputs().add(output);				
-	}
-*/	
-	ActivityNodeExecution getDirectTokenProvider(TokenInstance token) {
-		List<ActivityNodeExecution> tokenProvider = this.getActivityExecution().getNodeExecutionsWithTokenOutput(token);
-		List<ActivityEdge> traversedEdges = token.getTraversedEdges();
-		
-		ActivityNodeExecution provider = null;		
-		
-		for (ActivityNodeExecution r : tokenProvider) {
-			for(ActivityEdge e : traversedEdges) {
-				if(e.target.equals(this.node) && e.source.equals(r.getNode())) {
-					provider = r;
-					break;
-				}
-			}
-			if(provider != null) {
-				break;
-			}
-		}
-
-		return provider;
-	}
-
-	ActivityNodeExecution getDirectTokenReceiver(TokenInstance token) {
-		List<ActivityNodeExecution> tokenReceivers = this.getActivityExecution().getNodeExecutionsWithTokenInput(token);
-		List<ActivityEdge> traversedEdges = token.getTraversedEdges();
-		
-		ActivityNodeExecution receiver = null;	
-		
-		for (ActivityNodeExecution r : tokenReceivers) {
-			for(ActivityEdge e : traversedEdges) {
-				if(e.source.equals(this.node) && e.target.equals(r.getNode())) {
-					receiver = r;
-					break;
-				}
-			}
-			if(receiver != null) {
-				break;
-			}
-		}
-		return receiver;
 	}
 
 } //ActivityNodeExecutionImpl

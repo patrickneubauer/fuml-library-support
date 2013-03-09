@@ -13,6 +13,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
+import fUML.Syntax.Actions.BasicActions.InputPin;
+import fUML.Syntax.Actions.BasicActions.OutputPin;
 import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
 
 /**
@@ -23,13 +25,14 @@ import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#getInputs <em>Inputs</em>}</li>
+ *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#getOutputs <em>Outputs</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#getLogicalSuccessor <em>Logical Successor</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#getLogicalPredecessor <em>Logical Predecessor</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#getChronologicalSuccessor <em>Chronological Successor</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#getChronologicalPredecessor <em>Chronological Predecessor</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#getNode <em>Node</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#getActivityExecution <em>Activity Execution</em>}</li>
- *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#isExecuted <em>Executed</em>}</li>
  * </ul>
  * </p>
  *
@@ -42,6 +45,34 @@ public interface ActivityNodeExecution extends EObject {
 	 * @generated
 	 */
 	String copyright = "Copyright (c) 2012 Vienna University of Technology.\r\nAll rights reserved. This program and the accompanying materials are made \r\navailable under the terms of the Eclipse Public License v1.0 which accompanies \r\nthis distribution, and is available at http://www.eclipse.org/legal/epl-v10.html\r\n\r\nContributors:\r\nTanja Mayerhofer - initial API and implementation";
+
+	/**
+	 * Returns the value of the '<em><b>Inputs</b></em>' containment reference list.
+	 * The list contents are of type {@link org.modelexecution.fumldebug.core.trace.tracemodel.Input}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Inputs</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Inputs</em>' containment reference list.
+	 * @generated
+	 */
+	List<Input> getInputs();
+
+	/**
+	 * Returns the value of the '<em><b>Outputs</b></em>' containment reference list.
+	 * The list contents are of type {@link org.modelexecution.fumldebug.core.trace.tracemodel.Output}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Outputs</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Outputs</em>' containment reference list.
+	 * @generated
+	 */
+	List<Output> getOutputs();
 
 	/**
 	 * Returns the value of the '<em><b>Logical Successor</b></em>' reference list.
@@ -178,42 +209,17 @@ public interface ActivityNodeExecution extends EObject {
 	void setActivityExecution(ActivityExecution value);
 
 	/**
-	 * Returns the value of the '<em><b>Executed</b></em>' attribute.
-	 * The default value is <code>"false"</code>.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Executed</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Executed</em>' attribute.
-	 * @see #setExecuted(boolean)
-	 * @generated
-	 */
-	boolean isExecuted();
-
-	/**
-	 * Sets the value of the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#isExecuted <em>Executed</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Executed</em>' attribute.
-	 * @see #isExecuted()
-	 * @generated
-	 */
-	void setExecuted(boolean value);
-
-	/**
 	 * Adds a list of {@link TokenInstance} as input
 	 * @param inputPin
 	 * @param tokenInstances
 	 */
-//TODO	void addActivityNodeInput(InputPin inputPin, List<TokenInstance> tokenInstances);
+	void addActivityNodeInput(InputPin inputPin, List<TokenInstance> tokenInstances);
 	
 	/**
 	 * Adds a list of {@link TokenInstance} as output
 	 * @param outputPin
 	 * @param tokenInstances
 	 */
-//TODO	void addActivityNodeOutput(OutputPin outputPin, List<TokenInstance> tokenInstances);
+	void addActivityNodeOutput(OutputPin outputPin, List<TokenInstance> tokenInstances);
 	
 } // ActivityNodeExecution

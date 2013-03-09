@@ -9,19 +9,21 @@
  */
 package org.modelexecution.fumldebug.core.trace.tracemodel.impl;
 
+import fUML.Syntax.Actions.BasicActions.InputPin;
+
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+
 import org.eclipse.emf.ecore.util.BasicInternalEList;
+
 import org.modelexecution.fumldebug.core.trace.tracemodel.Input;
 import org.modelexecution.fumldebug.core.trace.tracemodel.TokenInstance;
-import org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstanceSnapshot;
-
-import fUML.Syntax.Actions.BasicActions.InputPin;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,7 +34,6 @@ import fUML.Syntax.Actions.BasicActions.InputPin;
  * <ul>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.InputImpl#getTokens <em>Tokens</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.InputImpl#getInputPin <em>Input Pin</em>}</li>
- *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.InputImpl#getConsumedValue <em>Consumed Value</em>}</li>
  * </ul>
  * </p>
  *
@@ -75,16 +76,6 @@ public class InputImpl extends EObjectImpl implements Input {
 	 * @ordered
 	 */
 	protected InputPin inputPin = INPUT_PIN_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getConsumedValue() <em>Consumed Value</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getConsumedValue()
-	 * @generated
-	 * @ordered
-	 */
-	protected ValueInstanceSnapshot consumedValue;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -140,39 +131,6 @@ public class InputImpl extends EObjectImpl implements Input {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ValueInstanceSnapshot getConsumedValue() {
-		if (consumedValue != null && consumedValue.eIsProxy()) {
-			InternalEObject oldConsumedValue = (InternalEObject)consumedValue;
-			consumedValue = (ValueInstanceSnapshot)eResolveProxy(oldConsumedValue);
-			if (consumedValue != oldConsumedValue) {
-			}
-		}
-		return consumedValue;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ValueInstanceSnapshot basicGetConsumedValue() {
-		return consumedValue;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setConsumedValue(ValueInstanceSnapshot newConsumedValue) {
-		consumedValue = newConsumedValue;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -180,9 +138,6 @@ public class InputImpl extends EObjectImpl implements Input {
 				return getTokens();
 			case TracemodelPackageImpl.INPUT__INPUT_PIN:
 				return getInputPin();
-			case TracemodelPackageImpl.INPUT__CONSUMED_VALUE:
-				if (resolve) return getConsumedValue();
-				return basicGetConsumedValue();
 		}
 		return eDynamicGet(featureID, resolve, coreType);
 	}
@@ -203,9 +158,6 @@ public class InputImpl extends EObjectImpl implements Input {
 			case TracemodelPackageImpl.INPUT__INPUT_PIN:
 				setInputPin((InputPin)newValue);
 				return;
-			case TracemodelPackageImpl.INPUT__CONSUMED_VALUE:
-				setConsumedValue((ValueInstanceSnapshot)newValue);
-				return;
 		}
 		eDynamicSet(featureID, newValue);
 	}
@@ -224,9 +176,6 @@ public class InputImpl extends EObjectImpl implements Input {
 			case TracemodelPackageImpl.INPUT__INPUT_PIN:
 				setInputPin(INPUT_PIN_EDEFAULT);
 				return;
-			case TracemodelPackageImpl.INPUT__CONSUMED_VALUE:
-				setConsumedValue((ValueInstanceSnapshot)null);
-				return;
 		}
 		eDynamicUnset(featureID);
 	}
@@ -243,8 +192,6 @@ public class InputImpl extends EObjectImpl implements Input {
 				return tokens != null && !tokens.isEmpty();
 			case TracemodelPackageImpl.INPUT__INPUT_PIN:
 				return INPUT_PIN_EDEFAULT == null ? inputPin != null : !INPUT_PIN_EDEFAULT.equals(inputPin);
-			case TracemodelPackageImpl.INPUT__CONSUMED_VALUE:
-				return consumedValue != null;
 		}
 		return eDynamicIsSet(featureID);
 	}

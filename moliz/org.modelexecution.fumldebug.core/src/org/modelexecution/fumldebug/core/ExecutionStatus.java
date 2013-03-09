@@ -227,5 +227,4 @@ public class ExecutionStatus {
 	public List<ActivityEdge> getTraversedActivityEdges(Token token) {
 		return edgeTraversal.get(token);
 	}
-	
 }

@@ -9,37 +9,41 @@
  */
 package org.modelexecution.fumldebug.core.trace.tracemodel.impl;
 
+import fUML.Semantics.Classes.Kernel.Value;
+
+import fUML.Syntax.Actions.BasicActions.InputPin;
+import fUML.Syntax.Actions.BasicActions.OutputPin;
+
+import fUML.Syntax.Activities.IntermediateActivities.Activity;
+import fUML.Syntax.Activities.IntermediateActivities.ActivityEdge;
+import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
+import fUML.Syntax.Activities.IntermediateActivities.ActivityParameterNode;
+
+import fUML.Syntax.CommonBehaviors.BasicBehaviors.Behavior;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.modelexecution.fumldebug.core.trace.tracemodel.ActionExecution;
+
 import org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution;
 import org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution;
-import org.modelexecution.fumldebug.core.trace.tracemodel.CallActionExecution;
-import org.modelexecution.fumldebug.core.trace.tracemodel.ControlNodeExecution;
+import org.modelexecution.fumldebug.core.trace.tracemodel.CallActivityNodeExecution;
 import org.modelexecution.fumldebug.core.trace.tracemodel.ControlTokenInstance;
 import org.modelexecution.fumldebug.core.trace.tracemodel.Input;
 import org.modelexecution.fumldebug.core.trace.tracemodel.ObjectTokenInstance;
 import org.modelexecution.fumldebug.core.trace.tracemodel.Output;
+import org.modelexecution.fumldebug.core.trace.tracemodel.ParameterInput;
+import org.modelexecution.fumldebug.core.trace.tracemodel.ParameterOutput;
 import org.modelexecution.fumldebug.core.trace.tracemodel.TokenInstance;
 import org.modelexecution.fumldebug.core.trace.tracemodel.Trace;
 import org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelFactory;
 import org.modelexecution.fumldebug.core.trace.tracemodel.UserParameterInput;
 import org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstance;
-import org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstanceSnapshot;
-
-import fUML.Semantics.Classes.Kernel.Value;
-import fUML.Syntax.Actions.BasicActions.InputPin;
-import fUML.Syntax.Actions.BasicActions.OutputPin;
-import fUML.Syntax.Activities.IntermediateActivities.Activity;
-import fUML.Syntax.Activities.IntermediateActivities.ActivityEdge;
-import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
-import fUML.Syntax.Activities.IntermediateActivities.ActivityParameterNode;
-import fUML.Syntax.CommonBehaviors.BasicBehaviors.Behavior;
 
 /**
  * <!-- begin-user-doc -->
@@ -134,13 +138,22 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	public static final int ACTIVITY_EXECUTION = 1;
 
 	/**
-	 * The feature id for the '<em><b>User Parameter Inputs</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameter Inputs</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ACTIVITY_EXECUTION__USER_PARAMETER_INPUTS = 0;
+	public static final int ACTIVITY_EXECUTION__PARAMETER_INPUTS = 0;
+
+	/**
+	 * The feature id for the '<em><b>Parameter Outputs</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int ACTIVITY_EXECUTION__PARAMETER_OUTPUTS = 1;
 
 	/**
 	 * The feature id for the '<em><b>Node Executions</b></em>' containment reference list.
@@ -149,7 +162,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ACTIVITY_EXECUTION__NODE_EXECUTIONS = 1;
+	public static final int ACTIVITY_EXECUTION__NODE_EXECUTIONS = 2;
 
 	/**
 	 * The feature id for the '<em><b>Caller</b></em>' reference.
@@ -158,7 +171,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ACTIVITY_EXECUTION__CALLER = 2;
+	public static final int ACTIVITY_EXECUTION__CALLER = 3;
 
 	/**
 	 * The feature id for the '<em><b>Activity</b></em>' attribute.
@@ -167,7 +180,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ACTIVITY_EXECUTION__ACTIVITY = 3;
+	public static final int ACTIVITY_EXECUTION__ACTIVITY = 4;
 
 	/**
 	 * The feature id for the '<em><b>Activity Execution ID</b></em>' attribute.
@@ -176,16 +189,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ACTIVITY_EXECUTION__ACTIVITY_EXECUTION_ID = 4;
-
-	/**
-	 * The feature id for the '<em><b>Trace</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int ACTIVITY_EXECUTION__TRACE = 5;
+	public static final int ACTIVITY_EXECUTION__ACTIVITY_EXECUTION_ID = 5;
 
 	/**
 	 * The number of structural features of the '<em>Activity Execution</em>' class.
@@ -207,13 +211,31 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	public static final int ACTIVITY_NODE_EXECUTION = 2;
 
 	/**
+	 * The feature id for the '<em><b>Inputs</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int ACTIVITY_NODE_EXECUTION__INPUTS = 0;
+
+	/**
+	 * The feature id for the '<em><b>Outputs</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int ACTIVITY_NODE_EXECUTION__OUTPUTS = 1;
+
+	/**
 	 * The feature id for the '<em><b>Logical Successor</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ACTIVITY_NODE_EXECUTION__LOGICAL_SUCCESSOR = 0;
+	public static final int ACTIVITY_NODE_EXECUTION__LOGICAL_SUCCESSOR = 2;
 
 	/**
 	 * The feature id for the '<em><b>Logical Predecessor</b></em>' reference list.
@@ -222,7 +244,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ACTIVITY_NODE_EXECUTION__LOGICAL_PREDECESSOR = 1;
+	public static final int ACTIVITY_NODE_EXECUTION__LOGICAL_PREDECESSOR = 3;
 
 	/**
 	 * The feature id for the '<em><b>Chronological Successor</b></em>' reference.
@@ -231,7 +253,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ACTIVITY_NODE_EXECUTION__CHRONOLOGICAL_SUCCESSOR = 2;
+	public static final int ACTIVITY_NODE_EXECUTION__CHRONOLOGICAL_SUCCESSOR = 4;
 
 	/**
 	 * The feature id for the '<em><b>Chronological Predecessor</b></em>' reference.
@@ -240,7 +262,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ACTIVITY_NODE_EXECUTION__CHRONOLOGICAL_PREDECESSOR = 3;
+	public static final int ACTIVITY_NODE_EXECUTION__CHRONOLOGICAL_PREDECESSOR = 5;
 
 	/**
 	 * The feature id for the '<em><b>Node</b></em>' attribute.
@@ -249,7 +271,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ACTIVITY_NODE_EXECUTION__NODE = 4;
+	public static final int ACTIVITY_NODE_EXECUTION__NODE = 6;
 
 	/**
 	 * The feature id for the '<em><b>Activity Execution</b></em>' container reference.
@@ -258,16 +280,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ACTIVITY_NODE_EXECUTION__ACTIVITY_EXECUTION = 5;
-
-	/**
-	 * The feature id for the '<em><b>Executed</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int ACTIVITY_NODE_EXECUTION__EXECUTED = 6;
+	public static final int ACTIVITY_NODE_EXECUTION__ACTIVITY_EXECUTION = 7;
 
 	/**
 	 * The number of structural features of the '<em>Activity Node Execution</em>' class.
@@ -276,80 +289,17 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ACTIVITY_NODE_EXECUTION_FEATURE_COUNT = 7;
+	public static final int ACTIVITY_NODE_EXECUTION_FEATURE_COUNT = 8;
 
 	/**
-	 * The meta object id for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ActionExecutionImpl <em>Action Execution</em>}' class.
+	 * The meta object id for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.CallActivityNodeExecutionImpl <em>Call Activity Node Execution</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.ActionExecutionImpl
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getActionExecution()
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.CallActivityNodeExecutionImpl
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getCallActivityNodeExecution()
 	 * @generated
 	 */
-	public static final int ACTION_EXECUTION = 11;
-
-	/**
-	 * The feature id for the '<em><b>Logical Successor</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int ACTION_EXECUTION__LOGICAL_SUCCESSOR = ACTIVITY_NODE_EXECUTION__LOGICAL_SUCCESSOR;
-
-	/**
-	 * The feature id for the '<em><b>Logical Predecessor</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int ACTION_EXECUTION__LOGICAL_PREDECESSOR = ACTIVITY_NODE_EXECUTION__LOGICAL_PREDECESSOR;
-
-	/**
-	 * The feature id for the '<em><b>Chronological Successor</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int ACTION_EXECUTION__CHRONOLOGICAL_SUCCESSOR = ACTIVITY_NODE_EXECUTION__CHRONOLOGICAL_SUCCESSOR;
-
-	/**
-	 * The feature id for the '<em><b>Chronological Predecessor</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int ACTION_EXECUTION__CHRONOLOGICAL_PREDECESSOR = ACTIVITY_NODE_EXECUTION__CHRONOLOGICAL_PREDECESSOR;
-
-	/**
-	 * The feature id for the '<em><b>Node</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int ACTION_EXECUTION__NODE = ACTIVITY_NODE_EXECUTION__NODE;
-
-	/**
-	 * The feature id for the '<em><b>Activity Execution</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int ACTION_EXECUTION__ACTIVITY_EXECUTION = ACTIVITY_NODE_EXECUTION__ACTIVITY_EXECUTION;
-
-	/**
-	 * The feature id for the '<em><b>Executed</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int ACTION_EXECUTION__EXECUTED = ACTIVITY_NODE_EXECUTION__EXECUTED;
+	public static final int CALL_ACTIVITY_NODE_EXECUTION = 3;
 
 	/**
 	 * The feature id for the '<em><b>Inputs</b></em>' containment reference list.
@@ -358,7 +308,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ACTION_EXECUTION__INPUTS = ACTIVITY_NODE_EXECUTION_FEATURE_COUNT + 0;
+	public static final int CALL_ACTIVITY_NODE_EXECUTION__INPUTS = ACTIVITY_NODE_EXECUTION__INPUTS;
 
 	/**
 	 * The feature id for the '<em><b>Outputs</b></em>' containment reference list.
@@ -367,26 +317,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ACTION_EXECUTION__OUTPUTS = ACTIVITY_NODE_EXECUTION_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Action Execution</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int ACTION_EXECUTION_FEATURE_COUNT = ACTIVITY_NODE_EXECUTION_FEATURE_COUNT + 2;
-
-	/**
-	 * The meta object id for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.CallActionExecutionImpl <em>Call Action Execution</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.CallActionExecutionImpl
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getCallActionExecution()
-	 * @generated
-	 */
-	public static final int CALL_ACTION_EXECUTION = 3;
+	public static final int CALL_ACTIVITY_NODE_EXECUTION__OUTPUTS = ACTIVITY_NODE_EXECUTION__OUTPUTS;
 
 	/**
 	 * The feature id for the '<em><b>Logical Successor</b></em>' reference list.
@@ -395,7 +326,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CALL_ACTION_EXECUTION__LOGICAL_SUCCESSOR = ACTION_EXECUTION__LOGICAL_SUCCESSOR;
+	public static final int CALL_ACTIVITY_NODE_EXECUTION__LOGICAL_SUCCESSOR = ACTIVITY_NODE_EXECUTION__LOGICAL_SUCCESSOR;
 
 	/**
 	 * The feature id for the '<em><b>Logical Predecessor</b></em>' reference list.
@@ -404,7 +335,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CALL_ACTION_EXECUTION__LOGICAL_PREDECESSOR = ACTION_EXECUTION__LOGICAL_PREDECESSOR;
+	public static final int CALL_ACTIVITY_NODE_EXECUTION__LOGICAL_PREDECESSOR = ACTIVITY_NODE_EXECUTION__LOGICAL_PREDECESSOR;
 
 	/**
 	 * The feature id for the '<em><b>Chronological Successor</b></em>' reference.
@@ -413,7 +344,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CALL_ACTION_EXECUTION__CHRONOLOGICAL_SUCCESSOR = ACTION_EXECUTION__CHRONOLOGICAL_SUCCESSOR;
+	public static final int CALL_ACTIVITY_NODE_EXECUTION__CHRONOLOGICAL_SUCCESSOR = ACTIVITY_NODE_EXECUTION__CHRONOLOGICAL_SUCCESSOR;
 
 	/**
 	 * The feature id for the '<em><b>Chronological Predecessor</b></em>' reference.
@@ -422,7 +353,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CALL_ACTION_EXECUTION__CHRONOLOGICAL_PREDECESSOR = ACTION_EXECUTION__CHRONOLOGICAL_PREDECESSOR;
+	public static final int CALL_ACTIVITY_NODE_EXECUTION__CHRONOLOGICAL_PREDECESSOR = ACTIVITY_NODE_EXECUTION__CHRONOLOGICAL_PREDECESSOR;
 
 	/**
 	 * The feature id for the '<em><b>Node</b></em>' attribute.
@@ -431,7 +362,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CALL_ACTION_EXECUTION__NODE = ACTION_EXECUTION__NODE;
+	public static final int CALL_ACTIVITY_NODE_EXECUTION__NODE = ACTIVITY_NODE_EXECUTION__NODE;
 
 	/**
 	 * The feature id for the '<em><b>Activity Execution</b></em>' container reference.
@@ -440,34 +371,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CALL_ACTION_EXECUTION__ACTIVITY_EXECUTION = ACTION_EXECUTION__ACTIVITY_EXECUTION;
-
-	/**
-	 * The feature id for the '<em><b>Executed</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int CALL_ACTION_EXECUTION__EXECUTED = ACTION_EXECUTION__EXECUTED;
-
-	/**
-	 * The feature id for the '<em><b>Inputs</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int CALL_ACTION_EXECUTION__INPUTS = ACTION_EXECUTION__INPUTS;
-
-	/**
-	 * The feature id for the '<em><b>Outputs</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int CALL_ACTION_EXECUTION__OUTPUTS = ACTION_EXECUTION__OUTPUTS;
+	public static final int CALL_ACTIVITY_NODE_EXECUTION__ACTIVITY_EXECUTION = ACTIVITY_NODE_EXECUTION__ACTIVITY_EXECUTION;
 
 	/**
 	 * The feature id for the '<em><b>Callee</b></em>' reference.
@@ -476,16 +380,62 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CALL_ACTION_EXECUTION__CALLEE = ACTION_EXECUTION_FEATURE_COUNT + 0;
+	public static final int CALL_ACTIVITY_NODE_EXECUTION__CALLEE = ACTIVITY_NODE_EXECUTION_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Call Action Execution</em>' class.
+	 * The feature id for the '<em><b>Called Behavior</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CALL_ACTION_EXECUTION_FEATURE_COUNT = ACTION_EXECUTION_FEATURE_COUNT + 1;
+	public static final int CALL_ACTIVITY_NODE_EXECUTION__CALLED_BEHAVIOR = ACTIVITY_NODE_EXECUTION_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Call Activity Node Execution</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int CALL_ACTIVITY_NODE_EXECUTION_FEATURE_COUNT = ACTIVITY_NODE_EXECUTION_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ParameterInputImpl <em>Parameter Input</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.ParameterInputImpl
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getParameterInput()
+	 * @generated
+	 */
+	public static final int PARAMETER_INPUT = 5;
+
+	/**
+	 * The feature id for the '<em><b>Parameter Input Tokens</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PARAMETER_INPUT__PARAMETER_INPUT_TOKENS = 0;
+
+	/**
+	 * The feature id for the '<em><b>Input Parameter Node</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PARAMETER_INPUT__INPUT_PARAMETER_NODE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Parameter Input</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PARAMETER_INPUT_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.UserParameterInputImpl <em>User Parameter Input</em>}' class.
@@ -498,13 +448,13 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	public static final int USER_PARAMETER_INPUT = 4;
 
 	/**
-	 * The feature id for the '<em><b>User Input Tokens</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameter Input Tokens</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	public static final int USER_PARAMETER_INPUT__USER_INPUT_TOKENS = 0;
+	public static final int USER_PARAMETER_INPUT__PARAMETER_INPUT_TOKENS = PARAMETER_INPUT__PARAMETER_INPUT_TOKENS;
 
 	/**
 	 * The feature id for the '<em><b>Input Parameter Node</b></em>' attribute.
@@ -513,7 +463,16 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int USER_PARAMETER_INPUT__INPUT_PARAMETER_NODE = 1;
+	public static final int USER_PARAMETER_INPUT__INPUT_PARAMETER_NODE = PARAMETER_INPUT__INPUT_PARAMETER_NODE;
+
+	/**
+	 * The feature id for the '<em><b>User Input Tokens</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int USER_PARAMETER_INPUT__USER_INPUT_TOKENS = PARAMETER_INPUT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>User Parameter Input</em>' class.
@@ -522,7 +481,44 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int USER_PARAMETER_INPUT_FEATURE_COUNT = 2;
+	public static final int USER_PARAMETER_INPUT_FEATURE_COUNT = PARAMETER_INPUT_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ParameterOutputImpl <em>Parameter Output</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.ParameterOutputImpl
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getParameterOutput()
+	 * @generated
+	 */
+	public static final int PARAMETER_OUTPUT = 6;
+
+	/**
+	 * The feature id for the '<em><b>Parameter Output Tokens</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PARAMETER_OUTPUT__PARAMETER_OUTPUT_TOKENS = 0;
+
+	/**
+	 * The feature id for the '<em><b>Output Parameter Node</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PARAMETER_OUTPUT__OUTPUT_PARAMETER_NODE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Parameter Output</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PARAMETER_OUTPUT_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.InputImpl <em>Input</em>}' class.
@@ -532,7 +528,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getInput()
 	 * @generated
 	 */
-	public static final int INPUT = 5;
+	public static final int INPUT = 7;
 
 	/**
 	 * The feature id for the '<em><b>Tokens</b></em>' reference list.
@@ -553,22 +549,13 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	public static final int INPUT__INPUT_PIN = 1;
 
 	/**
-	 * The feature id for the '<em><b>Consumed Value</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int INPUT__CONSUMED_VALUE = 2;
-
-	/**
 	 * The number of structural features of the '<em>Input</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	public static final int INPUT_FEATURE_COUNT = 3;
+	public static final int INPUT_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.OutputImpl <em>Output</em>}' class.
@@ -578,7 +565,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getOutput()
 	 * @generated
 	 */
-	public static final int OUTPUT = 6;
+	public static final int OUTPUT = 8;
 
 	/**
 	 * The feature id for the '<em><b>Tokens</b></em>' containment reference list.
@@ -615,7 +602,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getTokenInstance()
 	 * @generated
 	 */
-	public static final int TOKEN_INSTANCE = 7;
+	public static final int TOKEN_INSTANCE = 9;
 
 	/**
 	 * The feature id for the '<em><b>Traversed Edges</b></em>' attribute list.
@@ -643,7 +630,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getObjectTokenInstance()
 	 * @generated
 	 */
-	public static final int OBJECT_TOKEN_INSTANCE = 8;
+	public static final int OBJECT_TOKEN_INSTANCE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Traversed Edges</b></em>' attribute list.
@@ -655,13 +642,13 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	public static final int OBJECT_TOKEN_INSTANCE__TRAVERSED_EDGES = TOKEN_INSTANCE__TRAVERSED_EDGES;
 
 	/**
-	 * The feature id for the '<em><b>Value Instance</b></em>' containment reference.
+	 * The feature id for the '<em><b>Value</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	public static final int OBJECT_TOKEN_INSTANCE__VALUE_INSTANCE = TOKEN_INSTANCE_FEATURE_COUNT + 0;
+	public static final int OBJECT_TOKEN_INSTANCE__VALUE = TOKEN_INSTANCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Object Token Instance</em>' class.
@@ -680,7 +667,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getControlTokenInstance()
 	 * @generated
 	 */
-	public static final int CONTROL_TOKEN_INSTANCE = 9;
+	public static final int CONTROL_TOKEN_INSTANCE = 11;
 
 	/**
 	 * The feature id for the '<em><b>Traversed Edges</b></em>' attribute list.
@@ -708,144 +695,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getValueInstance()
 	 * @generated
 	 */
-	public static final int VALUE_INSTANCE = 10;
-
-	/**
-	 * The feature id for the '<em><b>Snapshots</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int VALUE_INSTANCE__SNAPSHOTS = 0;
-
-	/**
-	 * The feature id for the '<em><b>Original</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int VALUE_INSTANCE__ORIGINAL = 1;
-
-	/**
-	 * The feature id for the '<em><b>Value ID</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int VALUE_INSTANCE__VALUE_ID = 2;
-
-	/**
-	 * The number of structural features of the '<em>Value Instance</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int VALUE_INSTANCE_FEATURE_COUNT = 3;
-
-	/**
-	 * The meta object id for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ControlNodeExecutionImpl <em>Control Node Execution</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.ControlNodeExecutionImpl
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getControlNodeExecution()
-	 * @generated
-	 */
-	public static final int CONTROL_NODE_EXECUTION = 12;
-
-	/**
-	 * The feature id for the '<em><b>Logical Successor</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int CONTROL_NODE_EXECUTION__LOGICAL_SUCCESSOR = ACTIVITY_NODE_EXECUTION__LOGICAL_SUCCESSOR;
-
-	/**
-	 * The feature id for the '<em><b>Logical Predecessor</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int CONTROL_NODE_EXECUTION__LOGICAL_PREDECESSOR = ACTIVITY_NODE_EXECUTION__LOGICAL_PREDECESSOR;
-
-	/**
-	 * The feature id for the '<em><b>Chronological Successor</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int CONTROL_NODE_EXECUTION__CHRONOLOGICAL_SUCCESSOR = ACTIVITY_NODE_EXECUTION__CHRONOLOGICAL_SUCCESSOR;
-
-	/**
-	 * The feature id for the '<em><b>Chronological Predecessor</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int CONTROL_NODE_EXECUTION__CHRONOLOGICAL_PREDECESSOR = ACTIVITY_NODE_EXECUTION__CHRONOLOGICAL_PREDECESSOR;
-
-	/**
-	 * The feature id for the '<em><b>Node</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int CONTROL_NODE_EXECUTION__NODE = ACTIVITY_NODE_EXECUTION__NODE;
-
-	/**
-	 * The feature id for the '<em><b>Activity Execution</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int CONTROL_NODE_EXECUTION__ACTIVITY_EXECUTION = ACTIVITY_NODE_EXECUTION__ACTIVITY_EXECUTION;
-
-	/**
-	 * The feature id for the '<em><b>Executed</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int CONTROL_NODE_EXECUTION__EXECUTED = ACTIVITY_NODE_EXECUTION__EXECUTED;
-
-	/**
-	 * The feature id for the '<em><b>Routed Tokens</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int CONTROL_NODE_EXECUTION__ROUTED_TOKENS = ACTIVITY_NODE_EXECUTION_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Control Node Execution</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int CONTROL_NODE_EXECUTION_FEATURE_COUNT = ACTIVITY_NODE_EXECUTION_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ValueInstanceSnapshotImpl <em>Value Instance Snapshot</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.ValueInstanceSnapshotImpl
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getValueInstanceSnapshot()
-	 * @generated
-	 */
-	public static final int VALUE_INSTANCE_SNAPSHOT = 13;
+	public static final int VALUE_INSTANCE = 12;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -854,16 +704,16 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int VALUE_INSTANCE_SNAPSHOT__VALUE = 0;
+	public static final int VALUE_INSTANCE__VALUE = 0;
 
 	/**
-	 * The number of structural features of the '<em>Value Instance Snapshot</em>' class.
+	 * The number of structural features of the '<em>Value Instance</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	public static final int VALUE_INSTANCE_SNAPSHOT_FEATURE_COUNT = 1;
+	public static final int VALUE_INSTANCE_FEATURE_COUNT = 1;
 
 	/**
 	 * The meta object id for the '<em>Activity</em>' data type.
@@ -873,7 +723,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getActivity()
 	 * @generated
 	 */
-	public static final int ACTIVITY = 14;
+	public static final int ACTIVITY = 13;
 
 	/**
 	 * The meta object id for the '<em>Activity Node</em>' data type.
@@ -883,7 +733,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getActivityNode()
 	 * @generated
 	 */
-	public static final int ACTIVITY_NODE = 15;
+	public static final int ACTIVITY_NODE = 14;
 
 	/**
 	 * The meta object id for the '<em>Behavior</em>' data type.
@@ -893,7 +743,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getBehavior()
 	 * @generated
 	 */
-	public static final int BEHAVIOR = 16;
+	public static final int BEHAVIOR = 15;
 
 	/**
 	 * The meta object id for the '<em>Activity Parameter Node</em>' data type.
@@ -903,7 +753,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getActivityParameterNode()
 	 * @generated
 	 */
-	public static final int ACTIVITY_PARAMETER_NODE = 17;
+	public static final int ACTIVITY_PARAMETER_NODE = 16;
 
 	/**
 	 * The meta object id for the '<em>Input Pin</em>' data type.
@@ -913,7 +763,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getInputPin()
 	 * @generated
 	 */
-	public static final int INPUT_PIN = 18;
+	public static final int INPUT_PIN = 17;
 
 	/**
 	 * The meta object id for the '<em>Output Pin</em>' data type.
@@ -923,7 +773,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getOutputPin()
 	 * @generated
 	 */
-	public static final int OUTPUT_PIN = 19;
+	public static final int OUTPUT_PIN = 18;
 
 	/**
 	 * The meta object id for the '<em>Activity Edge</em>' data type.
@@ -933,7 +783,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getActivityEdge()
 	 * @generated
 	 */
-	public static final int ACTIVITY_EDGE = 20;
+	public static final int ACTIVITY_EDGE = 19;
 
 	/**
 	 * The meta object id for the '<em>Value</em>' data type.
@@ -943,7 +793,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getValue()
 	 * @generated
 	 */
-	public static final int VALUE = 21;
+	public static final int VALUE = 20;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -971,7 +821,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass callActionExecutionEClass = null;
+	private EClass callActivityNodeExecutionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -979,6 +829,20 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 */
 	private EClass userParameterInputEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass parameterInputEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass parameterOutputEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1021,27 +885,6 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 */
 	private EClass valueInstanceEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass actionExecutionEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass controlNodeExecutionEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass valueInstanceSnapshotEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1199,18 +1042,30 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getUserParameterInputs <em>User Parameter Inputs</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getParameterInputs <em>Parameter Inputs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>User Parameter Inputs</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getUserParameterInputs()
+	 * @return the meta object for the containment reference list '<em>Parameter Inputs</em>'.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getParameterInputs()
 	 * @see #getActivityExecution()
 	 * @generated
 	 */
-	public EReference getActivityExecution_UserParameterInputs() {
+	public EReference getActivityExecution_ParameterInputs() {
 		return (EReference)activityExecutionEClass.getEStructuralFeatures().get(0);
 	}
 
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getParameterOutputs <em>Parameter Outputs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Parameter Outputs</em>'.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getParameterOutputs()
+	 * @see #getActivityExecution()
+	 * @generated
+	 */
+	public EReference getActivityExecution_ParameterOutputs() {
+		return (EReference)activityExecutionEClass.getEStructuralFeatures().get(1);
+	}
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getNodeExecutions <em>Node Executions</em>}'.
@@ -1222,7 +1077,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 */
 	public EReference getActivityExecution_NodeExecutions() {
-		return (EReference)activityExecutionEClass.getEStructuralFeatures().get(1);
+		return (EReference)activityExecutionEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1235,7 +1090,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 */
 	public EReference getActivityExecution_Caller() {
-		return (EReference)activityExecutionEClass.getEStructuralFeatures().get(2);
+		return (EReference)activityExecutionEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1248,7 +1103,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 */
 	public EAttribute getActivityExecution_Activity() {
-		return (EAttribute)activityExecutionEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)activityExecutionEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -1261,21 +1116,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 */
 	public EAttribute getActivityExecution_ActivityExecutionID() {
-		return (EAttribute)activityExecutionEClass.getEStructuralFeatures().get(4);
-	}
-
-
-	/**
-	 * Returns the meta object for the container reference '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getTrace <em>Trace</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Trace</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getTrace()
-	 * @see #getActivityExecution()
-	 * @generated
-	 */
-	public EReference getActivityExecution_Trace() {
-		return (EReference)activityExecutionEClass.getEStructuralFeatures().get(5);
+		return (EAttribute)activityExecutionEClass.getEStructuralFeatures().get(5);
 	}
 
 
@@ -1292,6 +1133,32 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	}
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#getInputs <em>Inputs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Inputs</em>'.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#getInputs()
+	 * @see #getActivityNodeExecution()
+	 * @generated
+	 */
+	public EReference getActivityNodeExecution_Inputs() {
+		return (EReference)activityNodeExecutionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#getOutputs <em>Outputs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Outputs</em>'.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#getOutputs()
+	 * @see #getActivityNodeExecution()
+	 * @generated
+	 */
+	public EReference getActivityNodeExecution_Outputs() {
+		return (EReference)activityNodeExecutionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
 	 * Returns the meta object for the reference list '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#getLogicalSuccessor <em>Logical Successor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1301,7 +1168,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 */
 	public EReference getActivityNodeExecution_LogicalSuccessor() {
-		return (EReference)activityNodeExecutionEClass.getEStructuralFeatures().get(0);
+		return (EReference)activityNodeExecutionEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1314,7 +1181,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 */
 	public EReference getActivityNodeExecution_LogicalPredecessor() {
-		return (EReference)activityNodeExecutionEClass.getEStructuralFeatures().get(1);
+		return (EReference)activityNodeExecutionEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1327,7 +1194,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 */
 	public EReference getActivityNodeExecution_ChronologicalSuccessor() {
-		return (EReference)activityNodeExecutionEClass.getEStructuralFeatures().get(2);
+		return (EReference)activityNodeExecutionEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -1340,7 +1207,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 */
 	public EReference getActivityNodeExecution_ChronologicalPredecessor() {
-		return (EReference)activityNodeExecutionEClass.getEStructuralFeatures().get(3);
+		return (EReference)activityNodeExecutionEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -1353,7 +1220,7 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 */
 	public EAttribute getActivityNodeExecution_Node() {
-		return (EAttribute)activityNodeExecutionEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)activityNodeExecutionEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -1366,50 +1233,47 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	 * @generated
 	 */
 	public EReference getActivityNodeExecution_ActivityExecution() {
-		return (EReference)activityNodeExecutionEClass.getEStructuralFeatures().get(5);
+		return (EReference)activityNodeExecutionEClass.getEStructuralFeatures().get(7);
 	}
 
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#isExecuted <em>Executed</em>}'.
+	 * Returns the meta object for class '{@link org.modelexecution.fumldebug.core.trace.tracemodel.CallActivityNodeExecution <em>Call Activity Node Execution</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Executed</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#isExecuted()
-	 * @see #getActivityNodeExecution()
+	 * @return the meta object for class '<em>Call Activity Node Execution</em>'.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.CallActivityNodeExecution
 	 * @generated
 	 */
-	public EAttribute getActivityNodeExecution_Executed() {
-		return (EAttribute)activityNodeExecutionEClass.getEStructuralFeatures().get(6);
+	public EClass getCallActivityNodeExecution() {
+		return callActivityNodeExecutionEClass;
 	}
 
-
 	/**
-	 * Returns the meta object for class '{@link org.modelexecution.fumldebug.core.trace.tracemodel.CallActionExecution <em>Call Action Execution</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Call Action Execution</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.CallActionExecution
-	 * @generated
-	 */
-	public EClass getCallActionExecution() {
-		return callActionExecutionEClass;
-	}
-
-
-	/**
-	 * Returns the meta object for the reference '{@link org.modelexecution.fumldebug.core.trace.tracemodel.CallActionExecution#getCallee <em>Callee</em>}'.
+	 * Returns the meta object for the reference '{@link org.modelexecution.fumldebug.core.trace.tracemodel.CallActivityNodeExecution#getCallee <em>Callee</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Callee</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.CallActionExecution#getCallee()
-	 * @see #getCallActionExecution()
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.CallActivityNodeExecution#getCallee()
+	 * @see #getCallActivityNodeExecution()
 	 * @generated
 	 */
-	public EReference getCallActionExecution_Callee() {
-		return (EReference)callActionExecutionEClass.getEStructuralFeatures().get(0);
+	public EReference getCallActivityNodeExecution_Callee() {
+		return (EReference)callActivityNodeExecutionEClass.getEStructuralFeatures().get(0);
 	}
 
+	/**
+	 * Returns the meta object for the attribute '{@link org.modelexecution.fumldebug.core.trace.tracemodel.CallActivityNodeExecution#getCalledBehavior <em>Called Behavior</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Called Behavior</em>'.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.CallActivityNodeExecution#getCalledBehavior()
+	 * @see #getCallActivityNodeExecution()
+	 * @generated
+	 */
+	public EAttribute getCallActivityNodeExecution_CalledBehavior() {
+		return (EAttribute)callActivityNodeExecutionEClass.getEStructuralFeatures().get(1);
+	}
 
 	/**
 	 * Returns the meta object for class '{@link org.modelexecution.fumldebug.core.trace.tracemodel.UserParameterInput <em>User Parameter Input</em>}'.
@@ -1437,18 +1301,80 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.modelexecution.fumldebug.core.trace.tracemodel.UserParameterInput#getInputParameterNode <em>Input Parameter Node</em>}'.
+	 * Returns the meta object for class '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ParameterInput <em>Parameter Input</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Parameter Input</em>'.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ParameterInput
+	 * @generated
+	 */
+	public EClass getParameterInput() {
+		return parameterInputEClass;
+	}
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ParameterInput#getParameterInputTokens <em>Parameter Input Tokens</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Parameter Input Tokens</em>'.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ParameterInput#getParameterInputTokens()
+	 * @see #getParameterInput()
+	 * @generated
+	 */
+	public EReference getParameterInput_ParameterInputTokens() {
+		return (EReference)parameterInputEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ParameterInput#getInputParameterNode <em>Input Parameter Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Input Parameter Node</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.UserParameterInput#getInputParameterNode()
-	 * @see #getUserParameterInput()
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ParameterInput#getInputParameterNode()
+	 * @see #getParameterInput()
 	 * @generated
 	 */
-	public EAttribute getUserParameterInput_InputParameterNode() {
-		return (EAttribute)userParameterInputEClass.getEStructuralFeatures().get(1);
+	public EAttribute getParameterInput_InputParameterNode() {
+		return (EAttribute)parameterInputEClass.getEStructuralFeatures().get(1);
 	}
 
+	/**
+	 * Returns the meta object for class '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ParameterOutput <em>Parameter Output</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Parameter Output</em>'.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ParameterOutput
+	 * @generated
+	 */
+	public EClass getParameterOutput() {
+		return parameterOutputEClass;
+	}
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ParameterOutput#getParameterOutputTokens <em>Parameter Output Tokens</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Parameter Output Tokens</em>'.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ParameterOutput#getParameterOutputTokens()
+	 * @see #getParameterOutput()
+	 * @generated
+	 */
+	public EReference getParameterOutput_ParameterOutputTokens() {
+		return (EReference)parameterOutputEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ParameterOutput#getOutputParameterNode <em>Output Parameter Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Output Parameter Node</em>'.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ParameterOutput#getOutputParameterNode()
+	 * @see #getParameterOutput()
+	 * @generated
+	 */
+	public EAttribute getParameterOutput_OutputParameterNode() {
+		return (EAttribute)parameterOutputEClass.getEStructuralFeatures().get(1);
+	}
 
 	/**
 	 * Returns the meta object for class '{@link org.modelexecution.fumldebug.core.trace.tracemodel.Input <em>Input</em>}'.
@@ -1487,20 +1413,6 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	public EAttribute getInput_InputPin() {
 		return (EAttribute)inputEClass.getEStructuralFeatures().get(1);
 	}
-
-	/**
-	 * Returns the meta object for the reference '{@link org.modelexecution.fumldebug.core.trace.tracemodel.Input#getConsumedValue <em>Consumed Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Consumed Value</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.Input#getConsumedValue()
-	 * @see #getInput()
-	 * @generated
-	 */
-	public EReference getInput_ConsumedValue() {
-		return (EReference)inputEClass.getEStructuralFeatures().get(2);
-	}
-
 
 	/**
 	 * Returns the meta object for class '{@link org.modelexecution.fumldebug.core.trace.tracemodel.Output <em>Output</em>}'.
@@ -1579,18 +1491,17 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ObjectTokenInstance#getValueInstance <em>Value Instance</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ObjectTokenInstance#getValue <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Value Instance</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ObjectTokenInstance#getValueInstance()
+	 * @return the meta object for the containment reference '<em>Value</em>'.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ObjectTokenInstance#getValue()
 	 * @see #getObjectTokenInstance()
 	 * @generated
 	 */
-	public EReference getObjectTokenInstance_ValueInstance() {
+	public EReference getObjectTokenInstance_Value() {
 		return (EReference)objectTokenInstanceEClass.getEStructuralFeatures().get(0);
 	}
-
 
 	/**
 	 * Returns the meta object for class '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ControlTokenInstance <em>Control Token Instance</em>}'.
@@ -1617,141 +1528,17 @@ public class TracemodelPackageImpl extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstance#getSnapshots <em>Snapshots</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Snapshots</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstance#getSnapshots()
-	 * @see #getValueInstance()
-	 * @generated
-	 */
-	public EReference getValueInstance_Snapshots() {
-		return (EReference)valueInstanceEClass.getEStructuralFeatures().get(0);
-	}
-
-
-	/**
-	 * Returns the meta object for the reference '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstance#getOriginal <em>Original</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Original</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstance#getOriginal()
-	 * @see #getValueInstance()
-	 * @generated
-	 */
-	public EReference getValueInstance_Original() {
-		return (EReference)valueInstanceEClass.getEStructuralFeatures().get(1);
-	}
-
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstance#getValueID <em>Value ID</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Value ID</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstance#getValueID()
-	 * @see #getValueInstance()
-	 * @generated
-	 */
-	public EAttribute getValueInstance_ValueID() {
-		return (EAttribute)valueInstanceEClass.getEStructuralFeatures().get(2);
-	}
-
-
-	/**
-	 * Returns the meta object for class '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActionExecution <em>Action Execution</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Action Execution</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ActionExecution
-	 * @generated
-	 */
-	public EClass getActionExecution() {
-		return actionExecutionEClass;
-	}
-
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActionExecution#getInputs <em>Inputs</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Inputs</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ActionExecution#getInputs()
-	 * @see #getActionExecution()
-	 * @generated
-	 */
-	public EReference getActionExecution_Inputs() {
-		return (EReference)actionExecutionEClass.getEStructuralFeatures().get(0);
-	}
-
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActionExecution#getOutputs <em>Outputs</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Outputs</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ActionExecution#getOutputs()
-	 * @see #getActionExecution()
-	 * @generated
-	 */
-	public EReference getActionExecution_Outputs() {
-		return (EReference)actionExecutionEClass.getEStructuralFeatures().get(1);
-	}
-
-
-	/**
-	 * Returns the meta object for class '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ControlNodeExecution <em>Control Node Execution</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Control Node Execution</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ControlNodeExecution
-	 * @generated
-	 */
-	public EClass getControlNodeExecution() {
-		return controlNodeExecutionEClass;
-	}
-
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ControlNodeExecution#getRoutedTokens <em>Routed Tokens</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Routed Tokens</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ControlNodeExecution#getRoutedTokens()
-	 * @see #getControlNodeExecution()
-	 * @generated
-	 */
-	public EReference getControlNodeExecution_RoutedTokens() {
-		return (EReference)controlNodeExecutionEClass.getEStructuralFeatures().get(0);
-	}
-
-
-	/**
-	 * Returns the meta object for class '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstanceSnapshot <em>Value Instance Snapshot</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Value Instance Snapshot</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstanceSnapshot
-	 * @generated
-	 */
-	public EClass getValueInstanceSnapshot() {
-		return valueInstanceSnapshotEClass;
-	}
-
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstanceSnapshot#getValue <em>Value</em>}'.
+	 * Returns the meta object for the attribute '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstance#getValue <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Value</em>'.
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstanceSnapshot#getValue()
-	 * @see #getValueInstanceSnapshot()
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstance#getValue()
+	 * @see #getValueInstance()
 	 * @generated
 	 */
-	public EAttribute getValueInstanceSnapshot_Value() {
-		return (EAttribute)valueInstanceSnapshotEClass.getEStructuralFeatures().get(0);
+	public EAttribute getValueInstance_Value() {
+		return (EAttribute)valueInstanceEClass.getEStructuralFeatures().get(0);
 	}
-
 
 	/**
 	 * Returns the meta object for data type '{@link fUML.Syntax.Activities.IntermediateActivities.Activity <em>Activity</em>}'.
@@ -1883,33 +1670,41 @@ public class TracemodelPackageImpl extends EPackageImpl {
 		createEReference(traceEClass, TRACE__ACTIVITY_EXECUTIONS);
 
 		activityExecutionEClass = createEClass(ACTIVITY_EXECUTION);
-		createEReference(activityExecutionEClass, ACTIVITY_EXECUTION__USER_PARAMETER_INPUTS);
+		createEReference(activityExecutionEClass, ACTIVITY_EXECUTION__PARAMETER_INPUTS);
+		createEReference(activityExecutionEClass, ACTIVITY_EXECUTION__PARAMETER_OUTPUTS);
 		createEReference(activityExecutionEClass, ACTIVITY_EXECUTION__NODE_EXECUTIONS);
 		createEReference(activityExecutionEClass, ACTIVITY_EXECUTION__CALLER);
 		createEAttribute(activityExecutionEClass, ACTIVITY_EXECUTION__ACTIVITY);
 		createEAttribute(activityExecutionEClass, ACTIVITY_EXECUTION__ACTIVITY_EXECUTION_ID);
-		createEReference(activityExecutionEClass, ACTIVITY_EXECUTION__TRACE);
 
 		activityNodeExecutionEClass = createEClass(ACTIVITY_NODE_EXECUTION);
+		createEReference(activityNodeExecutionEClass, ACTIVITY_NODE_EXECUTION__INPUTS);
+		createEReference(activityNodeExecutionEClass, ACTIVITY_NODE_EXECUTION__OUTPUTS);
 		createEReference(activityNodeExecutionEClass, ACTIVITY_NODE_EXECUTION__LOGICAL_SUCCESSOR);
 		createEReference(activityNodeExecutionEClass, ACTIVITY_NODE_EXECUTION__LOGICAL_PREDECESSOR);
 		createEReference(activityNodeExecutionEClass, ACTIVITY_NODE_EXECUTION__CHRONOLOGICAL_SUCCESSOR);
 		createEReference(activityNodeExecutionEClass, ACTIVITY_NODE_EXECUTION__CHRONOLOGICAL_PREDECESSOR);
 		createEAttribute(activityNodeExecutionEClass, ACTIVITY_NODE_EXECUTION__NODE);
 		createEReference(activityNodeExecutionEClass, ACTIVITY_NODE_EXECUTION__ACTIVITY_EXECUTION);
-		createEAttribute(activityNodeExecutionEClass, ACTIVITY_NODE_EXECUTION__EXECUTED);
 
-		callActionExecutionEClass = createEClass(CALL_ACTION_EXECUTION);
-		createEReference(callActionExecutionEClass, CALL_ACTION_EXECUTION__CALLEE);
+		callActivityNodeExecutionEClass = createEClass(CALL_ACTIVITY_NODE_EXECUTION);
+		createEReference(callActivityNodeExecutionEClass, CALL_ACTIVITY_NODE_EXECUTION__CALLEE);
+		createEAttribute(callActivityNodeExecutionEClass, CALL_ACTIVITY_NODE_EXECUTION__CALLED_BEHAVIOR);
 
 		userParameterInputEClass = createEClass(USER_PARAMETER_INPUT);
 		createEReference(userParameterInputEClass, USER_PARAMETER_INPUT__USER_INPUT_TOKENS);
-		createEAttribute(userParameterInputEClass, USER_PARAMETER_INPUT__INPUT_PARAMETER_NODE);
+
+		parameterInputEClass = createEClass(PARAMETER_INPUT);
+		createEReference(parameterInputEClass, PARAMETER_INPUT__PARAMETER_INPUT_TOKENS);
+		createEAttribute(parameterInputEClass, PARAMETER_INPUT__INPUT_PARAMETER_NODE);
+
+		parameterOutputEClass = createEClass(PARAMETER_OUTPUT);
+		createEReference(parameterOutputEClass, PARAMETER_OUTPUT__PARAMETER_OUTPUT_TOKENS);
+		createEAttribute(parameterOutputEClass, PARAMETER_OUTPUT__OUTPUT_PARAMETER_NODE);
 
 		inputEClass = createEClass(INPUT);
 		createEReference(inputEClass, INPUT__TOKENS);
 		createEAttribute(inputEClass, INPUT__INPUT_PIN);
-		createEReference(inputEClass, INPUT__CONSUMED_VALUE);
 
 		outputEClass = createEClass(OUTPUT);
 		createEReference(outputEClass, OUTPUT__TOKENS);
@@ -1919,24 +1714,12 @@ public class TracemodelPackageImpl extends EPackageImpl {
 		createEAttribute(tokenInstanceEClass, TOKEN_INSTANCE__TRAVERSED_EDGES);
 
 		objectTokenInstanceEClass = createEClass(OBJECT_TOKEN_INSTANCE);
-		createEReference(objectTokenInstanceEClass, OBJECT_TOKEN_INSTANCE__VALUE_INSTANCE);
+		createEReference(objectTokenInstanceEClass, OBJECT_TOKEN_INSTANCE__VALUE);
 
 		controlTokenInstanceEClass = createEClass(CONTROL_TOKEN_INSTANCE);
 
 		valueInstanceEClass = createEClass(VALUE_INSTANCE);
-		createEReference(valueInstanceEClass, VALUE_INSTANCE__SNAPSHOTS);
-		createEReference(valueInstanceEClass, VALUE_INSTANCE__ORIGINAL);
-		createEAttribute(valueInstanceEClass, VALUE_INSTANCE__VALUE_ID);
-
-		actionExecutionEClass = createEClass(ACTION_EXECUTION);
-		createEReference(actionExecutionEClass, ACTION_EXECUTION__INPUTS);
-		createEReference(actionExecutionEClass, ACTION_EXECUTION__OUTPUTS);
-
-		controlNodeExecutionEClass = createEClass(CONTROL_NODE_EXECUTION);
-		createEReference(controlNodeExecutionEClass, CONTROL_NODE_EXECUTION__ROUTED_TOKENS);
-
-		valueInstanceSnapshotEClass = createEClass(VALUE_INSTANCE_SNAPSHOT);
-		createEAttribute(valueInstanceSnapshotEClass, VALUE_INSTANCE_SNAPSHOT__VALUE);
+		createEAttribute(valueInstanceEClass, VALUE_INSTANCE__VALUE);
 
 		// Create data types
 		activityEDataType = createEDataType(ACTIVITY);
@@ -1977,44 +1760,51 @@ public class TracemodelPackageImpl extends EPackageImpl {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		callActionExecutionEClass.getESuperTypes().add(this.getActionExecution());
+		callActivityNodeExecutionEClass.getESuperTypes().add(this.getActivityNodeExecution());
+		userParameterInputEClass.getESuperTypes().add(this.getParameterInput());
 		objectTokenInstanceEClass.getESuperTypes().add(this.getTokenInstance());
 		controlTokenInstanceEClass.getESuperTypes().add(this.getTokenInstance());
-		actionExecutionEClass.getESuperTypes().add(this.getActivityNodeExecution());
-		controlNodeExecutionEClass.getESuperTypes().add(this.getActivityNodeExecution());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(traceEClass, Trace.class, "Trace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTrace_ActivityExecutions(), this.getActivityExecution(), this.getActivityExecution_Trace(), "activityExecutions", null, 0, -1, Trace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTrace_ActivityExecutions(), this.getActivityExecution(), null, "activityExecutions", null, 0, -1, Trace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(activityExecutionEClass, ActivityExecution.class, "ActivityExecution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getActivityExecution_UserParameterInputs(), this.getUserParameterInput(), null, "userParameterInputs", null, 0, -1, ActivityExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getActivityExecution_ParameterInputs(), this.getParameterInput(), null, "parameterInputs", null, 0, -1, ActivityExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getActivityExecution_ParameterOutputs(), this.getParameterOutput(), null, "parameterOutputs", null, 0, -1, ActivityExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getActivityExecution_NodeExecutions(), this.getActivityNodeExecution(), this.getActivityNodeExecution_ActivityExecution(), "nodeExecutions", null, 0, -1, ActivityExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getActivityExecution_Caller(), this.getCallActionExecution(), this.getCallActionExecution_Callee(), "caller", null, 0, 1, ActivityExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getActivityExecution_Caller(), this.getCallActivityNodeExecution(), this.getCallActivityNodeExecution_Callee(), "caller", null, 0, 1, ActivityExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getActivityExecution_Activity(), this.getActivity(), "activity", null, 1, 1, ActivityExecution.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getActivityExecution_ActivityExecutionID(), ecorePackage.getEInt(), "activityExecutionID", null, 1, 1, ActivityExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getActivityExecution_Trace(), this.getTrace(), this.getTrace_ActivityExecutions(), "trace", null, 1, 1, ActivityExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(activityNodeExecutionEClass, ActivityNodeExecution.class, "ActivityNodeExecution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getActivityNodeExecution_Inputs(), this.getInput(), null, "inputs", null, 0, -1, ActivityNodeExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getActivityNodeExecution_Outputs(), this.getOutput(), null, "outputs", null, 0, -1, ActivityNodeExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getActivityNodeExecution_LogicalSuccessor(), this.getActivityNodeExecution(), this.getActivityNodeExecution_LogicalPredecessor(), "logicalSuccessor", null, 0, -1, ActivityNodeExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getActivityNodeExecution_LogicalPredecessor(), this.getActivityNodeExecution(), this.getActivityNodeExecution_LogicalSuccessor(), "logicalPredecessor", null, 0, -1, ActivityNodeExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getActivityNodeExecution_ChronologicalSuccessor(), this.getActivityNodeExecution(), this.getActivityNodeExecution_ChronologicalPredecessor(), "chronologicalSuccessor", null, 0, 1, ActivityNodeExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getActivityNodeExecution_ChronologicalPredecessor(), this.getActivityNodeExecution(), this.getActivityNodeExecution_ChronologicalSuccessor(), "chronologicalPredecessor", null, 0, 1, ActivityNodeExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getActivityNodeExecution_ChronologicalPredecessor(), this.getActivityNodeExecution(), this.getActivityNodeExecution_ChronologicalSuccessor(), "chronologicalPredecessor", null, 0, 1, ActivityNodeExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getActivityNodeExecution_Node(), this.getActivityNode(), "node", null, 1, 1, ActivityNodeExecution.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getActivityNodeExecution_ActivityExecution(), this.getActivityExecution(), this.getActivityExecution_NodeExecutions(), "activityExecution", null, 1, 1, ActivityNodeExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEAttribute(getActivityNodeExecution_Executed(), ecorePackage.getEBoolean(), "executed", "false", 1, 1, ActivityNodeExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getActivityNodeExecution_ActivityExecution(), this.getActivityExecution(), this.getActivityExecution_NodeExecutions(), "activityExecution", null, 1, 1, ActivityNodeExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(callActionExecutionEClass, CallActionExecution.class, "CallActionExecution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCallActionExecution_Callee(), this.getActivityExecution(), this.getActivityExecution_Caller(), "callee", null, 0, 1, CallActionExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(callActivityNodeExecutionEClass, CallActivityNodeExecution.class, "CallActivityNodeExecution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCallActivityNodeExecution_Callee(), this.getActivityExecution(), this.getActivityExecution_Caller(), "callee", null, 0, 1, CallActivityNodeExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCallActivityNodeExecution_CalledBehavior(), this.getBehavior(), "calledBehavior", null, 1, 1, CallActivityNodeExecution.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(userParameterInputEClass, UserParameterInput.class, "UserParameterInput", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUserParameterInput_UserInputTokens(), this.getObjectTokenInstance(), null, "userInputTokens", null, 0, -1, UserParameterInput.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getUserParameterInput_InputParameterNode(), this.getActivityParameterNode(), "inputParameterNode", null, 1, 1, UserParameterInput.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(parameterInputEClass, ParameterInput.class, "ParameterInput", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getParameterInput_ParameterInputTokens(), this.getObjectTokenInstance(), null, "parameterInputTokens", null, 0, -1, ParameterInput.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getParameterInput_InputParameterNode(), this.getActivityParameterNode(), "inputParameterNode", null, 1, 1, ParameterInput.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(parameterOutputEClass, ParameterOutput.class, "ParameterOutput", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getParameterOutput_ParameterOutputTokens(), this.getObjectTokenInstance(), null, "parameterOutputTokens", null, 0, -1, ParameterOutput.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getParameterOutput_OutputParameterNode(), this.getActivityParameterNode(), "outputParameterNode", null, 1, 1, ParameterOutput.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(inputEClass, Input.class, "Input", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getInput_Tokens(), this.getTokenInstance(), null, "tokens", null, 0, -1, Input.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getInput_InputPin(), this.getInputPin(), "inputPin", null, 0, 1, Input.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getInput_ConsumedValue(), this.getValueInstanceSnapshot(), null, "consumedValue", null, 0, 1, Input.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(outputEClass, Output.class, "Output", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getOutput_Tokens(), this.getTokenInstance(), null, "tokens", null, 0, -1, Output.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2024,24 +1814,12 @@ public class TracemodelPackageImpl extends EPackageImpl {
 		initEAttribute(getTokenInstance_TraversedEdges(), this.getActivityEdge(), "traversedEdges", null, 0, -1, TokenInstance.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		initEClass(objectTokenInstanceEClass, ObjectTokenInstance.class, "ObjectTokenInstance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getObjectTokenInstance_ValueInstance(), this.getValueInstance(), null, "valueInstance", null, 1, 1, ObjectTokenInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getObjectTokenInstance_Value(), this.getValueInstance(), null, "value", null, 1, 1, ObjectTokenInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(controlTokenInstanceEClass, ControlTokenInstance.class, "ControlTokenInstance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(valueInstanceEClass, ValueInstance.class, "ValueInstance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getValueInstance_Snapshots(), this.getValueInstanceSnapshot(), null, "snapshots", null, 1, -1, ValueInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getValueInstance_Original(), this.getValueInstanceSnapshot(), null, "original", null, 1, 1, ValueInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getValueInstance_ValueID(), ecorePackage.getEInt(), "valueID", null, 1, 1, ValueInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(actionExecutionEClass, ActionExecution.class, "ActionExecution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getActionExecution_Inputs(), this.getInput(), null, "inputs", null, 0, -1, ActionExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getActionExecution_Outputs(), this.getOutput(), null, "outputs", null, 0, -1, ActionExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(controlNodeExecutionEClass, ControlNodeExecution.class, "ControlNodeExecution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getControlNodeExecution_RoutedTokens(), this.getTokenInstance(), null, "routedTokens", null, 1, -1, ControlNodeExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(valueInstanceSnapshotEClass, ValueInstanceSnapshot.class, "ValueInstanceSnapshot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getValueInstanceSnapshot_Value(), this.getValue(), "value", null, 1, 1, ValueInstanceSnapshot.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getValueInstance_Value(), this.getValue(), "value", null, 1, 1, ValueInstance.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(activityEDataType, Activity.class, "Activity", !IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
@@ -2099,12 +1877,20 @@ public class TracemodelPackageImpl extends EPackageImpl {
 		public static final EClass ACTIVITY_EXECUTION = eINSTANCE.getActivityExecution();
 
 		/**
-		 * The meta object literal for the '<em><b>User Parameter Inputs</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Parameter Inputs</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public static final EReference ACTIVITY_EXECUTION__USER_PARAMETER_INPUTS = eINSTANCE.getActivityExecution_UserParameterInputs();
+		public static final EReference ACTIVITY_EXECUTION__PARAMETER_INPUTS = eINSTANCE.getActivityExecution_ParameterInputs();
+
+		/**
+		 * The meta object literal for the '<em><b>Parameter Outputs</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EReference ACTIVITY_EXECUTION__PARAMETER_OUTPUTS = eINSTANCE.getActivityExecution_ParameterOutputs();
 
 		/**
 		 * The meta object literal for the '<em><b>Node Executions</b></em>' containment reference list feature.
@@ -2139,14 +1925,6 @@ public class TracemodelPackageImpl extends EPackageImpl {
 		public static final EAttribute ACTIVITY_EXECUTION__ACTIVITY_EXECUTION_ID = eINSTANCE.getActivityExecution_ActivityExecutionID();
 
 		/**
-		 * The meta object literal for the '<em><b>Trace</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EReference ACTIVITY_EXECUTION__TRACE = eINSTANCE.getActivityExecution_Trace();
-
-		/**
 		 * The meta object literal for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ActivityNodeExecutionImpl <em>Activity Node Execution</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2155,6 +1933,22 @@ public class TracemodelPackageImpl extends EPackageImpl {
 		 * @generated
 		 */
 		public static final EClass ACTIVITY_NODE_EXECUTION = eINSTANCE.getActivityNodeExecution();
+
+		/**
+		 * The meta object literal for the '<em><b>Inputs</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EReference ACTIVITY_NODE_EXECUTION__INPUTS = eINSTANCE.getActivityNodeExecution_Inputs();
+
+		/**
+		 * The meta object literal for the '<em><b>Outputs</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EReference ACTIVITY_NODE_EXECUTION__OUTPUTS = eINSTANCE.getActivityNodeExecution_Outputs();
 
 		/**
 		 * The meta object literal for the '<em><b>Logical Successor</b></em>' reference list feature.
@@ -2205,22 +1999,14 @@ public class TracemodelPackageImpl extends EPackageImpl {
 		public static final EReference ACTIVITY_NODE_EXECUTION__ACTIVITY_EXECUTION = eINSTANCE.getActivityNodeExecution_ActivityExecution();
 
 		/**
-		 * The meta object literal for the '<em><b>Executed</b></em>' attribute feature.
+		 * The meta object literal for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.CallActivityNodeExecutionImpl <em>Call Activity Node Execution</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.CallActivityNodeExecutionImpl
+		 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getCallActivityNodeExecution()
 		 * @generated
 		 */
-		public static final EAttribute ACTIVITY_NODE_EXECUTION__EXECUTED = eINSTANCE.getActivityNodeExecution_Executed();
-
-		/**
-		 * The meta object literal for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.CallActionExecutionImpl <em>Call Action Execution</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.CallActionExecutionImpl
-		 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getCallActionExecution()
-		 * @generated
-		 */
-		public static final EClass CALL_ACTION_EXECUTION = eINSTANCE.getCallActionExecution();
+		public static final EClass CALL_ACTIVITY_NODE_EXECUTION = eINSTANCE.getCallActivityNodeExecution();
 
 		/**
 		 * The meta object literal for the '<em><b>Callee</b></em>' reference feature.
@@ -2228,7 +2014,15 @@ public class TracemodelPackageImpl extends EPackageImpl {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public static final EReference CALL_ACTION_EXECUTION__CALLEE = eINSTANCE.getCallActionExecution_Callee();
+		public static final EReference CALL_ACTIVITY_NODE_EXECUTION__CALLEE = eINSTANCE.getCallActivityNodeExecution_Callee();
+
+		/**
+		 * The meta object literal for the '<em><b>Called Behavior</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EAttribute CALL_ACTIVITY_NODE_EXECUTION__CALLED_BEHAVIOR = eINSTANCE.getCallActivityNodeExecution_CalledBehavior();
 
 		/**
 		 * The meta object literal for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.UserParameterInputImpl <em>User Parameter Input</em>}' class.
@@ -2249,12 +2043,56 @@ public class TracemodelPackageImpl extends EPackageImpl {
 		public static final EReference USER_PARAMETER_INPUT__USER_INPUT_TOKENS = eINSTANCE.getUserParameterInput_UserInputTokens();
 
 		/**
+		 * The meta object literal for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ParameterInputImpl <em>Parameter Input</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.ParameterInputImpl
+		 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getParameterInput()
+		 * @generated
+		 */
+		public static final EClass PARAMETER_INPUT = eINSTANCE.getParameterInput();
+
+		/**
+		 * The meta object literal for the '<em><b>Parameter Input Tokens</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EReference PARAMETER_INPUT__PARAMETER_INPUT_TOKENS = eINSTANCE.getParameterInput_ParameterInputTokens();
+
+		/**
 		 * The meta object literal for the '<em><b>Input Parameter Node</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public static final EAttribute USER_PARAMETER_INPUT__INPUT_PARAMETER_NODE = eINSTANCE.getUserParameterInput_InputParameterNode();
+		public static final EAttribute PARAMETER_INPUT__INPUT_PARAMETER_NODE = eINSTANCE.getParameterInput_InputParameterNode();
+
+		/**
+		 * The meta object literal for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ParameterOutputImpl <em>Parameter Output</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.ParameterOutputImpl
+		 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getParameterOutput()
+		 * @generated
+		 */
+		public static final EClass PARAMETER_OUTPUT = eINSTANCE.getParameterOutput();
+
+		/**
+		 * The meta object literal for the '<em><b>Parameter Output Tokens</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EReference PARAMETER_OUTPUT__PARAMETER_OUTPUT_TOKENS = eINSTANCE.getParameterOutput_ParameterOutputTokens();
+
+		/**
+		 * The meta object literal for the '<em><b>Output Parameter Node</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EAttribute PARAMETER_OUTPUT__OUTPUT_PARAMETER_NODE = eINSTANCE.getParameterOutput_OutputParameterNode();
 
 		/**
 		 * The meta object literal for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.InputImpl <em>Input</em>}' class.
@@ -2281,14 +2119,6 @@ public class TracemodelPackageImpl extends EPackageImpl {
 		 * @generated
 		 */
 		public static final EAttribute INPUT__INPUT_PIN = eINSTANCE.getInput_InputPin();
-
-		/**
-		 * The meta object literal for the '<em><b>Consumed Value</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EReference INPUT__CONSUMED_VALUE = eINSTANCE.getInput_ConsumedValue();
 
 		/**
 		 * The meta object literal for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.OutputImpl <em>Output</em>}' class.
@@ -2345,12 +2175,12 @@ public class TracemodelPackageImpl extends EPackageImpl {
 		public static final EClass OBJECT_TOKEN_INSTANCE = eINSTANCE.getObjectTokenInstance();
 
 		/**
-		 * The meta object literal for the '<em><b>Value Instance</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Value</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public static final EReference OBJECT_TOKEN_INSTANCE__VALUE_INSTANCE = eINSTANCE.getObjectTokenInstance_ValueInstance();
+		public static final EReference OBJECT_TOKEN_INSTANCE__VALUE = eINSTANCE.getObjectTokenInstance_Value();
 
 		/**
 		 * The meta object literal for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ControlTokenInstanceImpl <em>Control Token Instance</em>}' class.
@@ -2373,90 +2203,12 @@ public class TracemodelPackageImpl extends EPackageImpl {
 		public static final EClass VALUE_INSTANCE = eINSTANCE.getValueInstance();
 
 		/**
-		 * The meta object literal for the '<em><b>Snapshots</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EReference VALUE_INSTANCE__SNAPSHOTS = eINSTANCE.getValueInstance_Snapshots();
-
-		/**
-		 * The meta object literal for the '<em><b>Original</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EReference VALUE_INSTANCE__ORIGINAL = eINSTANCE.getValueInstance_Original();
-
-		/**
-		 * The meta object literal for the '<em><b>Value ID</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EAttribute VALUE_INSTANCE__VALUE_ID = eINSTANCE.getValueInstance_ValueID();
-
-		/**
-		 * The meta object literal for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ActionExecutionImpl <em>Action Execution</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.ActionExecutionImpl
-		 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getActionExecution()
-		 * @generated
-		 */
-		public static final EClass ACTION_EXECUTION = eINSTANCE.getActionExecution();
-
-		/**
-		 * The meta object literal for the '<em><b>Inputs</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EReference ACTION_EXECUTION__INPUTS = eINSTANCE.getActionExecution_Inputs();
-
-		/**
-		 * The meta object literal for the '<em><b>Outputs</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EReference ACTION_EXECUTION__OUTPUTS = eINSTANCE.getActionExecution_Outputs();
-
-		/**
-		 * The meta object literal for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ControlNodeExecutionImpl <em>Control Node Execution</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.ControlNodeExecutionImpl
-		 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getControlNodeExecution()
-		 * @generated
-		 */
-		public static final EClass CONTROL_NODE_EXECUTION = eINSTANCE.getControlNodeExecution();
-
-		/**
-		 * The meta object literal for the '<em><b>Routed Tokens</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EReference CONTROL_NODE_EXECUTION__ROUTED_TOKENS = eINSTANCE.getControlNodeExecution_RoutedTokens();
-
-		/**
-		 * The meta object literal for the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.ValueInstanceSnapshotImpl <em>Value Instance Snapshot</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.ValueInstanceSnapshotImpl
-		 * @see org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelPackageImpl#getValueInstanceSnapshot()
-		 * @generated
-		 */
-		public static final EClass VALUE_INSTANCE_SNAPSHOT = eINSTANCE.getValueInstanceSnapshot();
-
-		/**
 		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public static final EAttribute VALUE_INSTANCE_SNAPSHOT__VALUE = eINSTANCE.getValueInstanceSnapshot_Value();
+		public static final EAttribute VALUE_INSTANCE__VALUE = eINSTANCE.getValueInstance_Value();
 
 		/**
 		 * The meta object literal for the '<em>Activity</em>' data type.

@@ -13,22 +13,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.modelexecution.fumldebug.core.trace.tracemodel.ActionExecution;
-import org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution;
-import org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution;
-import org.modelexecution.fumldebug.core.trace.tracemodel.CallActionExecution;
-import org.modelexecution.fumldebug.core.trace.tracemodel.ControlNodeExecution;
-import org.modelexecution.fumldebug.core.trace.tracemodel.ControlTokenInstance;
-import org.modelexecution.fumldebug.core.trace.tracemodel.Input;
-import org.modelexecution.fumldebug.core.trace.tracemodel.ObjectTokenInstance;
-import org.modelexecution.fumldebug.core.trace.tracemodel.Output;
-import org.modelexecution.fumldebug.core.trace.tracemodel.Trace;
-import org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelFactory;
-import org.modelexecution.fumldebug.core.trace.tracemodel.UserParameterInput;
-import org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstance;
-import org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstanceSnapshot;
+
+import org.modelexecution.fumldebug.core.trace.tracemodel.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -92,16 +82,15 @@ public class TracemodelFactoryImpl extends EFactoryImpl implements TracemodelFac
 			case TracemodelPackageImpl.TRACE: return createTrace();
 			case TracemodelPackageImpl.ACTIVITY_EXECUTION: return createActivityExecution();
 			case TracemodelPackageImpl.ACTIVITY_NODE_EXECUTION: return createActivityNodeExecution();
-			case TracemodelPackageImpl.CALL_ACTION_EXECUTION: return createCallActionExecution();
+			case TracemodelPackageImpl.CALL_ACTIVITY_NODE_EXECUTION: return createCallActivityNodeExecution();
 			case TracemodelPackageImpl.USER_PARAMETER_INPUT: return createUserParameterInput();
+			case TracemodelPackageImpl.PARAMETER_INPUT: return createParameterInput();
+			case TracemodelPackageImpl.PARAMETER_OUTPUT: return createParameterOutput();
 			case TracemodelPackageImpl.INPUT: return createInput();
 			case TracemodelPackageImpl.OUTPUT: return createOutput();
 			case TracemodelPackageImpl.OBJECT_TOKEN_INSTANCE: return createObjectTokenInstance();
 			case TracemodelPackageImpl.CONTROL_TOKEN_INSTANCE: return createControlTokenInstance();
 			case TracemodelPackageImpl.VALUE_INSTANCE: return createValueInstance();
-			case TracemodelPackageImpl.ACTION_EXECUTION: return createActionExecution();
-			case TracemodelPackageImpl.CONTROL_NODE_EXECUTION: return createControlNodeExecution();
-			case TracemodelPackageImpl.VALUE_INSTANCE_SNAPSHOT: return createValueInstanceSnapshot();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -168,9 +157,9 @@ public class TracemodelFactoryImpl extends EFactoryImpl implements TracemodelFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CallActionExecution createCallActionExecution() {
-		CallActionExecutionImpl callActionExecution = new CallActionExecutionImpl();
-		return callActionExecution;
+	public CallActivityNodeExecution createCallActivityNodeExecution() {
+		CallActivityNodeExecutionImpl callActivityNodeExecution = new CallActivityNodeExecutionImpl();
+		return callActivityNodeExecution;
 	}
 
 	/**
@@ -181,6 +170,26 @@ public class TracemodelFactoryImpl extends EFactoryImpl implements TracemodelFac
 	public UserParameterInput createUserParameterInput() {
 		UserParameterInputImpl userParameterInput = new UserParameterInputImpl();
 		return userParameterInput;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ParameterInput createParameterInput() {
+		ParameterInputImpl parameterInput = new ParameterInputImpl();
+		return parameterInput;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ParameterOutput createParameterOutput() {
+		ParameterOutputImpl parameterOutput = new ParameterOutputImpl();
+		return parameterOutput;
 	}
 
 	/**
@@ -231,36 +240,6 @@ public class TracemodelFactoryImpl extends EFactoryImpl implements TracemodelFac
 	public ValueInstance createValueInstance() {
 		ValueInstanceImpl valueInstance = new ValueInstanceImpl();
 		return valueInstance;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ActionExecution createActionExecution() {
-		ActionExecutionImpl actionExecution = new ActionExecutionImpl();
-		return actionExecution;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ControlNodeExecution createControlNodeExecution() {
-		ControlNodeExecutionImpl controlNodeExecution = new ControlNodeExecutionImpl();
-		return controlNodeExecution;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ValueInstanceSnapshot createValueInstanceSnapshot() {
-		ValueInstanceSnapshotImpl valueInstanceSnapshot = new ValueInstanceSnapshotImpl();
-		return valueInstanceSnapshot;
 	}
 
 	/**
