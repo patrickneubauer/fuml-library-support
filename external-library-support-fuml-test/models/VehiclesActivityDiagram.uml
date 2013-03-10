@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_K-8U8FWwEeKaTuVFD778jg">
-  <packagedElement xmi:type="uml:Activity" xmi:id="_Nww8UFWwEeKaTuVFD778jg" name="VehiclesActivityDiagramActivity" isReentrant="false" node="_QN6UMFWwEeKaTuVFD778jg">
-    <node xmi:type="uml:CreateObjectAction" xmi:id="_QN6UMFWwEeKaTuVFD778jg" name="CreateObjectCar">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_Nww8UFWwEeKaTuVFD778jg" name="VehiclesActivity" isReentrant="false" node="_QN6UMFWwEeKaTuVFD778jg _DcRToIl3EeKuJpavYsSoTA">
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_QN6UMFWwEeKaTuVFD778jg" name="CreateCarObject">
       <classifier xmi:type="uml:Class" href="VehiclesConverted.uml#_vD0-wn_9EeKmEPLZ-QpOVg"/>
-      <result xmi:id="_u2Az4IgOEeKhyt_byWL5JA" name="CreateObjectCarOutputPin"/>
+      <result xmi:id="_u2Az4IgOEeKhyt_byWL5JA" name="createdCar"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_DcRToIl3EeKuJpavYsSoTA" name="ToStringCallOperationAction">
+      <argument xmi:id="_G7OGwIl3EeKuJpavYsSoTA" name="target"/>
+      <result xmi:id="_IArS8Il3EeKuJpavYsSoTA" name="toStringReturnValue"/>
+      <operation href="VehiclesConverted.uml#_vD0-xH_9EeKmEPLZ-QpOVg"/>
     </node>
   </packagedElement>
 </uml:Model>
