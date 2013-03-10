@@ -25,15 +25,15 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.junit.Before;
 import org.junit.Test;
-import org.modelexecution.fuml.extlib.UML2UMLWithPlaceholderActivitiesConverter;
+import org.modelexecution.fuml.extlib.UML2ExtlibPreparer;
 
 /**
- * Class to test the {@link UML2UMLWithPlaceholderActivitiesConverter} 
+ * Class to test the {@link UML2ExtlibPreparer} 
  * 
  * @author patrickneubauer
  *
  */
-public class UML2UMLWithPlaceholderActivitiesConverterTest {
+public class UML2ExtlibPreparerTest {
 
 	private ResourceSet resourceSet;
 	
@@ -50,7 +50,7 @@ public class UML2UMLWithPlaceholderActivitiesConverterTest {
 		String outputFilePath = "models/VehiclesConverted.uml";
 		String jarFilePath = "libraries/Vehicles.jar";
 		
-		UML2UMLWithPlaceholderActivitiesConverter converter = new UML2UMLWithPlaceholderActivitiesConverter();
+		UML2ExtlibPreparer converter = new UML2ExtlibPreparer();
 		converter.load(inputFilePath);
 		converter.convert(jarFilePath);
 		converter.save(outputFilePath);
@@ -156,7 +156,7 @@ public class UML2UMLWithPlaceholderActivitiesConverterTest {
 	}
 	
 	/**
-	 * Checks if the output file created with the {@link UML2UMLWithPlaceholderActivitiesConverter} contains
+	 * Checks if the output file created with the {@link UML2ExtlibPreparer} contains
 	 * the necessary new OwnedBehavior (with all the parameters) elements and OwnedComment element for every Class
 	 * 
 	 * @param outputFilePath File output path where to search for the Placeholder Activities

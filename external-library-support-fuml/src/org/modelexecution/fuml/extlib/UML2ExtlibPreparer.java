@@ -30,18 +30,18 @@ import org.eclipse.uml2.uml.resource.UMLResource;
  * @author patrickneubauer
  *
  */
-public class UML2UMLWithPlaceholderActivitiesConverter {
+public class UML2ExtlibPreparer {
 
 	private ResourceSet resourceSet;
 	private Resource resource;
 	private Copier copier;
 
 	/**
-	 * Initializes an instance of {@link UML2UMLWithPlaceholderActivitiesConverter}.
+	 * Initializes an instance of {@link UML2ExtlibPreparer}.
 	 * Then, the converter can be loaded ("load" method) with an input UML and JAR file
 	 * before converting ("convert" method) it to an output UML file. 
 	 */
-	public UML2UMLWithPlaceholderActivitiesConverter() {
+	public UML2ExtlibPreparer() {
 		copier = new Copier();
 		resourceSet = new ResourceSetImpl();
 		resourceSet.getPackageRegistry().put("http://www.eclipse.org/uml2/3.0.0/UML", UMLPackage.eINSTANCE);
