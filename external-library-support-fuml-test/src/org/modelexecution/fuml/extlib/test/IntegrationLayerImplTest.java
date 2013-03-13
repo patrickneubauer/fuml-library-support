@@ -13,19 +13,20 @@ import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
 
 /**
  * @author Patrick Neubauer
- *
+ * 
  */
 public class IntegrationLayerImplTest {
-	
+
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
-	
+
 	@Test
 	public void correctConstructorTest() {
-		IntegrationLayer integrationLayer = new IntegrationLayerImpl("path1", "path2", "path3");
+		IntegrationLayer integrationLayer = new IntegrationLayerImpl("path1",
+				"path2", "path3");
 		assertTrue(integrationLayer instanceof IntegrationLayer);
 	}
-	
+
 	@Test
 	public void defaultConstructorTest() throws Exception {
 		exception.expect(Exception.class);

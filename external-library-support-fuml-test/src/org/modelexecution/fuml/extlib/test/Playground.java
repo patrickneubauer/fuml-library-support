@@ -29,33 +29,40 @@ import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
  * Playground
  * 
  * @author Patrick Neubauer
- *
+ * 
  */
 public class Playground {
 
 	private ResourceSet resourceSet;
 	private List<Event> eventlist = new ArrayList<Event>();
-	
+
 	@Before
 	public void prepareResourceSet() {
 		resourceSet = new ResourceSetImpl();
-		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
+		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI,
+				UMLPackage.eINSTANCE);
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
+				.put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 	}
-	
-	private Activity loadActivity(String path, String activityName, String... furtherPaths) {
+
+	private Activity loadActivity(String path, String activityName,
+			String... furtherPaths) {
 		return obtainActivity(getResource(path, furtherPaths), activityName);
 	}
-	
+
 	private Resource getResource(String activitypath, String... paths) {
-		for(String path : paths) {
-			resourceSet.getResource(URI.createFileURI(new File(path).getAbsolutePath()), true);
+		for (String path : paths) {
+			resourceSet.getResource(
+					URI.createFileURI(new File(path).getAbsolutePath()), true);
 		}
-		return resourceSet.getResource(URI.createFileURI(new File(activitypath).getAbsolutePath()), true);
+		return resourceSet.getResource(
+				URI.createFileURI(new File(activitypath).getAbsolutePath()),
+				true);
 	}
-	
+
 	private Activity obtainActivity(Resource resource, String activityName) {
-		for (TreeIterator<EObject> iterator = resource.getAllContents(); iterator.hasNext();) {
+		for (TreeIterator<EObject> iterator = resource.getAllContents(); iterator
+				.hasNext();) {
 			EObject next = iterator.next();
 			if (next instanceof Activity) {
 				Activity activity = (Activity) next;
@@ -63,34 +70,44 @@ public class Playground {
 					return activity;
 				}
 			}
-		}		
+		}
 		return null;
 	}
-	
+
 	/**
-	 * This code takes a UML file (created by MoDisco using reverse engineering), converts it into a fUML Activity and then executes the Activity in the ExecutionContext.
+	 * This code takes a UML file (created by MoDisco using reverse
+	 * engineering), converts it into a fUML Activity and then executes the
+	 * Activity in the ExecutionContext.
 	 */
 	@Test
 	public void play() {
-		Activity umlActivity = loadActivity("models/VehiclesActivityDiagram.uml", "VehiclesActivity", "models/VehiclesConverted.uml");
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator().next();
-		
+		Activity umlActivity = loadActivity(
+				"models/VehiclesActivityDiagram.uml", "VehiclesActivity",
+				"models/VehiclesConverted.uml");
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter()
+				.convert(umlActivity).getActivities().iterator().next();
+
 		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
 		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
 		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-		
+
 		Object_ objcar = new Object_();
-		
-		ExecutionContext executionContext = org.modelexecution.fumldebug.core.ExecutionContext.getInstance();
-		
-		IntegrationLayer integrationLayer = new IntegrationLayerImpl("path1", "path2", "path3");
-		executionContext.addEventListener(integrationLayer); // registering the IL at the execution context
-		
-		executionContext.execute(fUMLActivity, objcar, new ParameterValueList()); // execute CreateObjectAction
-		
+
+		ExecutionContext executionContext = org.modelexecution.fumldebug.core.ExecutionContext
+				.getInstance();
+
+		IntegrationLayer integrationLayer = new IntegrationLayerImpl("path1",
+				"path2", "path3");
+
+		// registering the IL at the execution context
+		executionContext.addEventListener(integrationLayer);
+
+		// execute CreateObjectAction
+		executionContext
+				.execute(fUMLActivity, objcar, new ParameterValueList());
+
 		System.out.println(objcar);
-		
-		
+
 	}
-	
+
 }
