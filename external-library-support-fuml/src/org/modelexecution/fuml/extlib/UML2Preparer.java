@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityParameterNode;
 import org.eclipse.uml2.uml.Class;
@@ -24,25 +23,26 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 
 /**
- * Converter that is capable to load a given UML2 model and convert and save it s.t.
+ * Preparer that is capable to load a given UML2 model and convert and save it s.t.
  * it contains a Placeholder Activity with Comments and references for each Operation
  * 
- * @author patrickneubauer
+ * UML2Preparer is typically called before {@link UML2Converter} in order to provide 
+ * a prepared input for {@link UML2Converter}
+ * 
+ * @author Patrick Neubauer
  *
  */
-public class UML2ExtlibPreparer {
+public class UML2Preparer {
 
 	private ResourceSet resourceSet;
 	private Resource resource;
-	private Copier copier;
 
 	/**
-	 * Initializes an instance of {@link UML2ExtlibPreparer}.
+	 * Initializes an instance of {@link UML2Preparer}.
 	 * Then, the converter can be loaded ("load" method) with an input UML and JAR file
 	 * before converting ("convert" method) it to an output UML file. 
 	 */
-	public UML2ExtlibPreparer() {
-		copier = new Copier();
+	public UML2Preparer() {
 		resourceSet = new ResourceSetImpl();
 		resourceSet.getPackageRegistry().put("http://www.eclipse.org/uml2/3.0.0/UML", UMLPackage.eINSTANCE);
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);

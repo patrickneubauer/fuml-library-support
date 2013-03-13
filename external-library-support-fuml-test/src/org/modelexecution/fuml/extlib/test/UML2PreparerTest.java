@@ -25,15 +25,16 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.junit.Before;
 import org.junit.Test;
-import org.modelexecution.fuml.extlib.UML2ExtlibPreparer;
+import org.modelexecution.fuml.extlib.UML2Preparer;
 
 /**
- * Class to test the {@link UML2ExtlibPreparer} 
+ * Class to test the {@link UML2Preparer} 
+ * Can be run as a JUnit test (not a JUnit Plug-in Test)
  * 
- * @author patrickneubauer
+ * @author Patrick Neubauer
  *
  */
-public class UML2ExtlibPreparerTest {
+public class UML2PreparerTest {
 
 	private ResourceSet resourceSet;
 	
@@ -50,7 +51,7 @@ public class UML2ExtlibPreparerTest {
 		String outputFilePath = "models/VehiclesConverted.uml";
 		String jarFilePath = "libraries/Vehicles.jar";
 		
-		UML2ExtlibPreparer converter = new UML2ExtlibPreparer();
+		UML2Preparer converter = new UML2Preparer();
 		converter.load(inputFilePath);
 		converter.convert(jarFilePath);
 		converter.save(outputFilePath);
@@ -156,7 +157,7 @@ public class UML2ExtlibPreparerTest {
 	}
 	
 	/**
-	 * Checks if the output file created with the {@link UML2ExtlibPreparer} contains
+	 * Checks if the output file created with the {@link UML2Preparer} contains
 	 * the necessary new OwnedBehavior (with all the parameters) elements and OwnedComment element for every Class
 	 * 
 	 * @param outputFilePath File output path where to search for the Placeholder Activities

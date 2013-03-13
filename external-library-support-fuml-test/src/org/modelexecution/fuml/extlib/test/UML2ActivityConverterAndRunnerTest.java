@@ -21,18 +21,21 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.modelexecution.fuml.convert.IConversionResult;
 import org.modelexecution.fuml.convert.uml2.UML2Converter;
+import org.modelexecution.fuml.extlib.IntegrationLayer;
+import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
+import org.modelexecution.fumldebug.core.ExecutionContext;
 import org.modelexecution.fumldebug.core.event.Event;
 
 import fUML.Semantics.Classes.Kernel.Object_;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
 
 /**
- * This class tests converting a UML file into a fUML Activity and then executing it in the ExecutionContext.
- * IMPORTANT: This will only run when using a Run Configuration (Test runner = "JUnit 4" and run vm arguments include "-javaagent:lib/aspectjweaver.jar")
+ * This class tests converting a UML file into a fUML Activity and then executing it in the ExecutionContext
  * 
- * REPRESENTS ONLY A PROOF OF CONCEPT
+ * IMPORTANT: Must be run as a JUnit Plug-in Test
+ * Run Configuration: Test runner = "JUnit 4" and run vm arguments include "-javaagent:lib/aspectjweaver.jar"
  * 
- * @author patrickneubauer
+ * @author Patrick Neubauer
  *
  */
 public class UML2ActivityConverterAndRunnerTest {
@@ -174,8 +177,13 @@ public class UML2ActivityConverterAndRunnerTest {
 		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
 		
 		Object_ objcar = new Object_();
-
-		org.modelexecution.fumldebug.core.ExecutionContext.getInstance().execute(fUMLActivity, objcar, new ParameterValueList());
+		
+		ExecutionContext executionContext = ExecutionContext.getInstance();
+		
+		IntegrationLayer integrationLayer = new IntegrationLayerImpl("path1", "path2", "path3");
+		
+		executionContext.addEventListener(integrationLayer);
+		executionContext.execute(fUMLActivity, objcar, new ParameterValueList());
 		
 		System.out.println(objcar);
 		

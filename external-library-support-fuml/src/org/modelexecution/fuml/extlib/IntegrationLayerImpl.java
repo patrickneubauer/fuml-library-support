@@ -16,8 +16,34 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 */
 	@Override
 	public void notify(Event event) {
-		// TODO Auto-generated method stub
-		System.out.println(event.toString());
+		/*
+		 * TODO 
+		 * This method is called whenever an EntryEvent or ExitEvent is triggered
+		 * Requires the IntegrationLayer to be registered at the ExecutionContext
+		 * (done via ExecutionContext.addEventListener(instance of IntegrationLayerImpl).
+		 * 
+		 * Then, whenever this method is reached, the execution must be stop (how? already done by reaching this code?)
+		 * Whenever the IL has done its job, the execution can be resumed (ExecutionContext.resume(int executionID)).
+		 *  
+		 */
+		System.out.println(event);
 	}
+	
+	public IntegrationLayerImpl() throws Exception {
+		throw new Exception("DEFAULT CONSTRUCTOR NOT ALLOWED, use the dedicated constructor.");
+	}
+
+	public IntegrationLayerImpl(String umlActivityDiagramFilePath, String... furtherPaths) {
+		/*
+		 * TODO
+		 * Obtain a list UML Activities (org.eclipse.uml2.uml.Activity) and their corresponding
+		 * fUML Activities (fUML.Syntax.Activities.IntermediateActivities.Activity).
+		 * 
+		 * In order to do this, every UML Activity has to be converted into a corresponding
+		 * fUML Activity (using org.modelexecution.fuml.convert.uml2.UML2Converter.convert(...)).
+		 */
+	}
+	
+	
 
 }
