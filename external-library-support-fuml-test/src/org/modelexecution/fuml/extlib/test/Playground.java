@@ -98,13 +98,9 @@ public class Playground {
 
 		IntegrationLayer integrationLayer = new IntegrationLayerImpl("path1",
 				"path2", "path3");
-
-		// registering the IL at the execution context
-		executionContext.addEventListener(integrationLayer);
-
+		
 		// execute CreateObjectAction
-		executionContext
-				.execute(fUMLActivity, objcar, new ParameterValueList());
+		integrationLayer.getExecutionContext().execute(fUMLActivity, objcar, new ParameterValueList());
 
 		System.out.println(objcar);
 
