@@ -82,14 +82,14 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		return fUmlPlaceholderObject;
 	}
 
+	/**
+	 * Replaces {@code fUmlPlaceholderObject} with {@code fUmlObject} in the
+	 * ExecutionContext Locus
+	 * 
+	 * @param fUmlPlaceholderObject {@link Object_} to be removed from the {@link Locus}
+	 * @param fUmlObject {@link Object_} to be added to the {@link Locus}
+	 */
 	private void replaceLocusObject(Object_ fUmlPlaceholderObject, Object_ fUmlObject) {
-		/*
-		 * TODO 1) Remove corresponding Object_ from Locus 2) Add the newly
-		 * created Object_ to the Locus
-		 * 
-		 * The Locus can be obtained from the ExecutionContext by calling
-		 * getLocus()
-		 */
 		executionContext.getLocus().remove(fUmlPlaceholderObject);
 		executionContext.getLocus().add(fUmlObject);
 	}
