@@ -3,15 +3,18 @@
  */
 package org.modelexecution.fuml.extlib;
 
+import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.HashMap;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.modelexecution.fumldebug.core.ExecutionContext;
 import org.modelexecution.fumldebug.core.event.Event;
-import org.modelexecution.fumldebug.core.event.impl.ActivityNodeExitEventImpl;
 
+import fUML.Semantics.Classes.Kernel.ExtensionalValueList;
 import fUML.Semantics.Classes.Kernel.Object_;
-import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
-import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
+import fUML.Syntax.Activities.IntermediateActivities.Activity;
+import fUML.Syntax.Classes.Kernel.Class_;
 
 /**
  * Implementation of the {@link IntegrationLayer}
@@ -21,13 +24,14 @@ import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
  */
 public class IntegrationLayerImpl implements IntegrationLayer {
 
-	private final ExecutionContext executionContext = ExecutionContext
-			.getInstance();
+	private final ExecutionContext executionContext = ExecutionContext.getInstance();
 
 	private DynamicClassLoader dynamicClassLoader;
 
 	private HashMap<Object_, Object> fUmlJavaMap = new HashMap<Object_, Object>();
 	private HashMap<Object, Object_> javaFUmlMap = new HashMap<Object, Object_>();
+
+	private ExtensionalValueList previousExtensionalValueList = new ExtensionalValueList();
 
 	/*
 	 * Whenever the {@link IntegrationLayer} is added as an {@link
@@ -45,19 +49,40 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		 * (ExecutionContext.resume(int executionID)).
 		 */
 		System.out.println(event);
-		if (isExternalCreateObjectAction(event)) {
+		if (EventHelper.isExternalCreateObjectActionEntry(event)) {
+			// store current ExtensionalValueList to compare later on
+			previousExtensionalValueList = (ExtensionalValueList) executionContext.getExtensionalValues().clone();
+
+		} else if (EventHelper.isExternalCreateObjectActionExit(event)) {
+			Object_ fUmlPlaceholderObject = obtainFUmlPlaceholderObject();
 			Object javaObject = obtainJavaObject(event);
-			Object_ fUmlObject = obtainFUmlObject(javaObject);
-			
-			replaceLocusObject(fUmlObject);
+
+			Object_Builder object_Builder = new Object_Builder(event, javaObject);
+			Object_ fUmlObject = object_Builder.getObject_();
+
+			System.out.println("fUML Placeholder Object = " + fUmlPlaceholderObject);
+
+			replaceLocusObject(fUmlPlaceholderObject, fUmlObject);
 			addObjects(fUmlObject, javaObject);
 
-		} else if (isExternalCallOperationAction(event)) {
+		} else if (EventHelper.isExternalCallOperationAction(event)) {
 			// TODO do something with this CallOperationAction
 		}
 	}
 
-	private void replaceLocusObject(Object_ fUmlObject) {
+	/**
+	 * Obtains the previously created fUML {@link Object_}
+	 * 
+	 * @return the previously created fUML {@link Object_}
+	 */
+	private Object_ obtainFUmlPlaceholderObject() {
+		Collection<ExtensionalValueList> extValList = CollectionUtils.subtract(executionContext.getExtensionalValues(), previousExtensionalValueList);
+		Object_ fUmlPlaceholderObject = (Object_) extValList.toArray()[0];
+
+		return fUmlPlaceholderObject;
+	}
+
+	private void replaceLocusObject(Object_ fUmlPlaceholderObject, Object_ fUmlObject) {
 		/*
 		 * TODO 1) Remove corresponding Object_ from Locus 2) Add the newly
 		 * created Object_ to the Locus
@@ -65,105 +90,50 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		 * The Locus can be obtained from the ExecutionContext by calling
 		 * getLocus()
 		 */
-		
+		executionContext.getLocus().remove(fUmlPlaceholderObject);
+		executionContext.getLocus().add(fUmlObject);
 	}
 
+	/**
+	 * Obtains a Java {@link Object} from a given {@code event} using the
+	 * {@link DynamicClassLoader}
+	 * 
+	 * @param event
+	 *            from which the {@link Object} is obtained
+	 * @return Java {@link Object} instance if found, null otherwise
+	 */
 	private Object obtainJavaObject(Event event) {
-		/*
-		 * TODO Steps to consider: 1) Obtain the path to the external JAR file
-		 * out of the Comment body of the Activity 2) Use the DynamicClassLoader
-		 * to instantiate a Java object of the type found in the Activity's
-		 * reference (a String called the same way as the Class found in the
-		 * Jar) 3) return the Object instance
-		 */
+		Object javaObject = null;
 
-		return null;
+		try {
+			String jarPath = EventHelper.obtainClassJarPath(event);
+			String className = EventHelper.obtainClassName(event);
+			String classNamespace = EventHelper.obtainClassNamespace(event);
+
+			dynamicClassLoader = new DynamicClassLoader(jarPath);
+			ClassLoader classLoader = dynamicClassLoader.getClassLoader();
+
+			Class<?> clazz = classLoader.loadClass(classNamespace + "." + className);
+			javaObject = clazz.newInstance();
+
+		} catch (Exception e) {
+			System.out.println("Error occured while trying to obtain the Java object. " + e);
+		}
+
+		return javaObject;
 	}
 
-	private Object_ obtainFUmlObject(Object javaObject) {
-		/*
-		 * TODO use the given Java object to create a fUML object by setting the
-		 * Object_'s type and featureValues
-		 */
-
-		return null;
-	}
-
-	public IntegrationLayerImpl() throws Exception {
-		throw new Exception(
-				"DEFAULT CONSTRUCTOR NOT ALLOWED, use the dedicated constructor.");
-	}
-
-	public IntegrationLayerImpl(String umlActivityDiagramFilePath,
-			String... furtherPaths) {
-		/*
-		 * TODO Obtain a list UML Activities (org.eclipse.uml2.uml.Activity) and
-		 * their corresponding fUML Activities
-		 * (fUML.Syntax.Activities.IntermediateActivities.Activity).
-		 * 
-		 * In order to do this, every UML Activity has to be converted into a
-		 * corresponding fUML Activity (using
-		 * org.modelexecution.fuml.convert.uml2.UML2Converter.convert(...)).
-		 */
+	public IntegrationLayerImpl() {
 
 		initialize();
-		
+
 	}
-	
+
 	private void initialize() {
+
 		// IL registers itself at the ExecutionContext instance
 		executionContext.addEventListener(this);
-	}
 
-	/**
-	 * Checks if the given {@code event} is of type {@link CreateObjectAction}
-	 * and references an external library
-	 * 
-	 * @param event
-	 *            the {@link Event} to check
-	 * @return true if the {@link event} is of type {@link CreateObjectAction}
-	 *         and references an external library, false otherwise
-	 */
-	private boolean isExternalCreateObjectAction(Event event) {
-		if (event instanceof ActivityNodeExitEventImpl) {
-			ActivityNode activityNode = ((ActivityNodeExitEventImpl) event)
-					.getNode();
-			if (activityNode instanceof CreateObjectAction) {
-				CreateObjectAction createObjectAction = (CreateObjectAction) activityNode;
-				// TODO add another check if it has a Comment body containing
-				// "@external"
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Checks if the given {@code event} is of type {@link CallOperationAction}
-	 * and references an external library
-	 * 
-	 * @param event
-	 *            the {@link Event} to check
-	 * @return true if the {@link event} is of type {@link CallOperationAction}
-	 *         and references an external library, false otherwise
-	 */
-	private boolean isExternalCallOperationAction(Event event) {
-		// TODO implementation might be quite similar to
-		// isExternalCreateObjectAction(Event event)
-		return false;
-	}
-
-	/*
-	 * Obtains the referenced JAR path from the {@code event}
-	 * 
-	 * @param event the {@link Event} to get the JAR path from
-	 * 
-	 * @return {@link String} representing the file path of the JAR found in the
-	 * given {@code event}
-	 */
-	private String obtainJarPath(Event event) {
-		// TODO obtain JAR file path from Event
-		return null;
 	}
 
 	private void addObjects(Object_ fUmlObject, Object javaObject) {
