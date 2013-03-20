@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_K-8U8FWwEeKaTuVFD778jg">
-  <packagedElement xmi:type="uml:Activity" xmi:id="_Nww8UFWwEeKaTuVFD778jg" name="VehiclesActivity" isReentrant="false" node="_QN6UMFWwEeKaTuVFD778jg _DcRToIl3EeKuJpavYsSoTA">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_Nww8UFWwEeKaTuVFD778jg" name="CarActivity1" isReentrant="false" node="_QN6UMFWwEeKaTuVFD778jg _DcRToIl3EeKuJpavYsSoTA">
     <node xmi:type="uml:CreateObjectAction" xmi:id="_QN6UMFWwEeKaTuVFD778jg" name="CreateCarObject">
-      <classifier xmi:type="uml:Class" href="VehiclesConverted.uml#_vD0-wn_9EeKmEPLZ-QpOVg"/>
+      <classifier xmi:type="uml:Class" href="VehiclesConverted.uml#_g_w-95GUEeK49a9yQ70LrQ"/>
       <result xmi:id="_u2Az4IgOEeKhyt_byWL5JA" name="createdCar"/>
     </node>
     <node xmi:type="uml:CallOperationAction" xmi:id="_DcRToIl3EeKuJpavYsSoTA" name="ToStringCallOperationAction">
       <argument xmi:id="_G7OGwIl3EeKuJpavYsSoTA" name="target"/>
       <result xmi:id="_IArS8Il3EeKuJpavYsSoTA" name="toStringReturnValue"/>
-      <operation href="VehiclesConverted.uml#_vD0-xH_9EeKmEPLZ-QpOVg"/>
+      <operation href="VehiclesConverted.uml#_g_w--ZGUEeK49a9yQ70LrQ"/>
+    </node>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_ScepkJFxEeKJdIXWZWqBdw" name="TruckActivity1" node="_XtkIsJFxEeKJdIXWZWqBdw _fW0ZEJFxEeKJdIXWZWqBdw">
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_XtkIsJFxEeKJdIXWZWqBdw" name="CreateTruckObject">
+      <classifier xmi:type="uml:Class" href="VehiclesConverted.uml#_g_wYDJGUEeK49a9yQ70LrQ"/>
+      <result xmi:id="_B9okoJGJEeKJdIXWZWqBdw" name="target"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_fW0ZEJFxEeKJdIXWZWqBdw" name="ToStringCallOperationAction">
+      <result xmi:id="_LIZEAJGJEeKJdIXWZWqBdw" name="toStringReturnValue"/>
+      <operation href="VehiclesConverted.uml#_g_wYI5GUEeK49a9yQ70LrQ"/>
+      <target xmi:id="_JR-U8JGJEeKJdIXWZWqBdw" name="target"/>
+    </node>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_IdKh8JGLEeKJdIXWZWqBdw" name="ShipActivity1" node="_LRLhsJGLEeKJdIXWZWqBdw _NQP2cJGLEeKJdIXWZWqBdw">
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_LRLhsJGLEeKJdIXWZWqBdw" name="CreateShipObject">
+      <classifier xmi:type="uml:Class" href="VehiclesConverted.uml#_g_vxFpGUEeK49a9yQ70LrQ"/>
+      <result xmi:id="_N45x4JGLEeKJdIXWZWqBdw" name="target"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_NQP2cJGLEeKJdIXWZWqBdw" name="ToStringCallOperationAction">
+      <argument xmi:id="_O7a-0JGLEeKJdIXWZWqBdw" name="toStringReturnValue"/>
+      <result xmi:id="_Pp-t8JGLEeKJdIXWZWqBdw" name="target"/>
+      <operation href="VehiclesConverted.uml#_g_wYCJGUEeK49a9yQ70LrQ"/>
     </node>
   </packagedElement>
 </uml:Model>
