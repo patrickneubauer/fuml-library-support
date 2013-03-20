@@ -32,6 +32,12 @@ public class ElementPopulator implements IElementPopulator {
 		for (org.eclipse.uml2.uml.Element value : uml2NamedElement.getOwnedElements()) {
 					fumlNamedElement.ownedElement.add((fUML.Syntax.Classes.Kernel.Element) result.getFUMLElement(value));
 		}
+
+		for (org.eclipse.uml2.uml.Comment value : uml2NamedElement.getOwnedComments()) {
+		       fUML.Syntax.Classes.Kernel.Comment comment = new fUML.Syntax.Classes.Kernel.Comment();
+		       comment.body = value.getBody();
+		       fumlNamedElement.ownedComment.add(comment);
+		}
 		
 		fumlNamedElement.owner = (fUML.Syntax.Classes.Kernel.Element) result
 							.getFUMLElement(uml2NamedElement.getOwner());
