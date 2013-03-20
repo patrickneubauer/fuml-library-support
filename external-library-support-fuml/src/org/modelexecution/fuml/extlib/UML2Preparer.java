@@ -45,10 +45,8 @@ public class UML2Preparer {
 	 */
 	public UML2Preparer() {
 		resourceSet = new ResourceSetImpl();
-		resourceSet.getPackageRegistry().put(
-				"http://www.eclipse.org/uml2/3.0.0/UML", UMLPackage.eINSTANCE);
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
-				.put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
+		resourceSet.getPackageRegistry().put("http://www.eclipse.org/uml2/3.0.0/UML", UMLPackage.eINSTANCE);
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 	}
 
 	/**
@@ -60,9 +58,7 @@ public class UML2Preparer {
 	 *            input UML file
 	 */
 	public void load(String inputFilePath) {
-		resource = resourceSet.getResource(
-				URI.createFileURI(new File(inputFilePath).getAbsolutePath()),
-				true);
+		resource = resourceSet.getResource(URI.createFileURI(new File(inputFilePath).getAbsolutePath()), true);
 	}
 
 	/**
@@ -76,8 +72,7 @@ public class UML2Preparer {
 	private Collection<Class> getAllClassesFromResource(Resource resource) {
 		Collection<Class> classes = new HashSet<Class>();
 
-		for (TreeIterator<EObject> iterator = resource.getAllContents(); iterator
-				.hasNext();) {
+		for (TreeIterator<EObject> iterator = resource.getAllContents(); iterator.hasNext();) {
 			EObject next = iterator.next();
 			if (next instanceof Class) {
 				Class clazz = (Class) next;
@@ -111,8 +106,7 @@ public class UML2Preparer {
 			clazz.createOwnedComment().setBody("@external=" + jarFilePath);
 
 			for (Operation operation : clazz.getOperations()) {
-				Activity placeholderActivity = UMLFactory.eINSTANCE
-						.createActivity();
+				Activity placeholderActivity = UMLFactory.eINSTANCE.createActivity();
 
 				// add "name" attribute to Placeholder Activity equal the
 				// Operation's "name" attribute
@@ -122,18 +116,15 @@ public class UML2Preparer {
 				// external
 				placeholderActivity.createOwnedComment().setBody("@external");
 
-				for (Parameter operationParameter : operation
-						.getOwnedParameters()) {
-					ActivityParameterNode activityParameterNode = UMLFactory.eINSTANCE
-							.createActivityParameterNode();
+				for (Parameter operationParameter : operation.getOwnedParameters()) {
+					ActivityParameterNode activityParameterNode = UMLFactory.eINSTANCE.createActivityParameterNode();
 
 					// reference the Operation Parameter in the
 					// ActivityParameterNode
 					activityParameterNode.setParameter(operationParameter);
 
 					// add the ActivityParameterNode to the Placeholder Activity
-					placeholderActivity.getOwnedNodes().add(
-							activityParameterNode);
+					placeholderActivity.getOwnedNodes().add(activityParameterNode);
 				}
 
 				// add OwnedBehavior to Class referencing the Placeholder
@@ -160,8 +151,7 @@ public class UML2Preparer {
 		try {
 			resource.save(new FileOutputStream(new File(outputFilePath)), null);
 		} catch (FileNotFoundException e) {
-			System.out.println("Coudln't find output file " + outputFilePath
-					+ ". Details: " + e);
+			System.out.println("Coudln't find output file " + outputFilePath + ". Details: " + e);
 		} catch (IOException e) {
 			System.out.println("Input/Output Exception occured. Details: " + e);
 		}

@@ -41,17 +41,15 @@ public class UML2PreparerTest {
 	@Before
 	public void prepareResourceSet() {
 		resourceSet = new ResourceSetImpl();
-		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI,
-				UMLPackage.eINSTANCE);
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
-				.put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
+		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 	}
 
 	@Test
 	public void addPlaceholderActivitiesToVehiclesUML() {
 		String inputFilePath = "models/Vehicles.uml";
 		String outputFilePath = "models/VehiclesConverted.uml";
-		String jarFilePath = "libraries/Vehicles.jar";
+		String jarFilePath = "extlibs/Vehicles.jar";
 
 		UML2Preparer converter = new UML2Preparer();
 		converter.load(inputFilePath);
@@ -78,15 +76,13 @@ public class UML2PreparerTest {
 	private Collection<Class> getAllClassesFromResource(Resource resource) {
 		Collection<Class> classes = new HashSet<Class>();
 
-		for (TreeIterator<EObject> iterator = resource.getAllContents(); iterator
-				.hasNext();) {
+		for (TreeIterator<EObject> iterator = resource.getAllContents(); iterator.hasNext();) {
 			EObject next = iterator.next();
 			if (next instanceof Class) {
 				Class clazz = (Class) next;
 				if (clazz.getPackage() != null) {
 					classes.add(clazz);
-					System.out.println("adding class " + clazz.getName()
-							+ " from package " + clazz.getPackage().getName());
+					System.out.println("adding class " + clazz.getName() + " from package " + clazz.getPackage().getName());
 				}
 			}
 		}
@@ -125,8 +121,7 @@ public class UML2PreparerTest {
 	 *            the body content to be search
 	 * @return true if found, false otherwise
 	 */
-	private boolean containsComment(Activity placeholderActivity,
-			String commentBody) {
+	private boolean containsComment(Activity placeholderActivity, String commentBody) {
 		for (Comment comment : placeholderActivity.getOwnedComments()) {
 			if (comment.getBody().equals(commentBody)) {
 				return true; // found
@@ -140,9 +135,7 @@ public class UML2PreparerTest {
 	 * "@external" reference in its body
 	 */
 	private void containsComments(String outputFilePath, String jarFilePath) {
-		Resource resource = resourceSet.getResource(
-				URI.createFileURI(new File(outputFilePath).getAbsolutePath()),
-				true);
+		Resource resource = resourceSet.getResource(URI.createFileURI(new File(outputFilePath).getAbsolutePath()), true);
 
 		Collection<Class> resouceClasses = getAllClassesFromResource(resource);
 
@@ -163,17 +156,14 @@ public class UML2PreparerTest {
 	 *            {@link Activity} are searched
 	 * @return true if found, false otherwise
 	 */
-	private boolean containsParameters(Activity placeholderActivity,
-			Operation operation) {
+	private boolean containsParameters(Activity placeholderActivity, Operation operation) {
 		for (ActivityNode activityNode : placeholderActivity.getOwnedNodes()) {
 
 			if (activityNode instanceof ActivityParameterNode) {
 				ActivityParameterNode activityParameterNode = (ActivityParameterNode) activityNode;
 
-				for (Parameter operationParameter : operation
-						.getOwnedParameters()) {
-					if (activityParameterNode.getParameter().equals(
-							operationParameter)) {
+				for (Parameter operationParameter : operation.getOwnedParameters()) {
+					if (activityParameterNode.getParameter().equals(operationParameter)) {
 						return true; // found
 					}
 				}
@@ -195,9 +185,7 @@ public class UML2PreparerTest {
 	 *            Activities
 	 */
 	private void containsPlaceholderActivities(String outputFilePath) {
-		Resource resource = resourceSet.getResource(
-				URI.createFileURI(new File(outputFilePath).getAbsolutePath()),
-				true);
+		Resource resource = resourceSet.getResource(URI.createFileURI(new File(outputFilePath).getAbsolutePath()), true);
 
 		Collection<Class> resouceClasses = getAllClassesFromResource(resource);
 		int classCounter = 0;
@@ -214,22 +202,18 @@ public class UML2PreparerTest {
 					if (classBehavior instanceof Activity) {
 						Activity placeholderActivity = (Activity) classBehavior;
 
-						if (placeholderActivity.equals(classOperation
-								.getMethods().get(0))) {
+						if (placeholderActivity.equals(classOperation.getMethods().get(0))) {
 							operationCounter++;
 
 							// check if their name is equal
-							assertEquals(placeholderActivity.getName(),
-									classOperation.getName());
+							assertEquals(placeholderActivity.getName(), classOperation.getName());
 
 							// check if the Placeholder Activity has the
 							// expected OwnedComment
-							assertTrue(containsComment(placeholderActivity,
-									"@external"));
+							assertTrue(containsComment(placeholderActivity, "@external"));
 
 							// check if their Parameters are equal
-							assertTrue(containsParameters(placeholderActivity,
-									classOperation));
+							assertTrue(containsParameters(placeholderActivity, classOperation));
 						}
 					}
 				}

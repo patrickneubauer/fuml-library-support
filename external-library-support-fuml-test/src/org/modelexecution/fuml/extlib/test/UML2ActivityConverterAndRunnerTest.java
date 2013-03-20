@@ -47,30 +47,23 @@ public class UML2ActivityConverterAndRunnerTest {
 	@Before
 	public void prepareResourceSet() {
 		resourceSet = new ResourceSetImpl();
-		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI,
-				UMLPackage.eINSTANCE);
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
-				.put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
+		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 	}
 
-	private Activity loadActivity(String path, String activityName,
-			String... furtherPaths) {
+	private Activity loadActivity(String path, String activityName, String... furtherPaths) {
 		return obtainActivity(getResource(path, furtherPaths), activityName);
 	}
 
 	private Resource getResource(String activitypath, String... paths) {
 		for (String path : paths) {
-			resourceSet.getResource(
-					URI.createFileURI(new File(path).getAbsolutePath()), true);
+			resourceSet.getResource(URI.createFileURI(new File(path).getAbsolutePath()), true);
 		}
-		return resourceSet.getResource(
-				URI.createFileURI(new File(activitypath).getAbsolutePath()),
-				true);
+		return resourceSet.getResource(URI.createFileURI(new File(activitypath).getAbsolutePath()), true);
 	}
 
 	private Activity obtainActivity(Resource resource, String activityName) {
-		for (TreeIterator<EObject> iterator = resource.getAllContents(); iterator
-				.hasNext();) {
+		for (TreeIterator<EObject> iterator = resource.getAllContents(); iterator.hasNext();) {
 			EObject next = iterator.next();
 			if (next instanceof Activity) {
 				Activity activity = (Activity) next;
@@ -91,16 +84,14 @@ public class UML2ActivityConverterAndRunnerTest {
 	@Test
 	public void createfUMLActivityOutOfUMLFile() {
 		String umlFileLocation = "models/VehiclesActivityDiagram.uml";
-		String activityName = "VehiclesActivity";
+		String activityName = "CarActivity1";
 
 		Activity umlActivity = loadActivity(umlFileLocation, activityName);
 
 		UML2Converter umlConverter = new UML2Converter();
-		IConversionResult umlTofUmlConversionResult = umlConverter
-				.convert(umlActivity);
+		IConversionResult umlTofUmlConversionResult = umlConverter.convert(umlActivity);
 
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = umlTofUmlConversionResult
-				.getActivities().iterator().next();
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = umlTofUmlConversionResult.getActivities().iterator().next();
 		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
 		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
 		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
@@ -114,17 +105,15 @@ public class UML2ActivityConverterAndRunnerTest {
 	 */
 	@Test
 	public void createAndExecutefUMLActivityOutOfUMLFileContainingOneActivityOnly() {
-		Activity umlActivity = loadActivity("models/OneActivityOnlyModel.uml",
-				"OneActivityOnlyModelActivity");
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter()
-				.convert(umlActivity).getActivities().iterator().next();
+		Activity umlActivity = loadActivity("models/OneActivityOnlyModel.uml", "OneActivityOnlyModelActivity");
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
 
 		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
 		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
 		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
 
-		org.modelexecution.fumldebug.core.ExecutionContext.getInstance()
-				.execute(fUMLActivity, null, new ParameterValueList());
+		org.modelexecution.fumldebug.core.ExecutionContext.getInstance().execute(fUMLActivity, null, new ParameterValueList());
 
 		assertEquals(0, eventlist.size());
 	}
@@ -135,18 +124,15 @@ public class UML2ActivityConverterAndRunnerTest {
 	 */
 	@Test
 	public void createAndExecutefUMLActivityOutOfUMLFileCreatedWithPapyrus1() {
-		Activity umlActivity = loadActivity(
-				"models/SimplePapyrusCreatedModel1.uml",
-				"SimplePapyrusCreatedModel1Activity");
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter()
-				.convert(umlActivity).getActivities().iterator().next();
+		Activity umlActivity = loadActivity("models/SimplePapyrusCreatedModel1.uml", "SimplePapyrusCreatedModel1Activity");
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
 
 		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
 		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
 		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
 
-		org.modelexecution.fumldebug.core.ExecutionContext.getInstance()
-				.execute(fUMLActivity, null, new ParameterValueList());
+		org.modelexecution.fumldebug.core.ExecutionContext.getInstance().execute(fUMLActivity, null, new ParameterValueList());
 	}
 
 	/**
@@ -156,18 +142,15 @@ public class UML2ActivityConverterAndRunnerTest {
 	@Test
 	@Ignore
 	public void createAndExecutefUMLActivityOutOfUMLFileCreatedWithPapyrus2() {
-		Activity umlActivity = loadActivity(
-				"models/SimplePapyrusCreatedModel2.uml",
-				"SimplePapyrusCreatedModel2Activity");
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter()
-				.convert(umlActivity).getActivities().iterator().next();
+		Activity umlActivity = loadActivity("models/SimplePapyrusCreatedModel2.uml", "SimplePapyrusCreatedModel2Activity");
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
 
 		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
 		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
 		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
 
-		org.modelexecution.fumldebug.core.ExecutionContext.getInstance()
-				.execute(fUMLActivity, null, new ParameterValueList());
+		org.modelexecution.fumldebug.core.ExecutionContext.getInstance().execute(fUMLActivity, null, new ParameterValueList());
 	}
 
 	/**
@@ -177,22 +160,22 @@ public class UML2ActivityConverterAndRunnerTest {
 	 */
 	@Test
 	public void createAndExecutefUMLActivityOutOfUMLFileActivityWithCreateObjectAction() {
-		Activity umlActivity = loadActivity(
-				"models/activityWithCreateObjectAction/model.uml",
-				"ActivityWithCreateObjectActionActivity");
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter()
-				.convert(umlActivity).getActivities().iterator().next();
+		Activity umlActivity = loadActivity("models/activityWithCreateObjectAction/model.uml", "ActivityWithCreateObjectActionActivity");
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
 
 		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
 		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
 		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
 
+		// It is possible to create your own fUML object, set it up with values
+		// (not done here) and pass it to the ExecutionContext
 		Object_ objperson = new Object_();
 
-		org.modelexecution.fumldebug.core.ExecutionContext.getInstance()
-				.execute(fUMLActivity, objperson, new ParameterValueList());
+		org.modelexecution.fumldebug.core.ExecutionContext.getInstance().execute(fUMLActivity, objperson, new ParameterValueList());
 
 		System.out.println(objperson);
+
 	}
 
 	/**
@@ -202,26 +185,24 @@ public class UML2ActivityConverterAndRunnerTest {
 	 */
 	@Test
 	public void createAndExecutefUMLActivityOutOfUMLFileCreatedByReverseEngineering() {
-		Activity umlActivity = loadActivity(
-				"models/VehiclesActivityDiagram.uml", "VehiclesActivity",
-				"models/VehiclesConverted.uml");
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter()
-				.convert(umlActivity).getActivities().iterator().next();
+		Activity umlActivity = loadActivity("models/VehiclesActivityDiagram.uml", "CarActivity1", "models/VehiclesConverted.uml");
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
 
 		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
 		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
 		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
 
+		// It is possible to create your own fUML object, set it up with values
+		// (not done here) and pass it to the ExecutionContext
 		Object_ objcar = new Object_();
 
 		ExecutionContext executionContext = ExecutionContext.getInstance();
 
-		IntegrationLayer integrationLayer = new IntegrationLayerImpl("path1",
-				"path2", "path3");
+		IntegrationLayer integrationLayer = new IntegrationLayerImpl();
 
 		executionContext.addEventListener(integrationLayer);
-		executionContext
-				.execute(fUMLActivity, objcar, new ParameterValueList());
+		executionContext.execute(fUMLActivity, objcar, new ParameterValueList());
 
 		System.out.println(objcar);
 
