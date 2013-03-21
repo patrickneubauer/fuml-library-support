@@ -3,18 +3,27 @@
  */
 package org.modelexecution.fuml.extlib;
 
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.modelexecution.fumldebug.core.ExecutionContext;
 import org.modelexecution.fumldebug.core.event.Event;
+import org.modelexecution.fumldebug.core.event.impl.ActivityNodeExitEventImpl;
 
+import fUML.Semantics.Actions.BasicActions.OutputPinActivation;
+import fUML.Semantics.Actions.BasicActions.PinActivation;
+import fUML.Semantics.Actions.IntermediateActions.CreateObjectActionActivation;
+import fUML.Semantics.Activities.IntermediateActivities.ActivityExecution;
+import fUML.Semantics.Activities.IntermediateActivities.ActivityNodeActivation;
+import fUML.Semantics.Activities.IntermediateActivities.ObjectToken;
+import fUML.Semantics.Activities.IntermediateActivities.Token;
+import fUML.Semantics.Classes.Kernel.ExtensionalValue;
 import fUML.Semantics.Classes.Kernel.ExtensionalValueList;
 import fUML.Semantics.Classes.Kernel.Object_;
-import fUML.Syntax.Activities.IntermediateActivities.Activity;
-import fUML.Syntax.Classes.Kernel.Class_;
+import fUML.Semantics.Loci.LociL1.Locus;
+import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
+import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
 
 /**
  * Implementation of the {@link IntegrationLayer}
@@ -63,12 +72,13 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			System.out.println("fUML Placeholder Object = " + fUmlPlaceholderObject);
 
 			replaceLocusObject(fUmlPlaceholderObject, fUmlObject);
+			assignFUmlObjectToToken(event, fUmlObject);
 			addObjects(fUmlObject, javaObject);
 
 		} else if (EventHelper.isExternalCallOperationAction(event)) {
 			// TODO do something with this CallOperationAction
 		}
-	}
+	}// notify
 
 	/**
 	 * Obtains the previously created fUML {@link Object_}
@@ -80,19 +90,21 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		Object_ fUmlPlaceholderObject = (Object_) extValList.toArray()[0];
 
 		return fUmlPlaceholderObject;
-	}
+	}// obtainFUmlPlaceholderObject
 
 	/**
 	 * Replaces {@code fUmlPlaceholderObject} with {@code fUmlObject} in the
 	 * ExecutionContext Locus
 	 * 
-	 * @param fUmlPlaceholderObject {@link Object_} to be removed from the {@link Locus}
-	 * @param fUmlObject {@link Object_} to be added to the {@link Locus}
+	 * @param fUmlPlaceholderObject
+	 *            {@link Object_} to be removed from the {@link Locus}
+	 * @param fUmlObject
+	 *            {@link Object_} to be added to the {@link Locus}
 	 */
 	private void replaceLocusObject(Object_ fUmlPlaceholderObject, Object_ fUmlObject) {
 		executionContext.getLocus().remove(fUmlPlaceholderObject);
 		executionContext.getLocus().add(fUmlObject);
-	}
+	}// replaceLocusObject
 
 	/**
 	 * Obtains a Java {@link Object} from a given {@code event} using the
@@ -121,39 +133,123 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		}
 
 		return javaObject;
-	}
+	}// obtainJavaObject
+
+	/**
+	 * Assigns a given {@link Object_} to the {@link ObjectToken} at the list of
+	 * held tokens
+	 * 
+	 * @param event
+	 *            must be an instance of {@link ActivityNodeExitEventImpl} and
+	 *            it's node must be an instance of {@link CreateObjectAction}
+	 * @param fUmlObject
+	 *            fUML {@link Object_} to set at the {@link ObjectToken}
+	 */
+	private void assignFUmlObjectToToken(Event event, Object_ fUmlObject) {
+		// Obtain the CreateObjectAction
+		if (event instanceof ActivityNodeExitEventImpl) {
+			ActivityNode activityNode = ((ActivityNodeExitEventImpl) event).getNode();
+			if (activityNode instanceof CreateObjectAction) {
+				CreateObjectAction createObjectAction = (CreateObjectAction) activityNode;
+				/*
+				 * Obtained the CreateObjectAction, next: navigate to the
+				 * correct node that is equal to the obtained CreateObjectAction
+				 */
+
+				for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
+
+					if (extensionalValue instanceof ActivityExecution) {
+						ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
+
+						for (ActivityNodeActivation activityNodeActivation : activityExecution.activationGroup.nodeActivations) {
+
+							if (activityNodeActivation instanceof CreateObjectActionActivation) {
+								CreateObjectActionActivation createObjectActionActivation = (CreateObjectActionActivation) activityNodeActivation;
+
+								if (createObjectActionActivation.node.equals(createObjectAction)) {
+									/*
+									 * Arrived at the correct node, next:
+									 * navigate to OutputPinActivation
+									 */
+
+									for (PinActivation pinActivation : createObjectActionActivation.pinActivations) {
+
+										if (pinActivation instanceof OutputPinActivation) {
+											/*
+											 * Arrived at the
+											 * OutputPinActivation, next:
+											 * navigate to ObjectToken
+											 */
+											OutputPinActivation outputPinActivation = (OutputPinActivation) pinActivation;
+
+											for (Token token : outputPinActivation.heldTokens) {
+												if (token.holder.equals(outputPinActivation)) {
+													/*
+													 * Arrived at the correct
+													 * ObjectToken, next: set
+													 * fUML Object_ as value of
+													 * ObjectToken
+													 */
+													ObjectToken objectToken = (ObjectToken) token;
+
+													objectToken.value = fUmlObject;
+													return; // exit
+
+												}
+
+											}//Token loop
+
+										}
+
+									}//PinActivation loop
+
+								}
+
+							}
+
+						}//ActivityNodeActivation loop
+
+					}
+
+				}//ExtensionalValue loop
+
+			}//activityNode instanceof CreateObjectAction
+			
+		}//event instanceof ActivityNodeExitEventImpl
+
+	}//assignFUmlObjectToToken
 
 	public IntegrationLayerImpl() {
 
 		initialize();
 
-	}
+	}// Constructor
 
 	private void initialize() {
 
 		// IL registers itself at the ExecutionContext instance
 		executionContext.addEventListener(this);
 
-	}
+	}// initialize
 
 	private void addObjects(Object_ fUmlObject, Object javaObject) {
 		javaFUmlMap.put(javaObject, fUmlObject);
 		fUmlJavaMap.put(fUmlObject, javaObject);
-	}
+	}// addObjects
 
 	@Override
 	public Object_ getFUmlObject(Object javaObject) {
 		return javaFUmlMap.get(javaObject);
-	}
+	}// getFUmlObject
 
 	@Override
 	public Object getJavaObject(Object_ fUmlObject) {
 		return fUmlJavaMap.get(fUmlObject);
-	}
+	}// getJavaObject
 
 	@Override
 	public ExecutionContext getExecutionContext() {
 		return this.executionContext;
-	}
+	}// getExecutionContext
 
-}
+}// IntegrationLayerImpl
