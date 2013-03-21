@@ -220,8 +220,8 @@ public class UML2PreparerTest {
 			}
 		}
 
-		assertEquals(17, classCounter);
-		assertEquals(40, operationCounter);
+		assertEquals(19, classCounter);
+		assertEquals(50, operationCounter);
 	}
 
 }
