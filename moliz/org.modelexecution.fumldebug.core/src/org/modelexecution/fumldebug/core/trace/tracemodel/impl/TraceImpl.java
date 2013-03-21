@@ -13,19 +13,16 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.BasicInternalEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution;
+import org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution;
 import org.modelexecution.fumldebug.core.trace.tracemodel.Trace;
+import org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage;
 
 import fUML.Syntax.Activities.IntermediateActivities.Activity;
 
@@ -43,6 +40,7 @@ import fUML.Syntax.Activities.IntermediateActivities.Activity;
  * @generated
  */
 public class TraceImpl extends EObjectImpl implements Trace {
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -74,9 +72,8 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	protected EClass eStaticClass() {
-		return TracemodelPackageImpl.Literals.TRACE;
+		return TracemodelPackage.Literals.TRACE;
 	}
 
 	/**
@@ -86,7 +83,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 */
 	public List<ActivityExecution> getActivityExecutions() {
 		if (activityExecutions == null) {
-			activityExecutions = new BasicInternalEList<ActivityExecution>(ActivityExecution.class);
+			activityExecutions = new EObjectContainmentWithInverseEList<ActivityExecution>(ActivityExecution.class, this, TracemodelPackage.TRACE__ACTIVITY_EXECUTIONS, TracemodelPackage.ACTIVITY_EXECUTION__TRACE);
 		}
 		return activityExecutions;
 	}
@@ -96,10 +93,23 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	@SuppressWarnings("unchecked")
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case TracemodelPackage.TRACE__ACTIVITY_EXECUTIONS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getActivityExecutions()).basicAdd(otherEnd, msgs);
+		}
+		return eDynamicInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case TracemodelPackageImpl.TRACE__ACTIVITY_EXECUTIONS:
+			case TracemodelPackage.TRACE__ACTIVITY_EXECUTIONS:
 				return ((InternalEList<?>)getActivityExecutions()).basicRemove(otherEnd, msgs);
 		}
 		return eDynamicInverseRemove(otherEnd, featureID, msgs);
@@ -110,10 +120,9 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case TracemodelPackageImpl.TRACE__ACTIVITY_EXECUTIONS:
+			case TracemodelPackage.TRACE__ACTIVITY_EXECUTIONS:
 				return getActivityExecutions();
 		}
 		return eDynamicGet(featureID, resolve, coreType);
@@ -125,10 +134,9 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case TracemodelPackageImpl.TRACE__ACTIVITY_EXECUTIONS:
+			case TracemodelPackage.TRACE__ACTIVITY_EXECUTIONS:
 				getActivityExecutions().clear();
 				getActivityExecutions().addAll((Collection<? extends ActivityExecution>)newValue);
 				return;
@@ -141,10 +149,9 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case TracemodelPackageImpl.TRACE__ACTIVITY_EXECUTIONS:
+			case TracemodelPackage.TRACE__ACTIVITY_EXECUTIONS:
 				getActivityExecutions().clear();
 				return;
 		}
@@ -156,10 +163,9 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case TracemodelPackageImpl.TRACE__ACTIVITY_EXECUTIONS:
+			case TracemodelPackage.TRACE__ACTIVITY_EXECUTIONS:
 				return activityExecutions != null && !activityExecutions.isEmpty();
 		}
 		return eDynamicIsSet(featureID);
@@ -184,5 +190,19 @@ public class TraceImpl extends EObjectImpl implements Trace {
 		this.getActivityExecutions().add(activityExecution);
 		return activityExecution;
 	}
+
+	public ActivityNodeExecution getLastActivityNodeExecution() {
+		for(ActivityExecution activityExecution : this.activityExecutions) {
+			for(ActivityNodeExecution nodeExecution : activityExecution.getNodeExecutions()) {
+				if(nodeExecution.isExecuted()) {
+					if(nodeExecution.getChronologicalSuccessor() == null) {
+						return nodeExecution;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 
 } //TraceImpl

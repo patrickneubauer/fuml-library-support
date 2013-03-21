@@ -9,10 +9,11 @@
  */
 package org.modelexecution.fumldebug.core.trace.tracemodel;
 
-import fUML.Syntax.Activities.IntermediateActivities.ActivityEdge;
-
 import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
+
+import fUML.Syntax.Activities.IntermediateActivities.ActivityEdge;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,6 +27,8 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  * </p>
  *
+ * @see org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage#getTokenInstance()
+ * @model abstract="true"
  * @generated
  */
 public interface TokenInstance extends EObject {
@@ -46,6 +49,8 @@ public interface TokenInstance extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Traversed Edges</em>' attribute list.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage#getTokenInstance_TraversedEdges()
+	 * @model dataType="org.modelexecution.fumldebug.core.trace.tracemodel.ActivityEdge" transient="true" derived="true"
 	 * @generated
 	 */
 	List<ActivityEdge> getTraversedEdges();

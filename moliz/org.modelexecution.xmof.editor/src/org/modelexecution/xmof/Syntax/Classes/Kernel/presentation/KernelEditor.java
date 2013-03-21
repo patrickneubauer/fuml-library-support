@@ -12,6 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.commands.operations.DefaultOperationHistory;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -46,7 +47,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -68,6 +68,9 @@ import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.impl.TransactionalEditingDomainImpl;
+import org.eclipse.emf.workspace.IWorkspaceCommandStack;
+import org.eclipse.emf.workspace.WorkspaceEditingDomainFactory;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.AreaContext;
@@ -75,7 +78,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramEditorInput;
-import org.eclipse.graphiti.ui.internal.services.impl.EmfService;
+import org.eclipse.graphiti.ui.internal.editor.GFWorkspaceCommandStackImpl;
 import org.eclipse.graphiti.ui.platform.GraphitiConnectionEditPart;
 import org.eclipse.graphiti.ui.platform.GraphitiShapeEditPart;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
@@ -134,12 +137,14 @@ import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity;
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.IntermediateActivitiesFactory;
 import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEClass;
 import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEOperation;
+import org.modelexecution.xmof.Syntax.Classes.Kernel.provider.ExtendedEcoreItemProviderAdapterFactory;
 import org.modelexecution.xmof.Syntax.Classes.Kernel.provider.KernelItemProviderAdapterFactory;
 import org.modelexecution.xmof.Syntax.CommonBehaviors.BasicBehaviors.BasicBehaviorsPackage;
 import org.modelexecution.xmof.diagram.XMOFDiagramPlugin;
@@ -690,11 +695,12 @@ public class KernelEditor extends EcoreEditor implements
 		//
 		adapterFactory = new ComposedAdapterFactory(
 				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-
 		adapterFactory
 				.addAdapterFactory(new ResourceItemProviderAdapterFactory());
 		adapterFactory
 				.addAdapterFactory(new KernelItemProviderAdapterFactory());
+		adapterFactory
+				.addAdapterFactory(new ExtendedEcoreItemProviderAdapterFactory());
 		adapterFactory
 				.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
@@ -737,7 +743,15 @@ public class KernelEditor extends EcoreEditor implements
 	}
 
 	private TransactionalEditingDomain createGraphitiCompliantEditingDomain() {
-		return new EmfService().createResourceSetAndEditingDomain();
+		// cf
+		// org.eclipse.graphiti.ui.internal.services.impl.EmfService.createResourceSetAndEditingDomain()
+		final ResourceSet resourceSet = new ResourceSetImpl();
+		final IWorkspaceCommandStack workspaceCommandStack = new GFWorkspaceCommandStackImpl(
+				new DefaultOperationHistory());
+		final TransactionalEditingDomainImpl editingDomain = new TransactionalEditingDomainImpl(
+				adapterFactory, workspaceCommandStack, resourceSet);
+		WorkspaceEditingDomainFactory.INSTANCE.mapResourceSet(editingDomain);
+		return editingDomain;
 	}
 
 	/**
@@ -1015,42 +1029,9 @@ public class KernelEditor extends EcoreEditor implements
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				ISelection selection = event.getSelection();
-				setSelection(getSelectionOfBusinessObjects(selection));
+				setSelection(event.getSelection());
 			}
 		});
-	}
-	
-	private ISelection getSelectionOfBusinessObjects(
-			ISelection graphitiSelection) {
-		List<EObject> selectedObjects = new ArrayList<EObject>();
-		if (graphitiSelection instanceof IStructuredSelection) {
-			IStructuredSelection structuredSelection = (IStructuredSelection) graphitiSelection;
-			for (Iterator<?> iterator = structuredSelection.iterator(); iterator
-					.hasNext();) {
-				Object object = iterator.next();
-				PictogramElement pictogramElement = getPictogramElement(object);
-				if (pictogramElement != null) {
-					EList<EObject> businessObjects = pictogramElement.getLink()
-							.getBusinessObjects();
-					selectedObjects.addAll(businessObjects);
-				}
-			}
-			return new StructuredSelection(selectedObjects);
-		} else {
-			return graphitiSelection;
-		}
-	}
-
-	private PictogramElement getPictogramElement(Object object) {
-		if (object instanceof GraphitiShapeEditPart) {
-			GraphitiShapeEditPart shapeEditPart = (GraphitiShapeEditPart) object;
-			return shapeEditPart.getPictogramElement();
-		} else if (object instanceof GraphitiConnectionEditPart) {
-			GraphitiConnectionEditPart connectionEditPart = (GraphitiConnectionEditPart) object;
-			return connectionEditPart.getPictogramElement();
-		}
-		return null;
 	}
 
 	private int addEditorPage(Activity activity, DiagramEditorInternal editor)
@@ -1660,7 +1641,7 @@ public class KernelEditor extends EcoreEditor implements
 	 * This accesses a cached version of the property sheet. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT (adds subclassed property source provider for Graphiti elements) 
 	 */
 	public IPropertySheetPage getPropertySheetPage() {
 		if (propertySheetPage == null) {
@@ -1680,7 +1661,35 @@ public class KernelEditor extends EcoreEditor implements
 			};
 			propertySheetPage
 					.setPropertySourceProvider(new AdapterFactoryContentProvider(
-							adapterFactory));
+							adapterFactory) {
+						@Override
+						public IPropertySource getPropertySource(Object object) {
+							IPropertySource propertySource = super
+									.getPropertySource(object);
+							if (propertySource == null) {
+								if (object instanceof GraphitiConnectionEditPart) {
+									GraphitiConnectionEditPart editPart = (GraphitiConnectionEditPart) object;
+									PictogramElement pictogramElement = editPart
+											.getPictogramElement();
+									Object element = editPart
+											.getFeatureProvider()
+											.getBusinessObjectForPictogramElement(
+													pictogramElement);
+									propertySource = super.getPropertySource(element);
+								} else if (object instanceof GraphitiShapeEditPart) {
+									GraphitiShapeEditPart editPart = (GraphitiShapeEditPart) object;
+									PictogramElement pictogramElement = editPart
+											.getPictogramElement();
+									Object element = editPart
+											.getFeatureProvider()
+											.getBusinessObjectForPictogramElement(
+													pictogramElement);
+									propertySource =super.getPropertySource(element);
+								}
+							}
+							return propertySource;
+						}
+					});
 		}
 
 		return propertySheetPage;
@@ -1751,8 +1760,6 @@ public class KernelEditor extends EcoreEditor implements
 		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
 		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
 				Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-		saveOptions.put(XMIResource.OPTION_PROCESS_DANGLING_HREF,
-				XMIResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
 
 		WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
 			@Override
@@ -1971,7 +1978,7 @@ public class KernelEditor extends EcoreEditor implements
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT improve status line when graphiti element is selected
 	 */
 	public void setStatusLineManager(ISelection selection) {
 		IStatusLineManager statusLineManager = currentViewer != null
@@ -1989,9 +1996,10 @@ public class KernelEditor extends EcoreEditor implements
 					break;
 				}
 				case 1: {
+					Object selectedObject = collection.iterator().next();
+					selectedObject = obtainBusinessObjectIfGraphitiElement(selectedObject);
 					String text = new AdapterFactoryItemDelegator(
-							adapterFactory).getText(collection.iterator()
-							.next());
+							adapterFactory).getText(selectedObject);
 					statusLineManager.setMessage(getString(
 							"_UI_SingleObjectSelected", text));
 					break;
@@ -2007,6 +2015,28 @@ public class KernelEditor extends EcoreEditor implements
 				statusLineManager.setMessage("");
 			}
 		}
+	}
+
+	private Object obtainBusinessObjectIfGraphitiElement(Object selectedObject) {
+		if (selectedObject instanceof GraphitiShapeEditPart) {
+			GraphitiShapeEditPart editPart = (GraphitiShapeEditPart) selectedObject;
+			if (editPart.getPictogramElement().getLink() != null) {
+				EList<EObject> businessObjects = editPart.getPictogramElement()
+						.getLink().getBusinessObjects();
+				if (businessObjects.size() > 0)
+					return businessObjects.get(0);
+			} else {return "Diagram Canvas";}
+		}
+		if (selectedObject instanceof GraphitiConnectionEditPart) {
+			GraphitiConnectionEditPart editPart = (GraphitiConnectionEditPart) selectedObject;
+			if (editPart.getPictogramElement().getLink() != null) {
+				EList<EObject> businessObjects = editPart.getPictogramElement()
+						.getLink().getBusinessObjects();
+				if (businessObjects.size() > 0)
+					return businessObjects.get(0);
+			}
+		}
+		return selectedObject;
 	}
 
 	/**

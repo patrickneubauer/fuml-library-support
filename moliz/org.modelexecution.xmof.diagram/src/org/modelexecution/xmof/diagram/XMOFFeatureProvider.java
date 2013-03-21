@@ -16,6 +16,7 @@ import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.ILayoutFeature;
 import org.eclipse.graphiti.features.IMoveShapeFeature;
+import org.eclipse.graphiti.features.IReconnectionFeature;
 import org.eclipse.graphiti.features.IRemoveFeature;
 import org.eclipse.graphiti.features.IResizeShapeFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
@@ -23,6 +24,7 @@ import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
+import org.eclipse.graphiti.features.context.IReconnectionContext;
 import org.eclipse.graphiti.features.context.IRemoveContext;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
@@ -32,11 +34,13 @@ import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 import org.modelexecution.xmof.Syntax.Actions.BasicActions.Action;
 import org.modelexecution.xmof.Syntax.Actions.BasicActions.CallBehaviorAction;
 import org.modelexecution.xmof.Syntax.Actions.BasicActions.CallOperationAction;
+import org.modelexecution.xmof.Syntax.Actions.BasicActions.InputPin;
 import org.modelexecution.xmof.Syntax.Actions.BasicActions.Pin;
 import org.modelexecution.xmof.Syntax.Activities.CompleteStructuredActivities.StructuredActivityNode;
 import org.modelexecution.xmof.Syntax.Activities.ExtraStructuredActivities.ExpansionNode;
 import org.modelexecution.xmof.Syntax.Activities.ExtraStructuredActivities.ExpansionRegion;
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity;
+import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.ActivityEdge;
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.ActivityNode;
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.ActivityParameterNode;
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.ControlFlow;
@@ -52,6 +56,7 @@ import org.modelexecution.xmof.diagram.features.AddActionFeature;
 import org.modelexecution.xmof.diagram.features.AddActivityFeature;
 import org.modelexecution.xmof.diagram.features.AddDecisionMergeNodeFeature;
 import org.modelexecution.xmof.diagram.features.AddExpansionNodeFeature;
+import org.modelexecution.xmof.diagram.features.AddExpansionRegionInputPinFeature;
 import org.modelexecution.xmof.diagram.features.AddFlowFeature;
 import org.modelexecution.xmof.diagram.features.AddInitialNodeFeature;
 import org.modelexecution.xmof.diagram.features.AddJoinForkNodeFeature;
@@ -60,7 +65,10 @@ import org.modelexecution.xmof.diagram.features.CreateAddStructuralFeatureValueA
 import org.modelexecution.xmof.diagram.features.CreateCallBehaviorActionFeature;
 import org.modelexecution.xmof.diagram.features.CreateCallOperationActionFeature;
 import org.modelexecution.xmof.diagram.features.CreateControlFlowFeature;
+import org.modelexecution.xmof.diagram.features.CreateCreateObjectActionFeature;
 import org.modelexecution.xmof.diagram.features.CreateDecisionNodeFeature;
+import org.modelexecution.xmof.diagram.features.CreateDestroyObjectActionFeature;
+import org.modelexecution.xmof.diagram.features.CreateExpansionRegionInputPinFeature;
 import org.modelexecution.xmof.diagram.features.CreateExpansionRegionFeature;
 import org.modelexecution.xmof.diagram.features.CreateForkNodeFeature;
 import org.modelexecution.xmof.diagram.features.CreateInitialNodeFeature;
@@ -69,15 +77,20 @@ import org.modelexecution.xmof.diagram.features.CreateJoinNodeFeature;
 import org.modelexecution.xmof.diagram.features.CreateMergeNodeFeature;
 import org.modelexecution.xmof.diagram.features.CreateObjectFlowFeature;
 import org.modelexecution.xmof.diagram.features.CreateOutputExpansionNodeFeature;
+import org.modelexecution.xmof.diagram.features.CreateReadIsClassifiedObjectActionFeature;
 import org.modelexecution.xmof.diagram.features.CreateReadSelfActionFeature;
 import org.modelexecution.xmof.diagram.features.CreateReadStructuralFeatureActionFeature;
+import org.modelexecution.xmof.diagram.features.CreateTestIdentityActionFeature;
 import org.modelexecution.xmof.diagram.features.CreateValueSpecificationActionFeature;
 import org.modelexecution.xmof.diagram.features.DeleteActionFeature;
 import org.modelexecution.xmof.diagram.features.DeleteActivityNodeFeature;
 import org.modelexecution.xmof.diagram.features.DeleteExpansionRegionFeature;
+import org.modelexecution.xmof.diagram.features.DisallowReconnectActivityEdgeFeature;
+import org.modelexecution.xmof.diagram.features.DisallowDeleteActivityFeature;
 import org.modelexecution.xmof.diagram.features.DisallowDeletePinFeature;
 import org.modelexecution.xmof.diagram.features.DisallowMoveExpansionNodeFeature;
 import org.modelexecution.xmof.diagram.features.DisallowMovePinFeature;
+import org.modelexecution.xmof.diagram.features.DisallowRemoveActivityFeature;
 import org.modelexecution.xmof.diagram.features.DisallowRemoveActivityParameterNodeFeature;
 import org.modelexecution.xmof.diagram.features.DisallowRemovePinFeature;
 import org.modelexecution.xmof.diagram.features.DisallowResizeControlNodeFeature;
@@ -122,6 +135,8 @@ public class XMOFFeatureProvider extends DefaultFeatureProvider {
 			return new AddJoinForkNodeFeature(this);
 		} else if (newObject instanceof ExpansionNode) {
 			return new AddExpansionNodeFeature(this);
+		} else if (newObject instanceof InputPin) {
+			return new AddExpansionRegionInputPinFeature(this);
 		}
 		return super.getAddFeature(context);
 	}
@@ -134,6 +149,8 @@ public class XMOFFeatureProvider extends DefaultFeatureProvider {
 	@Override
 	public ICreateFeature[] getCreateFeatures() {
 		return new ICreateFeature[] {
+				new CreateReadIsClassifiedObjectActionFeature(this),
+				new CreateTestIdentityActionFeature(this),
 				new CreateValueSpecificationActionFeature(this),
 				new CreateAddStructuralFeatureValueActionFeature(this),
 				new CreateReadStructuralFeatureActionFeature(this),
@@ -148,7 +165,10 @@ public class XMOFFeatureProvider extends DefaultFeatureProvider {
 				new CreateCallBehaviorActionFeature(this),
 				new CreateExpansionRegionFeature(this),
 				new CreateInputExpansionNodeFeature(this),
-				new CreateOutputExpansionNodeFeature(this) };
+				new CreateOutputExpansionNodeFeature(this),
+				new CreateExpansionRegionInputPinFeature(this), 
+				new CreateCreateObjectActionFeature(this), 
+				new CreateDestroyObjectActionFeature(this)};
 	}
 
 	@Override
@@ -218,7 +238,9 @@ public class XMOFFeatureProvider extends DefaultFeatureProvider {
 			return new DeleteActionFeature(this);
 		} else if (bo instanceof ActivityNode) {
 			return new DeleteActivityNodeFeature(this);
-		}
+		} else if (bo instanceof Activity) {
+			return new DisallowDeleteActivityFeature(this);
+		} 
 		return super.getDeleteFeature(context);
 	}
 
@@ -238,7 +260,9 @@ public class XMOFFeatureProvider extends DefaultFeatureProvider {
 			return new RemoveActionFeature(this);
 		} else if (bo instanceof ActivityNode) {
 			return new RemoveActivityNodeFeature(this);
-		}
+		} else if (bo instanceof Activity) {
+			return new DisallowRemoveActivityFeature(this);
+		} 
 		return super.getRemoveFeature(context);
 	}
 
@@ -253,5 +277,14 @@ public class XMOFFeatureProvider extends DefaultFeatureProvider {
 		}
 		return super.getResizeShapeFeature(context);
 	}
-
+	
+	@Override
+	public IReconnectionFeature getReconnectionFeature(
+			IReconnectionContext context) {
+		Object bo = context.getConnection().getLink().getBusinessObjects().get(0);
+		if(bo instanceof ActivityEdge) {
+			return new DisallowReconnectActivityEdgeFeature(this);
+		}
+		return super.getReconnectionFeature(context);
+	}
 }

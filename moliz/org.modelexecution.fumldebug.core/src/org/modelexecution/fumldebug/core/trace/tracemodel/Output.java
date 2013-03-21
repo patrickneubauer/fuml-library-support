@@ -9,11 +9,11 @@
  */
 package org.modelexecution.fumldebug.core.trace.tracemodel;
 
-import fUML.Syntax.Actions.BasicActions.OutputPin;
-
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+
+import fUML.Syntax.Actions.BasicActions.OutputPin;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,6 +28,8 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  * </p>
  *
+ * @see org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage#getOutput()
+ * @model
  * @generated
  */
 public interface Output extends EObject {
@@ -48,6 +50,8 @@ public interface Output extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Tokens</em>' containment reference list.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage#getOutput_Tokens()
+	 * @model containment="true"
 	 * @generated
 	 */
 	List<TokenInstance> getTokens();
@@ -62,6 +66,8 @@ public interface Output extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Output Pin</em>' attribute.
 	 * @see #setOutputPin(OutputPin)
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage#getOutput_OutputPin()
+	 * @model dataType="org.modelexecution.fumldebug.core.trace.tracemodel.OutputPin" transient="true"
 	 * @generated
 	 */
 	OutputPin getOutputPin();

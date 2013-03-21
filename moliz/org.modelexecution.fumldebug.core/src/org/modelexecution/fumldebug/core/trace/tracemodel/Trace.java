@@ -27,6 +27,8 @@ import fUML.Syntax.Activities.IntermediateActivities.Activity;
  * </ul>
  * </p>
  *
+ * @see org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage#getTrace()
+ * @model
  * @generated
  */
 public interface Trace extends EObject {
@@ -40,6 +42,7 @@ public interface Trace extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Activity Executions</b></em>' containment reference list.
 	 * The list contents are of type {@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution}.
+	 * It is bidirectional and its opposite is '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getTrace <em>Trace</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Activity Executions</em>' containment reference list isn't clear,
@@ -47,6 +50,9 @@ public interface Trace extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Activity Executions</em>' containment reference list.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage#getTrace_ActivityExecutions()
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getTrace
+	 * @model opposite="trace" containment="true"
 	 * @generated
 	 */
 	List<ActivityExecution> getActivityExecutions();
@@ -66,4 +72,6 @@ public interface Trace extends EObject {
 	 */
 	ActivityExecution addActivityExecution(Activity activity, int activityExecutionID);
 	
+	ActivityNodeExecution getLastActivityNodeExecution();
+		
 } // Trace

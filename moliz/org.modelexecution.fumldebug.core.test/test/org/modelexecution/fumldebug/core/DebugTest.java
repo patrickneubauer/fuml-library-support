@@ -57,13 +57,16 @@ import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
 import fUML.Syntax.Actions.BasicActions.CallBehaviorAction;
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
+import fUML.Syntax.Actions.BasicActions.InputPin;
 import fUML.Syntax.Actions.BasicActions.OutputPin;
 import fUML.Syntax.Actions.BasicActions.OutputPinList;
+import fUML.Syntax.Actions.CompleteActions.ReadIsClassifiedObjectAction;
 import fUML.Syntax.Actions.IntermediateActions.AddStructuralFeatureValueAction;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
 import fUML.Syntax.Actions.IntermediateActions.DestroyObjectAction;
 import fUML.Syntax.Actions.IntermediateActions.ReadSelfAction;
 import fUML.Syntax.Actions.IntermediateActions.ReadStructuralFeatureAction;
+import fUML.Syntax.Actions.IntermediateActions.TestIdentityAction;
 import fUML.Syntax.Actions.IntermediateActions.ValueSpecificationAction;
 import fUML.Syntax.Activities.ExtraStructuredActivities.ExpansionKind;
 import fUML.Syntax.Activities.ExtraStructuredActivities.ExpansionRegion;
@@ -134,6 +137,110 @@ public class DebugTest extends MolizTest implements ExecutionEventListener{
 	public void tearDown() throws Exception {
 	}
 
+	@Test
+	public void testExpansionRegionWithInputPin() {
+		Class_ cl = ActivityFactory.createClass("Person");
+		Property name = ActivityFactory.createProperty("name", 1, 1, ExecutionContext.getInstance().getPrimitiveStringType(), cl);
+		
+		Activity activity = ActivityFactory.createActivity("testExpansionRegionWithInputPin");
+		Parameter paramin = ActivityFactory.createParameter(activity, "in", ParameterDirectionKind.in);
+		Parameter paramout = ActivityFactory.createParameter(activity, "out", ParameterDirectionKind.out);
+		ActivityParameterNode innode = ActivityFactory.createActivityParameterNode(activity, "in", paramin);
+		ActivityParameterNode outnode = ActivityFactory.createActivityParameterNode(activity, "out", paramout);
+		ValueSpecificationAction specify = ActivityFactory.createValueSpecificationAction(activity, "specify name", "name");
+		AddStructuralFeatureValueAction setname = ActivityFactory.createAddStructuralFeatureValueAction(activity, "set name", name, true);
+		List<ActivityNode> expansionnodes = new ArrayList<ActivityNode>();
+		expansionnodes.add(setname);
+		ExpansionRegion region = ActivityFactory.createExpansionRegion(activity, "set names", ExpansionKind.parallel, expansionnodes, 1, 1);
+		InputPin regionpin = new InputPin();
+		regionpin.setName("regioninput");
+		regionpin.setLower(1);
+		regionpin.setUpper(1);
+		region.structuredNodeInput.add(regionpin);
+		region.input.add(regionpin);
+		ActivityFactory.createObjectFlow(activity, innode, region.inputElement.get(0));
+		ActivityFactory.createObjectFlow(activity, specify.result, region.structuredNodeInput.get(0));
+		ActivityFactory.createObjectFlow(region, region.inputElement.get(0), setname.object);
+		ActivityFactory.createObjectFlow(region, region.structuredNodeInput.get(0), setname.value);
+		ActivityFactory.createObjectFlow(region, setname.result, region.outputElement.get(0));
+		ActivityFactory.createObjectFlow(activity, region.outputElement.get(0), outnode);
+		
+		// create input
+		ParameterValueList input = new ParameterValueList();
+		
+		ParameterValue inputvalue = new ParameterValue();
+		inputvalue.parameter = paramin;
+		ValueList valuelist = new ValueList();		
+		for(int i=0;i<3;++i) {
+			Object_ object = new Object_();
+			object.types.add(cl);
+			object.createFeatureValues();
+			StringValue value = new StringValue();
+			value.value = "lala";
+			ValueList values = new ValueList();
+			values.add(value);
+			object.setFeatureValue(name, values, 0);
+			ExecutionContext.getInstance().getLocus().add(object);
+			Reference reference = new Reference();
+			reference.referent = object;
+			valuelist.add(reference);
+		}
+				
+		inputvalue.values = valuelist; 
+		input.add(inputvalue);
+		
+		// execute
+		ExecutionContext.getInstance().execute(activity, null, input);
+		int activityexecutionID = ((ActivityEntryEvent) eventlist.get(0)).getActivityExecutionID();
+		
+		// check output
+		ParameterValueList output = ExecutionContext.getInstance()
+				.getActivityOutput(activityexecutionID);
+		assertEquals(1, output.size());
+		assertEquals(3, output.get(0).values.size());
+		
+		for(int i=0;i<3;++i) {
+			Object_ o = ((Reference)output.get(0).values.get(i)).referent;
+			assertEquals("name", ((StringValue)o.getFeatureValue(name).values.get(0)).value);
+		}
+		
+		// check events
+		assertEquals(12, eventlist.size());
+		
+		assertTrue(eventlist.get(1) instanceof ActivityNodeEntryEvent);
+		assertEquals(specify, ((ActivityNodeEntryEvent)eventlist.get(1)).getNode());
+		
+		assertTrue(eventlist.get(2) instanceof ActivityNodeExitEvent);
+		assertEquals(specify, ((ActivityNodeExitEvent)eventlist.get(2)).getNode());
+		
+		assertTrue(eventlist.get(3) instanceof ActivityNodeEntryEvent);
+		assertEquals(region, ((ActivityNodeEntryEvent)eventlist.get(3)).getNode());	
+		
+		assertTrue(eventlist.get(4) instanceof ActivityNodeEntryEvent);
+		assertEquals(setname, ((ActivityNodeEntryEvent)eventlist.get(4)).getNode());
+		
+		assertTrue(eventlist.get(5) instanceof ActivityNodeExitEvent);
+		assertEquals(setname, ((ActivityNodeExitEvent)eventlist.get(5)).getNode());
+		
+		assertTrue(eventlist.get(6) instanceof ActivityNodeEntryEvent);
+		assertEquals(setname, ((ActivityNodeEntryEvent)eventlist.get(6)).getNode());
+		
+		assertTrue(eventlist.get(7) instanceof ActivityNodeExitEvent);
+		assertEquals(setname, ((ActivityNodeExitEvent)eventlist.get(7)).getNode());
+		
+		assertTrue(eventlist.get(8) instanceof ActivityNodeEntryEvent);
+		assertEquals(setname, ((ActivityNodeEntryEvent)eventlist.get(8)).getNode());
+		
+		assertTrue(eventlist.get(9) instanceof ActivityNodeExitEvent);
+		assertEquals(setname, ((ActivityNodeExitEvent)eventlist.get(9)).getNode());
+		
+		assertTrue(eventlist.get(10) instanceof ActivityNodeExitEvent);
+		assertEquals(region, ((ActivityNodeExitEvent)eventlist.get(10)).getNode());	
+		
+		assertTrue(eventlist.get(11) instanceof ActivityExitEvent);
+		assertEquals(activity, ((ActivityExitEvent)eventlist.get(11)).getActivity());
+	}
+	
 	/**
 	 * Tests the execution of an activity without nodes
 	 */
@@ -4297,6 +4404,380 @@ public class DebugTest extends MolizTest implements ExecutionEventListener{
 		assertEquals(obj_transition3, outputobj2);
 	}
 	
+	/**
+	 * Tests the case where an expansion region only contains one 
+	 * activity node which is an call operation action and the 
+	 * expansion node is the last activity node of the containing activity
+	 * 
+	 * Class cl
+	 * 	prop : Integer
+	 * 
+	 * Input objects
+	 * o1 : cl
+	 * 	prop = 0
+	 * o2 : cl
+	 * 	prop = 0
+	 * 
+	 * Activity 1:
+	 * input parameter accepting the two objects
+	 * output parameter providing the two objects
+	 * fork
+	 * expansionregion with 1 inputelement, 1 outputelement, calloperationaction to activity2
+
+	 * inputparameter -> fork
+	 * fork -> expansionregion.inputelement
+	 * fork -> outputparameter
+	 * expansionregion.inputelement -> calloperationaction.target
+	 * 
+	 * Activity 2:
+	 * read self
+	 * fork
+	 * read prop
+	 * specify value 1
+	 * call behavior "add"
+	 * set prop
+	 * 
+	 * read self.result -> fork
+	 * fork -> set tokens.object
+	 * fork -> read prop.object
+	 * read prop.result -> add.input[0]
+	 * specify value 1.result -> add.input[1]
+	 * add.output[0] -> set prop.value
+	 * 
+	 * The expected output are the two objects with prop = 1 (instead of 0)
+	 * 
+	 */
+	@Test
+	public void testExpansionRegionAsLastNodeWithCallOperationAction() {
+		ExpansionRegionTestData2 testdata = new ExpansionRegionTestData2();		
+		
+		Activity activity = ActivityFactory.createActivity("activity");
+		Parameter parameter = ActivityFactory.createParameter(activity, "param", ParameterDirectionKind.in);
+		ActivityParameterNode parameternode = ActivityFactory.createActivityParameterNode(activity, "activityparam", parameter);
+		Parameter parameterout = ActivityFactory.createParameter(activity, "paramout", ParameterDirectionKind.out);
+		ActivityParameterNode parameternodeout = ActivityFactory.createActivityParameterNode(activity, "activityparamout", parameterout);
+		ForkNode fork2 = ActivityFactory.createForkNode(activity, "fork2");
+		ExpansionRegion expansionregion = testdata.createExpansionRegion(activity);
+		
+		ActivityFactory.createObjectFlow(activity, parameternode, fork2);
+		ActivityFactory.createObjectFlow(activity, fork2, expansionregion.inputElement.get(0));
+		ActivityFactory.createObjectFlow(activity, fork2, parameternodeout);
+				
+		ParameterValueList input = testdata.createInputObjects(parameter);
+		
+		ExecutionContext.getInstance().execute(activity, null, input);
+		int activityexecutionID = ((ActivityEntryEvent)eventlist.get(0)).getActivityExecutionID(); 
+		
+		ParameterValueList output = ExecutionContext.getInstance().getActivityOutput(activityexecutionID);
+		assertEquals(1, output.size());
+		assertEquals(2, output.get(0).values.size());
+		
+		Object_ o1 = ((Reference)output.get(0).values.get(0)).referent;		
+		IntegerValue propvalue1 = (IntegerValue)o1.featureValues.get(0).values.get(0);
+		
+		Object_ o2 = ((Reference)output.get(0).values.get(1)).referent;
+		IntegerValue propvalue2 = (IntegerValue)o2.featureValues.get(0).values.get(0);
+		
+		assertEquals(1, propvalue1.value);
+		assertEquals(1, propvalue2.value);
+	}
+	
+	/**
+	 * This test is basically structured as {@link testExpansionRegionAsLastNodeWithCallOperationAction}
+	 * but includes two expansion regions with the same content
+	 */
+	@Test
+	public void testExpansionRegionAsLastNodeWithCallOperationAction2() {
+		ExpansionRegionTestData2 testdata = new ExpansionRegionTestData2();		
+		
+		Activity activity = ActivityFactory.createActivity("activity");
+		Parameter parameter = ActivityFactory.createParameter(activity, "param", ParameterDirectionKind.in);
+		ActivityParameterNode parameternode = ActivityFactory.createActivityParameterNode(activity, "activityparam", parameter);
+		Parameter parameterout = ActivityFactory.createParameter(activity, "paramout", ParameterDirectionKind.out);
+		ActivityParameterNode parameternodeout = ActivityFactory.createActivityParameterNode(activity, "activityparamout", parameterout);
+		ForkNode fork2 = ActivityFactory.createForkNode(activity, "fork2");
+		ExpansionRegion expansionregion1 = testdata.createExpansionRegion(activity);
+		ExpansionRegion expansionregion2 = testdata.createExpansionRegion(activity);
+		
+		ActivityFactory.createObjectFlow(activity, parameternode, fork2);
+		ActivityFactory.createObjectFlow(activity, fork2, expansionregion1.inputElement.get(0));
+		ActivityFactory.createObjectFlow(activity, fork2, expansionregion2.inputElement.get(0));
+		ActivityFactory.createObjectFlow(activity, fork2, parameternodeout);
+				
+		ParameterValueList input = testdata.createInputObjects(parameter);
+		
+		ExecutionContext.getInstance().execute(activity, null, input);
+		int activityexecutionID = ((ActivityEntryEvent)eventlist.get(0)).getActivityExecutionID(); 
+		
+		ParameterValueList output = ExecutionContext.getInstance().getActivityOutput(activityexecutionID);
+		assertEquals(1, output.size());
+		assertEquals(2, output.get(0).values.size());
+		
+		Object_ o1 = ((Reference)output.get(0).values.get(0)).referent;		
+		IntegerValue propvalue1 = (IntegerValue)o1.featureValues.get(0).values.get(0);
+		
+		Object_ o2 = ((Reference)output.get(0).values.get(1)).referent;
+		IntegerValue propvalue2 = (IntegerValue)o2.featureValues.get(0).values.get(0);
+		
+		assertEquals(2, propvalue1.value);
+		assertEquals(2, propvalue2.value);
+	}
+	
+	@Test
+	public void testListIndexOfFeature() {
+		Activity activity = ActivityFactory.createActivity("testListIndexOfFeature");
+		Parameter paramlist = ActivityFactory.createParameter(activity, "list", ParameterDirectionKind.in);
+		ActivityParameterNode paramnodelist = ActivityFactory.createActivityParameterNode(activity, "list", paramlist);
+		Parameter paramobject = ActivityFactory.createParameter(activity, "object", ParameterDirectionKind.in);
+		ActivityParameterNode paramnodeobject = ActivityFactory.createActivityParameterNode(activity, "object", paramobject);
+		Parameter paramresult = ActivityFactory.createParameter(activity, "result", ParameterDirectionKind.out);
+		ActivityParameterNode paramnoderesult = ActivityFactory.createActivityParameterNode(activity, "result", paramresult);		
+		CallBehaviorAction call = ActivityFactory.createCallBehaviorAction(activity, "call indexof", ExecutionContext.getInstance().getOpaqueBehavior("listindexof"), 1, 2);
+		ActivityFactory.createObjectFlow(activity, paramnodelist, call.input.get(0));
+		ActivityFactory.createObjectFlow(activity, paramnodeobject, call.input.get(1));
+		ActivityFactory.createObjectFlow(activity, call.output.get(0), paramnoderesult);
+		
+		// create list input
+		ParameterValue list = new ParameterValue();
+		list.parameter = paramlist;
+		ValueList valuelist = new ValueList();		
+		for(int i=0;i<3;++i) {			
+			IntegerValue value = new IntegerValue();
+			value.value = i;
+			ValueList values = new ValueList();
+			values.add(value);
+			valuelist.add(value);
+		}				
+		list.values = valuelist;
+		
+		// create object input
+		ParameterValue object = new ParameterValue();
+		object.parameter = paramobject;
+		ValueList valuelist2 = new ValueList();
+		valuelist2.add(valuelist.get(2));
+		object.values = valuelist2;
+		
+		ParameterValueList input = new ParameterValueList();
+		input.add(list);
+		input.add(object);
+		
+		ExecutionContext.getInstance().execute(activity, null, input);
+		int activityexecutionID = ((ActivityEntryEvent)eventlist.get(0)).getActivityExecutionID(); 
+		
+		ParameterValueList output = ExecutionContext.getInstance().getActivityOutput(activityexecutionID);
+		assertEquals(1, output.size());
+		assertEquals(1, output.get(0).values.size());		
+		assertEquals(3, ((IntegerValue)output.get(0).values.get(0)).value);		
+	}
+	
+	@Test
+	public void testTestIdentityAction() {
+		Activity activity = ActivityFactory.createActivity("testTestIdentityAction");
+		TestIdentityAction equals = ActivityFactory.createTestIdentityAction(activity, "equals");
+		Parameter param1 = ActivityFactory.createParameter("param1", ParameterDirectionKind.in);
+		ActivityParameterNode paramnode1 = ActivityFactory.createActivityParameterNode(activity, "param1", param1); 
+		Parameter param2 = ActivityFactory.createParameter("param2", ParameterDirectionKind.in);
+		ActivityParameterNode paramnode2 = ActivityFactory.createActivityParameterNode(activity, "param2", param2);
+		Parameter param3 = ActivityFactory.createParameter("param3", ParameterDirectionKind.out);
+		ActivityParameterNode paramnode3 = ActivityFactory.createActivityParameterNode(activity, "param3", param3);
+		ActivityFactory.createObjectFlow(activity, paramnode1, equals.first);
+		ActivityFactory.createObjectFlow(activity, paramnode2, equals.second);
+		ActivityFactory.createObjectFlow(activity, equals.result, paramnode3);
+		
+		// create list input
+		ParameterValue par1 = new ParameterValue();
+		par1.parameter = param1;
+		ValueList valuelist1 = new ValueList();
+		IntegerValue value1 = new IntegerValue();
+		value1.value = 1;
+		ValueList values1 = new ValueList();
+		values1.add(value1);
+		valuelist1.add(value1);		
+		par1.values = valuelist1;
+		
+		// create object
+		ParameterValue par2 = new ParameterValue();
+		par2.parameter = param2;
+		ValueList valuelist2 = new ValueList();
+		IntegerValue value2 = new IntegerValue();
+		value2.value = 1;
+		ValueList values2 = new ValueList();
+		values2.add(value2);
+		valuelist2.add(value2);		
+		par2.values = valuelist2;
+
+		ParameterValueList input = new ParameterValueList();
+		input.add(par1);
+		input.add(par2);
+
+		// execute
+		ExecutionContext.getInstance().execute(activity, null, input);
+		int activityexecutionID = ((ActivityEntryEvent) eventlist.get(0))
+				.getActivityExecutionID();
+
+		// check output
+		ParameterValueList output = ExecutionContext.getInstance()
+				.getActivityOutput(activityexecutionID);
+		assertEquals(1, output.size());
+		assertEquals(1, output.get(0).values.size());
+		assertEquals(true, ((BooleanValue) output.get(0).values.get(0)).value);
+		
+		// check events
+		assertEquals(4, eventlist.size());
+		
+		assertTrue(eventlist.get(0) instanceof ActivityEntryEvent);
+		assertEquals(activity, ((ActivityEntryEvent)eventlist.get(0)).getActivity());
+		
+		assertTrue(eventlist.get(1) instanceof ActivityNodeEntryEvent);
+		assertEquals(equals, ((ActivityNodeEntryEvent)eventlist.get(1)).getNode());
+				
+		assertTrue(eventlist.get(2) instanceof ActivityNodeExitEvent);
+		assertEquals(equals, ((ActivityNodeExitEvent)eventlist.get(2)).getNode());
+				
+		assertTrue(eventlist.get(3) instanceof ActivityExitEvent);
+		assertEquals(activity, ((ActivityExitEvent)eventlist.get(3)).getActivity());	
+	}
+	
+	@Test
+	public void testReadIsKindOfAction() {
+		Class_ c1 = ActivityFactory.createClass("Class1");
+		Class_ c2 = ActivityFactory.createClass("Class2");
+		Activity activity = ActivityFactory.createActivity("testReadIsKindOfAction");
+		Parameter param1 = ActivityFactory.createParameter("param1", ParameterDirectionKind.in);
+		ActivityParameterNode paramnode1 = ActivityFactory.createActivityParameterNode(activity, "paramnode1", param1);
+		Parameter param2 = ActivityFactory.createParameter("param2", ParameterDirectionKind.out);
+		ActivityParameterNode paramnode2 = ActivityFactory.createActivityParameterNode(activity, "paramnode2", param2);
+		ReadIsClassifiedObjectAction typeof1 = ActivityFactory.createReadIsClassifiedObjectAction(activity, "typeof1", c1);
+		ReadIsClassifiedObjectAction typeof2 = ActivityFactory.createReadIsClassifiedObjectAction(activity, "typeof2", c2);
+		ForkNode fork = ActivityFactory.createForkNode(activity, "fork");
+		
+		ActivityFactory.createObjectFlow(activity, paramnode1, fork);
+		ActivityFactory.createObjectFlow(activity, fork, typeof1.object);
+		ActivityFactory.createObjectFlow(activity, fork, typeof2.object);
+		ActivityFactory.createObjectFlow(activity, typeof1.result, paramnode2);
+		ActivityFactory.createObjectFlow(activity, typeof2.result, paramnode2);
+		ActivityFactory.createControlFlow(activity, typeof1, typeof2);
+		
+		// create one object of Class1
+		ParameterValueList input = new ParameterValueList();
+		ParameterValue inputvalue = new ParameterValue();
+		inputvalue.parameter = param1;			
+		ValueList valuelist = new ValueList();		
+		Object_ object = new Object_();
+		object.types.add(c1);
+		object.createFeatureValues();
+		ExecutionContext.getInstance().getLocus().add(object);
+		Reference reference = new Reference();
+		reference.referent = object;
+		valuelist.add(reference);
+		inputvalue.values = valuelist; 				
+		input.add(inputvalue);
+			
+		// execute
+		ExecutionContext.getInstance().execute(activity, null, input);
+		int activityexecutionID = ((ActivityEntryEvent) eventlist.get(0))
+				.getActivityExecutionID();
+
+		// check output
+		ParameterValueList output = ExecutionContext.getInstance()
+				.getActivityOutput(activityexecutionID);
+		assertEquals(1, output.size());
+		assertEquals(2, output.get(0).values.size());
+		assertEquals(true, ((BooleanValue) output.get(0).values.get(0)).value);
+		assertEquals(false, ((BooleanValue) output.get(0).values.get(1)).value);
+		
+		// check events
+		assertEquals(8, eventlist.size());
+		
+		assertTrue(eventlist.get(0) instanceof ActivityEntryEvent);
+		assertEquals(activity, ((ActivityEntryEvent)eventlist.get(0)).getActivity());
+		
+		assertTrue(eventlist.get(1) instanceof ActivityNodeEntryEvent);
+		assertEquals(fork, ((ActivityNodeEntryEvent)eventlist.get(1)).getNode());
+				
+		assertTrue(eventlist.get(2) instanceof ActivityNodeExitEvent);
+		assertEquals(fork, ((ActivityNodeExitEvent)eventlist.get(2)).getNode());
+		
+		assertTrue(eventlist.get(3) instanceof ActivityNodeEntryEvent);
+		assertEquals(typeof1, ((ActivityNodeEntryEvent)eventlist.get(3)).getNode());
+				
+		assertTrue(eventlist.get(4) instanceof ActivityNodeExitEvent);
+		assertEquals(typeof1, ((ActivityNodeExitEvent)eventlist.get(4)).getNode());
+		
+		assertTrue(eventlist.get(5) instanceof ActivityNodeEntryEvent);
+		assertEquals(typeof2, ((ActivityNodeEntryEvent)eventlist.get(5)).getNode());
+				
+		assertTrue(eventlist.get(6) instanceof ActivityNodeExitEvent);
+		assertEquals(typeof2, ((ActivityNodeExitEvent)eventlist.get(6)).getNode());
+		
+		assertTrue(eventlist.get(7) instanceof ActivityExitEvent);
+		assertEquals(activity, ((ActivityExitEvent)eventlist.get(7)).getActivity());	
+	}
+	
+	private class ExpansionRegionTestData2{
+		Operation op;
+		Class_ cl;
+		Property prop;
+		
+		public ExpansionRegionTestData2() {
+			cl = ActivityFactory.createClass("cl");
+			prop = ActivityFactory.createProperty("prop", 1, 1, ExecutionContext.getInstance().getPrimitiveStringType(), cl);
+			op = ActivityFactory.createOperation("op", null, createAdd1Activity(), cl);
+		}
+		
+		public ExpansionRegion createExpansionRegion(Activity activity) {
+			CallOperationAction calloperation = ActivityFactory.createCallOperationAction(activity, "calloperation", op);
+			List<ActivityNode> expansionnodes = new ArrayList<ActivityNode>();
+			expansionnodes.add(calloperation);
+			ExpansionRegion expansionregion = ActivityFactory.createExpansionRegion(activity, "expansion", ExpansionKind.iterative, expansionnodes, 1, 0);
+			ActivityFactory.createObjectFlow(expansionregion, expansionregion.inputElement.get(0), calloperation.target);
+			return expansionregion;
+		}
+	
+		public ParameterValueList createInputObjects(Parameter parameter) {
+			ParameterValueList input = new ParameterValueList();
+			
+			ParameterValue inputvalue = new ParameterValue();
+			inputvalue.parameter = parameter;
+			ValueList valuelist = new ValueList();		
+			for(int i=0;i<2;++i) {
+				Object_ object = new Object_();
+				object.types.add(cl);
+				object.createFeatureValues();
+				IntegerValue value = new IntegerValue();
+				value.value = 0;
+				ValueList values = new ValueList();
+				values.add(value);
+				object.setFeatureValue(prop, values, 0);
+				ExecutionContext.getInstance().getLocus().add(object);
+				Reference reference = new Reference();
+				reference.referent = object;
+				valuelist.add(reference);
+			}
+					
+			inputvalue.values = valuelist; 
+			input.add(inputvalue);
+			return input;
+		}
+	
+		private Activity createAdd1Activity() {
+			Activity activity2 = ActivityFactory.createActivity("activity2");
+			ReadSelfAction readself = ActivityFactory.createReadSelfAction(activity2, "readself");
+			ForkNode fork = ActivityFactory.createForkNode(activity2, "fork");
+			ValueSpecificationAction vspec = ActivityFactory.createValueSpecificationAction(activity2, "specify 1", 1);
+			ReadStructuralFeatureAction readprop = ActivityFactory.createReadStructuralFeatureAction(activity2, "read prop", prop);
+			CallBehaviorAction add = ActivityFactory.createCallBehaviorAction(activity2, "call add", ExecutionContext.getInstance().getOpaqueBehavior("add"), 1, 2);
+			AddStructuralFeatureValueAction setprop = ActivityFactory.createAddStructuralFeatureValueAction(activity2, "set prop", prop, true);
+			ActivityFactory.createObjectFlow(activity2, readself.result, fork);
+			ActivityFactory.createObjectFlow(activity2, fork, setprop.object);
+			ActivityFactory.createObjectFlow(activity2, fork, readprop.object);
+			ActivityFactory.createObjectFlow(activity2, readprop.result, add.input.get(0));
+			ActivityFactory.createObjectFlow(activity2, vspec.result, add.input.get(1));
+			ActivityFactory.createObjectFlow(activity2, add.output.get(0), setprop.value);
+			return activity2;
+		}
+	}
+	
 	private boolean checkExecutionOrder(ActivityNodeList nodeorder) {
 		boolean isValid = true;
 		
@@ -4671,4 +5152,5 @@ public class DebugTest extends MolizTest implements ExecutionEventListener{
 		}	
 		
 	}
+	
 }

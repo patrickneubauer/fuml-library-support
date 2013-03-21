@@ -13,20 +13,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.modelexecution.xmof.Syntax.Classes.Kernel.BehavioredEClass;
 import org.modelexecution.xmof.Syntax.CommonBehaviors.BasicBehaviors.OpaqueBehavior;
 import org.modelversioning.emfprofile.EMFProfileFactory;
 import org.modelversioning.emfprofile.Extension;
+import org.modelversioning.emfprofile.IProfileFacade;
 import org.modelversioning.emfprofile.Profile;
 import org.modelversioning.emfprofile.Stereotype;
+import org.modelversioning.emfprofile.impl.ProfileFacadeImpl;
 
 public class ProfileGenerator {
 
+	private final IProfileFacade profileFacade = new ProfileFacadeImpl();
 	private Collection<EPackage> configurationPackages;
 
 	public ProfileGenerator(
@@ -61,6 +66,8 @@ public class ProfileGenerator {
 				profile.getESubpackages().add(subConfProfile);
 		}
 
+		profileFacade.makeApplicable(profile);
+		
 		return profile;
 	}
 
@@ -83,8 +90,8 @@ public class ProfileGenerator {
 					.createStereotype();
 			confStereotype.setName(confClass.getName() + "Stereotype");
 			addStructuralFeatures(confClass, confStereotype);
-			confStereotype.getExtensions().add(
-					createExtension(confClass, confStereotype));
+			Extension extension = createExtension(confClass, confStereotype);
+			confStereotype.getExtensions().add(extension);
 			return confStereotype;
 		}
 		return null;
@@ -110,8 +117,19 @@ public class ProfileGenerator {
 	private void addStructuralFeatures(BehavioredEClass eClass,
 			Stereotype confStereotype) {
 		for (EStructuralFeature feature : eClass.getEStructuralFeatures()) {
-			EStructuralFeature copy = EcoreUtil.copy(feature);
-			confStereotype.getEStructuralFeatures().add(copy);
+			if(feature instanceof EAttribute) {
+				EStructuralFeature copy = EcoreUtil.copy(feature);
+				confStereotype.getEStructuralFeatures().add(copy);
+			} else if(feature instanceof EReference) {
+				EReference reference = (EReference)feature;
+				EClassifier referenceType = reference.getEType();
+				EReference referencecopy = EcoreUtil.copy(reference);
+				confStereotype.getEStructuralFeatures().add(referencecopy);
+				if (referenceType instanceof BehavioredEClass) {
+					EClass referenceBaseType = obtainBaseClass((BehavioredEClass)referenceType);					
+					referencecopy.setEType(referenceBaseType);					
+				}				
+			}			
 		}
 	}
 

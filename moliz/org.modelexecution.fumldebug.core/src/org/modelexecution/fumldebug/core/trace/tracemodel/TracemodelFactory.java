@@ -9,15 +9,18 @@
  */
 package org.modelexecution.fumldebug.core.trace.tracemodel;
 
+import org.eclipse.emf.ecore.EFactory;
+
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
+ * @see org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage
  * @generated
  */
-public interface TracemodelFactory {
+public interface TracemodelFactory extends EFactory {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -31,7 +34,7 @@ public interface TracemodelFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	TracemodelFactory INSTANCE = org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelFactoryImpl.eINSTANCE;
+	TracemodelFactory eINSTANCE = org.modelexecution.fumldebug.core.trace.tracemodel.impl.TracemodelFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Trace</em>'.
@@ -61,13 +64,13 @@ public interface TracemodelFactory {
 	ActivityNodeExecution createActivityNodeExecution();
 
 	/**
-	 * Returns a new object of class '<em>Call Activity Node Execution</em>'.
+	 * Returns a new object of class '<em>Call Action Execution</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Call Activity Node Execution</em>'.
+	 * @return a new object of class '<em>Call Action Execution</em>'.
 	 * @generated
 	 */
-	CallActivityNodeExecution createCallActivityNodeExecution();
+	CallActionExecution createCallActionExecution();
 
 	/**
 	 * Returns a new object of class '<em>User Parameter Input</em>'.
@@ -77,24 +80,6 @@ public interface TracemodelFactory {
 	 * @generated
 	 */
 	UserParameterInput createUserParameterInput();
-
-	/**
-	 * Returns a new object of class '<em>Parameter Input</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Parameter Input</em>'.
-	 * @generated
-	 */
-	ParameterInput createParameterInput();
-
-	/**
-	 * Returns a new object of class '<em>Parameter Output</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Parameter Output</em>'.
-	 * @generated
-	 */
-	ParameterOutput createParameterOutput();
 
 	/**
 	 * Returns a new object of class '<em>Input</em>'.
@@ -140,5 +125,41 @@ public interface TracemodelFactory {
 	 * @generated
 	 */
 	ValueInstance createValueInstance();
+
+	/**
+	 * Returns a new object of class '<em>Action Execution</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Action Execution</em>'.
+	 * @generated
+	 */
+	ActionExecution createActionExecution();
+
+	/**
+	 * Returns a new object of class '<em>Control Node Execution</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Control Node Execution</em>'.
+	 * @generated
+	 */
+	ControlNodeExecution createControlNodeExecution();
+
+	/**
+	 * Returns a new object of class '<em>Value Instance Snapshot</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Value Instance Snapshot</em>'.
+	 * @generated
+	 */
+	ValueInstanceSnapshot createValueInstanceSnapshot();
+
+	/**
+	 * Returns the package supported by this factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the package supported by this factory.
+	 * @generated
+	 */
+	TracemodelPackage getTracemodelPackage();
 
 } //TracemodelFactory

@@ -9,21 +9,22 @@
  */
 package org.modelexecution.fumldebug.core.trace.tracemodel.impl;
 
-import fUML.Syntax.Actions.BasicActions.InputPin;
-
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.BasicInternalEList;
-
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.modelexecution.fumldebug.core.trace.tracemodel.Input;
 import org.modelexecution.fumldebug.core.trace.tracemodel.TokenInstance;
+import org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage;
+import org.modelexecution.fumldebug.core.trace.tracemodel.ValueInstanceSnapshot;
+
+import fUML.Syntax.Actions.BasicActions.InputPin;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,6 +35,7 @@ import org.modelexecution.fumldebug.core.trace.tracemodel.TokenInstance;
  * <ul>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.InputImpl#getTokens <em>Tokens</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.InputImpl#getInputPin <em>Input Pin</em>}</li>
+ *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.impl.InputImpl#getConsumedValue <em>Consumed Value</em>}</li>
  * </ul>
  * </p>
  *
@@ -78,6 +80,16 @@ public class InputImpl extends EObjectImpl implements Input {
 	protected InputPin inputPin = INPUT_PIN_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getConsumedValue() <em>Consumed Value</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConsumedValue()
+	 * @generated
+	 * @ordered
+	 */
+	protected ValueInstanceSnapshot consumedValue;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -91,9 +103,8 @@ public class InputImpl extends EObjectImpl implements Input {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	protected EClass eStaticClass() {
-		return TracemodelPackageImpl.Literals.INPUT;
+		return TracemodelPackage.Literals.INPUT;
 	}
 
 	/**
@@ -103,7 +114,7 @@ public class InputImpl extends EObjectImpl implements Input {
 	 */
 	public List<TokenInstance> getTokens() {
 		if (tokens == null) {
-			tokens = new BasicInternalEList<TokenInstance>(TokenInstance.class);
+			tokens = new EObjectResolvingEList<TokenInstance>(TokenInstance.class, this, TracemodelPackage.INPUT__TOKENS);
 		}
 		return tokens;
 	}
@@ -123,7 +134,10 @@ public class InputImpl extends EObjectImpl implements Input {
 	 * @generated
 	 */
 	public void setInputPin(InputPin newInputPin) {
+		InputPin oldInputPin = inputPin;
 		inputPin = newInputPin;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TracemodelPackage.INPUT__INPUT_PIN, oldInputPin, inputPin));
 	}
 
 	/**
@@ -131,13 +145,53 @@ public class InputImpl extends EObjectImpl implements Input {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
+	public ValueInstanceSnapshot getConsumedValue() {
+		if (consumedValue != null && consumedValue.eIsProxy()) {
+			InternalEObject oldConsumedValue = (InternalEObject)consumedValue;
+			consumedValue = (ValueInstanceSnapshot)eResolveProxy(oldConsumedValue);
+			if (consumedValue != oldConsumedValue) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TracemodelPackage.INPUT__CONSUMED_VALUE, oldConsumedValue, consumedValue));
+			}
+		}
+		return consumedValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ValueInstanceSnapshot basicGetConsumedValue() {
+		return consumedValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setConsumedValue(ValueInstanceSnapshot newConsumedValue) {
+		ValueInstanceSnapshot oldConsumedValue = consumedValue;
+		consumedValue = newConsumedValue;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TracemodelPackage.INPUT__CONSUMED_VALUE, oldConsumedValue, consumedValue));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case TracemodelPackageImpl.INPUT__TOKENS:
+			case TracemodelPackage.INPUT__TOKENS:
 				return getTokens();
-			case TracemodelPackageImpl.INPUT__INPUT_PIN:
+			case TracemodelPackage.INPUT__INPUT_PIN:
 				return getInputPin();
+			case TracemodelPackage.INPUT__CONSUMED_VALUE:
+				if (resolve) return getConsumedValue();
+				return basicGetConsumedValue();
 		}
 		return eDynamicGet(featureID, resolve, coreType);
 	}
@@ -148,15 +202,17 @@ public class InputImpl extends EObjectImpl implements Input {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case TracemodelPackageImpl.INPUT__TOKENS:
+			case TracemodelPackage.INPUT__TOKENS:
 				getTokens().clear();
 				getTokens().addAll((Collection<? extends TokenInstance>)newValue);
 				return;
-			case TracemodelPackageImpl.INPUT__INPUT_PIN:
+			case TracemodelPackage.INPUT__INPUT_PIN:
 				setInputPin((InputPin)newValue);
+				return;
+			case TracemodelPackage.INPUT__CONSUMED_VALUE:
+				setConsumedValue((ValueInstanceSnapshot)newValue);
 				return;
 		}
 		eDynamicSet(featureID, newValue);
@@ -167,14 +223,16 @@ public class InputImpl extends EObjectImpl implements Input {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case TracemodelPackageImpl.INPUT__TOKENS:
+			case TracemodelPackage.INPUT__TOKENS:
 				getTokens().clear();
 				return;
-			case TracemodelPackageImpl.INPUT__INPUT_PIN:
+			case TracemodelPackage.INPUT__INPUT_PIN:
 				setInputPin(INPUT_PIN_EDEFAULT);
+				return;
+			case TracemodelPackage.INPUT__CONSUMED_VALUE:
+				setConsumedValue((ValueInstanceSnapshot)null);
 				return;
 		}
 		eDynamicUnset(featureID);
@@ -185,13 +243,14 @@ public class InputImpl extends EObjectImpl implements Input {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case TracemodelPackageImpl.INPUT__TOKENS:
+			case TracemodelPackage.INPUT__TOKENS:
 				return tokens != null && !tokens.isEmpty();
-			case TracemodelPackageImpl.INPUT__INPUT_PIN:
+			case TracemodelPackage.INPUT__INPUT_PIN:
 				return INPUT_PIN_EDEFAULT == null ? inputPin != null : !INPUT_PIN_EDEFAULT.equals(inputPin);
+			case TracemodelPackage.INPUT__CONSUMED_VALUE:
+				return consumedValue != null;
 		}
 		return eDynamicIsSet(featureID);
 	}
@@ -201,7 +260,6 @@ public class InputImpl extends EObjectImpl implements Input {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 

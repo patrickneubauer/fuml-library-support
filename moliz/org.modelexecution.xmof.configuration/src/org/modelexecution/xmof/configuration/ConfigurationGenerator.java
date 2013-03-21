@@ -18,6 +18,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.Activity;
 import org.modelexecution.xmof.Syntax.Activities.IntermediateActivities.IntermediateActivitiesFactory;
@@ -36,6 +37,8 @@ public class ConfigurationGenerator {
 	private static final String URI_SEPARATOR = "/"; //$NON-NLS-1$
 	private static final String CONF = "Conf"; //$NON-NLS-1$
 	private static final String CONFIGURATION = "Configuration"; //$NON-NLS-1$
+	private static final String INITIALIZATION_CLASS = "Initialization"; //$NON-NLS-1$
+	private static final String INITIALIZATION_REFERENCE = "init"; //$NON-NLS-1$
 
 	private Collection<EPackage> inputPackages;
 	private Collection<EClass> mainClasses = new ArrayList<EClass>();
@@ -69,20 +72,51 @@ public class ConfigurationGenerator {
 		configurationPackage.setNsPrefix(inputPackage.getNsPrefix() + CONF);
 		configurationPackage.setNsURI(inputPackage.getNsURI() + URI_SEPARATOR
 				+ CONFIGURATION.toLowerCase());
+				
+		EClass initializationClass = generateInitializationClass();
+		boolean initializationClassReferenced = false;		
+		
 		for (EClassifier inputClassifier : inputPackage.getEClassifiers()) {
 			if (isConcreteEClass(inputClassifier)) {
-				configurationPackage.getEClassifiers().add(
-						generateConfigurationClass((EClass) inputClassifier));
+				BehavioredEClass configurationClass = generateConfigurationClass((EClass) inputClassifier);
+				configurationPackage.getEClassifiers().add(configurationClass);
+				if(configurationClass instanceof MainEClass) {
+					EReference initializationReference = generateInitializationReference(initializationClass);
+					configurationClass.getEStructuralFeatures().add(initializationReference);
+					initializationClassReferenced = true;
+				}
 			}
 		}
+		
+		if(initializationClassReferenced) {
+			configurationPackage.getEClassifiers().add(initializationClass);
+		}
+		
 		for (EPackage subPackage : inputPackage.getESubpackages()) {
 			configurationPackage.getESubpackages().add(
 					generateConfigurationPackage(subPackage));
 		}
 		
 		configurationPackage.getEClassifiers().addAll(createPrimitiveBehaviors());				
-		
+				
 		return configurationPackage;
+	}
+
+	private EClass generateInitializationClass() {
+		EClass initializationClass = getEcoreFactory().createEClass();
+		initializationClass.setName(INITIALIZATION_CLASS);
+		return initializationClass;
+	}
+
+	private EReference generateInitializationReference(
+			EClass initializationClass) {
+		EReference init = getEcoreFactory().createEReference();
+		init.setName(INITIALIZATION_REFERENCE);
+		init.setContainment(true);
+		init.setLowerBound(0);
+		init.setUpperBound(1);
+		init.setEType(initializationClass);
+		return init;
 	}
 
 	private boolean isConcreteEClass(EClassifier inputClassifier) {
@@ -124,11 +158,82 @@ public class ConfigurationGenerator {
 		EList<OpaqueBehavior> primitiveBehaviors = new BasicEList<OpaqueBehavior>();
 		primitiveBehaviors.add(createAddBehavior());
 		primitiveBehaviors.add(createSubtractBehavior());
+		primitiveBehaviors.add(createMultiplyBehavior());
+		primitiveBehaviors.add(createDivideBehavior());
+		primitiveBehaviors.add(createSmallerBehavior());
 		primitiveBehaviors.add(createGreaterBehavior());
 		primitiveBehaviors.add(createListgetBehavior());
-		primitiveBehaviors.add(createListsizeBehavior());
+		primitiveBehaviors.add(createListsizeBehavior());				
+		primitiveBehaviors.add(createListindexofBehavior());
 		return primitiveBehaviors;
 	}
+	
+	private OpaqueBehavior createListindexofBehavior() {
+		OpaqueBehavior behavior = BasicBehaviorsFactory.eINSTANCE.createOpaqueBehavior();		
+		behavior.setName("listindexof");
+		
+		DirectedParameter list = createDirectedParameter("list", ParameterDirectionKind.IN);
+		list.setLowerBound(0);
+		list.setUpperBound(-1);
+		behavior.getOwnedParameter().add(list);
+		
+		DirectedParameter index = createDirectedParameter("object", ParameterDirectionKind.IN);
+		index.setLowerBound(1);
+		index.setUpperBound(1);
+		behavior.getOwnedParameter().add(index);
+		
+		DirectedParameter outparam = createDirectedParameter("result", ParameterDirectionKind.OUT);
+		outparam.setLowerBound(0);
+		outparam.setUpperBound(1);
+		behavior.getOwnedParameter().add(outparam);
+		
+		return behavior;
+	}
+	
+	private OpaqueBehavior createDivideBehavior() {
+		OpaqueBehavior behavior = BasicBehaviorsFactory.eINSTANCE.createOpaqueBehavior();		
+		behavior.setName("divide");
+		
+		DirectedParameter inparam1 = createDirectedParameter("x", ParameterDirectionKind.IN);
+		inparam1.setLowerBound(1);
+		inparam1.setUpperBound(1);
+		behavior.getOwnedParameter().add(inparam1);
+		
+		DirectedParameter inparam2 = createDirectedParameter("y", ParameterDirectionKind.IN);
+		inparam2.setLowerBound(1);
+		inparam2.setUpperBound(1);
+		behavior.getOwnedParameter().add(inparam2);
+		
+		DirectedParameter outparam = createDirectedParameter("result", ParameterDirectionKind.OUT);
+		outparam.setLowerBound(1);
+		outparam.setUpperBound(1);
+		behavior.getOwnedParameter().add(outparam);
+		
+		return behavior;
+	}
+	
+	private OpaqueBehavior createMultiplyBehavior() {
+		OpaqueBehavior behavior = BasicBehaviorsFactory.eINSTANCE.createOpaqueBehavior();		
+		behavior.setName("multiply");
+		
+		DirectedParameter inparam1 = createDirectedParameter("x", ParameterDirectionKind.IN);
+		inparam1.setLowerBound(1);
+		inparam1.setUpperBound(1);
+		behavior.getOwnedParameter().add(inparam1);
+		
+		DirectedParameter inparam2 = createDirectedParameter("y", ParameterDirectionKind.IN);
+		inparam2.setLowerBound(1);
+		inparam2.setUpperBound(1);
+		behavior.getOwnedParameter().add(inparam2);
+		
+		DirectedParameter outparam = createDirectedParameter("result", ParameterDirectionKind.OUT);
+		outparam.setLowerBound(1);
+		outparam.setUpperBound(1);
+		behavior.getOwnedParameter().add(outparam);
+		
+		return behavior;
+	}
+	
 	private OpaqueBehavior createAddBehavior() {
 		OpaqueBehavior behavior = BasicBehaviorsFactory.eINSTANCE.createOpaqueBehavior();		
 		behavior.setName("add");
@@ -176,6 +281,28 @@ public class ConfigurationGenerator {
 	private OpaqueBehavior createGreaterBehavior() {
 		OpaqueBehavior behavior = BasicBehaviorsFactory.eINSTANCE.createOpaqueBehavior();		
 		behavior.setName("greater");
+		
+		DirectedParameter inparam1 = createDirectedParameter("x", ParameterDirectionKind.IN);
+		inparam1.setLowerBound(1);
+		inparam1.setUpperBound(1);
+		behavior.getOwnedParameter().add(inparam1);
+		
+		DirectedParameter inparam2 = createDirectedParameter("y", ParameterDirectionKind.IN);
+		inparam2.setLowerBound(1);
+		inparam2.setUpperBound(1);
+		behavior.getOwnedParameter().add(inparam2);
+		
+		DirectedParameter outparam = createDirectedParameter("result", ParameterDirectionKind.OUT);
+		outparam.setLowerBound(1);
+		outparam.setUpperBound(1);
+		behavior.getOwnedParameter().add(outparam);
+		
+		return behavior;
+	}
+	
+	private OpaqueBehavior createSmallerBehavior() {
+		OpaqueBehavior behavior = BasicBehaviorsFactory.eINSTANCE.createOpaqueBehavior();		
+		behavior.setName("smaller");
 		
 		DirectedParameter inparam1 = createDirectedParameter("x", ParameterDirectionKind.IN);
 		inparam1.setLowerBound(1);

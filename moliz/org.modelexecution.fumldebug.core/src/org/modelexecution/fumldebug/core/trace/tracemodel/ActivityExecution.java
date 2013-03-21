@@ -13,10 +13,9 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
-import fUML.Semantics.Classes.Kernel.Value;
+import fUML.Syntax.Actions.BasicActions.CallAction;
 import fUML.Syntax.Activities.IntermediateActivities.Activity;
 import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
-import fUML.Syntax.Activities.IntermediateActivities.ActivityParameterNode;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,15 +25,17 @@ import fUML.Syntax.Activities.IntermediateActivities.ActivityParameterNode;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getParameterInputs <em>Parameter Inputs</em>}</li>
- *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getParameterOutputs <em>Parameter Outputs</em>}</li>
+ *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getUserParameterInputs <em>User Parameter Inputs</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getNodeExecutions <em>Node Executions</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getCaller <em>Caller</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getActivity <em>Activity</em>}</li>
  *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getActivityExecutionID <em>Activity Execution ID</em>}</li>
+ *   <li>{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getTrace <em>Trace</em>}</li>
  * </ul>
  * </p>
  *
+ * @see org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage#getActivityExecution()
+ * @model
  * @generated
  */
 public interface ActivityExecution extends EObject {
@@ -46,32 +47,20 @@ public interface ActivityExecution extends EObject {
 	String copyright = "Copyright (c) 2012 Vienna University of Technology.\r\nAll rights reserved. This program and the accompanying materials are made \r\navailable under the terms of the Eclipse Public License v1.0 which accompanies \r\nthis distribution, and is available at http://www.eclipse.org/legal/epl-v10.html\r\n\r\nContributors:\r\nTanja Mayerhofer - initial API and implementation";
 
 	/**
-	 * Returns the value of the '<em><b>Parameter Inputs</b></em>' containment reference list.
-	 * The list contents are of type {@link org.modelexecution.fumldebug.core.trace.tracemodel.ParameterInput}.
+	 * Returns the value of the '<em><b>User Parameter Inputs</b></em>' containment reference list.
+	 * The list contents are of type {@link org.modelexecution.fumldebug.core.trace.tracemodel.UserParameterInput}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Parameter Inputs</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>User Parameter Inputs</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Parameter Inputs</em>' containment reference list.
+	 * @return the value of the '<em>User Parameter Inputs</em>' containment reference list.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage#getActivityExecution_UserParameterInputs()
+	 * @model containment="true"
 	 * @generated
 	 */
-	List<ParameterInput> getParameterInputs();
-
-	/**
-	 * Returns the value of the '<em><b>Parameter Outputs</b></em>' containment reference list.
-	 * The list contents are of type {@link org.modelexecution.fumldebug.core.trace.tracemodel.ParameterOutput}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Parameter Outputs</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Parameter Outputs</em>' containment reference list.
-	 * @generated
-	 */
-	List<ParameterOutput> getParameterOutputs();
+	List<UserParameterInput> getUserParameterInputs();
 
 	/**
 	 * Returns the value of the '<em><b>Node Executions</b></em>' containment reference list.
@@ -84,14 +73,16 @@ public interface ActivityExecution extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Node Executions</em>' containment reference list.
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage#getActivityExecution_NodeExecutions()
 	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.ActivityNodeExecution#getActivityExecution
+	 * @model opposite="activityExecution" containment="true"
 	 * @generated
 	 */
 	List<ActivityNodeExecution> getNodeExecutions();
 
 	/**
 	 * Returns the value of the '<em><b>Caller</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link org.modelexecution.fumldebug.core.trace.tracemodel.CallActivityNodeExecution#getCallee <em>Callee</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.modelexecution.fumldebug.core.trace.tracemodel.CallActionExecution#getCallee <em>Callee</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Caller</em>' reference isn't clear,
@@ -99,11 +90,13 @@ public interface ActivityExecution extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Caller</em>' reference.
-	 * @see #setCaller(CallActivityNodeExecution)
-	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.CallActivityNodeExecution#getCallee
+	 * @see #setCaller(CallActionExecution)
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage#getActivityExecution_Caller()
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.CallActionExecution#getCallee
+	 * @model opposite="callee"
 	 * @generated
 	 */
-	CallActivityNodeExecution getCaller();
+	CallActionExecution getCaller();
 
 	/**
 	 * Sets the value of the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getCaller <em>Caller</em>}' reference.
@@ -113,7 +106,7 @@ public interface ActivityExecution extends EObject {
 	 * @see #getCaller()
 	 * @generated
 	 */
-	void setCaller(CallActivityNodeExecution value);
+	void setCaller(CallActionExecution value);
 
 	/**
 	 * Returns the value of the '<em><b>Activity</b></em>' attribute.
@@ -125,6 +118,8 @@ public interface ActivityExecution extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Activity</em>' attribute.
 	 * @see #setActivity(Activity)
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage#getActivityExecution_Activity()
+	 * @model dataType="org.modelexecution.fumldebug.core.trace.tracemodel.Activity" required="true" transient="true"
 	 * @generated
 	 */
 	Activity getActivity();
@@ -149,6 +144,8 @@ public interface ActivityExecution extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Activity Execution ID</em>' attribute.
 	 * @see #setActivityExecutionID(int)
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage#getActivityExecution_ActivityExecutionID()
+	 * @model required="true"
 	 * @generated
 	 */
 	int getActivityExecutionID();
@@ -164,6 +161,34 @@ public interface ActivityExecution extends EObject {
 	void setActivityExecutionID(int value);
 
 	/**
+	 * Returns the value of the '<em><b>Trace</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.modelexecution.fumldebug.core.trace.tracemodel.Trace#getActivityExecutions <em>Activity Executions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Trace</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Trace</em>' container reference.
+	 * @see #setTrace(Trace)
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.TracemodelPackage#getActivityExecution_Trace()
+	 * @see org.modelexecution.fumldebug.core.trace.tracemodel.Trace#getActivityExecutions
+	 * @model opposite="activityExecutions" required="true" transient="false"
+	 * @generated
+	 */
+	Trace getTrace();
+
+	/**
+	 * Sets the value of the '{@link org.modelexecution.fumldebug.core.trace.tracemodel.ActivityExecution#getTrace <em>Trace</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Trace</em>' container reference.
+	 * @see #getTrace()
+	 * @generated
+	 */
+	void setTrace(Trace value);
+
+	/**
 	 * Returns the instances of {@link ActivityNodeExecution} for the given node 
 	 * @param node
 	 * @return
@@ -176,28 +201,28 @@ public interface ActivityExecution extends EObject {
 	 * @param node
 	 * @return
 	 */
-	List<ActivityNodeExecution> getNodeExecutionsByNodeWithoutOutput(ActivityNode node);
+	//TODO List<ActivityNodeExecution> getNodeExecutionsByNodeWithoutOutput(ActivityNode node);
 
 	/**
 	 * Adds a {@link ParameterInput} to the {@link ActivityExecution}
 	 * @param activityParameterNode
 	 * @param values
 	 */
-	void addParameterInput(ActivityParameterNode activityParameterNode, List<Value> values);
+	//TODO void addParameterInput(ActivityParameterNode activityParameterNode, List<Value> values);
 	
 	/**
 	 * Adds a {@link UserParameterInput} to the {@link ActivityExecution}
 	 * @param activityParameterNode
 	 * @param values
 	 */
-	void addUserParameterInput(ActivityParameterNode activityParameterNode, List<Value> values);
+	//TODO void addUserParameterInput(ActivityParameterNode activityParameterNode, List<Value> values);
 	
 	/**
 	 * Adds a {@link ParameterOutput} to the {@link ActivityExecution}
 	 * @param activityParameterNode
 	 * @param values
 	 */
-	void addParameterOutput(ActivityParameterNode activityParameterNode, List<Value> values);
+	//TODO void addParameterOutput(ActivityParameterNode activityParameterNode, List<Value> values);
 	
 	/**
 	 * Adds an {@link ActivityNodeExecution}
@@ -211,18 +236,22 @@ public interface ActivityExecution extends EObject {
 	 * @param tokenInstance
 	 * @return
 	 */
-	ActivityNodeExecution getNodeExecutionByTokenOutput(TokenInstance tokenInstance);
+	List<ActivityNodeExecution> getNodeExecutionsWithTokenOutput(TokenInstance tokenInstance);
 	
 	/**
 	 * Returns the {@link ActivityNodeExecution} that consumed the given {@link TokenInstance} as input
 	 * @param tokenInstance
 	 * @return
 	 */
-	List<ActivityNodeExecution> getNodeExecutionsByTokenInput(TokenInstance tokenInstance);
+	List<ActivityNodeExecution> getNodeExecutionsWithTokenInput(TokenInstance tokenInstance);
+
+	List<ActivityNodeExecution> getExecutionsForEnabledNode(ActivityNode node);
 
 	/**
 	 * Inserts finished {@link ActivityNodeExecution} correctly according to chronological order
 	 * @param activityNodeExecution
 	 */
-	public void setActivityNodeExecutionFinishedExecution(ActivityNodeExecution activityNodeExecution);
+	//TODO public void setActivityNodeExecutionFinishedExecution(ActivityNodeExecution activityNodeExecution);
+	
+	CallActionExecution getActiveCallActionExecution(CallAction action);
 } // ActivityExecution
