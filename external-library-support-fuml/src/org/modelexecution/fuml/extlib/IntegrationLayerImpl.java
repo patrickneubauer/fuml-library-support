@@ -11,9 +11,12 @@ import org.modelexecution.fumldebug.core.ExecutionContext;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.event.impl.ActivityNodeExitEventImpl;
 
+import fUML.Semantics.Actions.BasicActions.CallOperationActionActivation;
+import fUML.Semantics.Actions.BasicActions.InputPinActivation;
 import fUML.Semantics.Actions.BasicActions.OutputPinActivation;
 import fUML.Semantics.Actions.BasicActions.PinActivation;
 import fUML.Semantics.Actions.IntermediateActions.CreateObjectActionActivation;
+import fUML.Semantics.Activities.IntermediateActivities.ActivityEdgeInstance;
 import fUML.Semantics.Activities.IntermediateActivities.ActivityExecution;
 import fUML.Semantics.Activities.IntermediateActivities.ActivityNodeActivation;
 import fUML.Semantics.Activities.IntermediateActivities.ObjectToken;
@@ -21,9 +24,14 @@ import fUML.Semantics.Activities.IntermediateActivities.Token;
 import fUML.Semantics.Classes.Kernel.ExtensionalValue;
 import fUML.Semantics.Classes.Kernel.ExtensionalValueList;
 import fUML.Semantics.Classes.Kernel.Object_;
+import fUML.Semantics.Classes.Kernel.Reference;
 import fUML.Semantics.Loci.LociL1.Locus;
+import fUML.Syntax.Actions.BasicActions.CallOperationAction;
+import fUML.Syntax.Actions.BasicActions.InputPin;
+import fUML.Syntax.Actions.BasicActions.OutputPin;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
-import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
+import fUML.Syntax.Activities.IntermediateActivities.ActivityEdge;
+import fUML.Syntax.Activities.IntermediateActivities.ObjectFlow;
 
 /**
  * Implementation of the {@link IntegrationLayer}
@@ -57,9 +65,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		 * can do its job. Afterwards, the execution can be resumed
 		 * (ExecutionContext.resume(int executionID)).
 		 */
-		System.out.println(event);
+		System.out.println("EVENT = " + event);
 		if (EventHelper.isExternalCreateObjectActionEntry(event)) {
-			// store current ExtensionalValueList to compare later on
+			// store current ExtensionalValueList for later comparison
 			previousExtensionalValueList = (ExtensionalValueList) executionContext.getExtensionalValues().clone();
 
 		} else if (EventHelper.isExternalCreateObjectActionExit(event)) {
@@ -69,16 +77,89 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			Object_Builder object_Builder = new Object_Builder(event, javaObject);
 			Object_ fUmlObject = object_Builder.getObject_();
 
-			System.out.println("fUML Placeholder Object = " + fUmlPlaceholderObject);
+			System.out.println("[CreateObjectAction] Java Object = " + javaObject);
+			System.out.println("[CreateObjectAction] fUML Placeholder Object = " + fUmlPlaceholderObject);
+			System.out.println("[CreateObjectAction] fUML Build Object = " + fUmlObject);
 
 			replaceLocusObject(fUmlPlaceholderObject, fUmlObject);
-			assignFUmlObjectToToken(event, fUmlObject);
+			assignObject_ToCreateObjectActionOutputPin(event, fUmlObject);
+			assignObject_ToCallOperationActionInputPin(event, fUmlObject);
+
 			addObjects(fUmlObject, javaObject);
 
-		} else if (EventHelper.isExternalCallOperationAction(event)) {
-			// TODO do something with this CallOperationAction
+		} else if (EventHelper.isExternalCallOperationActionEntry(event)) {
+			Object returnValue = callOperation(event);
+			
+			/*
+			 * TODO
+			 * Assign the returnValue to the OutputPin of the CallOperationAction (?)
+			 * 
+			 */
+			
+			System.out.println("[CallOperationAction] END");
+
+		} else if (EventHelper.isExternalCallOperationActionExit(event)) {
+			System.out.println("isExternalCallOperationActionExit is TRUE");
+
 		}
 	}// notify
+
+	private Object_ obtainFUmlObjectFromCallOperationActionInputPinActivation(CallOperationAction callOperationAction) {
+
+		for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
+
+			if (extensionalValue instanceof ActivityExecution) {
+				ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
+
+				for (ActivityNodeActivation activityNodeActivation : activityExecution.activationGroup.nodeActivations) {
+
+					if (activityNodeActivation instanceof CallOperationActionActivation) {
+						CallOperationActionActivation callOperationActionActivation = (CallOperationActionActivation) activityNodeActivation;
+
+						if (activityNodeActivation.node.equals(callOperationAction)) {
+							/*
+							 * Arrived at the correct
+							 * CallOperationActionActivation, next: obtain InputPinActivation
+							 */
+							
+							for (PinActivation pinActivation : callOperationActionActivation.pinActivations) {
+
+								if (pinActivation instanceof InputPinActivation) {
+
+									InputPinActivation inputPinActivation = (InputPinActivation) pinActivation;
+
+									for (Token token : inputPinActivation.heldTokens) {
+										if (token.holder.equals(inputPinActivation)) {
+											/*
+											 * Arrived at the correct
+											 * ObjectToken, next: return
+											 * referring fUML Object_
+											 */
+											ObjectToken objectToken = (ObjectToken) token;
+											Reference reference = (Reference) objectToken.value;
+
+											return reference.referent;
+
+										}
+
+									}// Token loop
+
+								}
+
+							}
+							
+						}
+						
+					}
+
+				}// ActivityNodeActivation loop
+
+			}
+
+		}// ExtensionalValue loop
+
+		return null;
+	}
 
 	/**
 	 * Obtains the previously created fUML {@link Object_}
@@ -104,6 +185,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	private void replaceLocusObject(Object_ fUmlPlaceholderObject, Object_ fUmlObject) {
 		executionContext.getLocus().remove(fUmlPlaceholderObject);
 		executionContext.getLocus().add(fUmlObject);
+		System.out.println("Replaced Locus Object");
 	}// replaceLocusObject
 
 	/**
@@ -118,9 +200,11 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		Object javaObject = null;
 
 		try {
-			String jarPath = EventHelper.obtainClassJarPath(event);
-			String className = EventHelper.obtainClassName(event);
-			String classNamespace = EventHelper.obtainClassNamespace(event);
+			CreateObjectAction createObjectAction = EventHelper.getExternalCreateObjectAction(event);
+			
+			String jarPath = ActionHelper.obtainClassJarPath(createObjectAction);
+			String className = ActionHelper.obtainClassName(createObjectAction);
+			String classNamespace = ActionHelper.obtainClassNamespace(createObjectAction);
 
 			dynamicClassLoader = new DynamicClassLoader(jarPath);
 			ClassLoader classLoader = dynamicClassLoader.getClassLoader();
@@ -134,6 +218,41 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 		return javaObject;
 	}// obtainJavaObject
+	
+	private Object callOperation(Event event) {
+		// Obtain the CallOperationAction for later comparison
+		CallOperationAction callOperationAction = EventHelper.getExternalCallOperationAction(event);
+
+		// Obtain fUML Object_ from InputPinActivation in CallOperationActionActivation
+		Object_ fUmlObject = obtainFUmlObjectFromCallOperationActionInputPinActivation(callOperationAction);
+		System.out.println("[CallOperationAction] fUmlObject = " + fUmlObject);
+		
+		// Obtain corresponding Java Object
+		Object javaObject = fUmlJavaMap.get(fUmlObject);
+		System.out.println("[CallOperationAction] javaObject = " + javaObject);
+		
+		String methodName = "";
+		String className = "";
+		String classNamespace = "";
+		try {
+			methodName = callOperationAction.operation.name;
+			className = ActionHelper.obtainClassName(callOperationAction);
+			classNamespace = ActionHelper.obtainClassNamespace(callOperationAction);
+			
+			/* TODO 
+			 * - Call the method on the Java Object
+			 * - Update the fUML Object in the Locus of the ExecutionContext (?)
+			 * - Update both objects in the HashMap
+			 * - Return the method return value to notify()
+			 */
+			
+			
+		} catch (Exception e) {
+			System.out.println("Error occured while trying to call operation on Java object. " + e);
+		}
+		
+		return null;
+	}//callOperation
 
 	/**
 	 * Assigns a given {@link Object_} to the {@link ObjectToken} at the list of
@@ -145,79 +264,187 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 * @param fUmlObject
 	 *            fUML {@link Object_} to set at the {@link ObjectToken}
 	 */
-	private void assignFUmlObjectToToken(Event event, Object_ fUmlObject) {
-		// Obtain the CreateObjectAction
-		if (event instanceof ActivityNodeExitEventImpl) {
-			ActivityNode activityNode = ((ActivityNodeExitEventImpl) event).getNode();
-			if (activityNode instanceof CreateObjectAction) {
-				CreateObjectAction createObjectAction = (CreateObjectAction) activityNode;
-				/*
-				 * Obtained the CreateObjectAction, next: navigate to the
-				 * correct node that is equal to the obtained CreateObjectAction
-				 */
+	private void assignObject_ToCreateObjectActionOutputPin(Event event, Object_ fUmlObject) {
+		CreateObjectAction createObjectAction = EventHelper.getExternalCreateObjectAction(event);
+		/*
+		 * Obtained the CreateObjectAction, next: navigate to the
+		 * correct node that is equal to the obtained CreateObjectAction
+		 */
 
-				for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
+		for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
 
-					if (extensionalValue instanceof ActivityExecution) {
-						ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
+			if (extensionalValue instanceof ActivityExecution) {
+				ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
 
-						for (ActivityNodeActivation activityNodeActivation : activityExecution.activationGroup.nodeActivations) {
+				for (ActivityNodeActivation activityNodeActivation : activityExecution.activationGroup.nodeActivations) {
 
-							if (activityNodeActivation instanceof CreateObjectActionActivation) {
-								CreateObjectActionActivation createObjectActionActivation = (CreateObjectActionActivation) activityNodeActivation;
+					if (activityNodeActivation instanceof CreateObjectActionActivation) {
+						CreateObjectActionActivation createObjectActionActivation = (CreateObjectActionActivation) activityNodeActivation;
 
-								if (createObjectActionActivation.node.equals(createObjectAction)) {
+						if (createObjectActionActivation.node.equals(createObjectAction)) {
+							/*
+							 * Arrived at the correct node, next:
+							 * navigate to OutputPinActivation
+							 */
+
+							for (PinActivation pinActivation : createObjectActionActivation.pinActivations) {
+
+								if (pinActivation instanceof OutputPinActivation) {
 									/*
-									 * Arrived at the correct node, next:
-									 * navigate to OutputPinActivation
+									 * Arrived at the
+									 * OutputPinActivation, next:
+									 * navigate to ObjectToken
 									 */
+									OutputPinActivation outputPinActivation = (OutputPinActivation) pinActivation;
 
-									for (PinActivation pinActivation : createObjectActionActivation.pinActivations) {
-
-										if (pinActivation instanceof OutputPinActivation) {
+									for (Token token : outputPinActivation.heldTokens) {
+										if (token.holder.equals(outputPinActivation)) {
 											/*
-											 * Arrived at the
-											 * OutputPinActivation, next:
-											 * navigate to ObjectToken
+											 * Arrived at the correct
+											 * ObjectToken, next: set
+											 * fUML Object_ as Reference
+											 * of ObjectToken
 											 */
-											OutputPinActivation outputPinActivation = (OutputPinActivation) pinActivation;
+											ObjectToken objectToken = (ObjectToken) token;
 
-											for (Token token : outputPinActivation.heldTokens) {
-												if (token.holder.equals(outputPinActivation)) {
-													/*
-													 * Arrived at the correct
-													 * ObjectToken, next: set
-													 * fUML Object_ as value of
-													 * ObjectToken
-													 */
-													ObjectToken objectToken = (ObjectToken) token;
+											Reference reference = new Reference();
+											reference.referent = fUmlObject;
 
-													objectToken.value = fUmlObject;
-													return; // exit
-
-												}
-
-											}//Token loop
+											objectToken.value = reference;
+											return; // exit
 
 										}
 
-									}//PinActivation loop
+									}// Token loop
+
+								}
+
+							}// PinActivation loop
+
+						}
+
+					}
+
+				}// ActivityNodeActivation loop
+
+			}
+
+		}// ExtensionalValue loop
+
+	}// assignObject_ToCreateObjectActionOutputPin
+
+	/**
+	 * Assigns a given {@link Object_} to the {@link ObjectToken} at the list of
+	 * held tokens
+	 * 
+	 * @param event
+	 *            must be an instance of {@link ActivityNodeExitEventImpl} and
+	 *            it's node must be an instance of {@link CallOperationAction}
+	 * @param fUmlObject
+	 *            fUML {@link Object_} to set at the {@link ObjectToken}
+	 */
+	private void assignObject_ToCallOperationActionInputPin(Event event, Object_ fUmlObject) {
+		CreateObjectAction createObjectAction = EventHelper.getExternalCreateObjectAction(event);
+		ObjectFlow createObjectActionOutgointObjectFlow = null;
+
+		/*
+		 * Obtain CreateObjectAction's OutputPin's ObjectFlow for later
+		 * comparison
+		 */
+		for (OutputPin outputPin : createObjectAction.output) {
+
+			for (ActivityEdge activityEdge : outputPin.outgoing) {
+
+				if (activityEdge instanceof ObjectFlow) {
+					createObjectActionOutgointObjectFlow = (ObjectFlow) activityEdge;
+				}
+
+			}
+
+		}
+
+		/*
+		 * Obtained the CreateObjectAction, next: navigate to the
+		 * correct node that is equal to the obtained
+		 * CallOperationAction
+		 */
+
+		for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
+
+			if (extensionalValue instanceof ActivityExecution) {
+				ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
+
+				for (ActivityNodeActivation activityNodeActivation : activityExecution.activationGroup.nodeActivations) {
+
+					if (activityNodeActivation instanceof CallOperationActionActivation) {
+						CallOperationActionActivation callOperationActionActivation = (CallOperationActionActivation) activityNodeActivation;
+
+						// NEXT: obtain CallOperation's InputPinAction's
+						// ActivityEdgeInstance's edge and compare it
+						// with CreateObjectAction OutputPin ObjectFlow
+						for (PinActivation pinActivation : callOperationActionActivation.pinActivations) {
+
+							if (pinActivation instanceof InputPinActivation) {
+
+								for (ActivityEdgeInstance activityEdgeInstance : pinActivation.incomingEdges) {
+
+									if (activityEdgeInstance.edge.equals(createObjectActionOutgointObjectFlow)) {
+
+										/*
+										 * CreateObjectAction
+										 * <OutputPin> equals
+										 * CallOperationAction
+										 * <InputPin>
+										 */
+										/*
+										 * Next: create new ObjectToken
+										 * at InputPinActivation
+										 */
+										InputPinActivation inputPinActivation = (InputPinActivation) pinActivation;
+
+										for (Token token : inputPinActivation.heldTokens) {
+											if (token.holder.equals(inputPinActivation)) {
+												/*
+												 * Arrived at the
+												 * correct ObjectToken,
+												 * next: set fUML
+												 * Object_ as Reference
+												 * of ObjectToken
+												 */
+												ObjectToken objectToken = (ObjectToken) token;
+
+												Reference reference = new Reference();
+												reference.referent = fUmlObject;
+
+												objectToken.value = reference;
+												
+												// Add the InputPin to target of CallOperationAction
+												CallOperationAction callOperationAction = (CallOperationAction) callOperationActionActivation.node;
+												callOperationAction.target = (InputPin) inputPinActivation.node;
+												
+												return; // exit
+
+											}
+
+										}// Token loop
+
+									}
 
 								}
 
 							}
 
-						}//ActivityNodeActivation loop
+						}
 
 					}
 
-				}//ExtensionalValue loop
+				}// ActivityNodeActivation loop
 
-			}//activityNode instanceof CreateObjectAction
-			
-		}//event instanceof ActivityNodeExitEventImpl
+			}
 
-	}//assignFUmlObjectToToken
+		}// ExtensionalValue loop
+
+	}// assignObject_ToCallOperationActionInputPin
 
 	public IntegrationLayerImpl() {
 
