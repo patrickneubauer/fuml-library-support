@@ -3,14 +3,18 @@
  */
 package org.modelexecution.fuml.extlib;
 
+import org.eclipse.uml2.uml.internal.impl.CallActionImpl;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.event.impl.ActivityNodeEntryEventImpl;
 import org.modelexecution.fumldebug.core.event.impl.ActivityNodeExitEventImpl;
+import org.modelexecution.fumldebug.core.event.impl.ExtensionalValueEventImpl;
 
+import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
 import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
 import fUML.Syntax.Classes.Kernel.Comment;
 import fUML.Syntax.Classes.Kernel.CommentList;
+import fUML.Syntax.Classes.Kernel.Package;
 
 /**
  * Helper to handle instances of {@link Event}
@@ -46,7 +50,7 @@ public class EventHelper {
 			}
 		}
 		return false;
-	}
+	}//isExternalCreateObjectActionExit
 
 	/**
 	 * Checks if the given {@code event} represents an
@@ -75,7 +79,46 @@ public class EventHelper {
 			}
 		}
 		return false;
-	}
+	}//isExternalCreateObjectActionExit
+
+	/**
+	 * Get the {@link CreateObjectAction} out of the {@code event}
+	 * 
+	 * @param event
+	 *            the {@link Event} where to get the {@link CreateObjectAction}
+	 *            from
+	 * @return instance of the {@link CreateObjectAction} if it exists in the
+	 *         {@code event}, null otherwise
+	 */
+	public static CreateObjectAction getExternalCreateObjectAction(Event event) {
+
+		if (event instanceof ActivityNodeEntryEventImpl) {
+			ActivityNode activityNode = ((ActivityNodeEntryEventImpl) event).getNode();
+			if (activityNode instanceof CreateObjectAction) {
+				CreateObjectAction createObjectAction = (CreateObjectAction) activityNode;
+				CommentList commentList = createObjectAction.classifier.ownedComment;
+				for (Comment comment : commentList) {
+					if (comment.body.startsWith("@external")) {
+						return createObjectAction;
+					}
+				}
+			}// activityNode instanceof CreateObjectAction
+
+		} else if (event instanceof ActivityNodeExitEventImpl) {
+			ActivityNode activityNode = ((ActivityNodeExitEventImpl) event).getNode();
+			if (activityNode instanceof CreateObjectAction) {
+				CreateObjectAction createObjectAction = (CreateObjectAction) activityNode;
+				CommentList commentList = createObjectAction.classifier.ownedComment;
+				for (Comment comment : commentList) {
+					if (comment.body.startsWith("@external")) {
+						return createObjectAction;
+					}
+				}
+			}// activityNode instanceof CreateObjectAction
+		}
+
+		return null; // no CreateObjectAction found in event
+	}//getExternalCreateObjectAction
 
 	/**
 	 * Checks if the given {@code event} is of type {@link CallOperationAction}
@@ -86,89 +129,106 @@ public class EventHelper {
 	 * @return true if the {@link event} is of type {@link CallOperationAction}
 	 *         and references an external library, false otherwise
 	 */
-	public static boolean isExternalCallOperationAction(Event event) {
-		// TODO check if {@code event} is an external {@link
-		// CallOperationAction}
-		// Hint: Implementation might be quite similar to
-		// isExternalCreateObjectAction(Event event)
-		return false;
-	}
+	public static boolean isExternalCallOperationActionEntry(Event event) {
+		if (event instanceof ActivityNodeEntryEventImpl) {
+			ActivityNode activityNode = ((ActivityNodeEntryEventImpl) event).getNode();
+			if (activityNode instanceof CallOperationAction) {
+				CallOperationAction callOperationAction = (CallOperationAction) activityNode;
 
-	/*
-	 * Obtains the referenced JAR path from the {@code event}
-	 * 
-	 * @param event the {@link Event} to get the JAR path from
-	 * 
-	 * @return {@link String} representing the file path of the JAR found in the
-	 * given {@code event} or throws an {@link Exception} otherwise
-	 * 
-	 * @throws Exception Whenever the JAR path could not be obtained
-	 */
-	public static String obtainClassJarPath(Event event) throws Exception {
-
-		if (event instanceof ActivityNodeExitEventImpl) {
-			ActivityNode activityNode = ((ActivityNodeExitEventImpl) event).getNode();
-			if (activityNode instanceof CreateObjectAction) {
-				CreateObjectAction createObjectAction = (CreateObjectAction) activityNode;
-				CommentList commentList = createObjectAction.classifier.ownedComment;
-				for (Comment comment : commentList) {
-					if (comment.body.startsWith("@external")) {
-						return (String) comment.body.subSequence("@external=".length(), comment.body.length());
+				if (callOperationAction.operation != null) {
+					if (callOperationAction.operation.owner != null) {
+						for (Comment comment : callOperationAction.operation.owner.ownedComment) {
+							if (comment.body.startsWith("@external")) {
+								return true;
+							}
+						}
 					}
 				}
-			}
+
+			}// activityNode instanceof CallOperationAction
 		}
 
-		throw new Exception("Error occured while trying to obtain the external JAR path of event " + event);
-
-	}
+		return false;
+	}//isExternalCallOperationActionEntry
 
 	/**
-	 * Obtains the Class name of the {@code event} to be instantiated
+	 * Get the {@link CallOperationAction} out of the {@code event}
 	 * 
 	 * @param event
-	 *            the {@link Event} to get the Class name from
-	 * @return {@link String} representing the Class name or throws an
-	 *         {@link Exception} otherwise
-	 * @throws Exception
-	 *             Whenever the Class name could not be obtained
+	 *            the {@link Event} where to get the {@link CallOperationAction}
+	 *            from
+	 * @return instance of the {@link CallOperationAction} if it exists in the
+	 *         {@code event}, null otherwise
 	 */
-	public static String obtainClassName(Event event) throws Exception {
+	public static CallOperationAction getExternalCallOperationAction(Event event) {
 
-		if (event instanceof ActivityNodeExitEventImpl) {
+		if (event instanceof ActivityNodeEntryEventImpl) {
+			ActivityNode activityNode = ((ActivityNodeEntryEventImpl) event).getNode();
+			if (activityNode instanceof CallOperationAction) {
+				CallOperationAction callOperationAction = (CallOperationAction) activityNode;
+
+				if (callOperationAction.operation != null) {
+					if (callOperationAction.operation.owner != null) {
+						for (Comment comment : callOperationAction.operation.owner.ownedComment) {
+							if (comment.body.startsWith("@external")) {
+								return callOperationAction;
+							}
+						}
+					}
+				}
+
+			}// activityNode instanceof CallOperationAction
+
+		} else if (event instanceof ActivityNodeExitEventImpl) {
 			ActivityNode activityNode = ((ActivityNodeExitEventImpl) event).getNode();
-			if (activityNode instanceof CreateObjectAction) {
-				CreateObjectAction createObjectAction = (CreateObjectAction) activityNode;
-				return createObjectAction.classifier.name;
-			}
+			if (activityNode instanceof CallOperationAction) {
+				CallOperationAction callOperationAction = (CallOperationAction) activityNode;
+
+				if (callOperationAction.operation != null) {
+					if (callOperationAction.operation.owner != null) {
+						for (Comment comment : callOperationAction.operation.owner.ownedComment) {
+							if (comment.body.startsWith("@external")) {
+								return callOperationAction;
+							}
+						}
+					}
+				}
+
+			}// activityNode instanceof CallOperationAction
 		}
 
-		throw new Exception("Error occured while trying to obtain the Class name of event " + event);
-
-	}
+		return null; // no CallOperationAction found in event
+	}//getExternalCallOperationAction
 
 	/**
-	 * Obtains the Class namespace of the {@code event} to be instantiated
+	 * Checks if the given {@code event} is of type {@link CallOperationAction}
+	 * and references an external library
 	 * 
 	 * @param event
-	 *            the {@link Event} to get the Class namespace from
-	 * @return {@link String} representing the Class namespace or throws an
-	 *         {@link Exception} otherwise
-	 * @throws Exception
-	 *             Whenever the Class namespace could not be obtained
+	 *            the {@link Event} to check
+	 * @return true if the {@link event} is of type {@link CallOperationAction}
+	 *         and references an external library, false otherwise
 	 */
-	public static String obtainClassNamespace(Event event) throws Exception {
-
+	public static boolean isExternalCallOperationActionExit(Event event) {
 		if (event instanceof ActivityNodeExitEventImpl) {
 			ActivityNode activityNode = ((ActivityNodeExitEventImpl) event).getNode();
-			if (activityNode instanceof CreateObjectAction) {
-				CreateObjectAction createObjectAction = (CreateObjectAction) activityNode;
-				return createObjectAction.classifier.namespace.name;
-			}
+			if (activityNode instanceof CallOperationAction) {
+				CallOperationAction callOperationAction = (CallOperationAction) activityNode;
+
+				if (callOperationAction.operation != null) {
+					if (callOperationAction.operation.owner != null) {
+						for (Comment comment : callOperationAction.operation.owner.ownedComment) {
+							if (comment.body.startsWith("@external")) {
+								return true;
+							}
+						}
+					}
+				}
+
+			}// activityNode instanceof CallOperationAction
 		}
 
-		throw new Exception("Error occured while trying to obtain the Class namespace of event " + event);
-
-	}
-
+		return false;
+	}//isExternalCallOperationActionExit
+	
 }
