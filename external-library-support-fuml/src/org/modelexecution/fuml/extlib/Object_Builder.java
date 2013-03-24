@@ -13,6 +13,7 @@ import fUML.Semantics.Classes.Kernel.IntegerValue;
 import fUML.Semantics.Classes.Kernel.Object_;
 import fUML.Semantics.Classes.Kernel.StringValue;
 import fUML.Semantics.Classes.Kernel.ValueList;
+import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
 import fUML.Syntax.Classes.Kernel.Class_;
 import fUML.Syntax.Classes.Kernel.PrimitiveType;
 import fUML.Syntax.Classes.Kernel.Property;
@@ -59,7 +60,8 @@ public class Object_Builder {
 		try {
 			// add Class_ as type to types (Class_List)
 			Class_ clazz = new Class_();
-			clazz.setName(EventHelper.obtainClassName(event));
+			CreateObjectAction createObjectAction = EventHelper.getExternalCreateObjectAction(event);
+			clazz.setName(ActionHelper.obtainClassName(createObjectAction));
 			clazz.qualifiedName = javaObject.getClass().getName();
 			// ... TODO add more stuff to "clazz" (Class_)
 
