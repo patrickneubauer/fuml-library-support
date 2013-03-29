@@ -3,18 +3,17 @@
  */
 package org.modelexecution.fuml.extlib;
 
-import org.eclipse.uml2.uml.internal.impl.CallActionImpl;
+import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
+import org.modelexecution.fumldebug.core.event.ActivityNodeExitEvent;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.event.impl.ActivityNodeEntryEventImpl;
 import org.modelexecution.fumldebug.core.event.impl.ActivityNodeExitEventImpl;
-import org.modelexecution.fumldebug.core.event.impl.ExtensionalValueEventImpl;
 
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
 import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
 import fUML.Syntax.Classes.Kernel.Comment;
 import fUML.Syntax.Classes.Kernel.CommentList;
-import fUML.Syntax.Classes.Kernel.Package;
 
 /**
  * Helper to handle instances of {@link Event}

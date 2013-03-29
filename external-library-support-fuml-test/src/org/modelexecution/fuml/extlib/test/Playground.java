@@ -1,8 +1,6 @@
 package org.modelexecution.fuml.extlib.test;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
