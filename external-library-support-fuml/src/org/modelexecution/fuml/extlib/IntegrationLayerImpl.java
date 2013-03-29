@@ -213,13 +213,12 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			CreateObjectAction createObjectAction = EventHelper.getExternalCreateObjectAction(event);
 
 			String jarPath = ActionHelper.obtainClassJarPath(createObjectAction);
-			String className = ActionHelper.obtainClassName(createObjectAction);
-			String classNamespace = ActionHelper.obtainClassNamespace(createObjectAction);
+			String classNamespaceAndName = ActionHelper.obtainClassNamespaceAndName(createObjectAction);
 
 			dynamicClassLoader = new DynamicClassLoader(jarPath);
 			ClassLoader classLoader = dynamicClassLoader.getClassLoader();
 
-			Class<?> clazz = classLoader.loadClass(classNamespace + "." + className);
+			Class<?> clazz = classLoader.loadClass(classNamespaceAndName);
 			javaObject = clazz.newInstance();
 
 		} catch (Exception e) {
@@ -245,12 +244,12 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			System.out.println("[CallOperationAction] javaObject = " + javaObject);
 
 			String methodName = "";
-			String className = "";
-			String classNamespace = "";
+			String classNamespaceAndName = "";
 
 			methodName = callOperationAction.operation.name;
-			className = ActionHelper.obtainClassName(callOperationAction);
-			classNamespace = ActionHelper.obtainClassNamespace(callOperationAction);
+			classNamespaceAndName = ActionHelper.obtainClassNamespaceAndName(callOperationAction);
+			
+			
 
 			/*
 			 * TODO - Call the method on the Java Object - Update the fUML
