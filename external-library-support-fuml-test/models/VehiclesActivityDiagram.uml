@@ -22,32 +22,22 @@
       <operation href="VehiclesConverted.uml#_g_wYI5GUEeK49a9yQ70LrQ"/>
     </node>
   </packagedElement>
-  <packagedElement xmi:type="uml:Activity" xmi:id="_IdKh8JGLEeKJdIXWZWqBdw" name="ShipActivity1" node="_LRLhsJGLEeKJdIXWZWqBdw _NQP2cJGLEeKJdIXWZWqBdw _SelBsJPqEeK0s4Tl2bAhug _5J3KQJPrEeK0s4Tl2bAhug">
-    <ownedParameter xmi:id="_Yjd8UJPqEeK0s4Tl2bAhug" name="Parameter1" direction="out">
-      <type xmi:type="uml:Class" href="VehiclesConverted.uml#_g_vxFpGUEeK49a9yQ70LrQ"/>
-    </ownedParameter>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_IdKh8JGLEeKJdIXWZWqBdw" name="ShipActivity1" node="_LRLhsJGLEeKJdIXWZWqBdw _NQP2cJGLEeKJdIXWZWqBdw">
     <edge xmi:type="uml:ObjectFlow" xmi:id="_MznggJMaEeKJdIXWZWqBdw" name="ObjectFlow1" source="_N45x4JGLEeKJdIXWZWqBdw" target="_O7a-0JGLEeKJdIXWZWqBdw"/>
-    <edge xmi:type="uml:ControlFlow" xmi:id="_gvcfQJPqEeK0s4Tl2bAhug" name="ControlFlow1" source="_SelBsJPqEeK0s4Tl2bAhug" target="_LRLhsJGLEeKJdIXWZWqBdw"/>
-    <edge xmi:type="uml:ControlFlow" xmi:id="_HD9jEJPrEeK0s4Tl2bAhug" name="ControlFlow2" source="_LRLhsJGLEeKJdIXWZWqBdw" target="_NQP2cJGLEeKJdIXWZWqBdw"/>
-    <edge xmi:type="uml:ObjectFlow" xmi:id="_uuJZUJPrEeK0s4Tl2bAhug" name="finalOutput" source="_Pp-t8JGLEeKJdIXWZWqBdw" target="_5J3KQJPrEeK0s4Tl2bAhug"/>
-    <node xmi:type="uml:InitialNode" xmi:id="_SelBsJPqEeK0s4Tl2bAhug" name="InitialNode" outgoing="_gvcfQJPqEeK0s4Tl2bAhug"/>
-    <node xmi:type="uml:CreateObjectAction" xmi:id="_LRLhsJGLEeKJdIXWZWqBdw" name="CreateShipObject" outgoing="_HD9jEJPrEeK0s4Tl2bAhug" incoming="_gvcfQJPqEeK0s4Tl2bAhug">
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_LRLhsJGLEeKJdIXWZWqBdw" name="CreateShipObject">
       <classifier xmi:type="uml:Class" href="VehiclesConverted.uml#_g_vxFpGUEeK49a9yQ70LrQ"/>
       <result xmi:id="_N45x4JGLEeKJdIXWZWqBdw" name="target" outgoing="_MznggJMaEeKJdIXWZWqBdw">
         <type xmi:type="uml:Class" href="VehiclesConverted.uml#_g_vxFpGUEeK49a9yQ70LrQ"/>
       </result>
     </node>
-    <node xmi:type="uml:CallOperationAction" xmi:id="_NQP2cJGLEeKJdIXWZWqBdw" name="ToStringCallOperationAction" incoming="_HD9jEJPrEeK0s4Tl2bAhug">
+    <node xmi:type="uml:CallOperationAction" xmi:id="_NQP2cJGLEeKJdIXWZWqBdw" name="ToStringCallOperationAction">
       <argument xmi:id="_O7a-0JGLEeKJdIXWZWqBdw" name="target" incoming="_MznggJMaEeKJdIXWZWqBdw">
         <type xmi:type="uml:Class" href="VehiclesConverted.uml#_g_vxFpGUEeK49a9yQ70LrQ"/>
       </argument>
-      <result xmi:id="_Pp-t8JGLEeKJdIXWZWqBdw" name="toStringReturnValue" outgoing="_uuJZUJPrEeK0s4Tl2bAhug">
+      <result xmi:id="_Pp-t8JGLEeKJdIXWZWqBdw" name="toStringReturnValue">
         <type xmi:type="uml:Class" href="VehiclesConverted.uml#_g_vxFpGUEeK49a9yQ70LrQ"/>
       </result>
       <operation href="VehiclesConverted.uml#_g_wYCJGUEeK49a9yQ70LrQ"/>
-    </node>
-    <node xmi:type="uml:ActivityParameterNode" xmi:id="_5J3KQJPrEeK0s4Tl2bAhug" name="OutputShip" incoming="_uuJZUJPrEeK0s4Tl2bAhug" isControlType="true" parameter="_Yjd8UJPqEeK0s4Tl2bAhug">
-      <type xmi:type="uml:Class" href="VehiclesConverted.uml#_g_vxFpGUEeK49a9yQ70LrQ"/>
     </node>
   </packagedElement>
 </uml:Model>
