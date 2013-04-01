@@ -46,7 +46,7 @@ public class ActionHelper {
 	 * @throws Exception
 	 *             Whenever the Class name could not be obtained
 	 */
-	public static String obtainClassName(CreateObjectAction createObjectAction) throws Exception {
+	private static String obtainClassName(CreateObjectAction createObjectAction) throws Exception {
 		if (createObjectAction.classifier != null) {
 			return createObjectAction.classifier.name;
 		}

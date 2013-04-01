@@ -3,6 +3,8 @@
  */
 package org.modelexecution.fuml.extlib;
 
+import java.beans.ParameterDescriptor;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -21,15 +23,24 @@ import fUML.Semantics.Activities.IntermediateActivities.ActivityExecution;
 import fUML.Semantics.Activities.IntermediateActivities.ActivityNodeActivation;
 import fUML.Semantics.Activities.IntermediateActivities.ObjectToken;
 import fUML.Semantics.Activities.IntermediateActivities.Token;
+import fUML.Semantics.Classes.Kernel.BooleanValue;
 import fUML.Semantics.Classes.Kernel.ExtensionalValue;
 import fUML.Semantics.Classes.Kernel.ExtensionalValueList;
+import fUML.Semantics.Classes.Kernel.IntegerValue;
 import fUML.Semantics.Classes.Kernel.Object_;
 import fUML.Semantics.Classes.Kernel.Reference;
+import fUML.Semantics.Classes.Kernel.StringValue;
+import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.BasicActions.InputPin;
 import fUML.Syntax.Actions.BasicActions.OutputPin;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
+import fUML.Syntax.Activities.IntermediateActivities.ActivityParameterNode;
 import fUML.Syntax.Activities.IntermediateActivities.ObjectFlow;
+import fUML.Syntax.Classes.Kernel.Comment;
+import fUML.Syntax.Classes.Kernel.Parameter;
+import fUML.Syntax.Classes.Kernel.ParameterDirectionKind;
+import fUML.Syntax.Classes.Kernel.Type;
 
 /**
  * Implementation of the {@link IntegrationLayer}
@@ -90,7 +101,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		} else if (EventHelper.isExternalCallOperationActionEntry(event)) {
 			System.out.println("[External CallOperationAction ActivityNodeEntryEvent]");
 
-			Object returnValue = callOperation(event);
+			callOperation(event);
 
 			/*
 			 * TODO Assign the returnValue to the OutputPin of the
@@ -228,7 +239,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		return javaObject;
 	}// obtainJavaObject
 
-	private Object callOperation(Event event) {
+	private void callOperation(Event event) {
 		// Obtain the CallOperationAction for later comparison
 		CallOperationAction callOperationAction = EventHelper.getExternalCallOperationAction(event);
 
@@ -243,26 +254,88 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			Object javaObject = fUmlJavaMap.get(fUmlObject);
 			System.out.println("[CallOperationAction] javaObject = " + javaObject);
 
-			String methodName = "";
-			String classNamespaceAndName = "";
+			String methodName = callOperationAction.operation.name;
+			String classNamespaceAndName = ActionHelper.obtainClassNamespaceAndName(callOperationAction);
 
-			methodName = callOperationAction.operation.name;
-			classNamespaceAndName = ActionHelper.obtainClassNamespaceAndName(callOperationAction);
-			
-			
+			// Step 1: Call method on Java Object and store the return value
+			// NOTE: NO PARAMETERS SUPPORTED YET
+			Class<?> javaClass = javaObject.getClass();
+			Method javaMethod = javaClass.getDeclaredMethod(methodName, null);
+			javaMethod.setAccessible(true); // shutdown security
 
-			/*
-			 * TODO - Call the method on the Java Object - Update the fUML
-			 * Object in the Locus of the ExecutionContext (?) - Update both
-			 * objects in the HashMap - Return the method return value to
-			 * notify()
-			 */
+			// Warning: the following invocation alters javaObject (!)
+			// NOTE: NO PARAMETERS SUPPORTED YET
+			Object javaMethodReturnValue = javaMethod.invoke(javaObject, null);					
+
+			// Step 2: Update the corresponding fUML Object_ using the
+			// Object_Transfomer
+			Object_Transformer object_Transformer = new Object_Transformer(event, fUmlObject, javaObject);
+			Object_ newFUmlObject = object_Transformer.getObject_();
+
+			// Step 3: Update the HashMaps
+			Object oldJavaObject = getJavaObject(fUmlObject);
+			removeObjects(oldJavaObject);
+			addObjects(newFUmlObject, javaObject);
+
+			// Step 4: Translate return value into fUML Parameter
+			Parameter outputParameter = new Parameter();
+			outputParameter.setName("outputParameter");
+			outputParameter.setDirection(ParameterDirectionKind.out);
+			
+			ParameterValue outputParameterValue = new ParameterValue();
+			outputParameterValue.parameter = outputParameter;
+	
+			
+			if (javaMethod.getReturnType().getName().equals("boolean")) {
+				
+				BooleanValue booleanValue = new BooleanValue();
+				booleanValue.value = (boolean) javaMethodReturnValue;
+				outputParameterValue.values.add(booleanValue);
+				
+			} else if (javaMethod.getReturnType().getName().equals("int")) {
+				
+				IntegerValue integerValue = new IntegerValue();
+				integerValue.value = (int) javaMethodReturnValue;
+				outputParameterValue.values.add(integerValue);
+				
+			} else if (javaMethod.getReturnType().getName().equals("java.lang.String")) {
+				
+				StringValue stringValue = new StringValue();
+				stringValue.value = (String) javaMethodReturnValue;
+				outputParameterValue.values.add(stringValue);
+				
+			} 
+
+			System.out.println("Java method return value = " + javaMethodReturnValue.toString());
+			System.out.println("new Java Object  = " + getFUmlObject(javaObject));
+			System.out.println("new fUML Object_ = " + getJavaObject(newFUmlObject));
+
+			// Step 5.1: Plugging output parameter to Placeholder Activity
+			callOperationAction.activity.ownedParameter.add(outputParameter);
+			
+			// Step 5.2: Set Activity Output to be the created parameter
+			for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
+				
+				if (extensionalValue instanceof ActivityExecution) {
+					ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
+					
+					if (activityExecution.activationGroup.getNodeActivation(callOperationAction) != null) {
+						/*
+						 * Arrived at the correct activityExecution, next: set its parameter values
+						 */
+						activityExecution.setParameterValue(outputParameterValue);
+						System.out.println("Added output to ActivityExecution.");
+					}
+					
+				}
+				
+			}
+			
 
 		} catch (Exception e) {
 			System.out.println("Error occured while trying to call operation on Java object. " + e);
 		}
 
-		return null;
 	}// callOperation
 
 	/**
@@ -314,7 +387,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 					return; // exit
 
 				}
-				
+
 			}// ExtensionalValue loop
 
 		} else {
@@ -354,8 +427,8 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 						CallOperationAction callOperationAction = (CallOperationAction) activityNodeActivation.node;
 
 						/**
-						 * Next: Look for CallOperationAction InputPin's that have an
-						 * incoming ObjectFlow that matches with the
+						 * Next: Look for CallOperationAction InputPin's that
+						 * have an incoming ObjectFlow that matches with the
 						 * CreateObjectAction's ObjectFlow
 						 */
 						for (InputPin inputPin : callOperationAction.input) {
@@ -385,7 +458,6 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 		}// ExtensionalValue loop
 
-
 	}// assignTargetInputPinToCallOperationAction
 
 	public IntegrationLayerImpl() {
@@ -405,6 +477,74 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		javaFUmlMap.put(javaObject, fUmlObject);
 		fUmlJavaMap.put(fUmlObject, javaObject);
 	}// addObjects
+
+	/**
+	 * Remove fUML {@link Object_} and corresponding Java {@link Object} from
+	 * both HashMaps
+	 * 
+	 * @param fUmlObject
+	 *            fUML {@link Object_} used for searching the fUML
+	 *            {@link Object_} and Java {@link Object} to remove
+	 */
+	private void removeObjects(Object_ fUmlObject) {
+		Object javaObject = getJavaObject(fUmlObject);
+		fUmlJavaMap.remove(javaObject);
+		javaFUmlMap.remove(fUmlObject);
+	}// removeObjects(Object_)
+
+	/**
+	 * Remove Java {@link Object} and corresponding fUML {@link Object_} from
+	 * both HashMaps
+	 * 
+	 * @param javaObject
+	 *            Java {@link Object} used for searching the Java {@link Object}
+	 *            and fUML {@link Object_} to remove
+	 */
+	private void removeObjects(Object javaObject) {
+		Object_ fUmlObject = getFUmlObject(javaObject);
+		fUmlJavaMap.remove(javaObject);
+		javaFUmlMap.remove(fUmlObject);
+	}// removeObjects(Object)
+
+	/**
+	 * Updates both HashMaps with the new fUML {@link Object_} based on the
+	 * corresponding {@code javaObject}
+	 * 
+	 * @param javaObject
+	 *            corresponding Java {@link Object} used to find the fUML
+	 *            {@link Object_} to be replaced
+	 * @param newFUmlObject
+	 *            new fUML {@link Object_} used to update the HashMaps with
+	 */
+	private void updateFUmlObject(Object javaObject, Object_ newFUmlObject) {
+		Object_ oldFUmlObject = getFUmlObject(javaObject);
+
+		javaFUmlMap.remove(oldFUmlObject);
+		fUmlJavaMap.remove(javaObject);
+
+		javaFUmlMap.put(javaObject, newFUmlObject);
+		fUmlJavaMap.put(newFUmlObject, javaObject);
+	}// updateFUmlObject
+
+	/**
+	 * Updates both HashMaps with the new Java {@link Object} based on the
+	 * corresponding {@code fUmlObject}
+	 * 
+	 * @param fUmlObject
+	 *            corresponding fUML {@link Object_} used to find the Java
+	 *            {@link Object} to be replaced
+	 * @param newJavaObject
+	 *            new Java {@link Object} used to update the HashMaps with
+	 */
+	private void updateJavaObject(Object_ fUmlObject, Object newJavaObject) {
+		Object oldJavaObject = getJavaObject(fUmlObject);
+
+		javaFUmlMap.remove(oldJavaObject);
+		fUmlJavaMap.remove(fUmlObject);
+
+		javaFUmlMap.put(newJavaObject, fUmlObject);
+		fUmlJavaMap.put(fUmlObject, newJavaObject);
+	}// updateJavaObject
 
 	@Override
 	public Object_ getFUmlObject(Object javaObject) {

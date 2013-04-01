@@ -50,13 +50,8 @@ public class Object_Transformer {
 			Class_ fUmlClass = fUmlObject.types.get(0);
 			Class<?> javaClass = javaObject.getClass();
 
-			CreateObjectAction createObjectAction = EventHelper.getExternalCreateObjectAction(event);
-			fUmlClass.setName(ActionHelper.obtainClassName(createObjectAction));
-			fUmlClass.qualifiedName = javaObject.getClass().getName();
 			/*
-			 * ... TODO add more stuff to "fUmlClass" (Class_) NOTE It would not
-			 * be necessary to only update the Class_ name (already correctly
-			 * set in the placeholder Object_)
+			 * ... TODO add stuff to "fUmlClass" (Class_) if necessary
 			 */
 
 			fUmlObject.types.set(0, fUmlClass);
