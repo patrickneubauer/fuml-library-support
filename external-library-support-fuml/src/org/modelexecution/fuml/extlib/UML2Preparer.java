@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityParameterNode;
 import org.eclipse.uml2.uml.Class;
@@ -37,6 +38,7 @@ public class UML2Preparer {
 
 	private ResourceSet resourceSet;
 	private Resource resource;
+	private Copier copier;
 
 	/**
 	 * Initializes an instance of {@link UML2Preparer}. Then, the converter can
@@ -47,6 +49,7 @@ public class UML2Preparer {
 		resourceSet = new ResourceSetImpl();
 		resourceSet.getPackageRegistry().put("http://www.eclipse.org/uml2/3.0.0/UML", UMLPackage.eINSTANCE);
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
+		copier = new Copier();
 	}
 
 	/**
@@ -117,15 +120,22 @@ public class UML2Preparer {
 				placeholderActivity.createOwnedComment().setBody("@external");
 
 				for (Parameter operationParameter : operation.getOwnedParameters()) {
+					// copy ownedParameters
+					Parameter placeholderParameter = (Parameter) copier.copy(operationParameter);
+
+					// add Placeholder Parameter to Placeholder Activity
+					placeholderActivity.getOwnedParameters().add(placeholderParameter);
+
 					ActivityParameterNode activityParameterNode = UMLFactory.eINSTANCE.createActivityParameterNode();
 
-					// reference the Operation Parameter in the
+					// reference the Placeholder Parameter in the
 					// ActivityParameterNode
-					activityParameterNode.setParameter(operationParameter);
+					activityParameterNode.setParameter(placeholderParameter);
 
 					// add the ActivityParameterNode to the Placeholder Activity
 					placeholderActivity.getOwnedNodes().add(activityParameterNode);
-				}
+
+				}// Parameter loop
 
 				// add OwnedBehavior to Class referencing the Placeholder
 				// Activity
@@ -134,7 +144,7 @@ public class UML2Preparer {
 				// reference the Placeholder Activity in the Operation
 				operation.getMethods().add(placeholderActivity);
 
-			}
+			}// Operation loop
 		}
 	}
 

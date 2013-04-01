@@ -145,34 +145,36 @@ public class UML2PreparerTest {
 	}
 
 	/**
-	 * Searches if a given Placeholder Activity has a corresponding Operation
-	 * with equal Parameters
+	 * Evaluates if a given Placeholder Activity contains a corresponding ActivityParameterNode for each owned Parameter
 	 * 
 	 * @param placeholderActivity
 	 *            {@link Activity} Parameters to be searched for in the
 	 *            {@link Operation}
-	 * @param operation
-	 *            {@link Operation} in which the Parameters contained in
-	 *            {@link Activity} are searched
 	 * @return true if found, false otherwise
 	 */
-	private boolean containsParameters(Activity placeholderActivity, Operation operation) {
-		for (ActivityNode activityNode : placeholderActivity.getOwnedNodes()) {
-
-			if (activityNode instanceof ActivityParameterNode) {
-				ActivityParameterNode activityParameterNode = (ActivityParameterNode) activityNode;
-
-				for (Parameter operationParameter : operation.getOwnedParameters()) {
-					if (activityParameterNode.getParameter().equals(operationParameter)) {
-						return true; // found
+	private boolean containsParameters(Activity placeholderActivity) {
+		for (Parameter placeholderParameter : placeholderActivity.getOwnedParameters()) {
+			boolean found = false;
+			
+			for (ActivityNode activityNode : placeholderActivity.getOwnedNodes()) {
+				if (activityNode instanceof ActivityParameterNode) {
+					ActivityParameterNode activityParameterNode = (ActivityParameterNode) activityNode;
+					
+					if (placeholderParameter.equals(activityParameterNode.getParameter())) {
+						found = true;
 					}
+					
 				}
-				return false; // not found
 			}
-
+			
+			if (found==false) {
+				System.out.println("Could NOT find corresponding ActivityParameterNode for Placeholder Parameter.");
+				return false;
+			}
+			
 		}
-
-		return true; // Placeholder Activity has no nodes
+		
+		return true; // found
 	}
 
 	/**
@@ -212,8 +214,11 @@ public class UML2PreparerTest {
 							// expected OwnedComment
 							assertTrue(containsComment(placeholderActivity, "@external"));
 
-							// check if their Parameters are equal
-							assertTrue(containsParameters(placeholderActivity, classOperation));
+							// check if all Parameters have been copied
+							// TODO
+							
+							// check if each Parameters has its ActivityParameterNode reference
+							assertTrue(containsParameters(placeholderActivity));
 						}
 					}
 				}
