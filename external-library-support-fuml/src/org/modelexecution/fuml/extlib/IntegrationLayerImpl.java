@@ -313,6 +313,17 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			System.out.println("new fUML Object_ = " + getJavaObject(newFUmlObject));
 
 			// Step 5.1: Plugging output parameter to Placeholder Activity
+			for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
+				if (extensionalValue.hashCode() == ((ActivityEntryEventImpl) event).getActivityExecutionID()) {
+					ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
+					activityExecution.setParameterValue(outputParameterValue);
+
+				}
+			}
+					
+						
+
+			// Step 5.1: Plugging output parameter to Placeholder Activity
 			// callOperationAction.activity.ownedParameter.add(outputParameter);
 			//
 			// // Step 5.2: Set Activity Output to be the created parameter
