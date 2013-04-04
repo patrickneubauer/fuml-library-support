@@ -13,6 +13,7 @@ import org.modelexecution.fumldebug.core.ExecutionContext;
 import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
 import org.modelexecution.fumldebug.core.event.ActivityNodeExitEvent;
 import org.modelexecution.fumldebug.core.event.Event;
+import org.modelexecution.fumldebug.core.event.impl.ActivityEntryEventImpl;
 import org.modelexecution.fumldebug.core.event.impl.ActivityNodeExitEventImpl;
 
 import fUML.Semantics.Actions.BasicActions.CallOperationActionActivation;
@@ -35,6 +36,7 @@ import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.BasicActions.InputPin;
 import fUML.Syntax.Actions.BasicActions.OutputPin;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
+import fUML.Syntax.Activities.IntermediateActivities.Activity;
 import fUML.Syntax.Activities.IntermediateActivities.ActivityParameterNode;
 import fUML.Syntax.Activities.IntermediateActivities.ObjectFlow;
 import fUML.Syntax.Classes.Kernel.Comment;
@@ -100,16 +102,19 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 		} else if (EventHelper.isExternalCallOperationActionEntry(event)) {
 			System.out.println("[External CallOperationAction ActivityNodeEntryEvent]");
-
-			callOperation(event);
-
-			/*
-			 * TODO Assign the returnValue to the OutputPin of the
-			 * CallOperationAction (?)
-			 */
+			// do nothing
 
 		} else if (EventHelper.isExternalCallOperationActionExit(event)) {
 			System.out.println("[External CallOperationAction ActivityNodeExitEvent]");
+			// do nothing
+
+		} else if (EventHelper.isExternalActivityEntryEvent(event)) {
+			System.out.println("[External ActivityEntryEvent]");
+
+			callOperation(event);
+
+		} else if (EventHelper.isExternalActivityExitEvent(event)) {
+			System.out.println("[External ActivityExitEvent]");
 
 		}
 	}// notify
@@ -240,22 +245,22 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	}// obtainJavaObject
 
 	private void callOperation(Event event) {
-		// Obtain the CallOperationAction for later comparison
-		CallOperationAction callOperationAction = EventHelper.getExternalCallOperationAction(event);
+		// Obtain the Activity for modifications
+		Activity activity = EventHelper.getExternalActivity(event);
 
 		try {
 
 			// Obtain fUML Object_ from InputPinActivation in
-			// CallOperationActionActivation
-			Object_ fUmlObject = obtainFUmlObjectFromCallOperationActionEntryEvent(event, callOperationAction);
+			// ActivityExecution
+			Object_ fUmlObject = obtainFUmlObjectFromActivityExecution(event);
 			System.out.println("[CallOperationAction] fUmlObject = " + fUmlObject);
 
 			// Obtain corresponding Java Object
 			Object javaObject = fUmlJavaMap.get(fUmlObject);
 			System.out.println("[CallOperationAction] javaObject = " + javaObject);
 
-			String methodName = callOperationAction.operation.name;
-			String classNamespaceAndName = ActionHelper.obtainClassNamespaceAndName(callOperationAction);
+			String methodName = ActivityHelper.getOperationName(activity);
+			String classNamespaceAndName = ActivityHelper.getOperationNamespaceAndName(activity);
 
 			// Step 1: Call method on Java Object and store the return value
 			// NOTE: NO PARAMETERS SUPPORTED YET
@@ -265,7 +270,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 			// Warning: the following invocation alters javaObject (!)
 			// NOTE: NO PARAMETERS SUPPORTED YET
-			Object javaMethodReturnValue = javaMethod.invoke(javaObject, null);					
+			Object javaMethodReturnValue = javaMethod.invoke(javaObject, null);
 
 			// Step 2: Update the corresponding fUML Object_ using the
 			// Object_Transfomer
@@ -278,65 +283,82 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			addObjects(newFUmlObject, javaObject);
 
 			// Step 4: Translate return value into fUML Parameter
-			Parameter outputParameter = new Parameter();
-			outputParameter.setName("outputParameter");
-			outputParameter.setDirection(ParameterDirectionKind.out);
-			
+			Parameter outputParameter = ActivityHelper.getReturnParameter(activity);
+
 			ParameterValue outputParameterValue = new ParameterValue();
 			outputParameterValue.parameter = outputParameter;
-	
-			
+
 			if (javaMethod.getReturnType().getName().equals("boolean")) {
-				
+
 				BooleanValue booleanValue = new BooleanValue();
 				booleanValue.value = (boolean) javaMethodReturnValue;
 				outputParameterValue.values.add(booleanValue);
-				
+
 			} else if (javaMethod.getReturnType().getName().equals("int")) {
-				
+
 				IntegerValue integerValue = new IntegerValue();
 				integerValue.value = (int) javaMethodReturnValue;
 				outputParameterValue.values.add(integerValue);
-				
+
 			} else if (javaMethod.getReturnType().getName().equals("java.lang.String")) {
-				
+
 				StringValue stringValue = new StringValue();
 				stringValue.value = (String) javaMethodReturnValue;
 				outputParameterValue.values.add(stringValue);
-				
-			} 
+
+			}
 
 			System.out.println("Java method return value = " + javaMethodReturnValue.toString());
 			System.out.println("new Java Object  = " + getFUmlObject(javaObject));
 			System.out.println("new fUML Object_ = " + getJavaObject(newFUmlObject));
 
 			// Step 5.1: Plugging output parameter to Placeholder Activity
-			callOperationAction.activity.ownedParameter.add(outputParameter);
-			
-			// Step 5.2: Set Activity Output to be the created parameter
-			for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
-				
-				if (extensionalValue instanceof ActivityExecution) {
-					ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
-					
-					if (activityExecution.activationGroup.getNodeActivation(callOperationAction) != null) {
-						/*
-						 * Arrived at the correct activityExecution, next: set its parameter values
-						 */
-						activityExecution.setParameterValue(outputParameterValue);
-						System.out.println("Added output to ActivityExecution.");
-					}
-					
-				}
-				
-			}
-			
+			// callOperationAction.activity.ownedParameter.add(outputParameter);
+			//
+			// // Step 5.2: Set Activity Output to be the created parameter
+			// for (ExtensionalValue extensionalValue :
+			// executionContext.getLocus().extensionalValues) {
+			//
+			// if (extensionalValue instanceof ActivityExecution) {
+			// ActivityExecution activityExecution = (ActivityExecution)
+			// extensionalValue;
+			//
+			// if
+			// (activityExecution.activationGroup.getNodeActivation(callOperationAction)
+			// != null) {
+			// /*
+			// * Arrived at the correct activityExecution, next: set its
+			// parameter values
+			// */
+			// activityExecution.setParameterValue(outputParameterValue);
+			// System.out.println("Added output to ActivityExecution.");
+			// }
+			//
+			// }
+			//
+			// }
 
 		} catch (Exception e) {
 			System.out.println("Error occured while trying to call operation on Java object. " + e);
 		}
 
 	}// callOperation
+
+	private Object_ obtainFUmlObjectFromActivityExecution(Event event) throws Exception {
+		if (EventHelper.isExternalActivityEntryEvent(event)) {
+
+			for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
+				if (extensionalValue.hashCode() == ((ActivityEntryEventImpl) event).getActivityExecutionID()) {
+					ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
+					Object_ fUmlObject = activityExecution.context;
+					return fUmlObject;
+				}
+			}
+
+		}// event instance of ActivityEntryEventImpl
+
+		throw new Exception("Failed to obtain the fUML Object_ from ActivityExecution.");
+	}// obtainFUmlObjectFromActivityExecution
 
 	/**
 	 * Assigns a given {@link Object_} as an {@link ObjectToken} to the

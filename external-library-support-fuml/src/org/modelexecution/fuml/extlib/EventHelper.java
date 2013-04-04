@@ -6,11 +6,14 @@ package org.modelexecution.fuml.extlib;
 import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
 import org.modelexecution.fumldebug.core.event.ActivityNodeExitEvent;
 import org.modelexecution.fumldebug.core.event.Event;
+import org.modelexecution.fumldebug.core.event.impl.ActivityEntryEventImpl;
+import org.modelexecution.fumldebug.core.event.impl.ActivityExitEventImpl;
 import org.modelexecution.fumldebug.core.event.impl.ActivityNodeEntryEventImpl;
 import org.modelexecution.fumldebug.core.event.impl.ActivityNodeExitEventImpl;
 
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
+import fUML.Syntax.Activities.IntermediateActivities.Activity;
 import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
 import fUML.Syntax.Classes.Kernel.Comment;
 import fUML.Syntax.Classes.Kernel.CommentList;
@@ -151,12 +154,12 @@ public class EventHelper {
 	}//isExternalCallOperationActionEntry
 
 	/**
-	 * Get the {@link CallOperationAction} out of the {@code event}
+	 * Get the external {@link CallOperationAction} out of the {@code event}
 	 * 
 	 * @param event
-	 *            the {@link Event} where to get the {@link CallOperationAction}
+	 *            the {@link Event} where to get the external {@link CallOperationAction}
 	 *            from
-	 * @return instance of the {@link CallOperationAction} if it exists in the
+	 * @return instance of the external {@link CallOperationAction} if it exists in the
 	 *         {@code event}, null otherwise
 	 */
 	public static CallOperationAction getExternalCallOperationAction(Event event) {
@@ -229,5 +232,89 @@ public class EventHelper {
 
 		return false;
 	}//isExternalCallOperationActionExit
+	
+	/**
+	 * Checks if the given {@code event} is of type {@link ActivityEntryEvent}
+	 * and references an external library
+	 * 
+	 * @param event
+	 *            the {@link Event} to check
+	 * @return true if the {@link event} is of type {@link ActivityEntryEvent}
+	 *         and references an external library, false otherwise
+	 */
+	public static boolean isExternalActivityEntryEvent(Event event) {
+		if (event instanceof ActivityEntryEventImpl) {
+			Activity activity = ((ActivityEntryEventImpl) event).getActivity();
+			
+			for (Comment ownedComment : activity.ownedComment) {
+				if (ownedComment.body.equals("@external")) {
+					return true;
+				}
+			}
+			
+		}// event instanceof ActivityEntryEventImpl
+
+		return false;
+	}//isExternalActivityEntryEvent
+	
+	/**
+	 * Checks if the given {@code event} is of type {@link ActivityExitEvent}
+	 * and references an external library
+	 * 
+	 * @param event
+	 *            the {@link Event} to check
+	 * @return true if the {@link event} is of type {@link ActivityExitEvent}
+	 *         and references an external library, false otherwise
+	 */
+	public static boolean isExternalActivityExitEvent(Event event) {
+		if (event instanceof ActivityExitEventImpl) {
+			Activity activity = ((ActivityExitEventImpl) event).getActivity();
+			
+			for (Comment ownedComment : activity.ownedComment) {
+				if (ownedComment.body.equals("@external")) {
+					return true;
+				}
+			}
+			
+		}// event instanceof ActivityExitEventImpl
+
+		return false;
+	}//isExternalActivityExitEvent
+	
+	/**
+	 * Get the external {@link Activity} out of the {@code event}
+	 * 
+	 * @param event
+	 *            the {@link Event} where to get the external {@link Activity}
+	 *            from
+	 * @return instance of the external {@link Activity} if it exists in the
+	 *         {@code event}, null otherwise
+	 */
+	public static Activity getExternalActivity(Event event) {
+		
+		if (event instanceof ActivityEntryEventImpl) {
+			Activity activity = ((ActivityEntryEventImpl) event).getActivity();
+			
+			for (Comment ownedComment : activity.ownedComment) {
+				if (ownedComment.body.equals("@external")) {
+					return activity;
+				}
+			}
+			
+		} else if (event instanceof ActivityExitEventImpl) {
+			Activity activity = ((ActivityExitEventImpl) event).getActivity();
+			
+			for (Comment ownedComment : activity.ownedComment) {
+				if (ownedComment.body.equals("@external")) {
+					return activity;
+				}
+			}
+			
+		}
+
+		return null;
+	}//getExternalActivity
+	
+	
 	
 }
