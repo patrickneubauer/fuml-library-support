@@ -25,7 +25,7 @@ public class ActionHelper {
 	 * 
 	 * @throws Exception Whenever the JAR path could not be obtained
 	 */
-	public static String obtainClassJarPath(CreateObjectAction createObjectAction) throws Exception {
+	public static String getClassJarPath(CreateObjectAction createObjectAction) throws Exception {
 		CommentList commentList = createObjectAction.classifier.ownedComment;
 		for (Comment comment : commentList) {
 			if (comment.body.startsWith("@external")) {
@@ -48,7 +48,9 @@ public class ActionHelper {
 	 */
 	private static String obtainClassName(CreateObjectAction createObjectAction) throws Exception {
 		if (createObjectAction.classifier != null) {
-			return createObjectAction.classifier.name;
+			if (createObjectAction.classifier.name != "") {
+				return createObjectAction.classifier.name;
+			}
 		}
 
 		throw new Exception("Error occured while trying to obtain the Class name from " + createObjectAction);
@@ -66,11 +68,11 @@ public class ActionHelper {
 	 * @throws Exception
 	 *             Whenever the Class name could not be obtained
 	 */
-	public static String obtainClassNamespaceAndName(CreateObjectAction createObjectAction) throws Exception {
+	public static String getClassNamespaceAndName(CreateObjectAction createObjectAction) throws Exception {
 		String namespace = obtainClassNamespace(createObjectAction);
 		String className = obtainClassName(createObjectAction);
 
-		if (namespace != null) {
+		if (namespace != null && namespace != "") {
 			return namespace + "." + className;
 		} else {
 			return className;
@@ -89,11 +91,11 @@ public class ActionHelper {
 	 * @throws Exception
 	 *             Whenever the Class name could not be obtained
 	 */
-	public static String obtainClassNamespaceAndName(CallOperationAction callOperationAction) throws Exception {
+	public static String getClassNamespaceAndName(CallOperationAction callOperationAction) throws Exception {
 		String namespace = obtainClassNamespace(callOperationAction);
 		String className = obtainClassName(callOperationAction);
 
-		if (namespace != null) {
+		if (namespace != null && namespace != "") {
 			return namespace + "." + className;
 		} else {
 			return className;
@@ -114,7 +116,9 @@ public class ActionHelper {
 	private static String obtainClassName(CallOperationAction callOperationAction) throws Exception {
 		if (callOperationAction.operation != null) {
 			if (callOperationAction.operation.namespace != null) {
-				return callOperationAction.operation.namespace.name;
+				if (callOperationAction.operation.namespace.name != "") {
+					return callOperationAction.operation.namespace.name;
+				}
 			}
 		}
 
@@ -160,7 +164,7 @@ public class ActionHelper {
 			}
 		}
 
-		throw new Exception("Error occured while trying to obtain the Class namespace of " + callOperationAction);
+		return null; // no namespace found
 	}// obtainClassNamespace(CallOperationAction)
 	
 }

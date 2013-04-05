@@ -18,5 +18,11 @@ public class IntegrationLayerImplTest {
 	/**
 	 * TODO Write tests for {@link IntegrationLayerImpl}
 	 * 
+	 * - Write tests that check the functionality of primitive RETURN Parameter
+	 * - Write tests that check the functionality of Object RETURN Parameter
+	 * 
+	 * - Write tests that check the functionality of primitive INPUT Parameter
+	 * - ...
+	 * 
 	 */
 }
