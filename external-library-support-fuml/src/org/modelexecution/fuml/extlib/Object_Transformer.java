@@ -66,7 +66,7 @@ public class Object_Transformer {
 				 * currently SKIPPED (!) but could be somehow recursively
 				 * accessed through getSuperclass()
 				 */
-				if (FeatureHelper.obtainFeatureValueNamespaceAndClass(featureValue).equals(javaClass.getName())) {
+				if (FeatureHelper.getFeatureValueNamespaceAndClass(featureValue).equals(javaClass.getName())) {
 
 					Field javaField = javaClass.getDeclaredField(featureValue.feature.name);
 					javaField.setAccessible(true); // shut down security
