@@ -26,15 +26,17 @@ public class ActivityHelper {
 			}
 		}
 		
-		throw new Exception("Could not obtain Activity return Parameter.");
+		throw new Exception("Could not obtain return Parameter of Activity " + activity);
 	}
 	
 	public static String getOperationName(Activity activity) throws Exception {
 		if (activity.specification instanceof Operation) {
-			return activity.specification.name;
+			if (activity.specification.name != "") {
+				return activity.specification.name;
+			}
 		}
 		
-		throw new Exception("Could not obtain Activity Operation name.");
+		throw new Exception("Could not obtain Operation name of Activity " + activity);
 	}
 	
 	/**
@@ -53,7 +55,7 @@ public class ActivityHelper {
 		String namespace = getClassNamespace(activity);
 		String className = getClassName(activity);
 
-		if (namespace != null) {
+		if (namespace != null && namespace != "") {
 			return namespace + "." + className;
 		} else {
 			return className;
@@ -80,7 +82,7 @@ public class ActivityHelper {
 			}
 		}
 
-		throw new Exception("Error occured while trying to obtain the Class name space of " + activity);
+		return null; // no name space found
 	}// getClassNamespace(Activity)
 	
 	/**
@@ -97,7 +99,9 @@ public class ActivityHelper {
 	private static String getClassName(Activity activity) throws Exception {
 		if (activity.specification != null) {
 			if (activity.specification.namespace != null) {
-				return activity.specification.namespace.name;
+				if (activity.specification.namespace.name != "") {
+					return activity.specification.namespace.name;
+				}
 			}
 		}
 
