@@ -60,7 +60,7 @@ public class DynamicClassLoaderTest {
 		} catch (IllegalArgumentException | InvocationTargetException e) {
 			System.out.println("Couldn't invoke the Method " + methodToLoad + ". Details: " + e);
 		}
-	}
+	}// carClassMethodTest
 
 	/**
 	 * Test that creates an instance and calls a method of a Class (Vehicle)
@@ -97,7 +97,7 @@ public class DynamicClassLoaderTest {
 		} catch (IllegalArgumentException | InvocationTargetException e) {
 			System.out.println("Couldn't invoke the Method " + methodToLoad + ". Details: " + e);
 		}
-	}
+	}// vehicleClassEnumReturnNoTurnTest
 
 	/**
 	 * Test that creates an instance and calls 2 methods of a Class (Vehicle)
@@ -140,7 +140,7 @@ public class DynamicClassLoaderTest {
 		} catch (IllegalArgumentException | InvocationTargetException e) {
 			System.out.println("Couldn't invoke a Method. Details: " + e);
 		}
-	}
+	}// vehicleClassEnumReturnSomeTurnTest
 
 	/**
 	 * Test that creates an instance and calls a method of a Class (Truck) from
@@ -201,7 +201,7 @@ public class DynamicClassLoaderTest {
 			System.out.println("Couldn't invoke a Method. Details: " + e);
 		}
 
-	}
+	}// truckClassPassParametersToConstructorTest
 
 	/**
 	 * Test that accesses a method in a class that is inherited from a super
@@ -239,7 +239,7 @@ public class DynamicClassLoaderTest {
 		} catch (IllegalArgumentException | InvocationTargetException e) {
 			System.out.println("Couldn't invoke the Method " + methodToLoad + ". Details: " + e);
 		}
-	}
+	}// carClassInheritedMethodTest
 
 	/**
 	 * Test that accesses a private field in a class that is inherited from a
@@ -288,6 +288,6 @@ public class DynamicClassLoaderTest {
 			System.out.println("Couldn't get the Field " + fieldToLoad + ". Details: " + e);
 		}
 
-	}
+	}// carClassInheritedPrivateFieldTest
 
-}
+}// DynamicClassLoaderTest

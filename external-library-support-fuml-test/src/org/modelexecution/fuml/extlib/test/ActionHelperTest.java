@@ -43,7 +43,7 @@ public class ActionHelperTest {
 		String returnValue = ActionHelper.getClassJarPath(createObjectAction);
 
 		assertEquals("extlibs/Vehicles.jar", returnValue);
-	}
+	}// getClassJarPathPositiveTest
 
 	@Test(expected = Exception.class)
 	public void getClassJarPathNoCommentTest() throws Exception {
@@ -51,7 +51,7 @@ public class ActionHelperTest {
 
 		String returnValue = ActionHelper.getClassJarPath(createObjectAction);
 		// supposed to throw an Exception
-	}
+	}// getClassJarPathNoCommentTest
 
 	@Test(expected = Exception.class)
 	public void getClassJarPathEmptyCommentTest() throws Exception {
@@ -64,7 +64,7 @@ public class ActionHelperTest {
 
 		String returnValue = ActionHelper.getClassJarPath(createObjectAction);
 		// supposed to throw an Exception
-	}
+	}// getClassJarPathEmptyCommentTest
 
 	@Test
 	public void getClassJarPathNoPathTest() throws Exception {
@@ -78,7 +78,7 @@ public class ActionHelperTest {
 		String returnValue = ActionHelper.getClassJarPath(createObjectAction);
 
 		assertEquals("", returnValue);
-	}
+	}// getClassJarPathNoPathTest
 
 	// --------------------------------------------------------------------------------------
 
@@ -95,7 +95,7 @@ public class ActionHelperTest {
 		String returnValue = ActionHelper.getClassNamespaceAndName(createObjectAction);
 
 		assertEquals("vehiclelibrary.Ship", returnValue);
-	}
+	}// getClassNamespaceAndNameOfCreateObjectActionPositiveTest
 	
 	@Test
 	public void getClassNamespaceAndNameOfCreateObjectActionNoClassTest() {
@@ -112,7 +112,7 @@ public class ActionHelperTest {
 		}
 
 		assertEquals(true, thrown);
-	}
+	}// getClassNamespaceAndNameOfCreateObjectActionNoClassTest
 
 	@Test
 	public void getClassNamespaceAndNameOfCreateObjectActionNoClassNameTest() {
@@ -136,7 +136,7 @@ public class ActionHelperTest {
 		}
 
 		assertEquals(true, thrown);
-	}
+	}// getClassNamespaceAndNameOfCreateObjectActionNoClassNameTest
 
 	@Test
 	public void getClassNamespaceAndNameOfCreateObjectActionNoNamespaceTest() throws Exception {
@@ -149,7 +149,7 @@ public class ActionHelperTest {
 		String returnValue = ActionHelper.getClassNamespaceAndName(createObjectAction);
 
 		assertEquals("Ship", returnValue);
-	}
+	}// getClassNamespaceAndNameOfCreateObjectActionNoNamespaceTest
 
 	@Test
 	public void getClassNamespaceAndNameOfCreateObjectActionNoNamespaceNameTest() throws Exception {
@@ -164,7 +164,7 @@ public class ActionHelperTest {
 		String returnValue = ActionHelper.getClassNamespaceAndName(createObjectAction);
 
 		assertEquals("Ship", returnValue);
-	}
+	}// getClassNamespaceAndNameOfCreateObjectActionNoNamespaceTest
 
 	// --------------------------------------------------------------------------------------
 
@@ -186,7 +186,7 @@ public class ActionHelperTest {
 		String returnValue = ActionHelper.getClassNamespaceAndName(callOperationAction);
 
 		assertEquals("vehiclelibrary.Ship", returnValue);
-	}
+	}// getClassNamespaceAndNameOfCallOperationActionPositiveTest
 	
 	@Test
 	public void getClassNamespaceAndNameOfCallOperationActionNoOperationTest() {
@@ -203,7 +203,7 @@ public class ActionHelperTest {
 		}
 
 		assertEquals(true, thrown);
-	}
+	}// getClassNamespaceAndNameOfCallOperationActionNoOperationTest
 	
 	/**
 	 * NOTE that name space is the Operation's Class here
@@ -227,7 +227,7 @@ public class ActionHelperTest {
 		}
 
 		assertEquals(true, thrown);
-	}
+	}// getClassNamespaceAndNameOfCallOperationActionNoNamespaceTest
 
 	/**
 	 * NOTE that name space name is the Operation's Class name here
@@ -258,7 +258,7 @@ public class ActionHelperTest {
 		}
 
 		assertEquals(true, thrown);
-	}
+	}// getClassNamespaceAndNameOfCallOperationActionNoNamespaceNameTest
 
 	@Test
 	public void getClassNamespaceAndNameOfCallOperationActionNoNamespaceNamespaceTest() throws Exception {
@@ -275,7 +275,7 @@ public class ActionHelperTest {
 		String returnValue = ActionHelper.getClassNamespaceAndName(callOperationAction);
 
 		assertEquals("Ship", returnValue);
-	}
+	}// getClassNamespaceAndNameOfCallOperationActionNoNamespaceNamespaceTest
 
 	@Test
 	public void getClassNamespaceAndNameOfCallOperationActionNoNamespaceNamespaceNameTest() throws Exception {
@@ -294,5 +294,5 @@ public class ActionHelperTest {
 		String returnValue = ActionHelper.getClassNamespaceAndName(callOperationAction);
 
 		assertEquals("Ship", returnValue);
-	}
+	}// getClassNamespaceAndNameOfCallOperationActionNoNamespaceNamespaceNameTest
 }

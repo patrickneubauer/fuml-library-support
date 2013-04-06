@@ -43,7 +43,7 @@ public class UML2PreparerTest {
 		resourceSet = new ResourceSetImpl();
 		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
-	}
+	}// prepareResourceSet
 
 	@Test
 	public void addPlaceholderActivitiesToVehiclesUML() {
@@ -63,7 +63,7 @@ public class UML2PreparerTest {
 		// check if every OwnedOperation in every Class also has a corresponding
 		// OwnedBehavior
 		containsPlaceholderActivities(outputFilePath);
-	}
+	}// addPlaceholderActivitiesToVehiclesUML
 
 	/**
 	 * Returns all classes of a specific {@link Resource}
@@ -87,7 +87,7 @@ public class UML2PreparerTest {
 			}
 		}
 		return classes;
-	}
+	}// getAllClassesFromResource
 
 	/**
 	 * Searches for a specified {@link Comment} body element in a {@link Class}
@@ -107,7 +107,7 @@ public class UML2PreparerTest {
 			}
 		}
 		return false; // not found
-	}
+	}// containsComment
 
 	/**
 	 * Searches for a specified {@link Comment} body element in an
@@ -128,7 +128,7 @@ public class UML2PreparerTest {
 			}
 		}
 		return false; // not found
-	}
+	}// containsComment
 
 	/**
 	 * Checks if every Class contains a corresponding OwnedComment having a
@@ -142,7 +142,7 @@ public class UML2PreparerTest {
 		for (Class clazz : resouceClasses) {
 			assertTrue(containsComment(clazz, "@external=" + jarFilePath));
 		}
-	}
+	}// containsComments
 
 	/**
 	 * Evaluates if a given Placeholder Activity contains a corresponding ActivityParameterNode for each owned Parameter
@@ -175,7 +175,7 @@ public class UML2PreparerTest {
 		}
 		
 		return true; // found
-	}
+	}// containsParameters
 
 	/**
 	 * Checks if the output file created with the {@link UML2Preparer} contains
@@ -227,6 +227,6 @@ public class UML2PreparerTest {
 
 		assertEquals(19, classCounter);
 		assertEquals(50, operationCounter);
-	}
+	}// containsPlaceholderActivities
 
-}
+}// UML2PreparerTest

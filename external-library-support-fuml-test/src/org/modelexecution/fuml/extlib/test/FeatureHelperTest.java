@@ -41,7 +41,7 @@ public class FeatureHelperTest {
 		String returnValue = FeatureHelper.getFeatureValueNamespaceAndClass(featureValue);
 		
 		assertEquals("vehiclelibrary.Ship", returnValue);
-	}
+	}// getFeatureValueNamespaceAndClassPositiveTest
 	
 	@Test
 	public void getFeatureValueNamespaceAndClassNoClassTest() {
@@ -60,7 +60,7 @@ public class FeatureHelperTest {
 		}
 		
 		assertEquals(true, thrown);
-	}
+	}// getFeatureValueNamespaceAndClassNoClassTest
 	
 	@Test
 	public void getFeatureValueNamespaceAndClassNoClassNameTest() {
@@ -85,7 +85,7 @@ public class FeatureHelperTest {
 		}
 		
 		assertEquals(true, thrown);
-	}
+	}// getFeatureValueNamespaceAndClassNoClassNameTest
 	
 	@Test
 	public void getFeatureValueNamespaceAndClassEmptyClassNameTest() {
@@ -111,7 +111,7 @@ public class FeatureHelperTest {
 		}
 		
 		assertEquals(true, thrown);
-	}
+	}// getFeatureValueNamespaceAndClassEmptyClassNameTest
 	
 	@Test
 	public void getFeatureValueNamespaceAndClassNoNamespaceTest() throws Exception {
@@ -127,7 +127,7 @@ public class FeatureHelperTest {
 		String returnValue = FeatureHelper.getFeatureValueNamespaceAndClass(featureValue);
 		
 		assertEquals("Ship", returnValue);
-	}
+	}// getFeatureValueNamespaceAndClassNoNamespaceTest
 	
 	@Test
 	public void getFeatureValueNamespaceAndClassNoNamespaceNameTest() throws Exception {
@@ -145,7 +145,7 @@ public class FeatureHelperTest {
 		String returnValue = FeatureHelper.getFeatureValueNamespaceAndClass(featureValue);
 		
 		assertEquals("Ship", returnValue);
-	}
+	}// getFeatureValueNamespaceAndClassNoNamespaceNameTest
 	
 	@Test
 	public void getFeatureValueNamespaceAndClassEmptyNamespaceNameTest() throws Exception {
@@ -164,6 +164,6 @@ public class FeatureHelperTest {
 		String returnValue = FeatureHelper.getFeatureValueNamespaceAndClass(featureValue);
 		
 		assertEquals("Ship", returnValue);
-	}
+	}// getFeatureValueNamespaceAndClassEmptyNamespaceNameTest
 	
-}
+}// FeatureHelperTest
