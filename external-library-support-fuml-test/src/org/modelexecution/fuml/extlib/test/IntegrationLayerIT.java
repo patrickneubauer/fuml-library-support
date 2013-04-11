@@ -7,6 +7,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -19,18 +21,21 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.IntegrationLayer;
 import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
 import org.modelexecution.fuml.extlib.UML2Preparer;
-import org.modelexecution.fumldebug.core.ExecutionContext;
+import org.modelexecution.fumldebug.core.ExecutionEventListener;
+import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
+import org.modelexecution.fumldebug.core.event.Event;
+import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
 
 import fUML.Semantics.Classes.Kernel.BooleanValue;
 import fUML.Semantics.Classes.Kernel.IntegerValue;
 import fUML.Semantics.Classes.Kernel.Object_;
 import fUML.Semantics.Classes.Kernel.StringValue;
+import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
 import fUML.Semantics.Loci.LociL1.Locus;
 
@@ -40,15 +45,35 @@ import fUML.Semantics.Loci.LociL1.Locus;
  * @author Patrick Neubauer
  *
  */
-public class IntegrationLayerIT {
+public class IntegrationLayerIT implements ExecutionEventListener {
 
 	private ResourceSet resourceSet;
+	private List<Event> eventlist = new ArrayList<Event>();
+	private IntegrationLayerImpl integrationLayer = new IntegrationLayerImpl();
+	
+	public IntegrationLayerIT() {
+		integrationLayer.getExecutionContext().getExecutionEventProvider().addEventListener(this);
+	}
+	
+	@Override
+	public void notify(Event event) {
+		if(!(event instanceof ExtensionalValueEvent)) {
+			eventlist.add(event);
+		}
+	}
 
 	@Before
 	public void prepareResourceSet() {
 		resourceSet = new ResourceSetImpl();
 		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
+	}
+	
+	@Before
+	public void setUp() {
+		eventlist = new ArrayList<Event>();		
+		//integrationLayer.getExecutionContext().reset();
+		integrationLayer.getExecutionContext().getExecutionEventProvider().addEventListener(this);
 	}
 
 	private Activity loadActivity(String path, String activityName, String... furtherPaths) {
@@ -101,15 +126,11 @@ public class IntegrationLayerIT {
 		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
 		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
 
-		IntegrationLayer integrationLayer = new IntegrationLayerImpl();
-
 		// Execute the constructor call of Ship()
 		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
-		
-		System.out.println("");
 		
 		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
 		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
@@ -151,15 +172,11 @@ public class IntegrationLayerIT {
 		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
 		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
 
-		IntegrationLayer integrationLayer = new IntegrationLayerImpl();
-
 		// Execute the constructor call of Ship()
 		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
-		
-		System.out.println("");
 		
 		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
 		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
@@ -173,8 +190,19 @@ public class IntegrationLayerIT {
 		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
 		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
 		
-		// TODO Add the return parameter somehow to the executionContext.locus (in IntegrationLayerImpl) and
-		// then get it inside this unit test and compare the value
+		// Check if correct output ParameterValue exists in the IntegrationLayer's ExecutionContext.activityExecutionOutput
+		ParameterValue outputParameterValue = null;
+		
+		for (Event event : eventlist) {
+			if (event.toString().contains("ActivityNodeEntryEvent node = ToStringCallOperationAction")) {
+				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
+				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext().getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
+			}
+		}
+		
+		assertTrue(outputParameterValue != null);
+		assertTrue(outputParameterValue.values.get(0) instanceof StringValue);
+		assertEquals("This ocean liner ship, named NoName, with a length of 0 ft and has 4 seats, 4 doors.", ((StringValue) outputParameterValue.values.get(0)).value);
 		
 	}
 	
@@ -204,15 +232,11 @@ public class IntegrationLayerIT {
 		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
 		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
 
-		IntegrationLayer integrationLayer = new IntegrationLayerImpl();
-
 		// Execute the constructor call of Ship()
 		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
-		
-		System.out.println("");
 		
 		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
 		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
@@ -226,8 +250,19 @@ public class IntegrationLayerIT {
 		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
 		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
 		
-		// TODO Add the return parameter somehow to the executionContext.locus (in IntegrationLayerImpl) and
-		// then get it inside this unit test and compare the value
+		// Check if correct output ParameterValue exists in the IntegrationLayer's ExecutionContext.activityExecutionOutput
+		ParameterValue outputParameterValue = null;
+		
+		for (Event event : eventlist) {
+			if (event.toString().contains("ActivityNodeEntryEvent node = GetLengthCallOperationAction")) {
+				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
+				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext().getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
+			}
+		}
+		
+		assertTrue(outputParameterValue != null);
+		assertTrue(outputParameterValue.values.get(0) instanceof IntegerValue);
+		assertEquals(0, ((IntegerValue) outputParameterValue.values.get(0)).value);
 		
 	}
 	
@@ -257,15 +292,11 @@ public class IntegrationLayerIT {
 		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
 		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
 
-		IntegrationLayer integrationLayer = new IntegrationLayerImpl();
-
-		// Execute the constructor call of Ship()
+		// Execute fUML Activity
 		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
-		
-		System.out.println("");
 		
 		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
 		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
@@ -279,9 +310,20 @@ public class IntegrationLayerIT {
 		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
 		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
 		
-		// TODO Add the return parameter somehow to the executionContext.locus (in IntegrationLayerImpl) and
-		// then get it inside this unit test and compare the value
+		// Check if correct output ParameterValue exists in the IntegrationLayer's ExecutionContext.activityExecutionOutput
+		ParameterValue outputParameterValue = null;
 		
+		for (Event event : eventlist) {
+			if (event.toString().contains("ActivityNodeEntryEvent node = IsOceanLinerCallOperationAction")) {
+				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
+				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext().getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
+			}
+		}
+		
+		assertTrue(outputParameterValue != null);
+		assertTrue(outputParameterValue.values.get(0) instanceof BooleanValue);
+		assertEquals(true, ((BooleanValue) outputParameterValue.values.get(0)).value);
+
 	}
 	
 }
