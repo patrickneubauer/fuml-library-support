@@ -25,7 +25,7 @@
   <packagedElement xmi:type="uml:Activity" xmi:id="_IdKh8JGLEeKJdIXWZWqBdw" name="ShipActivity1" node="_LRLhsJGLEeKJdIXWZWqBdw _NQP2cJGLEeKJdIXWZWqBdw">
     <edge xmi:type="uml:ObjectFlow" xmi:id="_MznggJMaEeKJdIXWZWqBdw" name="ObjectFlow1" source="_N45x4JGLEeKJdIXWZWqBdw" target="_O7a-0JGLEeKJdIXWZWqBdw"/>
     <node xmi:type="uml:CreateObjectAction" xmi:id="_LRLhsJGLEeKJdIXWZWqBdw" name="CreateShipObject">
-      <classifier xmi:type="uml:Class" href="VehiclesConverted.uml#_g_vxFpGUEeK49a9yQ70LrQ"/>
+      <classifier xmi:type="uml:Class" href="VehiclesConverted.uml#_sqpeTKKWEeK9Ked-BWuFSw"/>
       <result xmi:id="_N45x4JGLEeKJdIXWZWqBdw" name="target" outgoing="_MznggJMaEeKJdIXWZWqBdw">
         <type xmi:type="uml:Class" href="VehiclesConverted.uml#_g_vxFpGUEeK49a9yQ70LrQ"/>
       </result>
@@ -37,7 +37,7 @@
       <result xmi:id="_Pp-t8JGLEeKJdIXWZWqBdw" name="toStringReturnValue">
         <type xmi:type="uml:Class" href="VehiclesConverted.uml#_g_vxFpGUEeK49a9yQ70LrQ"/>
       </result>
-      <operation href="VehiclesConverted.uml#_g_wYCJGUEeK49a9yQ70LrQ"/>
+      <operation href="VehiclesConverted.uml#_sqqFcKKWEeK9Ked-BWuFSw"/>
     </node>
   </packagedElement>
 </uml:Model>
