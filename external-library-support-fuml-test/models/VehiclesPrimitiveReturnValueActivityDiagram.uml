@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_K-8U8FWwEeKaTuVFD778jg">
-  <packagedElement xmi:type="uml:Activity" xmi:id="_IdKh8JGLEeKJdIXWZWqBdw" name="StringReturnValueActivity" node="_LRLhsJGLEeKJdIXWZWqBdw _NQP2cJGLEeKJdIXWZWqBdw">
-    <edge xmi:type="uml:ObjectFlow" xmi:id="_MznggJMaEeKJdIXWZWqBdw" name="ObjectFlow1" source="_N45x4JGLEeKJdIXWZWqBdw" target="_O7a-0JGLEeKJdIXWZWqBdw"/>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_IdKh8JGLEeKJdIXWZWqBdw" name="StringReturnValueActivity" node="_LRLhsJGLEeKJdIXWZWqBdw _NQP2cJGLEeKJdIXWZWqBdw _QrMSUKKtEeKXtemGD7H-lw">
+    <ownedParameter xmi:id="_LFi4cKKtEeKXtemGD7H-lw" name="Parameter1" direction="out"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_MznggJMaEeKJdIXWZWqBdw" name="ObjectFlowFromCreateToCall" source="_N45x4JGLEeKJdIXWZWqBdw" target="_O7a-0JGLEeKJdIXWZWqBdw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_-5PeMKKtEeKXtemGD7H-lw" name="ObjectFlowFromCallToFinal" source="_Pp-t8JGLEeKJdIXWZWqBdw" target="_QrMSUKKtEeKXtemGD7H-lw"/>
     <node xmi:type="uml:CreateObjectAction" xmi:id="_LRLhsJGLEeKJdIXWZWqBdw" name="CreateShipObject">
       <classifier xmi:type="uml:Class" href="VehiclesConverted.uml#_jFa5W6KqEeK9Ked-BWuFSw"/>
       <result xmi:id="_N45x4JGLEeKJdIXWZWqBdw" name="target" outgoing="_MznggJMaEeKJdIXWZWqBdw">
@@ -12,14 +14,17 @@
       <argument xmi:id="_O7a-0JGLEeKJdIXWZWqBdw" name="target" incoming="_MznggJMaEeKJdIXWZWqBdw">
         <type xmi:type="uml:Class" href="VehiclesConverted.uml#_sqpeTKKWEeK9Ked-BWuFSw"/>
       </argument>
-      <result xmi:id="_Pp-t8JGLEeKJdIXWZWqBdw" name="toStringReturnValue">
+      <result xmi:id="_Pp-t8JGLEeKJdIXWZWqBdw" name="toStringReturnValue" outgoing="_-5PeMKKtEeKXtemGD7H-lw">
         <type xmi:type="uml:Class" href="VehiclesConverted.uml#_g_vxFpGUEeK49a9yQ70LrQ"/>
       </result>
       <operation href="VehiclesConverted.uml#_jFa5nKKqEeK9Ked-BWuFSw"/>
     </node>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_QrMSUKKtEeKXtemGD7H-lw" name="OutputString" incoming="_-5PeMKKtEeKXtemGD7H-lw" parameter="_LFi4cKKtEeKXtemGD7H-lw"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Activity" xmi:id="_UUbRkKKnEeKXtemGD7H-lw" name="IntegerReturnValueActivity" node="_UUbRkqKnEeKXtemGD7H-lw _UUbRlKKnEeKXtemGD7H-lw">
-    <edge xmi:type="uml:ObjectFlow" xmi:id="_UUbRkaKnEeKXtemGD7H-lw" name="ObjectFlow1" source="_UUbRk6KnEeKXtemGD7H-lw" target="_UUbRlaKnEeKXtemGD7H-lw"/>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_UUbRkKKnEeKXtemGD7H-lw" name="IntegerReturnValueActivity" node="_UUbRkqKnEeKXtemGD7H-lw _UUbRlKKnEeKXtemGD7H-lw _NIBM4KK1EeKXtemGD7H-lw">
+    <ownedParameter xmi:id="_ImydYKK1EeKXtemGD7H-lw" name="Parameter1" direction="out"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_UUbRkaKnEeKXtemGD7H-lw" name="ObjectFlowFromCreateToCall" source="_UUbRk6KnEeKXtemGD7H-lw" target="_UUbRlaKnEeKXtemGD7H-lw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_Zc1NcKK1EeKXtemGD7H-lw" name="ObjectFlowCallToFinal" source="_UUbRlqKnEeKXtemGD7H-lw" target="_NIBM4KK1EeKXtemGD7H-lw"/>
     <node xmi:type="uml:CreateObjectAction" xmi:id="_UUbRkqKnEeKXtemGD7H-lw" name="CreateShipObject">
       <classifier xmi:type="uml:Class" href="VehiclesConverted.uml#_jFa5W6KqEeK9Ked-BWuFSw"/>
       <result xmi:id="_UUbRk6KnEeKXtemGD7H-lw" name="target" outgoing="_UUbRkaKnEeKXtemGD7H-lw">
@@ -30,14 +35,17 @@
       <argument xmi:id="_UUbRlaKnEeKXtemGD7H-lw" name="target" incoming="_UUbRkaKnEeKXtemGD7H-lw">
         <type xmi:type="uml:Class" href="VehiclesConverted.uml#_sqpeTKKWEeK9Ked-BWuFSw"/>
       </argument>
-      <result xmi:id="_UUbRlqKnEeKXtemGD7H-lw" name="lengthReturnValue">
+      <result xmi:id="_UUbRlqKnEeKXtemGD7H-lw" name="lengthReturnValue" outgoing="_Zc1NcKK1EeKXtemGD7H-lw">
         <type xmi:type="uml:Class" href="VehiclesConverted.uml#_g_vxFpGUEeK49a9yQ70LrQ"/>
       </result>
       <operation href="VehiclesConverted.uml#_jFa5lKKqEeK9Ked-BWuFSw"/>
     </node>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_NIBM4KK1EeKXtemGD7H-lw" name="OutputInteger" incoming="_Zc1NcKK1EeKXtemGD7H-lw" parameter="_ImydYKK1EeKXtemGD7H-lw"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Activity" xmi:id="_h_vLAKKnEeKXtemGD7H-lw" name="BooleanReturnValueActivity" node="_h_vLAqKnEeKXtemGD7H-lw _h_vLBKKnEeKXtemGD7H-lw">
-    <edge xmi:type="uml:ObjectFlow" xmi:id="_h_vLAaKnEeKXtemGD7H-lw" name="ObjectFlow1" source="_h_vLA6KnEeKXtemGD7H-lw" target="_h_vLBaKnEeKXtemGD7H-lw"/>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_h_vLAKKnEeKXtemGD7H-lw" name="BooleanReturnValueActivity" node="_h_vLAqKnEeKXtemGD7H-lw _h_vLBKKnEeKXtemGD7H-lw _L3gKwKK2EeKXtemGD7H-lw">
+    <ownedParameter xmi:id="_IvClAKK2EeKXtemGD7H-lw" name="Parameter1" direction="out"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_h_vLAaKnEeKXtemGD7H-lw" name="ObjectFlowFromCreateToCall" source="_h_vLA6KnEeKXtemGD7H-lw" target="_h_vLBaKnEeKXtemGD7H-lw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_Ri8qoKK2EeKXtemGD7H-lw" name="ObjectFlowCallToFinal" source="_h_vLBqKnEeKXtemGD7H-lw" target="_L3gKwKK2EeKXtemGD7H-lw"/>
     <node xmi:type="uml:CreateObjectAction" xmi:id="_h_vLAqKnEeKXtemGD7H-lw" name="CreateShipObject">
       <classifier xmi:type="uml:Class" href="VehiclesConverted.uml#_jFa5W6KqEeK9Ked-BWuFSw"/>
       <result xmi:id="_h_vLA6KnEeKXtemGD7H-lw" name="target" outgoing="_h_vLAaKnEeKXtemGD7H-lw">
@@ -48,10 +56,11 @@
       <argument xmi:id="_h_vLBaKnEeKXtemGD7H-lw" name="target" incoming="_h_vLAaKnEeKXtemGD7H-lw">
         <type xmi:type="uml:Class" href="VehiclesConverted.uml#_sqpeTKKWEeK9Ked-BWuFSw"/>
       </argument>
-      <result xmi:id="_h_vLBqKnEeKXtemGD7H-lw" name="oceanLinerReturnValue">
+      <result xmi:id="_h_vLBqKnEeKXtemGD7H-lw" name="oceanLinerReturnValue" outgoing="_Ri8qoKK2EeKXtemGD7H-lw">
         <type xmi:type="uml:Class" href="VehiclesConverted.uml#_g_vxFpGUEeK49a9yQ70LrQ"/>
       </result>
       <operation href="VehiclesConverted.uml#_jFa5mKKqEeK9Ked-BWuFSw"/>
     </node>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_L3gKwKK2EeKXtemGD7H-lw" name="OutputBoolean" incoming="_Ri8qoKK2EeKXtemGD7H-lw" parameter="_IvClAKK2EeKXtemGD7H-lw"/>
   </packagedElement>
 </uml:Model>
