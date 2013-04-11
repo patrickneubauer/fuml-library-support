@@ -226,7 +226,7 @@ public class UML2PreparerTest {
 		}
 
 		assertEquals(19, classCounter);
-		assertEquals(50, operationCounter);
+		assertEquals(54, operationCounter);
 	}// containsPlaceholderActivities
 
 }// UML2PreparerTest
