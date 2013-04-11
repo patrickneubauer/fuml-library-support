@@ -43,21 +43,21 @@ import fUML.Semantics.Loci.LociL1.Locus;
  * Integration Test (IT) Class for {@link IntegrationLayer}
  * 
  * @author Patrick Neubauer
- *
+ * 
  */
 public class IntegrationLayerIT implements ExecutionEventListener {
 
 	private ResourceSet resourceSet;
 	private List<Event> eventlist = new ArrayList<Event>();
 	private IntegrationLayerImpl integrationLayer = new IntegrationLayerImpl();
-	
+
 	public IntegrationLayerIT() {
 		integrationLayer.getExecutionContext().getExecutionEventProvider().addEventListener(this);
 	}
-	
+
 	@Override
 	public void notify(Event event) {
-		if(!(event instanceof ExtensionalValueEvent)) {
+		if (!(event instanceof ExtensionalValueEvent)) {
 			eventlist.add(event);
 		}
 	}
@@ -68,11 +68,11 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 	}
-	
+
 	@Before
 	public void setUp() {
-		eventlist = new ArrayList<Event>();		
-		//integrationLayer.getExecutionContext().reset();
+		eventlist = new ArrayList<Event>();
+		// integrationLayer.getExecutionContext().reset();
 		integrationLayer.getExecutionContext().getExecutionEventProvider().addEventListener(this);
 	}
 
@@ -99,10 +99,10 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * Tests {@link CreateObjectAction} that invokes an Object from an external library
-	 * and a {@link CallOperationAction} on the invoked Object
+	 * Tests {@link CreateObjectAction} that invokes an Object from an external
+	 * library and a {@link CallOperationAction} on the invoked Object
 	 */
 	@Test
 	public void externalCreateObjectActionAndCallOperationActionTest() {
@@ -131,32 +131,33 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
-		
+
 		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
 		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
 		assertEquals(0, ((IntegerValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
-		
+
 		assertEquals("name", fUmlObject.getFeatureValues().get(1).feature.name);
 		assertTrue(fUmlObject.getFeatureValues().get(1).values.get(0) instanceof StringValue);
 		assertEquals("NoName", ((StringValue) fUmlObject.getFeatureValues().get(1).values.get(0)).value);
-		
+
 		assertEquals("oceanLiner", fUmlObject.getFeatureValues().get(2).feature.name);
 		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
 		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
-		
+
 	}
-	
+
 	/**
-	 * Tests {@link CreateObjectAction} that invokes an Object from an external library
-	 * and a {@link CallOperationAction} on the invoked Object returning a {@link StringValue}
+	 * Tests {@link CreateObjectAction} that invokes an Object from an external
+	 * library and a {@link CallOperationAction} on the invoked Object returning
+	 * a {@link StringValue}
 	 */
 	@Test
 	public void stringReturnValueFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/Vehicles.uml";
-		String outputFilePath = "models/VehiclesConverted.uml";
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesConverted.uml";
 		String jarFilePath = "extlibs/Vehicles.jar";
 
-		String activityDiagramFilePath = "models/VehiclesPrimitiveReturnValueActivityDiagram.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
 		String activityName = "StringReturnValueActivity";
 
 		UML2Preparer converter = new UML2Preparer();
@@ -177,46 +178,50 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
-		
+
 		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
 		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
 		assertEquals(0, ((IntegerValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
-		
+
 		assertEquals("name", fUmlObject.getFeatureValues().get(1).feature.name);
 		assertTrue(fUmlObject.getFeatureValues().get(1).values.get(0) instanceof StringValue);
 		assertEquals("NoName", ((StringValue) fUmlObject.getFeatureValues().get(1).values.get(0)).value);
-		
+
 		assertEquals("oceanLiner", fUmlObject.getFeatureValues().get(2).feature.name);
 		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
 		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
-		
-		// Check if correct output ParameterValue exists in the IntegrationLayer's ExecutionContext.activityExecutionOutput
+
+		// Check if correct output ParameterValue exists in the
+		// IntegrationLayer's ExecutionContext.activityExecutionOutput
 		ParameterValue outputParameterValue = null;
-		
+
 		for (Event event : eventlist) {
 			if (event.toString().contains("ActivityNodeEntryEvent node = ToStringCallOperationAction")) {
 				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
-				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext().getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
+				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
+						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
 			}
 		}
-		
+
 		assertTrue(outputParameterValue != null);
 		assertTrue(outputParameterValue.values.get(0) instanceof StringValue);
-		assertEquals("This ocean liner ship, named NoName, with a length of 0 ft and has 4 seats, 4 doors.", ((StringValue) outputParameterValue.values.get(0)).value);
-		
+		assertEquals("This ocean liner ship, named NoName, with a length of 0 ft and has 4 seats, 4 doors.",
+				((StringValue) outputParameterValue.values.get(0)).value);
+
 	}
-	
+
 	/**
-	 * Tests {@link CreateObjectAction} that invokes an Object from an external library
-	 * and a {@link CallOperationAction} on the invoked Object returning a {@link IntegerValue}
+	 * Tests {@link CreateObjectAction} that invokes an Object from an external
+	 * library and a {@link CallOperationAction} on the invoked Object returning
+	 * a {@link IntegerValue}
 	 */
 	@Test
 	public void integerReturnValueFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/Vehicles.uml";
-		String outputFilePath = "models/VehiclesConverted.uml";
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesConverted.uml";
 		String jarFilePath = "extlibs/Vehicles.jar";
 
-		String activityDiagramFilePath = "models/VehiclesPrimitiveReturnValueActivityDiagram.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
 		String activityName = "IntegerReturnValueActivity";
 
 		UML2Preparer converter = new UML2Preparer();
@@ -237,46 +242,49 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
-		
+
 		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
 		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
 		assertEquals(0, ((IntegerValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
-		
+
 		assertEquals("name", fUmlObject.getFeatureValues().get(1).feature.name);
 		assertTrue(fUmlObject.getFeatureValues().get(1).values.get(0) instanceof StringValue);
 		assertEquals("NoName", ((StringValue) fUmlObject.getFeatureValues().get(1).values.get(0)).value);
-		
+
 		assertEquals("oceanLiner", fUmlObject.getFeatureValues().get(2).feature.name);
 		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
 		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
-		
-		// Check if correct output ParameterValue exists in the IntegrationLayer's ExecutionContext.activityExecutionOutput
+
+		// Check if correct output ParameterValue exists in the
+		// IntegrationLayer's ExecutionContext.activityExecutionOutput
 		ParameterValue outputParameterValue = null;
-		
+
 		for (Event event : eventlist) {
 			if (event.toString().contains("ActivityNodeEntryEvent node = GetLengthCallOperationAction")) {
 				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
-				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext().getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
+				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
+						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
 			}
 		}
-		
+
 		assertTrue(outputParameterValue != null);
 		assertTrue(outputParameterValue.values.get(0) instanceof IntegerValue);
 		assertEquals(0, ((IntegerValue) outputParameterValue.values.get(0)).value);
-		
+
 	}
-	
+
 	/**
-	 * Tests {@link CreateObjectAction} that invokes an Object from an external library
-	 * and a {@link CallOperationAction} on the invoked Object returning a {@link BooleanValue}
+	 * Tests {@link CreateObjectAction} that invokes an Object from an external
+	 * library and a {@link CallOperationAction} on the invoked Object returning
+	 * a {@link BooleanValue}
 	 */
 	@Test
 	public void booleanReturnValueFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/Vehicles.uml";
-		String outputFilePath = "models/VehiclesConverted.uml";
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesConverted.uml";
 		String jarFilePath = "extlibs/Vehicles.jar";
 
-		String activityDiagramFilePath = "models/VehiclesPrimitiveReturnValueActivityDiagram.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
 		String activityName = "BooleanReturnValueActivity";
 
 		UML2Preparer converter = new UML2Preparer();
@@ -297,33 +305,35 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
-		
+
 		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
 		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
 		assertEquals(0, ((IntegerValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
-		
+
 		assertEquals("name", fUmlObject.getFeatureValues().get(1).feature.name);
 		assertTrue(fUmlObject.getFeatureValues().get(1).values.get(0) instanceof StringValue);
 		assertEquals("NoName", ((StringValue) fUmlObject.getFeatureValues().get(1).values.get(0)).value);
-		
+
 		assertEquals("oceanLiner", fUmlObject.getFeatureValues().get(2).feature.name);
 		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
 		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
-		
-		// Check if correct output ParameterValue exists in the IntegrationLayer's ExecutionContext.activityExecutionOutput
+
+		// Check if correct output ParameterValue exists in the
+		// IntegrationLayer's ExecutionContext.activityExecutionOutput
 		ParameterValue outputParameterValue = null;
-		
+
 		for (Event event : eventlist) {
 			if (event.toString().contains("ActivityNodeEntryEvent node = IsOceanLinerCallOperationAction")) {
 				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
-				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext().getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
+				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
+						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
 			}
 		}
-		
+
 		assertTrue(outputParameterValue != null);
 		assertTrue(outputParameterValue.values.get(0) instanceof BooleanValue);
 		assertEquals(true, ((BooleanValue) outputParameterValue.values.get(0)).value);
 
 	}
-	
+
 }
