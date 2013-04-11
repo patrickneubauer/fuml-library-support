@@ -321,33 +321,8 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				}
 			}
 					
-						
-
-			// Step 5.1: Plugging output parameter to Placeholder Activity
-			// callOperationAction.activity.ownedParameter.add(outputParameter);
-			//
-			// // Step 5.2: Set Activity Output to be the created parameter
-			// for (ExtensionalValue extensionalValue :
-			// executionContext.getLocus().extensionalValues) {
-			//
-			// if (extensionalValue instanceof ActivityExecution) {
-			// ActivityExecution activityExecution = (ActivityExecution)
-			// extensionalValue;
-			//
-			// if
-			// (activityExecution.activationGroup.getNodeActivation(callOperationAction)
-			// != null) {
-			// /*
-			// * Arrived at the correct activityExecution, next: set its
-			// parameter values
-			// */
-			// activityExecution.setParameterValue(outputParameterValue);
-			// System.out.println("Added output to ActivityExecution.");
-			// }
-			//
-			// }
-			//
-			// }
+			// TODO For testing purposes, add the Output Parameter to the Execution Context s.t. it can be examined at a later stage
+			//executionContext.getLocus().extensionalValues.addValue((ExtensionalValue) outputParameterValue.values.getValue(0));
 
 		} catch (Exception e) {
 			System.out.println("Error occured while trying to call operation on Java object. " + e);
