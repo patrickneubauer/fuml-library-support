@@ -43,12 +43,18 @@ public class EventHelper {
 			ActivityNode activityNode = ((ActivityNodeEntryEventImpl) event).getNode();
 			if (activityNode instanceof CreateObjectAction) {
 				CreateObjectAction createObjectAction = (CreateObjectAction) activityNode;
-				CommentList commentList = createObjectAction.classifier.ownedComment;
-				for (Comment comment : commentList) {
-					if (comment.body.startsWith("@external")) {
-						return true;
+				
+				if (createObjectAction.classifier != null) {
+					CommentList commentList = createObjectAction.classifier.ownedComment;
+					for (Comment comment : commentList) {
+						if (comment.body.startsWith("@external")) {
+							return true;
+						}
 					}
+				} else {
+					System.out.println("[WARNING] No Classifier specified in " + createObjectAction);
 				}
+				
 			}
 		}
 		return false;
@@ -72,12 +78,18 @@ public class EventHelper {
 			ActivityNode activityNode = ((ActivityNodeExitEventImpl) event).getNode();
 			if (activityNode instanceof CreateObjectAction) {
 				CreateObjectAction createObjectAction = (CreateObjectAction) activityNode;
-				CommentList commentList = createObjectAction.classifier.ownedComment;
-				for (Comment comment : commentList) {
-					if (comment.body.startsWith("@external")) {
-						return true;
+				
+				if (createObjectAction.classifier != null) {
+					CommentList commentList = createObjectAction.classifier.ownedComment;
+					for (Comment comment : commentList) {
+						if (comment.body.startsWith("@external")) {
+							return true;
+						}
 					}
+				} else {
+					System.out.println("[WARNING] No Classifier specified in " + createObjectAction);
 				}
+				
 			}
 		}
 		return false;
@@ -98,24 +110,36 @@ public class EventHelper {
 			ActivityNode activityNode = ((ActivityNodeEntryEventImpl) event).getNode();
 			if (activityNode instanceof CreateObjectAction) {
 				CreateObjectAction createObjectAction = (CreateObjectAction) activityNode;
-				CommentList commentList = createObjectAction.classifier.ownedComment;
-				for (Comment comment : commentList) {
-					if (comment.body.startsWith("@external")) {
-						return createObjectAction;
+				
+				if (createObjectAction.classifier != null) {
+					CommentList commentList = createObjectAction.classifier.ownedComment;
+					for (Comment comment : commentList) {
+						if (comment.body.startsWith("@external")) {
+							return createObjectAction;
+						}
 					}
+				} else {
+					System.out.println("[WARNING] No Classifier specified in " + createObjectAction);
 				}
+					
 			}// activityNode instanceof CreateObjectAction
 
 		} else if (event instanceof ActivityNodeExitEventImpl) {
 			ActivityNode activityNode = ((ActivityNodeExitEventImpl) event).getNode();
 			if (activityNode instanceof CreateObjectAction) {
 				CreateObjectAction createObjectAction = (CreateObjectAction) activityNode;
-				CommentList commentList = createObjectAction.classifier.ownedComment;
-				for (Comment comment : commentList) {
-					if (comment.body.startsWith("@external")) {
-						return createObjectAction;
+				
+				if (createObjectAction.classifier != null) {
+					CommentList commentList = createObjectAction.classifier.ownedComment;
+					for (Comment comment : commentList) {
+						if (comment.body.startsWith("@external")) {
+							return createObjectAction;
+						}
 					}
+				} else {
+					System.out.println("[WARNING] No Classifier specified in " + createObjectAction);
 				}
+				
 			}// activityNode instanceof CreateObjectAction
 		}
 
@@ -139,11 +163,17 @@ public class EventHelper {
 
 				if (callOperationAction.operation != null) {
 					if (callOperationAction.operation.owner != null) {
-						for (Comment comment : callOperationAction.operation.owner.ownedComment) {
-							if (comment.body.startsWith("@external")) {
-								return true;
+						
+						if (callOperationAction.operation.owner != null) {
+							for (Comment comment : callOperationAction.operation.owner.ownedComment) {
+								if (comment.body.startsWith("@external")) {
+									return true;
+								}
 							}
+						} else {
+							System.out.println("[WARNING] No Operation Owner specified in " + callOperationAction);
 						}
+						
 					}
 				}
 
@@ -170,12 +200,15 @@ public class EventHelper {
 				CallOperationAction callOperationAction = (CallOperationAction) activityNode;
 
 				if (callOperationAction.operation != null) {
+					
 					if (callOperationAction.operation.owner != null) {
 						for (Comment comment : callOperationAction.operation.owner.ownedComment) {
 							if (comment.body.startsWith("@external")) {
 								return callOperationAction;
 							}
 						}
+					} else {
+						System.out.println("[WARNING] No Operation Owner specified in " + callOperationAction);
 					}
 				}
 
@@ -193,6 +226,8 @@ public class EventHelper {
 								return callOperationAction;
 							}
 						}
+					} else {
+						System.out.println("[WARNING] No Operation Owner specified in " + callOperationAction);
 					}
 				}
 
@@ -224,6 +259,8 @@ public class EventHelper {
 								return true;
 							}
 						}
+					} else {
+						System.out.println("[WARNING] No Operation Owner specified in " + callOperationAction);
 					}
 				}
 

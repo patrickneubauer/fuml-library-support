@@ -204,8 +204,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 		}
 
 		assertTrue(outputParameterValue != null);
-		assertTrue(outputParameterValue.values.get(0) instanceof StringValue);
-		assertEquals("This ocean liner ship, named NoName, with a length of 0 ft and has 4 seats, 4 doors.",
+ 		assertEquals("This ocean liner ship, named NoName, with a length of 0 ft and has 4 seats, 4 doors.",
 				((StringValue) outputParameterValue.values.get(0)).value);
 
 	}
@@ -333,6 +332,52 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 		assertTrue(outputParameterValue != null);
 		assertTrue(outputParameterValue.values.get(0) instanceof BooleanValue);
 		assertEquals(true, ((BooleanValue) outputParameterValue.values.get(0)).value);
+
+	}
+	
+	/**
+	 * Tests {@link CreateObjectAction} that invokes an Object from an external
+	 * library and a {@link CallOperationAction} on the invoked Object setting a {@link IntegerValue} field
+	 */
+	@Test
+	public void integerInputValueFromExternalCallOperationActionTest() {
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/VehiclesConverted.uml";
+		String jarFilePath = "extlibs/Vehicles.jar";
+
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
+		String activityName = "IntegerInputValueActivity";
+
+		UML2Preparer converter = new UML2Preparer();
+		converter.load(inputFilePath);
+		converter.convert(jarFilePath);
+		converter.save(outputFilePath);
+
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, outputFilePath);
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
+
+		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
+		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
+		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
+
+		// Execute fUML Activity
+		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+
+		Locus locus = integrationLayer.getExecutionContext().getLocus();
+		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
+
+		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
+		assertEquals(3500, ((IntegerValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
+
+		assertEquals("name", fUmlObject.getFeatureValues().get(1).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(1).values.get(0) instanceof StringValue);
+		assertEquals("NoName", ((StringValue) fUmlObject.getFeatureValues().get(1).values.get(0)).value);
+
+		assertEquals("oceanLiner", fUmlObject.getFeatureValues().get(2).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
+		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
 
 	}
 
