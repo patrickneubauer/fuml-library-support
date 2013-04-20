@@ -263,72 +263,84 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			String classNamespaceAndName = ActivityHelper.getOperationNamespaceAndName(activity);
 
 			// Gathering INPUT Parameter (assuming there is only ONE)
-			// NOTE: This might not be necessary as the ParameterValue type is enough to know which Java Parameter (Type) to pass
+			// NOTE: This might not be necessary as the ParameterValue type is
+			// enough to know which Java Parameter (Type) to pass
 			Parameter inputParameter = null;
 			for (Parameter parameter : activity.specification.ownedParameter) {
 				if (parameter.name != null && parameter.type != null) {
-					if (parameter.type.name.toString().equals("boolean")
-							|| parameter.type.name.toString().equals("int")
+					if (parameter.type.name.toString().equals("boolean") || parameter.type.name.toString().equals("int")
 							|| parameter.type.name.toString().equals("String")) {
 						inputParameter = parameter;
 					}
 				}
-			}
-			
+			}// for loop (activity.specification.ownedParameter)
+
 			// Gathering INPUT ParameterValue (assuming there is only ONE)
-			// TODO ... Is supposed to be in the executionContext.getLocus().extensionalValues[ActivityExecution of the Operation].parameterValues
+			ParameterValue inputParameterValue = null;
+			for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
+				if (extensionalValue instanceof ActivityExecution) {
+					ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
+
+					for (ParameterValue parameterValue : activityExecution.parameterValues) {
+						if (parameterValue.parameter != null && parameterValue.parameter.qualifiedName != null
+								&& parameterValue.parameter.qualifiedName.equals(inputParameter.qualifiedName)) {
+							inputParameterValue = parameterValue;
+							// leave by return
+						}
+					}// for loop (activityExecution.parameterValues)
+
+				}
+			}// for loop (executionContext.getLocus().extensionalValues)
 
 			// ------------------------------------------------
 
 			// Step 1: Call method on Java Object and store the return value
 			Class<?> javaClass = javaObject.getClass();
 			Method javaMethod = null;
-			
+
 			if (inputParameter != null) {
-				// Case: Input Parameter
+				// Case: Input Parameter exists
 				if (inputParameter.type.name.toString().equals("boolean")) {
-					javaMethod = javaClass.getDeclaredMethod(methodName, Boolean.class);				
+					javaMethod = javaClass.getDeclaredMethod(methodName, Boolean.TYPE);
 				} else if (inputParameter.type.name.toString().equals("int")) {
-					javaMethod = javaClass.getDeclaredMethod(methodName, Integer.class);				
+					javaMethod = javaClass.getDeclaredMethod(methodName, Integer.TYPE);
 				} else if (inputParameter.type.name.toString().equals("String")) {
-					javaMethod = javaClass.getDeclaredMethod(methodName, String.class);				
-				} 
+					javaMethod = javaClass.getDeclaredMethod(methodName, String.class);
+				}
 			} else {
 				// Case: No Input Parameter
 				javaMethod = javaClass.getDeclaredMethod(methodName, null);
 			}
-			
+
 			javaMethod.setAccessible(true); // shutdown security
-			
+
 			Object javaMethodReturnValue = null;
-						
+
 			if (inputParameter != null) {
 				// Case: Input Parameter
 				if (inputParameter.type.name.toString().equals("boolean")) {
-					boolean javaInputParameter = (boolean) true; /* assign here the input parameter value */
-					
+					boolean javaInputParameter = (boolean) ((BooleanValue) inputParameterValue.values.get(0)).value;
+
 					// Warning: the following invocation alters javaObject (!)
-					javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameter);		
-					
+					javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameter);
+
 				} else if (inputParameter.type.name.toString().equals("int")) {
-					int javaInputParameter = (int) 0; /* assign here the input parameter value */
-					
+					int javaInputParameter = (int) ((IntegerValue) inputParameterValue.values.get(0)).value;
+
 					// Warning: the following invocation alters javaObject (!)
-					javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameter);	
+					javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameter);
 				} else if (inputParameter.type.name.toString().equals("String")) {
-					String javaInputParameter = (String) ""; /* assign here the input parameter value */
-					
+					String javaInputParameter = (String) ((StringValue) inputParameterValue.values.get(0)).value;
+
 					// Warning: the following invocation alters javaObject (!)
-					javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameter);	
-				} 
+					javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameter);
+				}
 			} else {
 				// Case: No Input Parameter
 				// Warning: the following invocation alters javaObject (!)
 				javaMethodReturnValue = javaMethod.invoke(javaObject, null);
 			}
-			
-			
-			
+
 			// Step 2: Update the corresponding fUML Object_ using the
 			// Object_Transfomer
 			Object_Transformer object_Transformer = new Object_Transformer(event, fUmlObject, javaObject);
@@ -365,7 +377,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 			}
 
-			System.out.println("Java method return value = " + javaMethodReturnValue.toString());
+			System.out.println("Java method return value = " + javaMethodReturnValue);
 			System.out.println("new Java Object  = " + getFUmlObject(javaObject));
 			System.out.println("new fUML Object_ = " + getJavaObject(newFUmlObject));
 
@@ -374,14 +386,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				if (extensionalValue.hashCode() == ((ActivityEntryEventImpl) event).getActivityExecutionID()) {
 					ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
 					activityExecution.setParameterValue(outputParameterValue);
-
+					return; // exit
 				}
 			}
-
-			// TODO For testing purposes, add the Output Parameter to the
-			// Execution Context s.t. it can be examined at a later stage
-			// executionContext.getLocus().extensionalValues.addValue((ExtensionalValue)
-			// outputParameterValue.values.getValue(0));
 
 		} catch (Exception e) {
 			System.out.println("Error occured while trying to call operation on Java object. " + e);

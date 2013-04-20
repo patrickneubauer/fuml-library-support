@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_K-8U8FWwEeKaTuVFD778jg">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_UUbRkKKnEeKXtemGD7H-lw" name="IntegerInputValueActivity" node="_UUbRkqKnEeKXtemGD7H-lw _UUbRlKKnEeKXtemGD7H-lw _xr1-0KNoEeK-LcyR7htkaA _6lxM4KNoEeK-LcyR7htkaA _cET1wKUVEeK-LcyR7htkaA">
+    <ownedParameter xmi:id="_WTSSUKUVEeK-LcyR7htkaA" name="Parameter1" direction="out"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_UUbRkaKnEeKXtemGD7H-lw" name="ObjectFlowFromCreateToCall" source="_UUbRk6KnEeKXtemGD7H-lw" target="_UUbRlaKnEeKXtemGD7H-lw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_Zc1NcKK1EeKXtemGD7H-lw" name="ObjectFlowSpecificationToCall" source="_A7IMcKNpEeK-LcyR7htkaA" target="_xr1-0KNoEeK-LcyR7htkaA"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_W4Y4kKUXEeK-LcyR7htkaA" name="ObjectFlowCallToFinal" source="_UUbRlqKnEeKXtemGD7H-lw" target="_cET1wKUVEeK-LcyR7htkaA"/>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_UUbRkqKnEeKXtemGD7H-lw" name="CreateShipObject">
+      <classifier xmi:type="uml:Class" href="VehiclesConverted.uml#_jFa5W6KqEeK9Ked-BWuFSw"/>
+      <result xmi:id="_UUbRk6KnEeKXtemGD7H-lw" name="target" outgoing="_UUbRkaKnEeKXtemGD7H-lw">
+        <type xmi:type="uml:Class" href="VehiclesConverted.uml#_sqpeTKKWEeK9Ked-BWuFSw"/>
+      </result>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_UUbRlKKnEeKXtemGD7H-lw" name="SetLengthCallOperationAction">
+      <argument xmi:id="_UUbRlaKnEeKXtemGD7H-lw" name="target" incoming="_UUbRkaKnEeKXtemGD7H-lw">
+        <type xmi:type="uml:Class" href="VehiclesConverted.uml#_sqpeTKKWEeK9Ked-BWuFSw"/>
+      </argument>
+      <argument xmi:id="_xr1-0KNoEeK-LcyR7htkaA" name="length" incoming="_Zc1NcKK1EeKXtemGD7H-lw"/>
+      <result xmi:id="_UUbRlqKnEeKXtemGD7H-lw" name="result" outgoing="_W4Y4kKUXEeK-LcyR7htkaA">
+        <type xmi:type="uml:Class" href="VehiclesConverted.uml#_g_vxFpGUEeK49a9yQ70LrQ"/>
+      </result>
+      <operation href="VehiclesConverted.uml#_jFa5gqKqEeK9Ked-BWuFSw"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_6lxM4KNoEeK-LcyR7htkaA" name="SpecifyLength">
+      <result xmi:id="_A7IMcKNpEeK-LcyR7htkaA" name="length" outgoing="_Zc1NcKK1EeKXtemGD7H-lw"/>
+      <value xmi:type="uml:LiteralInteger" xmi:id="_3YMywKNqEeK-LcyR7htkaA" value="3500"/>
+    </node>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_cET1wKUVEeK-LcyR7htkaA" name="CallOperationReturnValue" incoming="_W4Y4kKUXEeK-LcyR7htkaA" parameter="_WTSSUKUVEeK-LcyR7htkaA"/>
+  </packagedElement>
+</uml:Model>
