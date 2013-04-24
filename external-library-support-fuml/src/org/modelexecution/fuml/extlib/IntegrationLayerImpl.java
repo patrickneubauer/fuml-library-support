@@ -7,6 +7,7 @@ import java.beans.ParameterDescriptor;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.modelexecution.fumldebug.core.ExecutionContext;
@@ -32,6 +33,7 @@ import fUML.Semantics.Classes.Kernel.Object_;
 import fUML.Semantics.Classes.Kernel.Reference;
 import fUML.Semantics.Classes.Kernel.StringValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
+import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.BasicActions.InputPin;
 import fUML.Syntax.Actions.BasicActions.OutputPin;
@@ -42,6 +44,7 @@ import fUML.Syntax.Activities.IntermediateActivities.ObjectFlow;
 import fUML.Syntax.Classes.Kernel.Comment;
 import fUML.Syntax.Classes.Kernel.Parameter;
 import fUML.Syntax.Classes.Kernel.ParameterDirectionKind;
+import fUML.Syntax.Classes.Kernel.ParameterList;
 import fUML.Syntax.Classes.Kernel.Type;
 
 /**
@@ -262,81 +265,46 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			String methodName = ActivityHelper.getOperationName(activity);
 			String classNamespaceAndName = ActivityHelper.getOperationNamespaceAndName(activity);
 
-			// Gathering INPUT Parameter (assuming there is only ONE)
-			// NOTE: This might not be necessary as the ParameterValue type is
-			// enough to know which Java Parameter (Type) to pass
-			Parameter inputParameter = null;
-			for (Parameter parameter : activity.specification.ownedParameter) {
-				if (parameter.name != null && parameter.type != null) {
-					if (parameter.type.name.toString().equals("boolean") || parameter.type.name.toString().equals("int")
-							|| parameter.type.name.toString().equals("String")) {
-						inputParameter = parameter;
-					}
-				}
-			}// for loop (activity.specification.ownedParameter)
-
-			// Gathering INPUT ParameterValue (assuming there is only ONE)
-			ParameterValue inputParameterValue = null;
-			for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
-				if (extensionalValue instanceof ActivityExecution) {
-					ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
-
-					for (ParameterValue parameterValue : activityExecution.parameterValues) {
-						if (parameterValue.parameter != null && parameterValue.parameter.qualifiedName != null
-								&& parameterValue.parameter.qualifiedName.equals(inputParameter.qualifiedName)) {
-							inputParameterValue = parameterValue;
-							// leave by return
-						}
-					}// for loop (activityExecution.parameterValues)
-
-				}
-			}// for loop (executionContext.getLocus().extensionalValues)
+			// ------------------------------------------------
+			
+			LinkedHashMap<Parameter, ParameterValue> parameterWithParameterValueMap = obtainInputParameters(activity.specification.ownedParameter, executionContext.getLocus().extensionalValues);
 
 			// ------------------------------------------------
 
 			// Step 1: Call method on Java Object and store the return value
 			Class<?> javaClass = javaObject.getClass();
 			Method javaMethod = null;
+			Object javaMethodReturnValue = null;
 
-			if (inputParameter != null) {
-				// Case: Input Parameter exists
+			if (parameterWithParameterValueMap.size() > 0) {
+				// Case: Input Parameter exists (assuming there is only one)
+				Parameter inputParameter = parameterWithParameterValueMap.keySet().iterator().next();
 				if (inputParameter.type.name.toString().equals("boolean")) {
 					javaMethod = javaClass.getDeclaredMethod(methodName, Boolean.TYPE);
+					javaMethod.setAccessible(true); // shutdown security
+					boolean javaInputParameter = (boolean) ((BooleanValue) parameterWithParameterValueMap.get(inputParameter).values.get(0)).value;
+					
+					// Warning: the following invocation alters javaObject (!)
+					javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameter);
 				} else if (inputParameter.type.name.toString().equals("int")) {
 					javaMethod = javaClass.getDeclaredMethod(methodName, Integer.TYPE);
+					javaMethod.setAccessible(true); // shutdown security
+					int javaInputParameter = (int) ((IntegerValue) parameterWithParameterValueMap.get(inputParameter).values.get(0)).value;
+					
+					// Warning: the following invocation alters javaObject (!)
+					javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameter);
 				} else if (inputParameter.type.name.toString().equals("String")) {
 					javaMethod = javaClass.getDeclaredMethod(methodName, String.class);
+					javaMethod.setAccessible(true); // shutdown security
+					String javaInputParameter = (String) ((StringValue) parameterWithParameterValueMap.get(inputParameter).values.get(0)).value;
+					
+					// Warning: the following invocation alters javaObject (!)
+					javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameter);
 				}
 			} else {
 				// Case: No Input Parameter
 				javaMethod = javaClass.getDeclaredMethod(methodName, null);
-			}
-
-			javaMethod.setAccessible(true); // shutdown security
-
-			Object javaMethodReturnValue = null;
-
-			if (inputParameter != null) {
-				// Case: Input Parameter
-				if (inputParameter.type.name.toString().equals("boolean")) {
-					boolean javaInputParameter = (boolean) ((BooleanValue) inputParameterValue.values.get(0)).value;
-
-					// Warning: the following invocation alters javaObject (!)
-					javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameter);
-
-				} else if (inputParameter.type.name.toString().equals("int")) {
-					int javaInputParameter = (int) ((IntegerValue) inputParameterValue.values.get(0)).value;
-
-					// Warning: the following invocation alters javaObject (!)
-					javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameter);
-				} else if (inputParameter.type.name.toString().equals("String")) {
-					String javaInputParameter = (String) ((StringValue) inputParameterValue.values.get(0)).value;
-
-					// Warning: the following invocation alters javaObject (!)
-					javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameter);
-				}
-			} else {
-				// Case: No Input Parameter
+				
 				// Warning: the following invocation alters javaObject (!)
 				javaMethodReturnValue = javaMethod.invoke(javaObject, null);
 			}
@@ -395,6 +363,48 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		}
 
 	}// callOperation
+	
+	
+	/**
+	 * Obtains an ordered map of {@link Parameter} and its corresponding {@link ParameterValue}
+	 * 
+	 * @param parameterList {@link ParameterList} from which to to obtain {@link Parameter}s
+	 * @param extensionalValueList {@link ExtensionalValueList} from the Locus from which to obtain the {@link ParameterValue} for a corresponding {@link Parameter} in {@code parameterList}
+	 * @return a {@link LinkedHashMap} that keeps an order on the {@link Parameter} and its corresponding {@link ParameterValue} found in the {@code parameterList}
+	 */
+	private LinkedHashMap<Parameter, ParameterValue> obtainInputParameters(ParameterList parameterList, ExtensionalValueList extensionalValueList) {
+		
+		LinkedHashMap<Parameter, ParameterValue> parameterWithParameterValueMap = new LinkedHashMap<Parameter, ParameterValue>();
+		
+		// Go through the list of Parameters
+		for (Parameter parameter : parameterList) {
+			if (parameter.name != null && parameter.type != null) {
+				if (parameter.type.name.toString().equals("boolean") || parameter.type.name.toString().equals("int")
+						|| parameter.type.name.toString().equals("String")) {
+					
+					// Find a corresponding ParameterValue for this Parameter in the Locus
+					for (ExtensionalValue extensionalValue : extensionalValueList) {
+						if (extensionalValue instanceof ActivityExecution) {
+							ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
+
+							for (ParameterValue parameterValue : activityExecution.parameterValues) {
+								if (parameterValue.parameter != null && parameterValue.parameter.qualifiedName != null
+										&& parameterValue.parameter.qualifiedName.equals(parameter.qualifiedName)) {
+									parameterWithParameterValueMap.put(parameter, parameterValue);
+									break; // since corresponding ParameterValue has been found
+								}
+							}// for loop (parameterValueList)
+
+						}
+					}// for loop (executionContext.getLocus().extensionalValues)					
+					
+				}
+			}
+		}// for loop (parameterList)
+		
+		return parameterWithParameterValueMap;
+	}
+	
 
 	private Object_ obtainFUmlObjectFromActivityExecution(Event event) throws Exception {
 		if (EventHelper.isExternalActivityEntryEvent(event)) {
