@@ -111,11 +111,11 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void externalCreateObjectActionAndCallOperationActionTest() {
-		String inputFilePath = "models/Vehicles.uml";
-		String outputFilePath = "models/VehiclesConverted.uml";
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithExternalCreateObjectActionAndCallOperationAction/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithExternalCreateObjectActionAndCallOperationAction/VehiclesConverted.uml";
 		String jarFilePath = "extlibs/Vehicles.jar";
 
-		String activityDiagramFilePath = "models/VehiclesActivityDiagram.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithExternalCreateObjectActionAndCallOperationAction/VehiclesActivityDiagram.uml";
 		String activityName = "ShipActivity1";
 
 		UML2Preparer converter = new UML2Preparer();
