@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.modelexecution.fumldebug.core.ExecutionContext;
@@ -267,47 +268,35 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 			// ------------------------------------------------
 			
-			LinkedHashMap<Parameter, ParameterValue> parameterWithParameterValueMap = obtainInputParameters(activity.specification.ownedParameter, executionContext.getLocus().extensionalValues);
+			LinkedHashMap<Parameter, ParameterValue> fUmlParameterWithValueMap = obtainfUmlInputParameters(activity.specification.ownedParameter, executionContext.getLocus().extensionalValues);
 
+			// ------------------------------------------------
+			
+			LinkedHashMap<Class, Object> javaParameterWithValueMap = obtainJavaInputParameters(fUmlParameterWithValueMap);
+			
 			// ------------------------------------------------
 
 			// Step 1: Call method on Java Object and store the return value
 			Class<?> javaClass = javaObject.getClass();
 			Method javaMethod = null;
 			Object javaMethodReturnValue = null;
+			
+			if (javaParameterWithValueMap.size() > 0) {
+				// Case: With Input Parameter(s)
+				javaMethod = javaClass.getDeclaredMethod(methodName, javaParameterWithValueMap.keySet().toArray(new Class[0]));
 
-			if (parameterWithParameterValueMap.size() > 0) {
-				// Case: Input Parameter exists (assuming there is only one)
-				Parameter inputParameter = parameterWithParameterValueMap.keySet().iterator().next();
-				if (inputParameter.type.name.toString().equals("boolean")) {
-					javaMethod = javaClass.getDeclaredMethod(methodName, Boolean.TYPE);
-					javaMethod.setAccessible(true); // shutdown security
-					boolean javaInputParameter = (boolean) ((BooleanValue) parameterWithParameterValueMap.get(inputParameter).values.get(0)).value;
-					
-					// Warning: the following invocation alters javaObject (!)
-					javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameter);
-				} else if (inputParameter.type.name.toString().equals("int")) {
-					javaMethod = javaClass.getDeclaredMethod(methodName, Integer.TYPE);
-					javaMethod.setAccessible(true); // shutdown security
-					int javaInputParameter = (int) ((IntegerValue) parameterWithParameterValueMap.get(inputParameter).values.get(0)).value;
-					
-					// Warning: the following invocation alters javaObject (!)
-					javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameter);
-				} else if (inputParameter.type.name.toString().equals("String")) {
-					javaMethod = javaClass.getDeclaredMethod(methodName, String.class);
-					javaMethod.setAccessible(true); // shutdown security
-					String javaInputParameter = (String) ((StringValue) parameterWithParameterValueMap.get(inputParameter).values.get(0)).value;
-					
-					// Warning: the following invocation alters javaObject (!)
-					javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameter);
-				}
+				// Warning: the following invocation alters javaObject (!)
+				javaMethodReturnValue = javaMethod.invoke(javaObject, javaParameterWithValueMap.values().toArray());
+			
 			} else {
-				// Case: No Input Parameter
+				// Case: Without Input Parameter(s)
 				javaMethod = javaClass.getDeclaredMethod(methodName, null);
-				
+
 				// Warning: the following invocation alters javaObject (!)
 				javaMethodReturnValue = javaMethod.invoke(javaObject, null);
 			}
+			
+			// ------------------------------------------------
 
 			// Step 2: Update the corresponding fUML Object_ using the
 			// Object_Transfomer
@@ -363,6 +352,36 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		}
 
 	}// callOperation
+
+	/**
+	 * Obtains an ordered map of {@link Class} (i.e. Java parameter type) and its corresponding {@link Object} (i.e. Java parameter value)
+	 * 
+	 * @param fUmlParameterWithValueMap a {@link LinkedHashMap} (ordered) on the {@link Parameter} and its corresponding {@link ParameterValue}
+	 * @return a {@link LinkedHashMap} (ordered) on the {@link Class} (i.e. Java parameter type) and its corresponding {@link Object} (i.e. Java parameter value) found in {@code fUmlParameterWithValueMap}
+	 */
+	private LinkedHashMap<Class, Object> obtainJavaInputParameters(LinkedHashMap<Parameter, ParameterValue> fUmlParameterWithValueMap) {
+		LinkedHashMap<Class, Object> javaParameterWithValueMap = new LinkedHashMap<Class, Object>();
+		
+		if (fUmlParameterWithValueMap.size() > 0) {
+			for (Map.Entry<Parameter, ParameterValue> fUMLParameterWithValueMapEntry : fUmlParameterWithValueMap.entrySet()) {
+				Parameter fUmlInputParameter = fUMLParameterWithValueMapEntry.getKey();
+				ParameterValue fUmlInputParameterValue = fUMLParameterWithValueMapEntry.getValue();
+				
+				if (fUmlInputParameter.type.name.toString().equals("boolean")) {
+					boolean javaInputParameterValue = (boolean) ((BooleanValue) fUmlInputParameterValue.values.get(0)).value;					
+					javaParameterWithValueMap.put(Boolean.TYPE, javaInputParameterValue);
+				} else if (fUmlInputParameter.type.name.toString().equals("int")) {
+					int javaInputParameterValue = (int) ((IntegerValue) fUmlInputParameterValue.values.get(0)).value;					
+					javaParameterWithValueMap.put(Integer.TYPE, javaInputParameterValue);
+				} else if (fUmlInputParameter.type.name.toString().equals("String")) {
+					String javaInputParameterValue = (String) ((StringValue) fUmlInputParameterValue.values.get(0)).value;					
+					javaParameterWithValueMap.put(String.class, javaInputParameterValue);
+				}
+			}// for loop (fUmlParameterWithValueMap)
+		}// if (fUmlParameterWithValueMap not empty)
+		
+		return javaParameterWithValueMap;
+	}
 	
 	
 	/**
@@ -370,9 +389,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 * 
 	 * @param parameterList {@link ParameterList} from which to to obtain {@link Parameter}s
 	 * @param extensionalValueList {@link ExtensionalValueList} from the Locus from which to obtain the {@link ParameterValue} for a corresponding {@link Parameter} in {@code parameterList}
-	 * @return a {@link LinkedHashMap} that keeps an order on the {@link Parameter} and its corresponding {@link ParameterValue} found in the {@code parameterList}
+	 * @return a {@link LinkedHashMap} (ordered) on the {@link Parameter} and its corresponding {@link ParameterValue} found in the {@code parameterList}
 	 */
-	private LinkedHashMap<Parameter, ParameterValue> obtainInputParameters(ParameterList parameterList, ExtensionalValueList extensionalValueList) {
+	private LinkedHashMap<Parameter, ParameterValue> obtainfUmlInputParameters(ParameterList parameterList, ExtensionalValueList extensionalValueList) {
 		
 		LinkedHashMap<Parameter, ParameterValue> parameterWithParameterValueMap = new LinkedHashMap<Parameter, ParameterValue>();
 		

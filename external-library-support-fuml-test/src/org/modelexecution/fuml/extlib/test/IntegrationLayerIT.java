@@ -477,5 +477,51 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
 		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
 	}
+	
+	/**
+	 * Tests {@link CreateObjectAction} that invokes an Object from an external
+	 * library and a {@link CallOperationAction} on the invoked Object setting multiple input value fields
+	 */
+	@Test
+	public void multipleInputValueOperationCallFromExternalCallOperationActionTest() {
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithMultiplePrimitiveInputValues/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithMultiplePrimitiveInputValues/VehiclesConverted.uml";
+		String jarFilePath = "extlibs/Vehicles.jar";
+
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithMultiplePrimitiveInputValues/VehiclesMultiplePrimitiveInputValueActivityDiagram.uml";
+		String activityName = "MultipleInputValueOperationCallActivity";
+
+		UML2Preparer converter = new UML2Preparer();
+		converter.load(inputFilePath);
+		converter.convert(jarFilePath);
+		converter.save(outputFilePath);
+
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, outputFilePath);
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
+
+		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
+		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
+		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
+
+		
+		// Execute fUML Activity
+		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+
+		Locus locus = integrationLayer.getExecutionContext().getLocus();
+		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
+
+		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
+		assertEquals(3500, ((IntegerValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
+
+		assertEquals("name", fUmlObject.getFeatureValues().get(1).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(1).values.get(0) instanceof StringValue);
+		assertEquals("Titanic", ((StringValue) fUmlObject.getFeatureValues().get(1).values.get(0)).value);
+
+		assertEquals("oceanLiner", fUmlObject.getFeatureValues().get(2).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
+		assertEquals(false, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
+	}
 
 }
