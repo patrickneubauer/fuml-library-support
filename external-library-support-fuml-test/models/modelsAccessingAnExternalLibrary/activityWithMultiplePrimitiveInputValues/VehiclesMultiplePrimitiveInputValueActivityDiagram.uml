@@ -14,9 +14,9 @@
       </result>
     </node>
     <node xmi:type="uml:CallOperationAction" xmi:id="_UUbRlKKnEeKXtemGD7H-lw" name="SetNameLenghtOceanLinerCallOperationAction">
-      <argument xmi:id="_xr1-0KNoEeK-LcyR7htkaA" name="oceanLiner" incoming="_9XbN0K18EeKAC4YEuPNXYw"/>
-      <argument xmi:id="_Wbw-yKjMEeKJopLR4QNp4A" name="length" incoming="_8icGkK18EeKAC4YEuPNXYw"/>
       <argument xmi:id="_ZNrsyKjMEeKJopLR4QNp4A" name="name" incoming="_73GDgK18EeKAC4YEuPNXYw"/>
+      <argument xmi:id="_Wbw-yKjMEeKJopLR4QNp4A" name="length" incoming="_8icGkK18EeKAC4YEuPNXYw"/>
+      <argument xmi:id="_xr1-0KNoEeK-LcyR7htkaA" name="oceanLiner" incoming="_9XbN0K18EeKAC4YEuPNXYw"/>
       <result xmi:id="_UUbRlqKnEeKXtemGD7H-lw" name="result" outgoing="_W4Y4kKUXEeK-LcyR7htkaA">
         <type xmi:type="uml:Class" href="VehiclesConverted.uml#_g_vxFpGUEeK49a9yQ70LrQ"/>
       </result>
