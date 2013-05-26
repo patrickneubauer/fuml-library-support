@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_K-8U8FWwEeKaTuVFD778jg">
   <packagedElement xmi:type="uml:Activity" xmi:id="_UUbRkKKnEeKXtemGD7H-lw" name="BooleanInputValueActivity" node="_UUbRkqKnEeKXtemGD7H-lw _UUbRlKKnEeKXtemGD7H-lw _xr1-0KNoEeK-LcyR7htkaA _6lxM4KNoEeK-LcyR7htkaA _cET1wKUVEeK-LcyR7htkaA">
-    <ownedParameter xmi:id="_WTSSUKUVEeK-LcyR7htkaA" name="Parameter1"/>
+    <ownedParameter xmi:id="_WTSSUKUVEeK-LcyR7htkaA" name="outputParameter" direction="out"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_UUbRkaKnEeKXtemGD7H-lw" name="ObjectFlowFromCreateToCall" source="_UUbRk6KnEeKXtemGD7H-lw" target="_zD400KgTEeKFv-Vw9izV-w"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_Zc1NcKK1EeKXtemGD7H-lw" name="ObjectFlowSpecificationToCall" source="_A7IMcKNpEeK-LcyR7htkaA" target="_xr1-0KNoEeK-LcyR7htkaA"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_W4Y4kKUXEeK-LcyR7htkaA" name="ObjectFlowCallToFinal" source="_UUbRlqKnEeKXtemGD7H-lw" target="_cET1wKUVEeK-LcyR7htkaA"/>
@@ -22,7 +22,7 @@
     <node xmi:type="uml:ActivityParameterNode" xmi:id="_cET1wKUVEeK-LcyR7htkaA" name="CallOperationReturnValue" incoming="_W4Y4kKUXEeK-LcyR7htkaA" parameter="_WTSSUKUVEeK-LcyR7htkaA"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Activity" xmi:id="_Wbw-wKjMEeKJopLR4QNp4A" name="IntegerInputValueActivity" node="_Wbw-xajMEeKJopLR4QNp4A _Wbw-x6jMEeKJopLR4QNp4A _Wbw-y6jMEeKJopLR4QNp4A _Wbw-zqjMEeKJopLR4QNp4A">
-    <ownedParameter xmi:id="_Wbw-wajMEeKJopLR4QNp4A" name="Parameter1"/>
+    <ownedParameter xmi:id="_Wbw-wajMEeKJopLR4QNp4A" name="outputParameter" direction="out"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_Wbw-wqjMEeKJopLR4QNp4A" name="ObjectFlowFromCreateToCall" source="_Wbw-xqjMEeKJopLR4QNp4A" target="_Wbw-yqjMEeKJopLR4QNp4A"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_Wbw-w6jMEeKJopLR4QNp4A" name="ObjectFlowSpecificationToCall" source="_Wbw-zKjMEeKJopLR4QNp4A" target="_Wbw-yKjMEeKJopLR4QNp4A"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_Wbw-xKjMEeKJopLR4QNp4A" name="ObjectFlowCallToFinal" source="_Wbw-yajMEeKJopLR4QNp4A" target="_Wbw-zqjMEeKJopLR4QNp4A"/>
@@ -43,7 +43,7 @@
     <node xmi:type="uml:ActivityParameterNode" xmi:id="_Wbw-zqjMEeKJopLR4QNp4A" name="CallOperationReturnValue" incoming="_Wbw-xKjMEeKJopLR4QNp4A" parameter="_Wbw-wajMEeKJopLR4QNp4A"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Activity" xmi:id="_ZNrswKjMEeKJopLR4QNp4A" name="StringInputValueActivity" node="_ZNrsxajMEeKJopLR4QNp4A _ZNrsx6jMEeKJopLR4QNp4A _ZNrsy6jMEeKJopLR4QNp4A _ZNrszqjMEeKJopLR4QNp4A">
-    <ownedParameter xmi:id="_ZNrswajMEeKJopLR4QNp4A" name="Parameter1"/>
+    <ownedParameter xmi:id="_ZNrswajMEeKJopLR4QNp4A" name="outputParameter" direction="out"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_ZNrswqjMEeKJopLR4QNp4A" name="ObjectFlowFromCreateToCall" source="_ZNrsxqjMEeKJopLR4QNp4A" target="_ZNrsyqjMEeKJopLR4QNp4A"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_ZNrsw6jMEeKJopLR4QNp4A" name="ObjectFlowSpecificationToCall" source="_ZNrszKjMEeKJopLR4QNp4A" target="_ZNrsyKjMEeKJopLR4QNp4A"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_ZNrsxKjMEeKJopLR4QNp4A" name="ObjectFlowCallToFinal" source="_ZNrsyajMEeKJopLR4QNp4A" target="_ZNrszqjMEeKJopLR4QNp4A"/>

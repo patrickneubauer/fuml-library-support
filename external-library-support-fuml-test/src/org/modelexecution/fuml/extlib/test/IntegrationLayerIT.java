@@ -73,6 +73,15 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	@Before
 	public void setUp() {
 		eventlist = new ArrayList<Event>();
+		
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String jarFilePath = "extlibs/Vehicles.jar";
+
+		UML2Preparer converter = new UML2Preparer();
+		converter.load(inputFilePath);
+		converter.convert(jarFilePath);
+		converter.save(outputFilePath);		
 	}
 	
 	@After
@@ -111,19 +120,11 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void externalCreateObjectActionAndCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String jarFilePath = "extlibs/Vehicles.jar";
-
+		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithExternalCreateObjectActionAndCallOperationAction/VehiclesActivityDiagram.uml";
 		String activityName = "ShipActivity1";
 
-		UML2Preparer converter = new UML2Preparer();
-		converter.load(inputFilePath);
-		converter.convert(jarFilePath);
-		converter.save(outputFilePath);
-
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, outputFilePath);
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
 		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
 				.next();
 
@@ -158,19 +159,11 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void stringReturnValueFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String jarFilePath = "extlibs/Vehicles.jar";
-
+		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
 		String activityName = "StringReturnValueActivity";
 
-		UML2Preparer converter = new UML2Preparer();
-		converter.load(inputFilePath);
-		converter.convert(jarFilePath);
-		converter.save(outputFilePath);
-
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, outputFilePath);
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
 		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
 				.next();
 
@@ -221,19 +214,11 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void integerReturnValueFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String jarFilePath = "extlibs/Vehicles.jar";
-
+		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
 		String activityName = "IntegerReturnValueActivity";
 
-		UML2Preparer converter = new UML2Preparer();
-		converter.load(inputFilePath);
-		converter.convert(jarFilePath);
-		converter.save(outputFilePath);
-
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, outputFilePath);
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
 		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
 				.next();
 
@@ -284,19 +269,11 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void booleanReturnValueFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String jarFilePath = "extlibs/Vehicles.jar";
-
+		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
 		String activityName = "BooleanReturnValueActivity";
 
-		UML2Preparer converter = new UML2Preparer();
-		converter.load(inputFilePath);
-		converter.convert(jarFilePath);
-		converter.save(outputFilePath);
-
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, outputFilePath);
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
 		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
 				.next();
 
@@ -346,19 +323,11 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void booleanInputValueFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String jarFilePath = "extlibs/Vehicles.jar";
-
+		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
 		String activityName = "BooleanInputValueActivity";
 
-		UML2Preparer converter = new UML2Preparer();
-		converter.load(inputFilePath);
-		converter.convert(jarFilePath);
-		converter.save(outputFilePath);
-
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, outputFilePath);
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
 		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
 				.next();
 
@@ -392,19 +361,11 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void integerInputValueFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String jarFilePath = "extlibs/Vehicles.jar";
-
+		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
 		String activityName = "IntegerInputValueActivity";
 
-		UML2Preparer converter = new UML2Preparer();
-		converter.load(inputFilePath);
-		converter.convert(jarFilePath);
-		converter.save(outputFilePath);
-
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, outputFilePath);
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
 		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
 				.next();
 
@@ -438,19 +399,11 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void stringInputValueFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String jarFilePath = "extlibs/Vehicles.jar";
-
+		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
 		String activityName = "StringInputValueActivity";
 
-		UML2Preparer converter = new UML2Preparer();
-		converter.load(inputFilePath);
-		converter.convert(jarFilePath);
-		converter.save(outputFilePath);
-
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, outputFilePath);
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
 		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
 				.next();
 
@@ -484,19 +437,11 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void multipleInputValueOperationCallFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String jarFilePath = "extlibs/Vehicles.jar";
-
+		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithMultiplePrimitiveInputValues/VehiclesMultiplePrimitiveInputValueActivityDiagram.uml";
 		String activityName = "MultipleInputValueOperationCallActivity";
 
-		UML2Preparer converter = new UML2Preparer();
-		converter.load(inputFilePath);
-		converter.convert(jarFilePath);
-		converter.save(outputFilePath);
-
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, outputFilePath);
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
 		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
 				.next();
 
@@ -530,19 +475,11 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void integerInputValueAndBooleanReturnValueOperationCallFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String jarFilePath = "extlibs/Vehicles.jar";
-
+		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputAndReturnValues/VehiclesPrimitiveInputAndReturnValueActivityDiagram.uml";
 		String activityName = "StringInputAndBooleanReturnValueActivity";
 
-		UML2Preparer converter = new UML2Preparer();
-		converter.load(inputFilePath);
-		converter.convert(jarFilePath);
-		converter.save(outputFilePath);
-
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, outputFilePath);
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
 		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
 				.next();
 

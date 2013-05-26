@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_K-8U8FWwEeKaTuVFD778jg">
   <packagedElement xmi:type="uml:Activity" xmi:id="_UUbRkKKnEeKXtemGD7H-lw" name="MultipleInputValueOperationCallActivity" node="_UUbRkqKnEeKXtemGD7H-lw _UUbRlKKnEeKXtemGD7H-lw _xr1-0KNoEeK-LcyR7htkaA _6lxM4KNoEeK-LcyR7htkaA _cET1wKUVEeK-LcyR7htkaA _Wbw-y6jMEeKJopLR4QNp4A _ZNrsy6jMEeKJopLR4QNp4A _ZNrsyKjMEeKJopLR4QNp4A">
-    <ownedParameter xmi:id="_WTSSUKUVEeK-LcyR7htkaA" name="Parameter1"/>
+    <ownedParameter xmi:id="_WTSSUKUVEeK-LcyR7htkaA" name="outputParameter" direction="out"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_UUbRkaKnEeKXtemGD7H-lw" name="ObjectFlowFromCreateToCall" source="_UUbRk6KnEeKXtemGD7H-lw" target="_zD400KgTEeKFv-Vw9izV-w"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_W4Y4kKUXEeK-LcyR7htkaA" name="ObjectFlowCallToFinal" source="_UUbRlqKnEeKXtemGD7H-lw" target="_cET1wKUVEeK-LcyR7htkaA"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_73GDgK18EeKAC4YEuPNXYw" name="ObjectFlowNameSpecificationToCall" source="_ZNrszKjMEeKJopLR4QNp4A" target="_ZNrsyKjMEeKJopLR4QNp4A"/>
