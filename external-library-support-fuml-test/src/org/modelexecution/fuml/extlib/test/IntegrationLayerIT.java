@@ -111,8 +111,8 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void externalCreateObjectActionAndCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithExternalCreateObjectActionAndCallOperationAction/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithExternalCreateObjectActionAndCallOperationAction/VehiclesConverted.uml";
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String jarFilePath = "extlibs/Vehicles.jar";
 
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithExternalCreateObjectActionAndCallOperationAction/VehiclesActivityDiagram.uml";
@@ -158,8 +158,8 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void stringReturnValueFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesConverted.uml";
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String jarFilePath = "extlibs/Vehicles.jar";
 
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
@@ -221,8 +221,8 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void integerReturnValueFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesConverted.uml";
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String jarFilePath = "extlibs/Vehicles.jar";
 
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
@@ -284,8 +284,8 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void booleanReturnValueFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesConverted.uml";
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String jarFilePath = "extlibs/Vehicles.jar";
 
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
@@ -346,8 +346,8 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void booleanInputValueFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/VehiclesConverted.uml";
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String jarFilePath = "extlibs/Vehicles.jar";
 
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
@@ -392,8 +392,8 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void integerInputValueFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/VehiclesConverted.uml";
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String jarFilePath = "extlibs/Vehicles.jar";
 
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
@@ -438,8 +438,8 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void stringInputValueFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/VehiclesConverted.uml";
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String jarFilePath = "extlibs/Vehicles.jar";
 
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
@@ -484,8 +484,8 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 */
 	@Test
 	public void multipleInputValueOperationCallFromExternalCallOperationActionTest() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithMultiplePrimitiveInputValues/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/activityWithMultiplePrimitiveInputValues/VehiclesConverted.uml";
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String jarFilePath = "extlibs/Vehicles.jar";
 
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithMultiplePrimitiveInputValues/VehiclesMultiplePrimitiveInputValueActivityDiagram.uml";
