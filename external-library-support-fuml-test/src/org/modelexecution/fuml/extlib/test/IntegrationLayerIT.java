@@ -477,7 +477,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	public void integerInputValueAndBooleanReturnValueFromExternalCallOperationActionTest() {
 		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputAndReturnValues/VehiclesPrimitiveInputAndReturnValueActivityDiagram.uml";
-		String activityName = "StringInputAndBooleanReturnValueActivity";
+		String activityName = "IntegerInputAndBooleanReturnValueActivity";
 
 		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
 		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
@@ -568,6 +568,55 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 		assertTrue(fUmlObject.getFeatureValues().get(3).values.get(0) instanceof BooleanValue);
 		// shieldActivation should have been set to TRUE with activateShield() method call
 		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(3).values.get(0)).value);
+
+	}
+	
+	/**
+	 * Tests {@link CreateObjectAction} that invokes an Object from an external
+	 * library and a {@link CallOperationAction} on the invoked Object returning
+	 * a complex object (here: an instance of SimpleEngine)
+	 */
+	@Test
+	public void simpleEngineReturnValueFromExternalCallOperationActionTest() {
+		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithComplexReturnValues/VehiclesComplexReturnValueActivityDiagram.uml";
+		String activityName = "SimpleEngineReturnValueActivity";
+
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
+
+		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
+		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
+		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
+
+		// Execute the constructor call of Car
+		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+
+		Locus locus = integrationLayer.getExecutionContext().getLocus();
+		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
+
+		assertEquals("engine", fUmlObject.getFeatureValues().get(0).feature.name);
+		//assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue); // basically an instance of SimpleEngine (a Java Object)
+		//assertEquals(0, ((IntegerValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
+		
+		// Check if correct output ParameterValue exists in the
+		// IntegrationLayer's ExecutionContext.activityExecutionOutput
+		ParameterValue outputParameterValue = null;
+
+		for (Event event : eventlist) {
+			if (event.toString().contains("ActivityNodeEntryEvent node = GetEngineCallOperationAction")) {
+				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
+				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
+						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
+			}
+		}
+
+		assertTrue(outputParameterValue != null);
+ 		//assertEquals("This ocean liner ship, named NoName, with a length of 0 ft and has 4 seats, 4 doors.", ((StringValue) outputParameterValue.values.get(0)).value);
+		// basically the instance of SimpleEngine should have:
+		// int horsePower = 0
+		// String vendor "NoVendor"
 
 	}
 

@@ -8,7 +8,7 @@
     <edge xmi:type="uml:ObjectFlow" xmi:id="_8icGkK18EeKAC4YEuPNXYw" name="ObjectFlowLengthSpecificationToCall" source="_Wbw-zKjMEeKJopLR4QNp4A" target="_Wbw-yKjMEeKJopLR4QNp4A"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_9XbN0K18EeKAC4YEuPNXYw" name="ObjectFlowOceanLinerSpecificationToCall" source="_A7IMcKNpEeK-LcyR7htkaA" target="_xr1-0KNoEeK-LcyR7htkaA"/>
     <node xmi:type="uml:CreateObjectAction" xmi:id="_UUbRkqKnEeKXtemGD7H-lw" name="CreateShipObject">
-      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_uMLKsMXxEeKQtrT7XpXylA"/>
+      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_pBaN08YkEeKQtrT7XpXylA"/>
       <result xmi:id="_UUbRk6KnEeKXtemGD7H-lw" name="target" outgoing="_UUbRkaKnEeKXtemGD7H-lw"/>
     </node>
     <node xmi:type="uml:CallOperationAction" xmi:id="_UUbRlKKnEeKXtemGD7H-lw" name="SetNameLenghtOceanLinerCallOperationAction">
@@ -16,7 +16,7 @@
       <argument xmi:id="_Wbw-yKjMEeKJopLR4QNp4A" name="length" incoming="_8icGkK18EeKAC4YEuPNXYw"/>
       <argument xmi:id="_xr1-0KNoEeK-LcyR7htkaA" name="oceanLiner" incoming="_9XbN0K18EeKAC4YEuPNXYw"/>
       <result xmi:id="_UUbRlqKnEeKXtemGD7H-lw" name="result" outgoing="_W4Y4kKUXEeK-LcyR7htkaA"/>
-      <operation href="../VehiclesConverted.uml#_uMMYzMXxEeKQtrT7XpXylA"/>
+      <operation href="../VehiclesConverted.uml#_pBaOHMYkEeKQtrT7XpXylA"/>
       <target xmi:id="_zD400KgTEeKFv-Vw9izV-w" name="target" incoming="_UUbRkaKnEeKXtemGD7H-lw"/>
     </node>
     <node xmi:type="uml:ValueSpecificationAction" xmi:id="_ZNrsy6jMEeKJopLR4QNp4A" name="SpecifyName">
