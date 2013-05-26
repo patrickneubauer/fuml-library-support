@@ -523,5 +523,71 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
 		assertEquals(false, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
 	}
+	
+	/**
+	 * Tests {@link CreateObjectAction} that invokes an Object from an external
+	 * library and a {@link CallOperationAction} on the invoked Object setting multiple input value fields
+	 */
+	@Test
+	public void integerInputValueAndBooleanReturnValueOperationCallFromExternalCallOperationActionTest() {
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String jarFilePath = "extlibs/Vehicles.jar";
+
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputAndReturnValues/VehiclesPrimitiveInputAndReturnValueActivityDiagram.uml";
+		String activityName = "StringInputAndBooleanReturnValueActivity";
+
+		UML2Preparer converter = new UML2Preparer();
+		converter.load(inputFilePath);
+		converter.convert(jarFilePath);
+		converter.save(outputFilePath);
+
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, outputFilePath);
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
+
+		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
+		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
+		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
+
+		// Execute fUML Activity
+		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+
+		Locus locus = integrationLayer.getExecutionContext().getLocus();
+		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
+		
+		assertEquals("name", fUmlObject.getFeatureValues().get(0).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof StringValue);
+		assertEquals("NoName", ((StringValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
+		
+		assertEquals("currentWarpSpeed", fUmlObject.getFeatureValues().get(1).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(1).values.get(0) instanceof IntegerValue);
+		assertEquals(2, ((IntegerValue) fUmlObject.getFeatureValues().get(1).values.get(0)).value);
+		
+		assertEquals("maxWarpSpeed", fUmlObject.getFeatureValues().get(2).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof IntegerValue);
+		assertEquals(3, ((IntegerValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
+		
+		assertEquals("shieldActivation", fUmlObject.getFeatureValues().get(3).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(3).values.get(0) instanceof BooleanValue);
+		assertEquals(false, ((BooleanValue) fUmlObject.getFeatureValues().get(3).values.get(0)).value);
+
+		// Check if correct output ParameterValue exists in the
+		// IntegrationLayer's ExecutionContext.activityExecutionOutput
+		ParameterValue outputParameterValue = null;
+
+		for (Event event : eventlist) {
+			if (event.toString().contains("ActivityNodeEntryEvent node = SetCurrentWarpSpeedCallOperationAction")) {
+				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
+				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
+						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
+			}
+		}
+
+		assertTrue(outputParameterValue != null);
+		assertTrue(outputParameterValue.values.get(0) instanceof BooleanValue);
+		// Check if operation's return value is correct (!)
+		assertEquals(true, ((BooleanValue) outputParameterValue.values.get(0)).value);
+	}
 
 }

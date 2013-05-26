@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_wvwBAMX5EeKFmLRp2CnBCQ">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_3YJRUMX5EeKFmLRp2CnBCQ" name="StringInputAndBooleanReturnValueActivity" node="_EJp08MX6EeKFmLRp2CnBCQ _R4SIIMX6EeKFmLRp2CnBCQ _61u9EMX6EeKFmLRp2CnBCQ _GkdOAMX7EeKFmLRp2CnBCQ">
+    <ownedParameter xmi:id="_-ccagMX5EeKFmLRp2CnBCQ" name="Parameter1" direction="out"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_eLIkYMX7EeKFmLRp2CnBCQ" name="ObjectFlowCallToFinal" source="_nKqgoMX6EeKFmLRp2CnBCQ" target="_GkdOAMX7EeKFmLRp2CnBCQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_e5ll0MX7EeKFmLRp2CnBCQ" name="ObjectFlowFromCreateToCall" source="_OfdyMMX6EeKFmLRp2CnBCQ" target="_yYV6AMX6EeKFmLRp2CnBCQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_fylDUMX7EeKFmLRp2CnBCQ" name="ObjectFlowSpecificationToCall" source="_8ampIMX6EeKFmLRp2CnBCQ" target="_sQDtIMX6EeKFmLRp2CnBCQ"/>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_EJp08MX6EeKFmLRp2CnBCQ" name="CreateSpaceShipObject">
+      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_uMO1EMXxEeKQtrT7XpXylA"/>
+      <result xmi:id="_OfdyMMX6EeKFmLRp2CnBCQ" name="target" outgoing="_e5ll0MX7EeKFmLRp2CnBCQ"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_R4SIIMX6EeKFmLRp2CnBCQ" name="SetCurrentWarpSpeedCallOperationAction">
+      <argument xmi:id="_sQDtIMX6EeKFmLRp2CnBCQ" name="currentWarpSpeed" incoming="_fylDUMX7EeKFmLRp2CnBCQ"/>
+      <result xmi:id="_nKqgoMX6EeKFmLRp2CnBCQ" name="result" outgoing="_eLIkYMX7EeKFmLRp2CnBCQ"/>
+      <operation href="../VehiclesConverted.uml#//Vehicles/vehiclelibrary/SpaceShip/setCurrentWarpSpeed.1"/>
+      <target xmi:id="_yYV6AMX6EeKFmLRp2CnBCQ" name="target" incoming="_e5ll0MX7EeKFmLRp2CnBCQ"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_61u9EMX6EeKFmLRp2CnBCQ">
+      <result xmi:id="_8ampIMX6EeKFmLRp2CnBCQ" name="currentWarpSpeed" outgoing="_fylDUMX7EeKFmLRp2CnBCQ"/>
+      <value xmi:type="uml:LiteralInteger" xmi:id="_B9Lg4MX7EeKFmLRp2CnBCQ" value="2"/>
+    </node>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_GkdOAMX7EeKFmLRp2CnBCQ" name="OutputBoolean" incoming="_eLIkYMX7EeKFmLRp2CnBCQ" parameter="_-ccagMX5EeKFmLRp2CnBCQ"/>
+  </packagedElement>
+</uml:Model>
