@@ -91,7 +91,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			Object_ fUmlPlaceholderObject = obtainFUmlPlaceholderObject();
 			Object javaObject = obtainJavaObject(event);
 
-			Object_Transformer object_Transformer = new Object_Transformer(event, fUmlPlaceholderObject, javaObject);
+			Object_Transformer object_Transformer = new Object_Transformer(fUmlPlaceholderObject, javaObject);
 			Object_ fUmlObject = object_Transformer.getObject_();
 
 			try {
@@ -300,7 +300,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 			// Step 2: Update the corresponding fUML Object_ using the
 			// Object_Transfomer
-			Object_Transformer object_Transformer = new Object_Transformer(event, fUmlObject, javaObject);
+			Object_Transformer object_Transformer = new Object_Transformer(fUmlObject, javaObject);
 			Object_ newFUmlObject = object_Transformer.getObject_();
 
 			// Step 3: Update the HashMaps

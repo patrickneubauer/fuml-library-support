@@ -18,6 +18,8 @@ import fUML.Syntax.Classes.Kernel.Class_;
 /**
  * Transformer for the {@link Object_} class
  * 
+ * Java Object + fUML Placeholder Object_ ==== TRANSFORM ====> fUML Object_
+ * 
  * @author Patrick Neubauer
  * 
  */
@@ -25,17 +27,15 @@ public class Object_Transformer {
 
 	private Object_ fUmlObject;
 	private Object javaObject;
-	private Event event;
 
 	public Object_Transformer() throws Exception {
 		throw new Exception("Calling the default constructor is NOT ALLOWED.");
 	}
 
-	public Object_Transformer(Event event, Object_ fUmlPlaceholderObject, Object javaObject) {
+	public Object_Transformer(Object_ fUmlPlaceholderObject, Object javaObject) {
 
 		this.fUmlObject = fUmlPlaceholderObject;
 		this.javaObject = javaObject;
-		this.event = event;
 		transform();
 
 	}
@@ -114,6 +114,23 @@ public class Object_Transformer {
 						 * transformed probably using recursion on
 						 * Object_Transformer
 						 */
+						System.out.println("complex object");
+						/*
+						Object_ fUmlPlaceholderObject = new Object_();
+						// fill the placeholder Object_ the same way as the initial placeholder Object_ has been filled?
+						
+						
+						Object_Transformer object_Transformer = new Object_Transformer(fUmlPlaceholderObject, javaObject);
+						Object_ newFUmlObject = object_Transformer.getObject_();
+						
+						if (featureValue.values.size() == 0) {
+							featureValue.values.add(0, newFUmlObject);
+						} else {
+							featureValue.values.set(0, newFUmlObject);
+						}
+						*/
+						
+						
 					}
 
 				}
@@ -127,7 +144,7 @@ public class Object_Transformer {
 		}
 
 	}
-
+	
 	/**
 	 * Returns the {@link Object_} that has been build when calling the
 	 * constructor of {@link Object_Builder}
