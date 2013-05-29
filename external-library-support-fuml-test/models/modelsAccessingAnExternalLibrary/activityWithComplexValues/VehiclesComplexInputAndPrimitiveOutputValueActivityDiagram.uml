@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_K-8U8FWwEeKaTuVFD778jg">
+  <packagedElement xmi:type="uml:Activity" xmi:id="__cSHsMg6EeKUXZIjAFAJ_A" name="SimpleEngineInputAndIntegerOutputValueActivity" node="_OXoFoMg7EeKUXZIjAFAJ_A _ahOUsMg7EeKUXZIjAFAJ_A _UGURUMg8EeKUXZIjAFAJ_A _trFFAMg8EeKUXZIjAFAJ_A">
+    <ownedParameter xmi:id="_IuEcIMg7EeKUXZIjAFAJ_A" name="outputParameter" direction="out"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_-xU-0Mg9EeKUXZIjAFAJ_A" name="ObjectFlowFromCreateTargetToCall" source="_U82GIMg7EeKUXZIjAFAJ_A" target="_wRSuwMg7EeKUXZIjAFAJ_A"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="__dYzkMg9EeKUXZIjAFAJ_A" name="ObjectFlowFromCreateArgumentToCall" source="_zuG-cMg8EeKUXZIjAFAJ_A" target="_y7dO8Mg7EeKUXZIjAFAJ_A"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_AG0yIMg-EeKUXZIjAFAJ_A" name="ObjectFlowFromCallToFinal" source="_lQSfcMg7EeKUXZIjAFAJ_A" target="_UGURUMg8EeKUXZIjAFAJ_A"/>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_OXoFoMg7EeKUXZIjAFAJ_A" name="CreateSpaceShipObject">
+      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_vd_a0shBEeK327ZXB80yuQ"/>
+      <result xmi:id="_U82GIMg7EeKUXZIjAFAJ_A" name="target" outgoing="_-xU-0Mg9EeKUXZIjAFAJ_A"/>
+    </node>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_trFFAMg8EeKUXZIjAFAJ_A" name="CreateComplexEngineObject">
+      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_vd7wnMhBEeK327ZXB80yuQ"/>
+      <result xmi:id="_zuG-cMg8EeKUXZIjAFAJ_A" name="target" outgoing="__dYzkMg9EeKUXZIjAFAJ_A"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_ahOUsMg7EeKUXZIjAFAJ_A" name="SetEngineCallOperationAction">
+      <argument xmi:id="_y7dO8Mg7EeKUXZIjAFAJ_A" name="engine" incoming="__dYzkMg9EeKUXZIjAFAJ_A"/>
+      <argument xmi:id="_wRSuwMg7EeKUXZIjAFAJ_A" name="target" incoming="_-xU-0Mg9EeKUXZIjAFAJ_A"/>
+      <result xmi:id="_lQSfcMg7EeKUXZIjAFAJ_A" name="result" outgoing="_AG0yIMg-EeKUXZIjAFAJ_A"/>
+      <operation href="../VehiclesConverted.uml#_vd_a88hBEeK327ZXB80yuQ"/>
+    </node>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_UGURUMg8EeKUXZIjAFAJ_A" name="OutputInteger" incoming="_AG0yIMg-EeKUXZIjAFAJ_A"/>
+  </packagedElement>
+</uml:Model>

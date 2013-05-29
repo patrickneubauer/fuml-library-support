@@ -160,7 +160,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	@Test
 	public void stringReturnValueFromExternalCallOperationActionTest() {
 		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
 		String activityName = "StringReturnValueActivity";
 
 		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
@@ -215,7 +215,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	@Test
 	public void integerReturnValueFromExternalCallOperationActionTest() {
 		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
 		String activityName = "IntegerReturnValueActivity";
 
 		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
@@ -270,7 +270,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	@Test
 	public void booleanReturnValueFromExternalCallOperationActionTest() {
 		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveReturnValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
 		String activityName = "BooleanReturnValueActivity";
 
 		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
@@ -324,7 +324,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	@Test
 	public void booleanInputValueFromExternalCallOperationActionTest() {
 		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
 		String activityName = "BooleanInputValueActivity";
 
 		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
@@ -362,7 +362,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	@Test
 	public void integerInputValueFromExternalCallOperationActionTest() {
 		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
 		String activityName = "IntegerInputValueActivity";
 
 		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
@@ -400,7 +400,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	@Test
 	public void stringInputValueFromExternalCallOperationActionTest() {
 		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
 		String activityName = "StringInputValueActivity";
 
 		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
@@ -438,7 +438,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	@Test
 	public void multipleInputValueFromExternalCallOperationActionTest() {
 		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithMultiplePrimitiveInputValues/VehiclesMultiplePrimitiveInputValueActivityDiagram.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesMultiplePrimitiveInputValueActivityDiagram.uml";
 		String activityName = "MultipleInputValueOperationCallActivity";
 
 		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
@@ -476,7 +476,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	@Test
 	public void integerInputValueAndBooleanReturnValueFromExternalCallOperationActionTest() {
 		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveInputAndReturnValues/VehiclesPrimitiveInputAndReturnValueActivityDiagram.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveInputAndReturnValueActivityDiagram.uml";
 		String activityName = "IntegerInputAndBooleanReturnValueActivity";
 
 		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
@@ -535,7 +535,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	@Test
 	public void noInputValueAndNoReturnValueFromExternalCallOperationActionTest() {
 		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithNoInputValuesAndNoOutputValues/VehiclesNoInputAndNoReturnValueActivityDiagram.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesNoInputAndNoReturnValueActivityDiagram.uml";
 		String activityName = "NoInputAndNoReturnValueActivity";
 
 		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
@@ -579,7 +579,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	@Test
 	public void simpleEngineReturnValueFromExternalCallOperationActionTest() {
 		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithComplexReturnValues/VehiclesComplexReturnValueActivityDiagram.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithComplexValues/VehiclesComplexReturnValueActivityDiagram.uml";
 		String activityName = "SimpleEngineReturnValueActivity";
 
 		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
@@ -599,7 +599,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 		assertEquals("engine", fUmlObject.getFeatureValues().get(0).feature.name);
 		//assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue); // basically an instance of SimpleEngine (a Java Object)
 		//assertEquals(0, ((IntegerValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
-		
+
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
 		ParameterValue outputParameterValue = null;
