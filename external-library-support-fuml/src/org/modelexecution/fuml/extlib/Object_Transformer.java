@@ -5,6 +5,7 @@ package org.modelexecution.fuml.extlib;
 
 import java.lang.reflect.Field;
 
+import org.modelexecution.fumldebug.core.ExecutionContext;
 import org.modelexecution.fumldebug.core.event.Event;
 
 import fUML.Semantics.Classes.Kernel.BooleanValue;
@@ -27,15 +28,19 @@ public class Object_Transformer {
 
 	private Object_ fUmlObject;
 	private Object javaObject;
+	private Event event;
+	private ExecutionContext executionContext;
 
 	public Object_Transformer() throws Exception {
 		throw new Exception("Calling the default constructor is NOT ALLOWED.");
 	}
 
-	public Object_Transformer(Object_ fUmlPlaceholderObject, Object javaObject) {
+	public Object_Transformer(Object_ fUmlPlaceholderObject, Object javaObject, Event event, ExecutionContext executionContext) {
 
 		this.fUmlObject = fUmlPlaceholderObject;
 		this.javaObject = javaObject;
+		this.event = event;
+		this.executionContext = executionContext;
 		transform();
 
 	}
@@ -114,22 +119,17 @@ public class Object_Transformer {
 						 * transformed probably using recursion on
 						 * Object_Transformer
 						 */
-						System.out.println("complex object");
-						/*
-						Object_ fUmlPlaceholderObject = new Object_();
-						// fill the placeholder Object_ the same way as the initial placeholder Object_ has been filled?
+						System.out.println("Object_Transformer: Creating a new complex object");
 						
-						
-						Object_Transformer object_Transformer = new Object_Transformer(fUmlPlaceholderObject, javaObject);
-						Object_ newFUmlObject = object_Transformer.getObject_();
-						
-						if (featureValue.values.size() == 0) {
-							featureValue.values.add(0, newFUmlObject);
-						} else {
-							featureValue.values.set(0, newFUmlObject);
-						}
-						*/
-						
+//						Object newJavaObject = javaField.get(javaObject);
+//						Object_Creator object_Creator = new Object_Creator(newJavaObject);
+//						Object_ newFUmlObject = object_Creator.getfUmlObject();
+//						
+//						if (featureValue.values.size() == 0) {
+//							featureValue.values.add(0, newFUmlObject);
+//						} else {
+//							featureValue.values.set(0, newFUmlObject);
+//						}
 						
 					}
 
@@ -143,7 +143,7 @@ public class Object_Transformer {
 			System.out.println("Error occured while transforming the Java Object to a fUML Object_ representation. " + e);
 		}
 
-	}
+	}// transform
 	
 	/**
 	 * Returns the {@link Object_} that has been build when calling the
@@ -153,6 +153,6 @@ public class Object_Transformer {
 	 */
 	public Object_ getObject_() {
 		return fUmlObject;
-	}
+	}// getObject_
 
 }
