@@ -32,7 +32,7 @@ public class ActionHelperTest {
 	public ExpectedException exception = ExpectedException.none();
 
 	@Test
-	public void getClassJarPathPositiveTest() throws Exception {
+	public void getClassSingleJarPathPositiveTest() throws Exception {
 		CreateObjectAction createObjectAction = new CreateObjectAction();
 		Classifier classifier = new Class_();
 		Comment comment = new Comment();
@@ -40,16 +40,31 @@ public class ActionHelperTest {
 		classifier.ownedComment.add(comment);
 		createObjectAction.classifier = classifier;
 
-		String returnValue = ActionHelper.getClassJarPath(createObjectAction);
+		String[] returnValue = ActionHelper.getClassJarPaths(createObjectAction);
 
-		assertEquals("extlibs/Vehicles.jar", returnValue);
-	}// getClassJarPathPositiveTest
+		assertEquals("extlibs/Vehicles.jar", returnValue[0]);
+	}// getClassSingleJarPathPositiveTest
+	
+	@Test
+	public void getClassMultipleJarPathsPositiveTest() throws Exception {
+		CreateObjectAction createObjectAction = new CreateObjectAction();
+		Classifier classifier = new Class_();
+		Comment comment = new Comment();
+		comment.body = "@external=extlibs/commons-email-1.3.1.jar||extlibs/mail.jar";
+		classifier.ownedComment.add(comment);
+		createObjectAction.classifier = classifier;
+
+		String[] returnValue = ActionHelper.getClassJarPaths(createObjectAction);
+
+		assertEquals("extlibs/commons-email-1.3.1.jar", returnValue[0]);
+		assertEquals("extlibs/mail.jar", returnValue[1]);
+	}// getClassMultipleJarPathsPositiveTest
 
 	@Test(expected = Exception.class)
 	public void getClassJarPathNoCommentTest() throws Exception {
 		CreateObjectAction createObjectAction = new CreateObjectAction();
 
-		String returnValue = ActionHelper.getClassJarPath(createObjectAction);
+		String[] returnValue = ActionHelper.getClassJarPaths(createObjectAction);
 		// supposed to throw an Exception
 	}// getClassJarPathNoCommentTest
 
@@ -62,7 +77,7 @@ public class ActionHelperTest {
 		classifier.ownedComment.add(comment);
 		createObjectAction.classifier = classifier;
 
-		String returnValue = ActionHelper.getClassJarPath(createObjectAction);
+		String[] returnValue = ActionHelper.getClassJarPaths(createObjectAction);
 		// supposed to throw an Exception
 	}// getClassJarPathEmptyCommentTest
 
@@ -75,9 +90,9 @@ public class ActionHelperTest {
 		classifier.ownedComment.add(comment);
 		createObjectAction.classifier = classifier;
 
-		String returnValue = ActionHelper.getClassJarPath(createObjectAction);
+		String[] returnValue = ActionHelper.getClassJarPaths(createObjectAction);
 
-		assertEquals("", returnValue);
+		assertEquals("", returnValue[0]);
 	}// getClassJarPathNoPathTest
 
 	// --------------------------------------------------------------------------------------

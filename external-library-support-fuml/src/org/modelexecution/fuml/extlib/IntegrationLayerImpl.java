@@ -232,10 +232,10 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		try {
 			CreateObjectAction createObjectAction = EventHelper.getExternalCreateObjectAction(event);
 
-			String jarPath = ActionHelper.getClassJarPath(createObjectAction);
+			String[] jarPaths = ActionHelper.getClassJarPaths(createObjectAction);
 			String classNamespaceAndName = ActionHelper.getClassNamespaceAndName(createObjectAction);
 
-			dynamicClassLoader = new DynamicClassLoader(jarPath);
+			dynamicClassLoader = new DynamicClassLoader(jarPaths);
 			ClassLoader classLoader = dynamicClassLoader.getClassLoader();
 
 			Class<?> clazz = classLoader.loadClass(classNamespaceAndName);

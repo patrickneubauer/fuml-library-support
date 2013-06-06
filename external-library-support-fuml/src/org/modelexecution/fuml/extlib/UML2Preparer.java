@@ -36,6 +36,7 @@ import org.eclipse.uml2.uml.resource.UMLResource;
  */
 public class UML2Preparer {
 
+	public static final String JAR_FILES_DELIMITER = "||";
 	private ResourceSet resourceSet;
 	private Resource resource;
 	private Copier copier;
@@ -84,6 +85,28 @@ public class UML2Preparer {
 		}
 		return classes;
 	}
+	
+	/**
+	 * Helper method that creates a String that holds all JAR file paths together separated by {@link JAR_FILES_DELIMITER} (in case their are multiple JAR file paths)
+	 * 
+	 * @param jarFilePaths jar file paths pointing to the jar files in the file system
+	 * @return a String that holds all JAR file paths together separated by {@link JAR_FILES_DELIMITER} (in case their are multiple JAR file paths)
+	 */
+	String createJarFilesPathString(String... jarFilePaths) {
+		String jarFilePathsString = "";
+		int pathNo = 0;
+		for (String jarPath : jarFilePaths) {
+			if (pathNo == jarFilePaths.length-1) {
+				// case: only one JAR path OR last JAR path
+				jarFilePathsString = jarFilePathsString + jarPath;
+			} else if (pathNo < jarFilePaths.length) {
+				// case: one of multiple JAR paths (not the last one)
+				jarFilePathsString = jarFilePathsString + jarPath + JAR_FILES_DELIMITER;				
+			} 
+			pathNo++;
+		}
+		return jarFilePathsString;
+	}
 
 	/**
 	 * Converts the previously loaded UML into a UML that contains:
@@ -100,13 +123,13 @@ public class UML2Preparer {
 	 *            {@link String} representing the relative file path to the
 	 *            input JAR file
 	 */
-	public void convert(String jarFilePath) {
+	public void convert(String... jarFilePaths) {
 		Collection<Class> resouceClasses = getAllClassesFromResource(resource);
 
 		for (Class clazz : resouceClasses) {
 
 			// add OwnedComment to Class that references the JAR file
-			clazz.createOwnedComment().setBody("@external=" + jarFilePath);
+			clazz.createOwnedComment().setBody("@external=" + createJarFilesPathString(jarFilePaths));
 
 			for (Operation operation : clazz.getOperations()) {
 				Activity placeholderActivity = UMLFactory.eINSTANCE.createActivity();

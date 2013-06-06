@@ -76,11 +76,11 @@ public class MailCaseStudyTest implements ExecutionEventListener {
 		
 		String inputFilePath = "models/mailCaseStudy/commons-email-1.3.1.uml";
 		String outputFilePath = "models/mailCaseStudy/commons-email-1.3.1Converted.uml";
-		String jarFilePath = "extlibs/commons-email-1.3.1.jar";
+		String[] jarFilePaths = {"extlibs/commons-email-1.3.1.jar", "extlibs/mail.jar"};
 
 		UML2Preparer converter = new UML2Preparer();
 		converter.load(inputFilePath);
-		converter.convert(jarFilePath);
+		converter.convert(jarFilePaths);
 		converter.save(outputFilePath);		
 	}
 	

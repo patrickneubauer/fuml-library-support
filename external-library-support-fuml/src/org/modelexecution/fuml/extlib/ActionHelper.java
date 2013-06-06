@@ -3,6 +3,9 @@
  */
 package org.modelexecution.fuml.extlib;
 
+import java.util.ArrayList;
+import java.util.regex.Pattern;
+
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
 import fUML.Syntax.Classes.Kernel.Comment;
@@ -16,21 +19,24 @@ import fUML.Syntax.Classes.Kernel.Namespace;
 public class ActionHelper {
 
 	/*
-	 * Obtains the referenced JAR path from the {@code createObjectAction}
+	 * Obtains the referenced JAR path(s) from the {@code createObjectAction}
 	 * 
 	 * @param createObjectAction the {@link CreateObjectAction} to get the JAR
-	 * path from
+	 * path(s) from
 	 * 
-	 * @return {@link String} representing the file path of the JAR found or
+	 * @return {@link String[]} representing the file path(s) of the JAR(s) found or
 	 * throws an {@link Exception} otherwise
 	 * 
-	 * @throws Exception Whenever the JAR path could not be obtained
+	 * @throws Exception Whenever the JAR path(s) could not be obtained
 	 */
-	public static String getClassJarPath(CreateObjectAction createObjectAction) throws Exception {
+	public static String[] getClassJarPaths(CreateObjectAction createObjectAction) throws Exception {
 		CommentList commentList = createObjectAction.classifier.ownedComment;
+		Pattern pattern = Pattern.compile(Pattern.quote(UML2Preparer.JAR_FILES_DELIMITER));
+		
 		for (Comment comment : commentList) {
 			if (comment.body.startsWith("@external")) {
-				return (String) comment.body.subSequence("@external=".length(), comment.body.length());
+				String jarPathsWithPotentialDelimiter = (String) comment.body.subSequence("@external=".length(), comment.body.length());
+				return pattern.split(jarPathsWithPotentialDelimiter);
 			}
 		}
 

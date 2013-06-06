@@ -43,7 +43,7 @@ public class UML2PreparerTest {
 		resourceSet = new ResourceSetImpl();
 		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
-	}// prepareResourceSet
+	}
 
 	@Test
 	public void addPlaceholderActivitiesToVehiclesUML() {
@@ -63,7 +63,28 @@ public class UML2PreparerTest {
 		// check if every OwnedOperation in every Class also has a corresponding
 		// OwnedBehavior
 		containsPlaceholderActivities(outputFilePath);
-	}// addPlaceholderActivitiesToVehiclesUML
+	}
+	
+	@Test
+	public void addPlaceholderActivitiesToMailUML() {
+		String inputFilePath = "models/commons-email-1.3.1.uml";
+		String outputFilePath = "models/commons-email-1.3.1Converted.uml";
+		String[] jarFilePaths = {"extlibs/commons-email-1.3.1.jar", "extlibs/mail.jar"};
+
+		UML2Preparer converter = new UML2Preparer();
+		converter.load(inputFilePath);
+		converter.convert(jarFilePaths);
+		converter.save(outputFilePath);
+
+		// check if every Class contains a OwnedComment referring to the JAR
+		// files
+		String jarFilePathsString = jarFilePaths[0] + UML2Preparer.JAR_FILES_DELIMITER + jarFilePaths[1]; 
+		containsComments(outputFilePath, jarFilePathsString);
+
+		// check if every OwnedOperation in every Class also has a corresponding
+		// OwnedBehavior
+		containsPlaceholderActivities(outputFilePath);
+	}
 
 	/**
 	 * Returns all classes of a specific {@link Resource}
@@ -87,7 +108,7 @@ public class UML2PreparerTest {
 			}
 		}
 		return classes;
-	}// getAllClassesFromResource
+	}
 
 	/**
 	 * Searches for a specified {@link Comment} body element in a {@link Class}
@@ -107,7 +128,7 @@ public class UML2PreparerTest {
 			}
 		}
 		return false; // not found
-	}// containsComment
+	}
 
 	/**
 	 * Searches for a specified {@link Comment} body element in an
@@ -128,11 +149,11 @@ public class UML2PreparerTest {
 			}
 		}
 		return false; // not found
-	}// containsComment
+	}
 
 	/**
 	 * Checks if every Class contains a corresponding OwnedComment having a
-	 * "@external" reference in its body
+	 * "@external" reference to a single JAR file in its body
 	 */
 	private void containsComments(String outputFilePath, String jarFilePath) {
 		Resource resource = resourceSet.getResource(URI.createFileURI(new File(outputFilePath).getAbsolutePath()), true);
@@ -142,8 +163,8 @@ public class UML2PreparerTest {
 		for (Class clazz : resouceClasses) {
 			assertTrue(containsComment(clazz, "@external=" + jarFilePath));
 		}
-	}// containsComments
-
+	}
+	
 	/**
 	 * Evaluates if a given Placeholder Activity contains a corresponding ActivityParameterNode for each owned Parameter
 	 * 
@@ -175,7 +196,7 @@ public class UML2PreparerTest {
 		}
 		
 		return true; // found
-	}// containsParameters
+	}
 
 	/**
 	 * Checks if the output file created with the {@link UML2Preparer} contains
@@ -190,11 +211,8 @@ public class UML2PreparerTest {
 		Resource resource = resourceSet.getResource(URI.createFileURI(new File(outputFilePath).getAbsolutePath()), true);
 
 		Collection<Class> resouceClasses = getAllClassesFromResource(resource);
-		int classCounter = 0;
-		int operationCounter = 0;
 
 		for (Class clazz : resouceClasses) {
-			classCounter++;
 
 			for (Operation classOperation : clazz.getOperations()) {
 
@@ -205,7 +223,6 @@ public class UML2PreparerTest {
 						Activity placeholderActivity = (Activity) classBehavior;
 
 						if (placeholderActivity.equals(classOperation.getMethods().get(0))) {
-							operationCounter++;
 
 							// check if their name is equal
 							assertEquals(placeholderActivity.getName(), classOperation.getName());
@@ -224,9 +241,7 @@ public class UML2PreparerTest {
 				}
 			}
 		}
+		
+	}
 
-		assertEquals(19, classCounter);
-		assertEquals(54, operationCounter);
-	}// containsPlaceholderActivities
-
-}// UML2PreparerTest
+}
