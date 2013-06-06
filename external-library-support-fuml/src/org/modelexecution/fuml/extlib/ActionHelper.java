@@ -7,6 +7,7 @@ import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
 import fUML.Syntax.Classes.Kernel.Comment;
 import fUML.Syntax.Classes.Kernel.CommentList;
+import fUML.Syntax.Classes.Kernel.Namespace;
 
 /**
  * @author Patrick Neubauer
@@ -137,7 +138,11 @@ public class ActionHelper {
 	 */
 	private static String obtainClassNamespace(CreateObjectAction createObjectAction) {
 		if (createObjectAction.classifier != null) {
-			if (createObjectAction.classifier.namespace != null) {
+			if (createObjectAction.classifier.namespace != null && createObjectAction.classifier.namespace.owner != null) {
+				// case: namespace has an owner namespace
+				return obtainClassOwnerNamespace(createObjectAction.classifier.namespace);
+			} else if (createObjectAction.classifier.namespace != null && createObjectAction.classifier.namespace.owner == null) {
+				// case: namespace has NO owner namespace
 				return createObjectAction.classifier.namespace.name;
 			}
 		}
@@ -145,6 +150,19 @@ public class ActionHelper {
 		return null; // no namespace found
 	}// obtainClassNamespace(CreateObjectAction)
 
+	/**
+	 * Obtains the Class owner's namespace recursively
+	 * 
+	 * @param namespace the {@link Namespace} to look for the owner namespace
+	 * @return a String representing the owner namespace (recursively obtained) plus dot plus the namespace name itself
+	 */
+	private static String obtainClassOwnerNamespace(Namespace namespace) {
+		if (namespace != null && namespace.owner != null) {
+			return obtainClassOwnerNamespace((Namespace)namespace.owner) + "." + namespace.name;
+		}
+		return namespace.name;
+	}// obtainClassOwnerNamespace
+	
 	/**
 	 * Obtains the Class namespace of the {@code callOperationAction}
 	 * 
