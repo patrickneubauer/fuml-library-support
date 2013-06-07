@@ -7,6 +7,7 @@ import org.modelexecution.fumldebug.core.event.Event;
 
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Activities.IntermediateActivities.Activity;
+import fUML.Syntax.Classes.Kernel.Namespace;
 import fUML.Syntax.Classes.Kernel.Operation;
 import fUML.Syntax.Classes.Kernel.Parameter;
 import fUML.Syntax.Classes.Kernel.ParameterDirectionKind;
@@ -77,13 +78,31 @@ public class ActivityHelper {
 	private static String getClassNamespace(Activity activity) throws Exception {
 		if (activity.specification != null) {
 			if (activity.specification.namespace != null) {
-				if (activity.specification.namespace.namespace != null)
+				if (activity.specification.namespace.namespace != null && activity.specification.namespace.owner != null) {
+					// case: namespace has an owner namespace
+					return obtainClassOwnerNamespace(activity.specification.namespace.namespace);
+				} else if (activity.specification.namespace.namespace != null) {
+					// case: namespace has NO owner namespace
 					return activity.specification.namespace.namespace.name;
+				}
 			}
 		}
 
 		return null; // no name space found
 	}// getClassNamespace(Activity)
+	
+	/**
+	 * Obtains the Class owner's namespace recursively
+	 * 
+	 * @param namespace the {@link Namespace} to look for the owner namespace
+	 * @return a String representing the owner namespace (recursively obtained) plus dot plus the namespace name itself
+	 */
+	private static String obtainClassOwnerNamespace(Namespace namespace) {
+		if (namespace != null && namespace.owner != null) {
+			return obtainClassOwnerNamespace((Namespace)namespace.owner) + "." + namespace.name;
+		}
+		return namespace.name;
+	}// obtainClassOwnerNamespace(Namespace)
 	
 	/**
 	 * Obtains the Class name of the {@code activity}'s Operation

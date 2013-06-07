@@ -163,7 +163,7 @@ public class ActionHelper {
 	 * @return a String representing the owner namespace (recursively obtained) plus dot plus the namespace name itself
 	 */
 	private static String obtainClassOwnerNamespace(Namespace namespace) {
-		if (namespace != null && namespace.owner != null) {
+		if (namespace != null && namespace.owner != null && namespace.name != null) {
 			return obtainClassOwnerNamespace((Namespace)namespace.owner) + "." + namespace.name;
 		}
 		return namespace.name;
