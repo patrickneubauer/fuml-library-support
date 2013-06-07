@@ -39,35 +39,14 @@ public class ActivityHelperTest {
 	
 	@Test
 	public void getReturnParameterNoReturnParameterTest() {
-		boolean thrown = false;		
 		Activity activity = new Activity();
 		Parameter parameter = new Parameter();
 		parameter.direction = ParameterDirectionKind.out;
 		activity.ownedParameter.add(parameter);
 		
-		try {
-			ActivityHelper.getReturnParameter(activity);
-		} catch(Exception e) {
-			assertTrue(e.getMessage().contains("Could not obtain return Parameter of Activity fUML.Syntax.Activities.IntermediateActivities.Activity"));
-			thrown = true;
-		}
+		parameter = ActivityHelper.getReturnParameter(activity);
 		
-		assertEquals(true, thrown);
-	}
-	
-	@Test
-	public void getReturnParameterNoParameterTest() {
-		boolean thrown = false;		
-		Activity activity = new Activity();
-		
-		try {
-			ActivityHelper.getReturnParameter(activity);
-		} catch(Exception e) {
-			assertTrue(e.getMessage().contains("Could not obtain return Parameter of Activity fUML.Syntax.Activities.IntermediateActivities.Activity"));
-			thrown = true;
-		}
-		
-		assertEquals(true, thrown);
+		assertEquals(null, parameter);
 	}
 
 	// --------------------------------------------------------------------------------------

@@ -7,6 +7,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,7 +121,7 @@ public class MailCaseStudyTest implements ExecutionEventListener {
 	 * library and a {@link CallOperationAction} on the invoked Object setting an input value field AND returning an output value
 	 */
 	@Test
-	public void mailCaseStudyTest() {
+	public void mailCaseStudyTest() {		
 		String externalUmlFilePath = "models/mailCaseStudy/commons-email-1.3.1Converted.uml";
 		String activityDiagramFilePath = "models/mailCaseStudy/mailActivityDiagram.uml";
 		String activityName = "MailActivity";

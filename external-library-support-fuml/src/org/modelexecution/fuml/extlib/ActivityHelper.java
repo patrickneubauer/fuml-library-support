@@ -20,14 +20,14 @@ import fUML.Syntax.Classes.Kernel.ParameterDirectionKind;
  */
 public class ActivityHelper {
 
-	public static Parameter getReturnParameter(Activity activity) throws Exception {
+	public static Parameter getReturnParameter(Activity activity) {
 		for (Parameter parameter : activity.ownedParameter) {
 			if (parameter.direction == ParameterDirectionKind.return_) {
 				return parameter;
 			}
 		}
-		
-		throw new Exception("Could not obtain return Parameter of Activity " + activity);
+		// No return parameter has been found (method return is "void"), therefore return null 
+		return null;
 	}
 	
 	public static String getOperationName(Activity activity) throws Exception {

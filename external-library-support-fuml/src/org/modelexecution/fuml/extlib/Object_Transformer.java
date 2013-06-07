@@ -4,7 +4,15 @@
 package org.modelexecution.fuml.extlib;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import org.apache.commons.collections.BidiMap;
 import org.modelexecution.fumldebug.core.ExecutionContext;
 import org.modelexecution.fumldebug.core.event.Event;
 
@@ -15,6 +23,7 @@ import fUML.Semantics.Classes.Kernel.Object_;
 import fUML.Semantics.Classes.Kernel.StringValue;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
 import fUML.Syntax.Classes.Kernel.Class_;
+import fUML.Syntax.Classes.Kernel.Feature;
 
 /**
  * Transformer for the {@link Object_} class
@@ -28,6 +37,7 @@ public class Object_Transformer {
 
 	private Object_ fUmlObject;
 	private Object javaObject;
+	private HashMap<Class<?>, List<Field>> clazzFieldMap;
 	private Event event;
 	private ExecutionContext executionContext;
 
@@ -41,6 +51,7 @@ public class Object_Transformer {
 		this.javaObject = javaObject;
 		this.event = event;
 		this.executionContext = executionContext;
+		this.clazzFieldMap = getAllFields(javaObject.getClass());
 		transform();
 
 	}
@@ -53,7 +64,6 @@ public class Object_Transformer {
 
 		try {
 			Class_ fUmlClass = fUmlObject.types.get(0);
-			Class<?> javaClass = javaObject.getClass();
 
 			/*
 			 * ... TODO add stuff to "fUmlClass" (Class_) if necessary
@@ -67,15 +77,14 @@ public class Object_Transformer {
 
 				/**
 				 * The following condition checks if the {@code featureValue}
-				 * exists in the {@code javaClass}. NOTE: inherited fields are
-				 * currently SKIPPED (!) but could be somehow recursively
-				 * accessed through getSuperclass()
-				 */
-				if (FeatureHelper.getFeatureValueNamespaceAndClass(featureValue).equals(javaClass.getName())) {
+				 * exists in the {@code javaClass}.
+				 */				
+				Class<?> javaClassFromObjectWithFeature = javaClassFromObjectWithFeature(javaObject, featureValue.feature);
+				if (javaClassFromObjectWithFeature != null) {
 
-					Field javaField = javaClass.getDeclaredField(featureValue.feature.name);
+					Field javaField = javaClassFromObjectWithFeature.getDeclaredField(featureValue.feature.name);
 					javaField.setAccessible(true); // shut down security
-
+					
 					if (javaField.getType().getName().equals("boolean")) {
 
 						boolean javaFieldValue = (boolean) javaField.get(javaObject);
@@ -144,6 +153,63 @@ public class Object_Transformer {
 		}
 
 	}// transform
+
+	/**
+	 * Returns the {@link Class<?>} of a specific {@link Feature} in a given {@link Class<?>} by its name.
+	 * If the given {@link Feature} is not found in the given {@link Class<?>}, it is looked up as an inherited field of {@link Class<?>}.
+	 * 
+	 * @param javaClass where to search the given {@link Feature}
+	 * @param feature {@link Feature} to be searched
+	 * @return java {@link Class<?>} that contains the given {@link Feature}, null otherwise (if it does not contain the feature)
+	 */
+	private Class<?> javaClassFromObjectWithFeature(Object javaObject, Feature feature) {
+		Class<?> javaClass = javaObject.getClass();
+		Field[] javaObjectFields = javaClass.getDeclaredFields();		// contains NON-inherited fields (only)
+		
+		if (feature.name != null && feature.name != "") {
+			// Look if feature exists as a NON-inherited field
+			for (Field javaObjectField : javaObjectFields) {
+				if (javaObjectField.getName().equals(feature.name)) {
+					return javaClass;
+				}
+			}
+			
+			// Look if feature exists as an inherited field
+			for (Entry<Class<?>, List<Field>> entrySet : clazzFieldMap.entrySet()) {
+				for (Field javaField : entrySet.getValue()) {
+					if (javaField.getName().equals(feature.name)) {
+						// return the corresponding clazz (key) of the field (value)
+						return entrySet.getKey();
+					}
+				}
+				
+			}
+			
+		}
+		
+		return null; // feature does NOT exist (neither NON-inherited nor inherited) in the Java Object
+	}
+	
+	/**
+	 * Initial idea comes from: http://stackoverflow.com/questions/3567372/access-to-private-inherited-fields-via-reflection-in-java
+	 * It allows to access all fields (even private)
+	 * 
+	 * @param clazz
+	 * @return a {@link HashMap} containing Java {@link Class<?>}'s and their corresponding {@link List<Field>}'s
+	 */
+	private HashMap<Class<?>, List<Field>> getAllFields(Class<?> clazz) {
+		HashMap<Class<?>, List<Field>> clazzFieldBiMap = new HashMap<Class<?>, List<Field>>();
+		return getAllFieldsRec(clazz, clazzFieldBiMap);
+	}
+	
+	private HashMap<Class<?>, List<Field>> getAllFieldsRec(Class<?> clazz, HashMap<Class<?>, List<Field>> clazzFieldMap) {
+		Class<?> superClazz = clazz.getSuperclass();
+		if (superClazz != null) {
+			getAllFieldsRec(superClazz, clazzFieldMap);
+		}
+		clazzFieldMap.put(clazz, Arrays.asList(clazz.getDeclaredFields()));
+		return clazzFieldMap;
+	}
 	
 	/**
 	 * Returns the {@link Object_} that has been build when calling the

@@ -3,7 +3,6 @@
  */
 package org.modelexecution.fuml.extlib;
 
-import java.beans.ParameterDescriptor;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
@@ -34,19 +33,14 @@ import fUML.Semantics.Classes.Kernel.Object_;
 import fUML.Semantics.Classes.Kernel.Reference;
 import fUML.Semantics.Classes.Kernel.StringValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
-import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.BasicActions.InputPin;
 import fUML.Syntax.Actions.BasicActions.OutputPin;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
 import fUML.Syntax.Activities.IntermediateActivities.Activity;
-import fUML.Syntax.Activities.IntermediateActivities.ActivityParameterNode;
 import fUML.Syntax.Activities.IntermediateActivities.ObjectFlow;
-import fUML.Syntax.Classes.Kernel.Comment;
 import fUML.Syntax.Classes.Kernel.Parameter;
-import fUML.Syntax.Classes.Kernel.ParameterDirectionKind;
 import fUML.Syntax.Classes.Kernel.ParameterList;
-import fUML.Syntax.Classes.Kernel.Type;
 
 /**
  * Implementation of the {@link IntegrationLayer}
@@ -283,7 +277,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			
 			if (javaParameterWithValueMap.size() > 0) {
 				// Case: With Input Parameter(s)
-				javaMethod = javaClass.getDeclaredMethod(methodName, javaParameterWithValueMap.keySet().toArray(new Class[0]));
+				javaMethod = javaClass.getMethod(methodName, javaParameterWithValueMap.keySet().toArray(new Class[0]));
 
 				// Warning: the following invocation alters javaObject (!)
 				javaMethodReturnValue = javaMethod.invoke(javaObject, javaParameterWithValueMap.values().toArray());
@@ -304,6 +298,8 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			Object_ newFUmlObject = object_Transformer.getObject_();
 
 			// Step 3: Update the HashMaps
+			// TODO: Check if this really is necessary.
+			// Reason: It seems that the HashMap data structure just keeps references to the objects and not the objects itself.
 			Object oldJavaObject = getJavaObject(fUmlObject);
 			removeObjects(oldJavaObject);
 			addObjects(newFUmlObject, javaObject);
@@ -338,12 +334,14 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			System.out.println("new Java Object  = " + getFUmlObject(javaObject));
 			System.out.println("new fUML Object_ = " + getJavaObject(newFUmlObject));
 
-			// Step 5.1: Plugging output parameter to Placeholder Activity
-			for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
-				if (extensionalValue.hashCode() == ((ActivityEntryEventImpl) event).getActivityExecutionID()) {
-					ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
-					activityExecution.setParameterValue(outputParameterValue);
-					return; // exit
+			// Step 5.1: Plugging output parameter to Placeholder Activity (if not null)
+			if (outputParameterValue.parameter != null) {
+				for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
+					if (extensionalValue.hashCode() == ((ActivityEntryEventImpl) event).getActivityExecutionID()) {
+						ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
+						activityExecution.setParameterValue(outputParameterValue);
+						return; // exit
+					}
 				}
 			}
 
