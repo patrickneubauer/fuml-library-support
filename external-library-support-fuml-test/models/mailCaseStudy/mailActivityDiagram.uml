@@ -61,7 +61,7 @@
     </node>
     <node xmi:type="uml:ValueSpecificationAction" xmi:id="_QSLG0MnoEeKxc-VJTUBXSA" name="AddToValueSpecificationAction">
       <result xmi:id="_-fVIkMntEeKxc-VJTUBXSA" name="addTo" outgoing="_ZXcFYMnsEeKxc-VJTUBXSA"/>
-      <value xmi:type="uml:LiteralString" xmi:id="_SD0qoMnoEeKxc-VJTUBXSA" value="patrick.neubauer@student.tuwien.ac.at"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_SD0qoMnoEeKxc-VJTUBXSA" value="franzmair1980@gmail.com"/>
     </node>
     <node xmi:type="uml:CallOperationAction" xmi:id="_uPDjkMnjEeKxc-VJTUBXSA" name="SetHostNameCallOperationAction">
       <argument xmi:id="_36pF0MnoEeKxc-VJTUBXSA" name="hostName" incoming="_RgkPwMnsEeKxc-VJTUBXSA"/>
