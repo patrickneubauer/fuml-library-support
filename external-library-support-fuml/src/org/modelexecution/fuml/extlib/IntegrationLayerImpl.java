@@ -201,8 +201,8 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		ExtensionalValueList extensionalValues = executionContext.getLocus().extensionalValues;
 
 		for (int i = 0; i < extensionalValues.size(); i++) {
-			if (extensionalValues.get(i).equals(fUmlPlaceholderObject)) {
-				extensionalValues.set(i, fUmlObject);
+			if (extensionalValues.getValue(i).hashCode() == fUmlPlaceholderObject.hashCode()) {
+				extensionalValues.setValue(i, fUmlObject);
 				System.out.println("Successfully replaced Locus Object.");
 				return; // exit
 			}
@@ -266,7 +266,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 			// ------------------------------------------------
 			
-			LinkedHashMap<Class, Object> javaParameterWithValueMap = obtainJavaInputParameters(fUmlParameterWithValueMap);
+			LinkedHashMap<Object, Class> javaParameterWithValueMap = obtainJavaInputParameters(fUmlParameterWithValueMap);
 			
 			// ------------------------------------------------
 
@@ -277,14 +277,14 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			
 			if (javaParameterWithValueMap.size() > 0) {
 				// Case: With Input Parameter(s)
-				javaMethod = javaClass.getMethod(methodName, javaParameterWithValueMap.keySet().toArray(new Class[0]));
+				javaMethod = javaClass.getMethod(methodName, javaParameterWithValueMap.values().toArray(new Class[0]));
 
 				// Warning: the following invocation alters javaObject (!)
-				javaMethodReturnValue = javaMethod.invoke(javaObject, javaParameterWithValueMap.values().toArray());
+				javaMethodReturnValue = javaMethod.invoke(javaObject, javaParameterWithValueMap.keySet().toArray());
 			
 			} else {
 				// Case: Without Input Parameter(s)
-				javaMethod = javaClass.getDeclaredMethod(methodName, null);
+				javaMethod = javaClass.getMethod(methodName, null);
 
 				// Warning: the following invocation alters javaObject (!)
 				javaMethodReturnValue = javaMethod.invoke(javaObject, null);
@@ -331,8 +331,8 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			}
 
 			System.out.println("Java method return value = " + javaMethodReturnValue);
-			System.out.println("new Java Object  = " + getFUmlObject(javaObject));
-			System.out.println("new fUML Object_ = " + getJavaObject(newFUmlObject));
+			System.out.println("new Java Object  = " + getJavaObject(newFUmlObject));
+			System.out.println("new fUML Object_ = " + getFUmlObject(javaObject));
 
 			// Step 5.1: Plugging output parameter to Placeholder Activity (if not null)
 			if (outputParameterValue.parameter != null) {
@@ -355,10 +355,10 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 * Obtains an ordered map of {@link Class} (i.e. Java parameter type) and its corresponding {@link Object} (i.e. Java parameter value)
 	 * 
 	 * @param fUmlParameterWithValueMap a {@link LinkedHashMap} (ordered) on the {@link Parameter} and its corresponding {@link ParameterValue}
-	 * @return a {@link LinkedHashMap} (ordered) on the {@link Class} (i.e. Java parameter type) and its corresponding {@link Object} (i.e. Java parameter value) found in {@code fUmlParameterWithValueMap}
+	 * @return a {@link LinkedHashMap} (ordered) on the {@link Object} (i.e. Java parameter value) and its {@link Class} (i.e. Java parameter type) found in {@code fUmlParameterWithValueMap}
 	 */
-	private LinkedHashMap<Class, Object> obtainJavaInputParameters(LinkedHashMap<Parameter, ParameterValue> fUmlParameterWithValueMap) {
-		LinkedHashMap<Class, Object> javaParameterWithValueMap = new LinkedHashMap<Class, Object>();
+	private LinkedHashMap<Object, Class> obtainJavaInputParameters(LinkedHashMap<Parameter, ParameterValue> fUmlParameterWithValueMap) {
+		LinkedHashMap<Object, Class> javaParameterWithValueMap = new LinkedHashMap<Object, Class>();
 		
 		if (fUmlParameterWithValueMap.size() > 0) {
 			for (Map.Entry<Parameter, ParameterValue> fUMLParameterWithValueMapEntry : fUmlParameterWithValueMap.entrySet()) {
@@ -367,13 +367,13 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				
 				if (fUmlInputParameter.type.name.toString().equals("boolean")) {
 					boolean javaInputParameterValue = (boolean) ((BooleanValue) fUmlInputParameterValue.values.get(0)).value;					
-					javaParameterWithValueMap.put(Boolean.TYPE, javaInputParameterValue);
+					javaParameterWithValueMap.put(javaInputParameterValue, Boolean.TYPE);
 				} else if (fUmlInputParameter.type.name.toString().equals("int")) {
 					int javaInputParameterValue = (int) ((IntegerValue) fUmlInputParameterValue.values.get(0)).value;					
-					javaParameterWithValueMap.put(Integer.TYPE, javaInputParameterValue);
+					javaParameterWithValueMap.put(javaInputParameterValue, Integer.TYPE);
 				} else if (fUmlInputParameter.type.name.toString().equals("String")) {
 					String javaInputParameterValue = (String) ((StringValue) fUmlInputParameterValue.values.get(0)).value;					
-					javaParameterWithValueMap.put(String.class, javaInputParameterValue);
+					javaParameterWithValueMap.put(javaInputParameterValue, String.class);
 				}
 			}// for loop (fUmlParameterWithValueMap)
 		}// if (fUmlParameterWithValueMap not empty)
