@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_D0uNcNNFEeKc77DxyCjpHw">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_E7nkENNFEeKc77DxyCjpHw" name="someActivity" node="_H02bANNFEeKc77DxyCjpHw">
+    <node xmi:type="uml:ClearAssociationAction" xmi:id="_H02bANNFEeKc77DxyCjpHw">
+      <association href="VehiclesConverted.uml#_veACBshBEeK327ZXB80yuQ"/>
+    </node>
+  </packagedElement>
+</uml:Model>

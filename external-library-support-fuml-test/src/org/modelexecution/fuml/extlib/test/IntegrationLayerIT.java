@@ -35,6 +35,7 @@ import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
 import fUML.Semantics.Classes.Kernel.BooleanValue;
 import fUML.Semantics.Classes.Kernel.IntegerValue;
 import fUML.Semantics.Classes.Kernel.Object_;
+import fUML.Semantics.Classes.Kernel.Reference;
 import fUML.Semantics.Classes.Kernel.StringValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
@@ -609,14 +610,36 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
 				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
 						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
+				break;
 			}
 		}
 
+		// Check if there is any output ParameterValue
 		assertTrue(outputParameterValue != null);
- 		//assertEquals("This ocean liner ship, named NoName, with a length of 0 ft and has 4 seats, 4 doors.", ((StringValue) outputParameterValue.values.get(0)).value);
-		// basically the instance of SimpleEngine should have:
-		// int horsePower = 0
-		// String vendor "NoVendor"
+		
+		// Check if the return ParameterValue is a Reference
+		assertTrue(outputParameterValue.values.get(0) instanceof Reference);
+		Reference reference = (Reference) outputParameterValue.values.get(0);
+				
+		// Check if the Reference is an instance of an fUML Object_
+		assertTrue(reference.referent instanceof Object_);
+		Object_ referencedObject = (Object_) reference.referent;
+		
+		// Check if the fUML Object_ has a type (Class_) and if it is the correct one
+		assertTrue(referencedObject.types != null);
+		assertTrue(referencedObject.types.get(0) != null);		
+		assertEquals("SimpleEngine", referencedObject.types.get(0).name);
+		
+		// Check if the fUML Object_ has the expected featureValues
+		assertTrue(referencedObject.featureValues != null && referencedObject.featureValues.get(0) != null && referencedObject.featureValues.get(1) != null);
+		
+		assertEquals("horsePower", referencedObject.featureValues.get(0).feature.name);
+		assertTrue(referencedObject.featureValues.get(0).values.get(0) instanceof IntegerValue);
+		assertEquals(0, ((IntegerValue)referencedObject.featureValues.get(0).values.get(0)).value);
+		
+		assertEquals("vendor", referencedObject.featureValues.get(1).feature.name);
+		assertTrue(referencedObject.featureValues.get(1).values.get(0) instanceof StringValue);
+		assertEquals("NoVendor", ((StringValue)referencedObject.featureValues.get(1).values.get(0)).value);
 
 	}
 

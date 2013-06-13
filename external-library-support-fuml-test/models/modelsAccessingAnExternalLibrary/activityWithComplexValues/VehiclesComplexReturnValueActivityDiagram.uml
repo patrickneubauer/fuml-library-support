@@ -10,7 +10,9 @@
     </node>
     <node xmi:type="uml:CallOperationAction" xmi:id="_NQP2cJGLEeKJdIXWZWqBdw" name="GetEngineCallOperationAction">
       <argument xmi:id="_O7a-0JGLEeKJdIXWZWqBdw" name="target" incoming="_PJcxQMYkEeKFmLRp2CnBCQ"/>
-      <result xmi:id="_Pp-t8JGLEeKJdIXWZWqBdw" name="getEngineReturnValue" outgoing="_P49ioMYkEeKFmLRp2CnBCQ"/>
+      <result xmi:id="_Pp-t8JGLEeKJdIXWZWqBdw" name="getEngineReturnValue" outgoing="_P49ioMYkEeKFmLRp2CnBCQ">
+        <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_vd9l2chBEeK327ZXB80yuQ"/>
+      </result>
       <operation href="../VehiclesConverted.uml#_vd9lyshBEeK327ZXB80yuQ"/>
     </node>
     <node xmi:type="uml:ActivityParameterNode" xmi:id="_QrMSUKKtEeKXtemGD7H-lw" name="OutputSimpleEngine" incoming="_P49ioMYkEeKFmLRp2CnBCQ" parameter="_LFi4cKKtEeKXtemGD7H-lw">

@@ -26,12 +26,14 @@ import fUML.Semantics.Activities.IntermediateActivities.ActivityNodeActivation;
 import fUML.Semantics.Activities.IntermediateActivities.ObjectToken;
 import fUML.Semantics.Activities.IntermediateActivities.Token;
 import fUML.Semantics.Classes.Kernel.BooleanValue;
+import fUML.Semantics.Classes.Kernel.DataValue;
 import fUML.Semantics.Classes.Kernel.ExtensionalValue;
 import fUML.Semantics.Classes.Kernel.ExtensionalValueList;
 import fUML.Semantics.Classes.Kernel.IntegerValue;
 import fUML.Semantics.Classes.Kernel.Object_;
 import fUML.Semantics.Classes.Kernel.Reference;
 import fUML.Semantics.Classes.Kernel.StringValue;
+import fUML.Semantics.Classes.Kernel.StructuredValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.BasicActions.InputPin;
@@ -39,6 +41,8 @@ import fUML.Syntax.Actions.BasicActions.OutputPin;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
 import fUML.Syntax.Activities.IntermediateActivities.Activity;
 import fUML.Syntax.Activities.IntermediateActivities.ObjectFlow;
+import fUML.Syntax.Classes.Kernel.Class_;
+import fUML.Syntax.Classes.Kernel.Operation;
 import fUML.Syntax.Classes.Kernel.Parameter;
 import fUML.Syntax.Classes.Kernel.ParameterList;
 
@@ -328,6 +332,23 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				stringValue.value = (String) javaMethodReturnValue;
 				outputParameterValue.values.add(stringValue);
 
+			} else {
+				
+				// NOTE the following lines are not tested with anything different than Object_ (e.g. Enum)
+				
+				if (activity.specification != null && activity.specification instanceof Operation && ((Operation) activity.specification).type != null) {
+					Operation operation = (Operation) activity.specification;
+					Class_ returnType = (Class_) operation.type;
+					Object_ newfUmlObject = new Object_();
+					newfUmlObject.types.add(returnType);
+					
+					Object_Creator object_Creator = new Object_Creator(newfUmlObject, javaMethodReturnValue, executionContext);
+					
+					Reference reference = new Reference();
+					reference.referent = object_Creator.getfUmlObject();
+					outputParameterValue.values.add(reference);
+				}
+				
 			}
 
 			System.out.println("Java method return value = " + javaMethodReturnValue);

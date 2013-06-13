@@ -13,17 +13,23 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.collections.BidiMap;
+import org.eclipse.uml2.uml.internal.operations.FunctionBehaviorOperations;
 import org.modelexecution.fumldebug.core.ExecutionContext;
 import org.modelexecution.fumldebug.core.event.Event;
 
 import fUML.Semantics.Classes.Kernel.BooleanValue;
 import fUML.Semantics.Classes.Kernel.FeatureValue;
 import fUML.Semantics.Classes.Kernel.IntegerValue;
+import fUML.Semantics.Classes.Kernel.Link;
 import fUML.Semantics.Classes.Kernel.Object_;
 import fUML.Semantics.Classes.Kernel.StringValue;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
+import fUML.Syntax.Classes.Kernel.Association;
 import fUML.Syntax.Classes.Kernel.Class_;
 import fUML.Syntax.Classes.Kernel.Feature;
+import fUML.Syntax.Classes.Kernel.NamedElement;
+import fUML.Syntax.Classes.Kernel.Property;
+import fUML.Syntax.Classes.Kernel.Type;
 
 /**
  * Transformer for the {@link Object_} class
@@ -83,7 +89,7 @@ public class Object_Transformer {
 				if (javaClassFromObjectWithFeature != null) {
 
 					Field javaField = javaClassFromObjectWithFeature.getDeclaredField(featureValue.feature.name);
-					javaField.setAccessible(true); // shut down security
+ 					javaField.setAccessible(true); // shut down security
 					
 					if (javaField.getType().getName().equals("boolean")) {
 
@@ -117,28 +123,75 @@ public class Object_Transformer {
 						} else {
 							featureValue.values.set(0, fUmlFieldValue);
 						}
+						
+					} else if (((Class<?>)javaField.getType()).isEnum()) {
+						
+						/* TODO Implement the case of an Enum
+						 * In this case  javaClassFromObjectWithFeature(..) must be fixed as it returns the wrong Class 
+						 * in case of an Enum javaField
+						 */
 
 					} else {
 						/*
-						 * field is a {@link StructuredValue} i.e. an Object_
-						 * itself (!)
-						 * 
-						 * TODO implement the case when the field is itself an
-						 * Object (i.e. a corresponding Object_ has itself to be
-						 * transformed probably using recursion on
-						 * Object_Transformer
+						 * "javaField" is none of the above types (!)
+						 * Therefore, it might be a {@link StructuredValue} i.e. an Object_ itself
 						 */
+						
 						System.out.println("Object_Transformer: Creating a new complex object");
 						
-//						Object newJavaObject = javaField.get(javaObject);
-//						Object_Creator object_Creator = new Object_Creator(newJavaObject);
-//						Object_ newFUmlObject = object_Creator.getfUmlObject();
-//						
-//						if (featureValue.values.size() == 0) {
-//							featureValue.values.add(0, newFUmlObject);
-//						} else {
-//							featureValue.values.set(0, newFUmlObject);
-//						}
+						Link link = new Link();
+						Association association = new Association();
+						Property parentProperty = new Property();			// Car property
+						Property childProperty = null;						// SimpleEngine property
+						
+						parentProperty.class_ = fUmlClass;
+						parentProperty.association = association;
+						
+						// Get the field property from the fUML Class
+						for (NamedElement namedElement : fUmlClass.ownedMember) {
+							if (namedElement.name.equals(featureValue.feature.name)) {
+								childProperty = (Property)namedElement;
+								// Add the field property to the Association
+								association.memberEnd.add(childProperty);
+							}
+						}
+						
+						// ------------------------------------------------
+						
+						/* TODO You may want to replace the following for loop by 
+						 * childProperty.class_ = fUmlObject.types.get(0).ownerMember.FindTheCorrectPropertyByItsName.class_
+						 * when "class_" becomes available (hence is not null anymore)
+						 */
+						for (Type type : childProperty.association.endType) {
+							if (!type.equals(fUmlClass)) {
+								// This entails that there are only 2 endTypes and the one which is not the fUmlObject's Class
+								// is the childProperty's Class
+								childProperty.class_ = (Class_) type;
+							}
+						}
+						
+						Object newJavaObject = javaField.get(javaObject);
+						Object_ newFUmlObject = new Object_();
+						newFUmlObject.types.add(childProperty.class_);
+						
+						Object_Creator object_Creator = new Object_Creator(newFUmlObject, newJavaObject, executionContext);
+						newFUmlObject = object_Creator.getfUmlObject();
+						
+						// ------------------------------------------------
+						
+						association.memberEnd.add(parentProperty);				
+						link.type = association;
+						//link.addTo(executionContext.getLocus());  
+						/* TODO Check where the Link instance has to be put
+						 * Therefore, check where to add a fUML Link (UML association) between the newly 
+						 * created complex Object_ and its parent Object_
+						 */
+						
+						if (featureValue.values.size() == 0) {
+							featureValue.values.add(0, newFUmlObject);
+						} else {
+							featureValue.values.set(0, newFUmlObject);
+						}
 						
 					}
 
