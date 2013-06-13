@@ -22,6 +22,7 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.IntegrationLayer;
@@ -598,8 +599,6 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
 
 		assertEquals("engine", fUmlObject.getFeatureValues().get(0).feature.name);
-		//assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue); // basically an instance of SimpleEngine (a Java Object)
-		//assertEquals(0, ((IntegerValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
 
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
@@ -640,6 +639,38 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 		assertEquals("vendor", referencedObject.featureValues.get(1).feature.name);
 		assertTrue(referencedObject.featureValues.get(1).values.get(0) instanceof StringValue);
 		assertEquals("NoVendor", ((StringValue)referencedObject.featureValues.get(1).values.get(0)).value);
+
+	}
+	
+	/**
+	 * Tests {@link CreateObjectAction} that invokes an Object from an external
+	 * library and a {@link CallOperationAction} on the invoked Object returning
+	 * a complex object (here: an instance of SimpleEngine)
+	 */
+	@Test
+	@Ignore
+	public void simpleEngineInputValueFromExternalCallOperationActionTest() {
+		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithComplexValues/VehiclesComplexInputValueActivityDiagram.uml";
+		String activityName = "SimpleEngineInputValueActivity";
+
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
+
+		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
+		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
+		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
+
+		// Execute the constructor call of Car
+		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+
+		Locus locus = integrationLayer.getExecutionContext().getLocus();
+		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
+
+		// TODO Check if the fUmlObject contains the SimpleEngine instance as set by setEngine Operation
+		// First, the bug in fUML.Semantics.Classes.Kernel.StructuredValue.createFeatureValues() must be fixed
+		// The bug causes that "this.getTypes()", if no containing types, still has size = 1 and then the following lines cause a NullPointerException
 
 	}
 
