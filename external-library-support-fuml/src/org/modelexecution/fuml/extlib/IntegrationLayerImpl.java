@@ -336,7 +336,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				
 				// NOTE the following lines are not tested with anything different than Object_ (e.g. Enum)
 				
-				if (activity.specification != null && activity.specification instanceof Operation && ((Operation) activity.specification).type != null) {
+				if (activity.specification != null && activity.specification instanceof Operation && ((Operation) activity.specification).type != null && ((Operation) activity.specification).type instanceof Class_) {
 					Operation operation = (Operation) activity.specification;
 					Class_ returnType = (Class_) operation.type;
 					Object_ newfUmlObject = new Object_();

@@ -99,6 +99,13 @@ public class Object_Creator {
 					
 					fUmlObject.featureValues.add(featureValue);
 					
+				} else if (((Class<?>)javaField.getType()).isEnum()) {
+					
+					/* TODO Implement the case of an Enum
+					 * In this case  javaClassFromObjectWithFeature(..) must be fixed as it returns the wrong Class 
+					 * in case of an Enum javaField
+					 */
+
 				} else {
 					
 					System.out.println("Object_Creator: Creating a new complex object");
@@ -117,6 +124,7 @@ public class Object_Creator {
 							childProperty = (Property)namedElement;
 							// Add the field property to the Association
 							association.memberEnd.add(childProperty);
+							break; // since correct namedElement has been found
 						}
 					}
 					
@@ -127,11 +135,13 @@ public class Object_Creator {
 							// This entails that there are only 2 endTypes and the one which is not the fUmlObject's Class
 							// is the childProperty's Class
 							childProperty.class_ = (Class_) type;
+							break;  // since correct type has been found
 						}
 					}
 					
 					Object newJavaObject = javaField.get(javaObject);
 					Object_ newFUmlObject = new Object_();
+					newFUmlObject.types.add(childProperty.class_);
 					
 					Object_Creator object_Creator = new Object_Creator(newFUmlObject, newJavaObject, executionContext);
 					newFUmlObject = object_Creator.getfUmlObject();
