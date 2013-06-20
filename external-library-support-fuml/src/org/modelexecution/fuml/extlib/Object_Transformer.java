@@ -3,6 +3,7 @@
  */
 package org.modelexecution.fuml.extlib;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -147,8 +148,9 @@ public class Object_Transformer {
 						parentProperty.class_ = fUmlClass;
 						parentProperty.association = association;
 						
-						// Get the field property from the fUML Class
-						for (NamedElement namedElement : fUmlClass.ownedMember) {
+						
+						// Get the member property from the fUML Class
+						for (NamedElement namedElement : fUmlClass.member) {
 							if (namedElement.name.equals(featureValue.feature.name)) {
 								childProperty = (Property)namedElement;
 								// Add the field property to the Association
@@ -158,24 +160,40 @@ public class Object_Transformer {
 						
 						// ------------------------------------------------
 						
-						/* TODO You may want to replace the following for loop by 
+						
+						
+						//Object newJavaObject = javaField.get(javaObject);
+						Class<?> classOfJavaField = javaField.getType();
+						Object newJavaObject = null;
+						
+						Object_ newFUmlObject = new Object_();
+						
+ 						/* TODO You may want to replace the following for loop by 
 						 * childProperty.class_ = fUmlObject.types.get(0).ownerMember.FindTheCorrectPropertyByItsName.class_
 						 * when "class_" becomes available (hence is not null anymore)
 						 */
-						for (Type type : childProperty.association.endType) {
-							if (!type.equals(fUmlClass)) {
-								// This entails that there are only 2 endTypes and the one which is not the fUmlObject's Class
-								// is the childProperty's Class
-								childProperty.class_ = (Class_) type;
+						if (childProperty != null && childProperty.association != null) {
+	 						for (Type type : childProperty.association.endType) {
+								if (!type.equals(fUmlClass)) {
+									// This entails that there are only 2 endTypes and the one which is not the fUmlObject's Class
+									// is the childProperty's Class
+									childProperty.class_ = (Class_) type;
+									newFUmlObject.types.add(childProperty.class_);
+								}
 							}
 						}
-						
-						Object newJavaObject = javaField.get(javaObject);
-						Object_ newFUmlObject = new Object_();
-						newFUmlObject.types.add(childProperty.class_);
-						
-						Object_Creator object_Creator = new Object_Creator(newFUmlObject, newJavaObject, executionContext);
-						newFUmlObject = object_Creator.getfUmlObject();
+ 						
+ 						// Trying to instantiate the Java Field using it's Classes default constructor (if available)
+ 						// If the Java Field is instantiated successfully, a corresponding Object_ is created
+ 						
+						try {
+							newJavaObject = classOfJavaField.newInstance();
+							Object_Creator object_Creator = new Object_Creator(newFUmlObject, newJavaObject, executionContext);
+							newFUmlObject = object_Creator.getfUmlObject();
+						} catch(Exception e) {
+							System.out.println("Object_Transformer: Java Field (" + javaField.getName() + ") of Type (" + classOfJavaField.getName() + ") is set to null. Private default constructor?");
+							System.out.println(e);
+						}
 						
 						// ------------------------------------------------
 						

@@ -130,21 +130,36 @@ public class Object_Creator {
 					
 					// ------------------------------------------------
 					
-					for (Type type : childProperty.association.endType) {
-						if (!type.equals(fUmlClass)) {
-							// This entails that there are only 2 endTypes and the one which is not the fUmlObject's Class
-							// is the childProperty's Class
-							childProperty.class_ = (Class_) type;
-							break;  // since correct type has been found
+					Class<?> classOfJavaField = javaField.getType();
+					Object newJavaObject = null;
+					
+					Object_ newFUmlObject = new Object_();
+					
+					if (childProperty != null && childProperty.association != null) {
+						for (Type type : childProperty.association.endType) {
+							if (!type.equals(fUmlClass)) {
+								// This entails that there are only 2 endTypes and the one which is not the fUmlObject's Class
+								// is the childProperty's Class
+								childProperty.class_ = (Class_) type;
+								newFUmlObject.types.add(childProperty.class_);
+								break;  // since correct type has been found
+							}
 						}
 					}
+				
+					// Trying to instantiate the Java Field using it's Classes default constructor (if available)
+					// If the Java Field is instantiated successfully, a corresponding Object_ is created
+						
+					try {
+						newJavaObject = classOfJavaField.newInstance();
+						Object_Creator object_Creator = new Object_Creator(newFUmlObject, newJavaObject, executionContext);
+						newFUmlObject = object_Creator.getfUmlObject();
+					} catch(Exception e) {
+						System.out.println("Object_Transformer: Java Field (" + javaField.getName() + ") of Type (" + classOfJavaField.getName() + ") is set to null. Private default constructor?");
+						System.out.println(e);
+					}
 					
-					Object newJavaObject = javaField.get(javaObject);
-					Object_ newFUmlObject = new Object_();
-					newFUmlObject.types.add(childProperty.class_);
-					
-					Object_Creator object_Creator = new Object_Creator(newFUmlObject, newJavaObject, executionContext);
-					newFUmlObject = object_Creator.getfUmlObject();
+					// ------------------------------------------------
 					
 					FeatureValue featureValue = new FeatureValue();
 					featureValue.values.add(newFUmlObject);
