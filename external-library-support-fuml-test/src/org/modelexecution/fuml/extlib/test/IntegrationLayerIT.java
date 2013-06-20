@@ -645,6 +645,77 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	/**
 	 * Tests {@link CreateObjectAction} that invokes an Object from an external
 	 * library and a {@link CallOperationAction} on the invoked Object returning
+	 * a complex object (here: an instance of SimpleEngine) by calling "return this()".
+	 */
+	@Test
+	public void simpleEngineReturnThisValueFromExternalCallOperationActionTest() {
+		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithComplexValues/VehiclesComplexReturnValueActivityDiagram.uml";
+		String activityName = "SimpleEngineReturnThisValueActivity";
+
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
+
+		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
+		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
+		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
+
+		// Execute the constructor call of Car
+		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+
+		Locus locus = integrationLayer.getExecutionContext().getLocus();
+		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
+
+		assertEquals("SimpleEngine", fUmlObject.types.get(0).name);
+		assertEquals("horsePower", fUmlObject.getFeatureValues().get(0).feature.name);
+		assertEquals("vendor", fUmlObject.getFeatureValues().get(1).feature.name);
+
+		// Check if correct output ParameterValue exists in the
+		// IntegrationLayer's ExecutionContext.activityExecutionOutput
+		ParameterValue outputParameterValue = null;
+
+		for (Event event : eventlist) {
+			if (event.toString().contains("ActivityNodeEntryEvent node = GetEngineCallOperationAction")) {
+				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
+				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
+						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
+				break;
+			}
+		}
+
+		// Check if there is any output ParameterValue
+		assertTrue(outputParameterValue != null);
+		
+		// Check if the return ParameterValue is a Reference
+		assertTrue(outputParameterValue.values.get(0) instanceof Reference);
+		Reference reference = (Reference) outputParameterValue.values.get(0);
+				
+		// Check if the Reference is an instance of an fUML Object_
+		assertTrue(reference.referent instanceof Object_);
+		Object_ referencedObject = (Object_) reference.referent;
+		
+		// Check if the fUML Object_ has a type (Class_) and if it is the correct one
+		assertTrue(referencedObject.types != null);
+		assertTrue(referencedObject.types.get(0) != null);		
+		assertEquals("SimpleEngine", referencedObject.types.get(0).name);
+		
+		// Check if the fUML Object_ has the expected featureValues
+		assertTrue(referencedObject.featureValues != null && referencedObject.featureValues.get(0) != null && referencedObject.featureValues.get(1) != null);
+		
+		assertEquals("horsePower", referencedObject.featureValues.get(0).feature.name);
+		assertTrue(referencedObject.featureValues.get(0).values.get(0) instanceof IntegerValue);
+		assertEquals(0, ((IntegerValue)referencedObject.featureValues.get(0).values.get(0)).value);
+		
+		assertEquals("vendor", referencedObject.featureValues.get(1).feature.name);
+		assertTrue(referencedObject.featureValues.get(1).values.get(0) instanceof StringValue);
+		assertEquals("NoVendor", ((StringValue)referencedObject.featureValues.get(1).values.get(0)).value);
+
+	}
+	
+	/**
+	 * Tests {@link CreateObjectAction} that invokes an Object from an external
+	 * library and a {@link CallOperationAction} on the invoked Object returning
 	 * a complex object (here: an instance of SimpleEngine)
 	 */
 	@Test

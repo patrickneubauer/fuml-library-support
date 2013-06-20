@@ -5,12 +5,12 @@
     <edge xmi:type="uml:ObjectFlow" xmi:id="_gN_AYMYQEeKFmLRp2CnBCQ" name="ObjectFlowCallToFinal" source="_nKqgoMX6EeKFmLRp2CnBCQ" target="_GkdOAMX7EeKFmLRp2CnBCQ"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_hcTNoMYQEeKFmLRp2CnBCQ" name="ObjectFlowFromCreateToCall" source="_OfdyMMX6EeKFmLRp2CnBCQ" target="_yYV6AMX6EeKFmLRp2CnBCQ"/>
     <node xmi:type="uml:CreateObjectAction" xmi:id="_EJp08MX6EeKFmLRp2CnBCQ" name="CreateSpaceShipObject">
-      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_vd_a0shBEeK327ZXB80yuQ"/>
+      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQb7a9mpEeK6iduXuBguHQ"/>
       <result xmi:id="_OfdyMMX6EeKFmLRp2CnBCQ" name="target" outgoing="_hcTNoMYQEeKFmLRp2CnBCQ"/>
     </node>
     <node xmi:type="uml:CallOperationAction" xmi:id="_R4SIIMX6EeKFmLRp2CnBCQ" name="ActivateShieldCallOperationAction">
       <result xmi:id="_nKqgoMX6EeKFmLRp2CnBCQ" name="result" outgoing="_gN_AYMYQEeKFmLRp2CnBCQ"/>
-      <operation href="../VehiclesConverted.uml#_veAB_chBEeK327ZXB80yuQ"/>
+      <operation href="../VehiclesConverted.uml#_KQciatmpEeK6iduXuBguHQ"/>
       <target xmi:id="_yYV6AMX6EeKFmLRp2CnBCQ" name="target" incoming="_hcTNoMYQEeKFmLRp2CnBCQ"/>
     </node>
     <node xmi:type="uml:ActivityParameterNode" xmi:id="_GkdOAMX7EeKFmLRp2CnBCQ" name="CallOperationReturnValue" incoming="_gN_AYMYQEeKFmLRp2CnBCQ" parameter="_-ccagMX5EeKFmLRp2CnBCQ"/>
