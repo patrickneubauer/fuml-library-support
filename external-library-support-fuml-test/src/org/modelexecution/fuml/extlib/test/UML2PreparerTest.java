@@ -47,8 +47,8 @@ public class UML2PreparerTest {
 
 	@Test
 	public void addPlaceholderActivitiesToVehiclesUML() {
-		String inputFilePath = "models/Vehicles.uml";
-		String outputFilePath = "models/VehiclesConverted.uml";
+		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
+		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String jarFilePath = "extlibs/Vehicles.jar";
 
 		UML2Preparer converter = new UML2Preparer();
@@ -67,8 +67,8 @@ public class UML2PreparerTest {
 	
 	@Test
 	public void addPlaceholderActivitiesToMailUML() {
-		String inputFilePath = "models/commons-email-1.3.1.uml";
-		String outputFilePath = "models/commons-email-1.3.1Converted.uml";
+		String inputFilePath = "models/mailCaseStudy/commons-email-1.3.1.uml";
+		String outputFilePath = "models/mailCaseStudy/commons-email-1.3.1Converted.uml";
 		String[] jarFilePaths = {"extlibs/commons-email-1.3.1.jar", "extlibs/mail.jar"};
 
 		UML2Preparer converter = new UML2Preparer();

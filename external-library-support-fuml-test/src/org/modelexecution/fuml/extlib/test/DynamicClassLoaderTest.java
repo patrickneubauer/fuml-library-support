@@ -48,7 +48,7 @@ public class DynamicClassLoaderTest {
 			Object carObject = carClass.newInstance();
 
 			String toStringReturnValue = (String) toStringMethod.invoke(carObject, null);
-			assertEquals("This car has 4 seats, 4 doors and 4 wheels.", toStringReturnValue);
+			assertEquals("This car has 5 seats, 5 doors and 4 wheels.", toStringReturnValue);
 
 		} catch (ClassNotFoundException | NoSuchMethodException e) {
 			System.out.println("Couldn't find the requested Class and/or Method. Details: " + e);
@@ -189,7 +189,7 @@ public class DynamicClassLoaderTest {
 			// Note: a pickup truck is called "pickup-truck" in the toString
 			// method
 			// while a non pickup truck is simply called "truck"
-			assertEquals("This truck has 4 seats, 4 doors and 4 wheels.", toStringReturnValue);
+			assertEquals("This truck has 3 seats, 2 doors and 4 wheels.", toStringReturnValue);
 
 		} catch (ClassNotFoundException | NoSuchMethodException e) {
 			System.out.println("Couldn't find the requested Class and/or Method. Details: " + e);

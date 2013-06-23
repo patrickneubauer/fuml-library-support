@@ -83,8 +83,8 @@ public class UML2ActivityConverterAndRunnerTest {
 	 */
 	@Test
 	public void createfUMLActivityOutOfUMLFile() {
-		String umlFileLocation = "models/VehiclesActivityDiagram.uml";
-		String activityName = "CarActivity1";
+		String umlFileLocation = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesNoInputAndNoReturnValueActivityDiagram.uml";
+		String activityName = "NoInputAndNoReturnValueActivity";
 
 		Activity umlActivity = loadActivity(umlFileLocation, activityName);
 
@@ -185,7 +185,7 @@ public class UML2ActivityConverterAndRunnerTest {
 	 */
 	@Test
 	public void createAndExecutefUMLActivityOutOfUMLFileCreatedByReverseEngineering() {
-		Activity umlActivity = loadActivity("models/VehiclesActivityDiagram.uml", "CarActivity1", "models/VehiclesConverted.uml");
+		Activity umlActivity = loadActivity("models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesNoInputAndNoReturnValueActivityDiagram.uml", "NoInputAndNoReturnValueActivity", "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml");
 		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
 				.next();
 

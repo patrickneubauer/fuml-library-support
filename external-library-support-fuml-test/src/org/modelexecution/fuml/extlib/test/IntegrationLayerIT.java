@@ -744,5 +744,35 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 		// The bug causes that "this.getTypes()", if no containing types, still has size = 1 and then the following lines cause a NullPointerException
 
 	}
+	
+	/**
+	 * Tests {@link AddStructuralFeatureValueAction} that sets the value of a {@link StructuralFeature} of an Object from an external
+	 * library. It equals the Java semantic of setting a variable value.
+	 */
+	@Test
+	public void setStringVariableValueUsingAddStructuralFeatureValueActionTest() {
+		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithStructuralFeatureValueActions/VehiclesSetVariableValueActivityDiagram.uml";
+		String activityName = "VehiclesSetStringVariableValueActivity";
+
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
+
+		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
+		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
+		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
+
+		// Execute the constructor call of Car
+		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+
+		Locus locus = integrationLayer.getExecutionContext().getLocus();
+		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
+
+		// Check if the fUmlObject is a Ship with name specified in the AddStructuralFeatureValueAction
+		// TODO
+
+	}
+	
 
 }
