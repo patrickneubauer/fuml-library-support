@@ -3,6 +3,7 @@
  */
 package org.modelexecution.fuml.extlib;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.modelexecution.fumldebug.core.ExecutionContext;
+import org.modelexecution.fumldebug.core.event.ActivityEntryEvent;
 import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
 import org.modelexecution.fumldebug.core.event.ActivityNodeExitEvent;
 import org.modelexecution.fumldebug.core.event.Event;
@@ -20,6 +22,7 @@ import org.modelexecution.fumldebug.core.event.impl.ActivityNodeExitEventImpl;
 import fUML.Semantics.Actions.BasicActions.CallOperationActionActivation;
 import fUML.Semantics.Actions.BasicActions.InputPinActivation;
 import fUML.Semantics.Actions.BasicActions.OutputPinActivation;
+import fUML.Semantics.Actions.IntermediateActions.AddStructuralFeatureValueActionActivation;
 import fUML.Semantics.Actions.IntermediateActions.CreateObjectActionActivation;
 import fUML.Semantics.Activities.IntermediateActivities.ActivityExecution;
 import fUML.Semantics.Activities.IntermediateActivities.ActivityNodeActivation;
@@ -38,6 +41,7 @@ import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.BasicActions.InputPin;
 import fUML.Syntax.Actions.BasicActions.OutputPin;
+import fUML.Syntax.Actions.IntermediateActions.AddStructuralFeatureValueAction;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
 import fUML.Syntax.Activities.IntermediateActivities.Activity;
 import fUML.Syntax.Activities.IntermediateActivities.ObjectFlow;
@@ -45,6 +49,7 @@ import fUML.Syntax.Classes.Kernel.Class_;
 import fUML.Syntax.Classes.Kernel.Operation;
 import fUML.Syntax.Classes.Kernel.Parameter;
 import fUML.Syntax.Classes.Kernel.ParameterList;
+import fUML.Syntax.Classes.Kernel.Property;
 
 /**
  * Implementation of the {@link IntegrationLayer}
@@ -79,48 +84,107 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		 * (ExecutionContext.resume(int executionID)).
 		 */
 		if (EventHelper.isExternalCreateObjectActionEntry(event)) {
-			System.out.println("[External CreateObjectAction ActivityNodeEntryEvent]");
+			Debug.out("[External CreateObjectAction ActivityNodeEntryEvent]");
 			// store current ExtensionalValueList for later comparison
 			previousExtensionalValueList = (ExtensionalValueList) executionContext.getExtensionalValues().clone();
 
 		} else if (EventHelper.isExternalCreateObjectActionExit(event)) {
-			System.out.println("[External CreateObjectAction ActivityNodeExitEvent]");
+			Debug.out("[External CreateObjectAction ActivityNodeExitEvent]");
 
-			Object_ fUmlPlaceholderObject = obtainFUmlPlaceholderObject();
-			Object javaObject = obtainJavaObject(event);
-
-			Object_Transformer object_Transformer = new Object_Transformer(fUmlPlaceholderObject, javaObject, event, executionContext);
-			Object_ fUmlObject = object_Transformer.getObject_();
-
-			try {
-				replaceLocusObject(fUmlPlaceholderObject, fUmlObject);
-				assignObject_ToCreateObjectActionOutputPin(event, fUmlObject);
-				assignTargetInputPinToCallOperationAction(event);
-			} catch (Exception e) {
-				System.out.println("Operations during CreateObjectAction on ActivityNodeExitEvent failed: " + e);
-			}
-
-			addObjects(fUmlObject, javaObject);
+			handleExternalCreateObjectAction(event);
 
 		} else if (EventHelper.isExternalCallOperationActionEntry(event)) {
-			System.out.println("[External CallOperationAction ActivityNodeEntryEvent]");
+			Debug.out("[External CallOperationAction ActivityNodeEntryEvent]");
 			// do nothing
 
 		} else if (EventHelper.isExternalCallOperationActionExit(event)) {
-			System.out.println("[External CallOperationAction ActivityNodeExitEvent]");
+			Debug.out("[External CallOperationAction ActivityNodeExitEvent]");
 			// do nothing
 
 		} else if (EventHelper.isExternalActivityEntryEvent(event)) {
-			System.out.println("[External ActivityEntryEvent]");
+			Debug.out("[External ActivityEntryEvent]");
 
-			callOperation(event);
+			handleExternalCallOperationAction(event);
 
 		} else if (EventHelper.isExternalActivityExitEvent(event)) {
-			System.out.println("[External ActivityExitEvent]");
+			Debug.out("[External ActivityExitEvent]");
+
+		} else if (EventHelper.isExternalAddStructuralFeatureValueActionEntryEvent(event)) {
+			Debug.out("[External AddStructuralFeatureValueAction]");
+			
+			handleExternalAddStructuralFeatureValueAction(event);
 
 		}
+		
 	}// notify
 
+	private void handleExternalCreateObjectAction(Event event) {
+		Object_ fUmlPlaceholderObject = obtainFUmlPlaceholderObject();
+		Object javaObject = obtainJavaObject(event);
+
+		Object_Transformer object_Transformer = new Object_Transformer(fUmlPlaceholderObject, javaObject, event, executionContext);
+		Object_ fUmlObject = object_Transformer.getObject_();
+
+		try {
+			replaceLocusObject(fUmlPlaceholderObject, fUmlObject);
+			assignObject_ToCreateObjectActionOutputPin(event, fUmlObject);
+			assignTargetInputPinToCallOperationAction(event);
+		} catch (Exception e) {
+			Debug.out("Operations during CreateObjectAction on ActivityNodeExitEvent failed: " + e);
+		}
+
+		addObjects(fUmlObject, javaObject);
+	}
+
+	/**
+	 * TODO Finish implementing the handling of AddStructuralFeatureValueAction
+	 * @param event
+	 */
+	private void handleExternalAddStructuralFeatureValueAction(Event event) {
+		
+		/* Arrive this method on an AddStructuralFeatureValueActionEntryEvent
+		 * and obtain the corresponding Java Object to the fUML Object_.
+		 * Then, REPLACE the Structural Feature (Property) value entirely with the value on <Input Pin> value.
+		 * Then, also REPLACE the Java Field value that corresponds to the Structural Feature value. 
+		 * At the end, update fUmlJavaMap and javaFUmlMap and REPLACE Locus Object_.
+		 */
+		AddStructuralFeatureValueAction addStructuralFeatureValueAction = EventHelper.getExternalAddStructuralFeatureValueAction(event);
+
+		
+		try {
+			Object_ fUmlObject = obtainFUmlObjectFromAddStructuralFeatureValueActivationInputPin(event, addStructuralFeatureValueAction);
+			Property property = (Property) addStructuralFeatureValueAction.structuralFeature;
+			Class_ propertyType = (Class_) property.typedElement.type;
+			
+			Object javaObject = getJavaObject(fUmlObject);
+			Class<?> javaClass = javaObject.getClass();
+			Field javaField = javaClass.getField(property.name);
+			
+			// Replace Structural Feature (Property) value entirely with the value on AddStructuralFeatureValue's value InputPin
+			
+			// Replace Java Field value that corresponds to the Structural Feature value
+			if (propertyType.name.equals("boolean")) {
+				BooleanValue value = (BooleanValue) fUmlObject.getFeatureValue(property).values.get(0);
+				javaField.setBoolean(javaObject, value.value);
+				
+				
+			} else if (propertyType.name.equals("int")) {
+				IntegerValue value = (IntegerValue) fUmlObject.getFeatureValue(property).values.get(0);
+				javaField.setInt(javaObject, value.value);
+				
+			} else if (propertyType.name.equals("String")) {
+				StringValue value = (StringValue) fUmlObject.getFeatureValue(property).values.get(0);
+				javaField.set(javaObject, value.value);
+				
+			}
+			
+		} catch (Exception e) {
+			Debug.out("Failed to handle external AddStructuralFeatureValueAction. Exception: " + e);
+		}
+		
+	}
+	
+	
 	/**
 	 * Obtains the fUML Object_ out of a {@link CallOperationAction} and the
 	 * current {@link Event} (which must be an {@link ActivityNodeEntryEvent}
@@ -207,7 +271,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		for (int i = 0; i < extensionalValues.size(); i++) {
 			if (extensionalValues.getValue(i).hashCode() == fUmlPlaceholderObject.hashCode()) {
 				extensionalValues.setValue(i, fUmlObject);
-				System.out.println("Successfully replaced Locus Object.");
+				Debug.out("Successfully replaced Locus Object.");
 				return; // exit
 			}
 		}
@@ -240,13 +304,13 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			javaObject = clazz.newInstance();
 
 		} catch (Exception e) {
-			System.out.println("Error occured while trying to obtain the Java object. " + e);
+			Debug.out("Error occured while trying to obtain the Java object. " + e);
 		}
 
 		return javaObject;
 	}// obtainJavaObject
 
-	private void callOperation(Event event) {
+	private void handleExternalCallOperationAction(Event event) {
 		// Obtain the Activity for modifications
 		Activity activity = EventHelper.getExternalActivity(event);
 
@@ -255,11 +319,11 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			// Obtain fUML Object_ from InputPinActivation in
 			// ActivityExecution
 			Object_ fUmlObject = obtainFUmlObjectFromActivityExecution(event);
-			System.out.println("[CallOperationAction] fUmlObject = " + fUmlObject);
+			Debug.out("[CallOperationAction] fUmlObject = " + fUmlObject);
 
 			// Obtain corresponding Java Object
 			Object javaObject = fUmlJavaMap.get(fUmlObject);
-			System.out.println("[CallOperationAction] javaObject = " + javaObject);
+			Debug.out("[CallOperationAction] javaObject = " + javaObject);
 
 			String methodName = ActivityHelper.getOperationName(activity);
 			String classNamespaceAndName = ActivityHelper.getOperationNamespaceAndName(activity);
@@ -351,9 +415,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				
 			}
 
-			System.out.println("Java method return value = " + javaMethodReturnValue);
-			System.out.println("new Java Object  = " + getJavaObject(newFUmlObject));
-			System.out.println("new fUML Object_ = " + getFUmlObject(javaObject));
+			Debug.out("Java method return value = " + javaMethodReturnValue);
+			Debug.out("new Java Object  = " + getJavaObject(newFUmlObject));
+			Debug.out("new fUML Object_ = " + getFUmlObject(javaObject));
 
 			// Step 5.1: Plugging output parameter to Placeholder Activity (if not null)
 			if (outputParameterValue.parameter != null) {
@@ -367,7 +431,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			}
 
 		} catch (Exception e) {
-			System.out.println("Error occured while trying to call operation on Java object. " + e);
+			Debug.out("Error occured while trying to call operation on Java object. " + e);
 		}
 
 	}// callOperation
@@ -448,17 +512,45 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		if (EventHelper.isExternalActivityEntryEvent(event)) {
 
 			for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
-				if (extensionalValue.hashCode() == ((ActivityEntryEventImpl) event).getActivityExecutionID()) {
+				if (extensionalValue.hashCode() == ((ActivityEntryEvent) event).getActivityExecutionID()) {
 					ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
 					Object_ fUmlObject = activityExecution.context;
 					return fUmlObject;
 				}
 			}
 
-		}// event instance of ActivityEntryEventImpl
+		}// event instance of ActivityEntryEvent
 
 		throw new Exception("Failed to obtain the fUML Object_ from ActivityExecution.");
 	}// obtainFUmlObjectFromActivityExecution
+	
+	/**
+	 * Obtains the referring {@link Object_} from an {@link AddStructuralFeatureValueAction}'s object {@link InputPin}
+	 * 
+	 * @param event {@link Event} of type {@link ActivityNodeEntryEvent} before firing {@link AddStructuralFeatureValueAction}
+	 * @param addStructuralFeatureValueAction {@link AddStructuralFeatureValueAction} to obtain the object {@link InputPin} from
+	 * @return {@link Object_} referenced at the {@link AddStructuralFeatureValueAction}'s object InputPin
+	 * @throws Exception
+	 */
+	private Object_ obtainFUmlObjectFromAddStructuralFeatureValueActivationInputPin(Event event, AddStructuralFeatureValueAction addStructuralFeatureValueAction) throws Exception {
+
+		for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
+			if (extensionalValue.hashCode() == ((ActivityNodeEntryEvent) event).getActivityExecutionID()) {
+				ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
+				
+				AddStructuralFeatureValueActionActivation activation = (AddStructuralFeatureValueActionActivation) activityExecution.activationGroup.getNodeActivation(addStructuralFeatureValueAction);
+				InputPinActivation inputPinActivation = (InputPinActivation) activation.getPinActivation(addStructuralFeatureValueAction.object);
+				
+				ObjectToken objectToken = (ObjectToken) inputPinActivation.heldTokens.get(0);
+				Reference object_Reference = (Reference) objectToken.value;
+				Object_ fUmlObject = object_Reference.referent;
+				return fUmlObject;
+			}
+		}
+
+		throw new Exception("Failed to obtain the fUML Object_ from AddStructuralFeatureValueActivation's object InputPin.");
+	}// obtainFUmlObjectFromAddStructuralFeatureValueActivationInputPin
+	
 
 	/**
 	 * Assigns a given {@link Object_} as an {@link ObjectToken} to the
@@ -505,7 +597,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 					objectToken.value = reference;
 
 					outputPinActivation.addToken(objectToken);
-					System.out.println("Successfully assigned Object_ Reference to CreateObjectAction's OutputPin.");
+					Debug.out("Successfully assigned Object_ Reference to CreateObjectAction's OutputPin.");
 					return; // exit
 
 				}
@@ -564,7 +656,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 									 * the CallOperationAction's target InputPin
 									 */
 									callOperationAction.target = inputPin;
-									System.out.println("Successfully set CallOperationAction's target InputPin.");
+									Debug.out("Successfully set CallOperationAction's target InputPin.");
 
 								}
 
@@ -592,6 +684,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 		// IL registers itself at the ExecutionContext instance
 		executionContext.addEventListener(this);
+		
+		// Initialize Debugger
+		Debug.clearDebugFile();
 
 	}// initialize
 
