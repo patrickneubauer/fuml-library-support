@@ -138,7 +138,7 @@ public class Object_Transformer {
 						 * Therefore, it might be a {@link StructuredValue} i.e. an Object_ itself
 						 */
 						
-						System.out.println("Object_Transformer: Creating a new complex object");
+						Debug.out("Object_Transformer: Creating a new complex object");
 						
 						Link link = new Link();
 						Association association = new Association();
@@ -191,8 +191,7 @@ public class Object_Transformer {
 							Object_Creator object_Creator = new Object_Creator(newFUmlObject, newJavaObject, executionContext);
 							newFUmlObject = object_Creator.getfUmlObject();
 						} catch(Exception e) {
-							System.out.println("Object_Transformer: Java Field (" + javaField.getName() + ") of Type (" + classOfJavaField.getName() + ") is set to null. Private default constructor?");
-							System.out.println(e);
+							Debug.out("Object_Transformer: Java Field (" + javaField.getName() + ") of Type (" + classOfJavaField.getName() + ") is set to null. Private default constructor? Exception: " + e);
 						}
 						
 						// ------------------------------------------------
@@ -220,7 +219,7 @@ public class Object_Transformer {
 			// -------- end of adding FEATUREVALUE to fUML Object_ --------
 
 		} catch (Exception e) {
-			System.out.println("Error occured while transforming the Java Object to a fUML Object_ representation. " + e);
+			Debug.out("Error occured while transforming the Java Object to a fUML Object_ representation. " + e);
 		}
 
 	}// transform

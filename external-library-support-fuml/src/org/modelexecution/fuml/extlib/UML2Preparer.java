@@ -47,6 +47,7 @@ public class UML2Preparer {
 	 * converting ("convert" method) it to an output UML file.
 	 */
 	public UML2Preparer() {
+		Debug.out("UML2Preparer");
 		resourceSet = new ResourceSetImpl();
 		resourceSet.getPackageRegistry().put("http://www.eclipse.org/uml2/3.0.0/UML", UMLPackage.eINSTANCE);
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
@@ -184,9 +185,9 @@ public class UML2Preparer {
 		try {
 			resource.save(new FileOutputStream(new File(outputFilePath)), null);
 		} catch (FileNotFoundException e) {
-			System.out.println("Coudln't find output file " + outputFilePath + ". Details: " + e);
+			Debug.out("Coudln't find output file " + outputFilePath + ". Details: " + e);
 		} catch (IOException e) {
-			System.out.println("Input/Output Exception occured. Details: " + e);
+			Debug.out("Input/Output Exception occured. Details: " + e);
 		}
 	}
 
