@@ -62,7 +62,7 @@ public class EventHelper {
 						}
 					}
 				} else {
-					Debug.out("[WARNING] No Classifier specified in " + createObjectAction);
+					Debug.out(EventHelper.class, "[WARNING] No Classifier specified in " + createObjectAction);
 				}
 				
 			}
@@ -97,7 +97,7 @@ public class EventHelper {
 						}
 					}
 				} else {
-					Debug.out("[WARNING] No Classifier specified in " + createObjectAction);
+					Debug.out(EventHelper.class, "[WARNING] No Classifier specified in " + createObjectAction);
 				}
 				
 			}
@@ -182,7 +182,7 @@ public class EventHelper {
 								}
 							}
 						} else {
-							Debug.out("[WARNING] No Operation Owner specified in " + callOperationAction);
+							Debug.out(EventHelper.class, "[WARNING] No Operation Owner specified in " + callOperationAction);
 						}
 						
 					}
@@ -243,7 +243,7 @@ public class EventHelper {
 							}
 						}
 					} else {
-						Debug.out("[WARNING] No Operation Owner specified in " + callOperationAction);
+						Debug.out(EventHelper.class, "[WARNING] No Operation Owner specified in " + callOperationAction);
 					}
 				}
 

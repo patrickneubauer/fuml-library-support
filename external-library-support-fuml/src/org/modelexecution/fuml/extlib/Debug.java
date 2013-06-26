@@ -19,6 +19,7 @@ public class Debug {
 	}
 	public static File DEBUG_FILE = new File("debug/debug.out");
 	public static DEBUG_MODE debugMode = DEBUG_MODE.SYSTEM_OUT_AND_FILE_OUT;
+	public static Object previousObject = null;
 
 	public static void out(String output) {
 		if (debugMode == DEBUG_MODE.SYSTEM_OUT_ONLY) {
@@ -29,6 +30,31 @@ public class Debug {
 		} else if (debugMode == DEBUG_MODE.FILE_OUT_ONLY) {
 			appendToFile(output, true);
 		} 
+	}
+	
+	public static void out(Object object, String output) {
+		if (debugMode == DEBUG_MODE.SYSTEM_OUT_ONLY) {
+			if (previousObject != null && !previousObject.getClass().equals(object.getClass())) {
+				System.out.println(""); // print an empty line
+			}
+			System.out.println("[" + object.getClass().getSimpleName() + "] " + output);
+			
+		} else if (debugMode == DEBUG_MODE.SYSTEM_OUT_AND_FILE_OUT) {
+			if (previousObject != null && !previousObject.getClass().equals(object.getClass())) {
+				System.out.println(""); // print an empty line
+				appendToFile("", true); // append an empty line
+			}
+			System.out.println("[" + object.getClass().getSimpleName() + "] " + output);
+			appendToFile("[" + object.getClass().getSimpleName() + "] " + output, true);
+		
+		} else if (debugMode == DEBUG_MODE.FILE_OUT_ONLY) {
+			if (previousObject != null && !previousObject.getClass().equals(object.getClass())) {
+				appendToFile("", true); // append an empty line
+			}
+			appendToFile(output, true);
+		} 
+		
+		previousObject = object;
 	}
 	
 	public static void clearDebugFile() {

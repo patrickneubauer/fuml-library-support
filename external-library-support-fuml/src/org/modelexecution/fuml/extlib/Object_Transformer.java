@@ -91,6 +91,8 @@ public class Object_Transformer {
 
 					Field javaField = javaClassFromObjectWithFeature.getDeclaredField(featureValue.feature.name);
  					javaField.setAccessible(true); // shut down security
+ 					
+					Debug.out(this, "Creating a field of type " + javaField.getType().getName());
 					
 					if (javaField.getType().getName().equals("boolean")) {
 
@@ -131,15 +133,15 @@ public class Object_Transformer {
 						 * In this case  javaClassFromObjectWithFeature(..) must be fixed as it returns the wrong Class 
 						 * in case of an Enum javaField
 						 */
+						Debug.out(this, "Enum fields are currently not supported (skip)");
 
 					} else {
 						/*
 						 * "javaField" is none of the above types (!)
 						 * Therefore, it might be a {@link StructuredValue} i.e. an Object_ itself
 						 */
-						
-						Debug.out("Object_Transformer: Creating a new complex object");
-						
+						Debug.out(this, javaField.getType().getName() + " is a complex field");
+												
 						Link link = new Link();
 						Association association = new Association();
 						Property parentProperty = new Property();			// Car property
@@ -159,8 +161,6 @@ public class Object_Transformer {
 						}
 						
 						// ------------------------------------------------
-						
-						
 						
 						//Object newJavaObject = javaField.get(javaObject);
 						Class<?> classOfJavaField = javaField.getType();
@@ -191,7 +191,7 @@ public class Object_Transformer {
 							Object_Creator object_Creator = new Object_Creator(newFUmlObject, newJavaObject, executionContext);
 							newFUmlObject = object_Creator.getfUmlObject();
 						} catch(Exception e) {
-							Debug.out("Object_Transformer: Java Field (" + javaField.getName() + ") of Type (" + classOfJavaField.getName() + ") is set to null. Private default constructor? Exception: " + e);
+							Debug.out(this, "Java Field (" + javaField.getName() + ") of Type (" + classOfJavaField.getName() + ") is set to null. Private default constructor? Exception: " + e);
 						}
 						
 						// ------------------------------------------------
@@ -219,7 +219,7 @@ public class Object_Transformer {
 			// -------- end of adding FEATUREVALUE to fUML Object_ --------
 
 		} catch (Exception e) {
-			Debug.out("Error occured while transforming the Java Object to a fUML Object_ representation. " + e);
+			Debug.out(this, "Error occured while transforming the Java Object to a fUML Object_ representation. " + e);
 		}
 
 	}// transform

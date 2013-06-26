@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.modelexecution.fumldebug.core.ExecutionContext;
 import org.modelexecution.fumldebug.core.event.ActivityEntryEvent;
 import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
@@ -89,35 +90,34 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		 * can do its job. Afterwards, the execution can be resumed
 		 * (ExecutionContext.resume(int executionID)).
 		 */
+		Debug.out(this, "Received Event: " + event.toString());
+		
 		if (EventHelper.isExternalCreateObjectActionEntry(event)) {
-			Debug.out("[External CreateObjectAction ActivityNodeEntryEvent]");
+			Debug.out(this, "Storing current ExecutionContext's ExtensionalValueList for later comparison");
 			// store current ExtensionalValueList for later comparison
 			previousExtensionalValueList = (ExtensionalValueList) executionContext.getExtensionalValues().clone();
 
 		} else if (EventHelper.isExternalCreateObjectActionExit(event)) {
-			Debug.out("[External CreateObjectAction ActivityNodeExitEvent]");
-
+			Debug.out(this, "Event is an external CreateObjectAction's ActivityNodeExitEvent");
 			handleExternalCreateObjectAction(event);
 
 		} else if (EventHelper.isExternalCallOperationActionEntry(event)) {
-			Debug.out("[External CallOperationAction ActivityNodeEntryEvent]");
+			Debug.out(this, "Event is an external CallOperationAction's ActivityNodeEntryEvent (skip)");
 			// do nothing
 
 		} else if (EventHelper.isExternalCallOperationActionExit(event)) {
-			Debug.out("[External CallOperationAction ActivityNodeExitEvent]");
+			Debug.out(this, "Event is an external CallOperationAction's ActivityNodeExitEvent (skip)");
 			// do nothing
 
 		} else if (EventHelper.isExternalActivityEntryEvent(event)) {
-			Debug.out("[External ActivityEntryEvent]");
-
+			Debug.out(this, "Event is an external ActivityEntryEvent");
 			handleExternalCallOperationAction(event);
 
 		} else if (EventHelper.isExternalActivityExitEvent(event)) {
-			Debug.out("[External ActivityExitEvent]");
-
-		} else if (EventHelper.isExternalAddStructuralFeatureValueActionEntryEvent(event)) {
-			Debug.out("[External AddStructuralFeatureValueAction]");
+			Debug.out(this, "Event is an external ActivityExitEvent (skip)");
+			// do nothing 
 			
+		} else if (EventHelper.isExternalAddStructuralFeatureValueActionEntryEvent(event)) {
 			handleExternalAddStructuralFeatureValueAction(event);
 
 		}
@@ -125,6 +125,8 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	}// notify
 
 	private void handleExternalCreateObjectAction(Event event) {
+		Debug.out(this, "** Handling external CreateObjectAction **");
+		
 		Object_ fUmlPlaceholderObject = obtainFUmlPlaceholderObject();
 		Object javaObject = obtainJavaObject(event);
 
@@ -135,8 +137,10 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			replaceLocusObject(fUmlPlaceholderObject, fUmlObject);
 			assignObject_ToCreateObjectActionOutputPin(event, fUmlObject);
 			assignTargetInputPinToCallOperationAction(event);
+			
+			Debug.out(this, "*** Successfully handled CreateObjectAction ***");
 		} catch (Exception e) {
-			Debug.out("Operations during CreateObjectAction on ActivityNodeExitEvent failed: " + e);
+			Debug.out(this, "Operations during CreateObjectAction on ActivityNodeExitEvent failed: " + e);
 		}
 
 		addObjects(fUmlObject, javaObject);
@@ -156,6 +160,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 * @param event an {@link AddStructuralFeatureValueActionEntryEvent}
 	 */
 	private void handleExternalAddStructuralFeatureValueAction(Event event) {
+		Debug.out(this, "** Handling external AddStructuralFeatureValueAction **");
 		
 		AddStructuralFeatureValueAction addStructuralFeatureValueAction = EventHelper.getExternalAddStructuralFeatureValueAction(event);
 		
@@ -213,7 +218,6 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				BooleanValue value = (BooleanValue) fUmlObject.getFeatureValue(property).values.get(0);
 				javaField.setBoolean(javaObject, value.value);
 				
-				
 			} else if (valueSpecificationAction.value instanceof LiteralInteger) {
 				IntegerValue value = (IntegerValue) fUmlObject.getFeatureValue(property).values.get(0);
 				javaField.setInt(javaObject, value.value);
@@ -233,9 +237,10 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			// Step 3: Update the HashMaps
 			// Not necessary, reason:
 			// HashMap data structure just keeps references to the objects and not the objects itself.
+			Debug.out(this, "*** Successfully handled external AddStructuralFeatureValueAction ***");
 			
 		} catch (Exception e) {
-			Debug.out("Failed to handle external AddStructuralFeatureValueAction. Exception: " + e);
+			Debug.out(this, "Failed to handle external AddStructuralFeatureValueAction. Exception: " + e);
 		}
 		
 	}
@@ -327,7 +332,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		for (int i = 0; i < extensionalValues.size(); i++) {
 			if (extensionalValues.getValue(i).hashCode() == fUmlPlaceholderObject.hashCode()) {
 				extensionalValues.setValue(i, fUmlObject);
-				Debug.out("Successfully replaced Locus Object.");
+				Debug.out(this, "Successfully replaced Locus Object.");
 				return; // exit
 			}
 		}
@@ -360,13 +365,15 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			javaObject = clazz.newInstance();
 
 		} catch (Exception e) {
-			Debug.out("Error occured while trying to obtain the Java object. " + e);
+			Debug.out(this, "Error occured while trying to obtain the Java object. " + e);
 		}
 
 		return javaObject;
 	}// obtainJavaObject
 
 	private void handleExternalCallOperationAction(Event event) {
+		Debug.out(this, "** Handling external CallOperationAction **");
+		
 		// Obtain the Activity for modifications
 		Activity activity = EventHelper.getExternalActivity(event);
 
@@ -375,11 +382,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			// Obtain fUML Object_ from InputPinActivation in
 			// ActivityExecution
 			Object_ fUmlObject = obtainFUmlObjectFromActivityExecution(event);
-			Debug.out("[CallOperationAction] fUmlObject = " + fUmlObject);
 
 			// Obtain corresponding Java Object
 			Object javaObject = fUmlJavaMap.get(fUmlObject);
-			Debug.out("[CallOperationAction] javaObject = " + javaObject);
 
 			String methodName = ActivityHelper.getOperationName(activity);
 			String classNamespaceAndName = ActivityHelper.getOperationNamespaceAndName(activity);
@@ -468,23 +473,24 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				
 			}
 
-			Debug.out("Java method return value = " + javaMethodReturnValue);
-			Debug.out("new Java Object  = " + getJavaObject(newFUmlObject));
-			Debug.out("new fUML Object_ = " + getFUmlObject(javaObject));
-
+			Debug.out(this, "Java method return value from calling " + classNamespaceAndName + "." + methodName + " is '" + javaMethodReturnValue + "'");
+			Debug.out(this, "Java Object : " + ToStringBuilder.reflectionToString(getJavaObject(newFUmlObject)));
+			Debug.out(this, "fUML Object_: " + getFUmlObject(javaObject));
+			
 			// Step 5.1: Plugging output parameter to Placeholder Activity (if not null)
 			if (outputParameterValue.parameter != null) {
 				for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
 					if (extensionalValue.hashCode() == ((ActivityEntryEventImpl) event).getActivityExecutionID()) {
 						ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
 						activityExecution.setParameterValue(outputParameterValue);
+						Debug.out(this, "*** Successfully handled external CallOperationAction ***");
 						return; // exit
 					}
 				}
 			}
 
 		} catch (Exception e) {
-			Debug.out("Error occured while trying to call operation on Java object. " + e);
+			Debug.out(this, "Error occured while trying to call operation on Java object. " + e);
 		}
 
 	}// callOperation
@@ -650,7 +656,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 					objectToken.value = reference;
 
 					outputPinActivation.addToken(objectToken);
-					Debug.out("Successfully assigned Object_ Reference to CreateObjectAction's OutputPin.");
+					Debug.out(this, "Successfully assigned Object_ Reference to CreateObjectAction's OutputPin.");
 					return; // exit
 
 				}
@@ -709,7 +715,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 									 * the CallOperationAction's target InputPin
 									 */
 									callOperationAction.target = inputPin;
-									Debug.out("Successfully set CallOperationAction's target InputPin.");
+									Debug.out(this, "Successfully set CallOperationAction's target InputPin.");
 
 								}
 

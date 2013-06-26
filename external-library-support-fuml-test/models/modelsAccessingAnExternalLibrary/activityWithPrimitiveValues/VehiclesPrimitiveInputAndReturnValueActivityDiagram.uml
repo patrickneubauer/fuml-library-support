@@ -15,7 +15,7 @@
       <operation href="../VehiclesConverted.uml#_KQciY9mpEeK6iduXuBguHQ"/>
       <target xmi:id="_yYV6AMX6EeKFmLRp2CnBCQ" name="target" incoming="_e5ll0MX7EeKFmLRp2CnBCQ"/>
     </node>
-    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_61u9EMX6EeKFmLRp2CnBCQ">
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_61u9EMX6EeKFmLRp2CnBCQ" name="SpecifyCurrentWarpSpeed">
       <result xmi:id="_8ampIMX6EeKFmLRp2CnBCQ" name="currentWarpSpeed" outgoing="_fylDUMX7EeKFmLRp2CnBCQ"/>
       <value xmi:type="uml:LiteralInteger" xmi:id="_B9Lg4MX7EeKFmLRp2CnBCQ" value="2"/>
     </node>

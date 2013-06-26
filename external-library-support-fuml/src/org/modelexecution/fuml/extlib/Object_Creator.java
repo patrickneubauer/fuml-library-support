@@ -62,6 +62,8 @@ public class Object_Creator {
 				property.owner = fUmlClass;
 				property.redefinitionContext.add(fUmlClass);
 				property.setName(javaField.getName());
+				
+				Debug.out(this, "Creating a field of type " + javaField.getType().getName());
 		
 				if (javaField.getType().getName().equals("boolean")) {
 					
@@ -105,10 +107,11 @@ public class Object_Creator {
 					 * In this case  javaClassFromObjectWithFeature(..) must be fixed as it returns the wrong Class 
 					 * in case of an Enum javaField
 					 */
+					Debug.out(this, "Enum fields are currently not supported (skip)");
 
 				} else {
 					
-					Debug.out("Object_Creator: Creating a new complex object");
+					Debug.out(this, javaField.getType().getName() + " is a complex field");
 					
 					Link link = new Link();
 					Association association = new Association();
@@ -155,7 +158,7 @@ public class Object_Creator {
 						Object_Creator object_Creator = new Object_Creator(newFUmlObject, newJavaObject, executionContext);
 						newFUmlObject = object_Creator.getfUmlObject();
 					} catch(Exception e) {
-						Debug.out("Object_Transformer: Java Field (" + javaField.getName() + ") of Type (" + classOfJavaField.getName() + ") is set to null. Private default constructor? Exception: " + e);
+						Debug.out(this, "Java Field (" + javaField.getName() + ") of Type (" + classOfJavaField.getName() + ") is set to null. Private default constructor? Exception: " + e);
 					}
 					
 					// ------------------------------------------------
@@ -176,7 +179,7 @@ public class Object_Creator {
 				} 
 				
 			} catch (Exception e) {
-				Debug.out("Error occured while transforming the Java Object to a fUML Object_ representation. " + e);
+				Debug.out(this, "Error occured while transforming the Java Object to a fUML Object_ representation. " + e);
 			}
 			
 		}// end of for each Field loop

@@ -46,7 +46,7 @@ public class DynamicClassLoader {
 			try {
 				urls[i] = new File(jarPaths[i]).toURI().toURL();
 			} catch (MalformedURLException e) {
-				Debug.out("A JAR path (" + jarPaths[i]
+				Debug.out(this, "A JAR path (" + jarPaths[i]
 						+ ") couldn't be added to the array of URLs pointing to the file in the file system. Details: " + e);
 			}
 		}
