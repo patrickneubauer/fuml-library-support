@@ -746,8 +746,86 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	}
 	
 	/**
-	 * Tests {@link AddStructuralFeatureValueAction} that sets the value of a {@link StructuralFeature} of an Object from an external
-	 * library. It equals the Java semantic of setting a variable value.
+	 * Tests {@link AddStructuralFeatureValueAction} that sets the value, specifically a {@link BooleanValue} of a 
+	 * {@link StructuralFeature} of an Object from an external library. It equals the Java semantic of setting a variable value.
+	 */
+	@Test
+	public void setBooleanVariableValueUsingAddStructuralFeatureValueActionTest() {
+		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithStructuralFeatureValueActions/VehiclesSetVariableValueActivityDiagram.uml";
+		String activityName = "VehiclesSetBooleanVariableValueActivity";
+
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
+
+		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
+		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
+		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
+
+		// Execute the constructor call of Car
+		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+
+		Locus locus = integrationLayer.getExecutionContext().getLocus();
+		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
+
+		// Check if the fUmlObject is a Ship with name specified in the AddStructuralFeatureValueAction
+		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
+		assertEquals(0, ((IntegerValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
+
+		assertEquals("name", fUmlObject.getFeatureValues().get(1).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(1).values.get(0) instanceof StringValue);
+		assertEquals("NoName", ((StringValue) fUmlObject.getFeatureValues().get(1).values.get(0)).value);
+
+		assertEquals("oceanLiner", fUmlObject.getFeatureValues().get(2).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
+		assertEquals(false, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
+
+	}
+	
+	/**
+	 * Tests {@link AddStructuralFeatureValueAction} that sets the value, specifically a {@link IntegerValue} of a 
+	 * {@link StructuralFeature} of an Object from an external library. It equals the Java semantic of setting a variable value.
+	 */
+	@Test
+	public void setIntegerVariableValueUsingAddStructuralFeatureValueActionTest() {
+		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithStructuralFeatureValueActions/VehiclesSetVariableValueActivityDiagram.uml";
+		String activityName = "VehiclesSetIntegerVariableValueActivity";
+
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
+
+		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
+		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
+		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
+
+		// Execute the constructor call of Car
+		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+
+		Locus locus = integrationLayer.getExecutionContext().getLocus();
+		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
+
+		// Check if the fUmlObject is a Ship with name specified in the AddStructuralFeatureValueAction
+		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
+		assertEquals(3500, ((IntegerValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
+
+		assertEquals("name", fUmlObject.getFeatureValues().get(1).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(1).values.get(0) instanceof StringValue);
+		assertEquals("NoName", ((StringValue) fUmlObject.getFeatureValues().get(1).values.get(0)).value);
+
+		assertEquals("oceanLiner", fUmlObject.getFeatureValues().get(2).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
+		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
+
+	}
+	
+	/**
+	 * Tests {@link AddStructuralFeatureValueAction} that sets the value, specifically a {@link StringValue} of a 
+	 * {@link StructuralFeature} of an Object from an external library. It equals the Java semantic of setting a variable value.
 	 */
 	@Test
 	public void setStringVariableValueUsingAddStructuralFeatureValueActionTest() {
@@ -770,9 +848,21 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
 
 		// Check if the fUmlObject is a Ship with name specified in the AddStructuralFeatureValueAction
-		// TODO
+		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
+		assertEquals(0, ((IntegerValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
+
+		assertEquals("name", fUmlObject.getFeatureValues().get(1).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(1).values.get(0) instanceof StringValue);
+		assertEquals("Titanic", ((StringValue) fUmlObject.getFeatureValues().get(1).values.get(0)).value);
+
+		assertEquals("oceanLiner", fUmlObject.getFeatureValues().get(2).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
+		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
 
 	}
+	
+	
 	
 
 }

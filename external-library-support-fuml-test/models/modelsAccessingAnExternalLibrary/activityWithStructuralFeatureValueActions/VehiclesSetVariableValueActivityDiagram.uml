@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_oXiJENpWEeKZpYgxfl3dvQ">
-  <packagedElement xmi:type="uml:Activity" xmi:id="_rCwZMNpWEeKZpYgxfl3dvQ" name="VehiclesSetStringVariableValueActivity" node="_vzbS4NpWEeKZpYgxfl3dvQ _xEdc8NpWEeKZpYgxfl3dvQ _yFeOANpWEeKZpYgxfl3dvQ">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_rCwZMNpWEeKZpYgxfl3dvQ" name="VehiclesSetBooleanVariableValueActivity" node="_vzbS4NpWEeKZpYgxfl3dvQ _xEdc8NpWEeKZpYgxfl3dvQ _yFeOANpWEeKZpYgxfl3dvQ">
     <edge xmi:type="uml:ObjectFlow" xmi:id="_OrqrANpaEeKZpYgxfl3dvQ" name="ValueSpecificationActionToAddStructuralFeatureValueAction" source="_XeaaYNpXEeKZpYgxfl3dvQ" target="_wFjdUNpZEeKZpYgxfl3dvQ"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_PVWhMNpaEeKZpYgxfl3dvQ" name="CreateObjectActionToAddStructuralFeatureValueAction" source="_kWC0INpXEeKZpYgxfl3dvQ" target="_AzCHQNpaEeKZpYgxfl3dvQ"/>
-    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_vzbS4NpWEeKZpYgxfl3dvQ" name="SpecifyName">
-      <result xmi:id="_XeaaYNpXEeKZpYgxfl3dvQ" name="name" outgoing="_OrqrANpaEeKZpYgxfl3dvQ"/>
-      <value xmi:type="uml:LiteralString" xmi:id="_UH804NpXEeKZpYgxfl3dvQ" name="" value="Titanic"/>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_vzbS4NpWEeKZpYgxfl3dvQ" name="SpecifyOceanLiner">
+      <result xmi:id="_XeaaYNpXEeKZpYgxfl3dvQ" name="oceanLiner" outgoing="_OrqrANpaEeKZpYgxfl3dvQ"/>
+      <value xmi:type="uml:LiteralBoolean" xmi:id="_ZClFEN43EeKoAaC3_LV0dw"/>
     </node>
     <node xmi:type="uml:CreateObjectAction" xmi:id="_xEdc8NpWEeKZpYgxfl3dvQ" name="CreateShipObject">
       <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQaGd9mpEeK6iduXuBguHQ"/>
@@ -13,13 +13,57 @@
         <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQaGd9mpEeK6iduXuBguHQ"/>
       </result>
     </node>
-    <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_yFeOANpWEeKZpYgxfl3dvQ" name="AddShipNameValue">
+    <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_yFeOANpWEeKZpYgxfl3dvQ" name="AddShipOceanLinerValue" isReplaceAll="true">
       <object xmi:id="_AzCHQNpaEeKZpYgxfl3dvQ" name="object" incoming="_PVWhMNpaEeKZpYgxfl3dvQ">
         <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQaGd9mpEeK6iduXuBguHQ"/>
       </object>
-      <structuralFeature xmi:type="uml:Property" href="../VehiclesConverted.uml#_KQatIdmpEeK6iduXuBguHQ"/>
+      <structuralFeature xmi:type="uml:Property" href="../VehiclesConverted.uml#_KQatJNmpEeK6iduXuBguHQ"/>
       <result xmi:id="_2lzJINpXEeKZpYgxfl3dvQ" name="result"/>
       <value xmi:id="_wFjdUNpZEeKZpYgxfl3dvQ" name="value" incoming="_OrqrANpaEeKZpYgxfl3dvQ"/>
+    </node>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_PxUVEN43EeKoAaC3_LV0dw" name="VehiclesSetIntegerVariableValueActivity" node="_PxUVE943EeKoAaC3_LV0dw _PxUVFt43EeKoAaC3_LV0dw _PxUVGN43EeKoAaC3_LV0dw">
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_PxUVEd43EeKoAaC3_LV0dw" name="ValueSpecificationActionToAddStructuralFeatureValueAction" source="_PxUVFN43EeKoAaC3_LV0dw" target="_PxUVG943EeKoAaC3_LV0dw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_PxUVEt43EeKoAaC3_LV0dw" name="CreateObjectActionToAddStructuralFeatureValueAction" source="_PxUVF943EeKoAaC3_LV0dw" target="_PxUVGd43EeKoAaC3_LV0dw"/>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_PxUVE943EeKoAaC3_LV0dw" name="SpecifyLength">
+      <result xmi:id="_PxUVFN43EeKoAaC3_LV0dw" name="length" outgoing="_PxUVEd43EeKoAaC3_LV0dw"/>
+      <value xmi:type="uml:LiteralInteger" xmi:id="_a9pDkN43EeKoAaC3_LV0dw" value="3500"/>
+    </node>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_PxUVFt43EeKoAaC3_LV0dw" name="CreateShipObject">
+      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQaGd9mpEeK6iduXuBguHQ"/>
+      <result xmi:id="_PxUVF943EeKoAaC3_LV0dw" name="target" outgoing="_PxUVEt43EeKoAaC3_LV0dw">
+        <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQaGd9mpEeK6iduXuBguHQ"/>
+      </result>
+    </node>
+    <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_PxUVGN43EeKoAaC3_LV0dw" name="AddShipLengthValue" isReplaceAll="true">
+      <object xmi:id="_PxUVGd43EeKoAaC3_LV0dw" name="object" incoming="_PxUVEt43EeKoAaC3_LV0dw">
+        <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQaGd9mpEeK6iduXuBguHQ"/>
+      </object>
+      <structuralFeature xmi:type="uml:Property" href="../VehiclesConverted.uml#_KQaGedmpEeK6iduXuBguHQ"/>
+      <result xmi:id="_PxUVGt43EeKoAaC3_LV0dw" name="result"/>
+      <value xmi:id="_PxUVG943EeKoAaC3_LV0dw" name="value" incoming="_PxUVEd43EeKoAaC3_LV0dw"/>
+    </node>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_QNhv8N43EeKoAaC3_LV0dw" name="VehiclesSetStringVariableValueActivity" node="_QNiXAt43EeKoAaC3_LV0dw _QNiXBd43EeKoAaC3_LV0dw _QNiXB943EeKoAaC3_LV0dw">
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_QNiXAN43EeKoAaC3_LV0dw" name="ValueSpecificationActionToAddStructuralFeatureValueAction" source="_QNiXA943EeKoAaC3_LV0dw" target="_QNiXCt43EeKoAaC3_LV0dw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_QNiXAd43EeKoAaC3_LV0dw" name="CreateObjectActionToAddStructuralFeatureValueAction" source="_QNiXBt43EeKoAaC3_LV0dw" target="_QNiXCN43EeKoAaC3_LV0dw"/>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_QNiXAt43EeKoAaC3_LV0dw" name="SpecifyName">
+      <result xmi:id="_QNiXA943EeKoAaC3_LV0dw" name="name" outgoing="_QNiXAN43EeKoAaC3_LV0dw"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_QNiXBN43EeKoAaC3_LV0dw" name="" value="Titanic"/>
+    </node>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_QNiXBd43EeKoAaC3_LV0dw" name="CreateShipObject">
+      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQaGd9mpEeK6iduXuBguHQ"/>
+      <result xmi:id="_QNiXBt43EeKoAaC3_LV0dw" name="target" outgoing="_QNiXAd43EeKoAaC3_LV0dw">
+        <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQaGd9mpEeK6iduXuBguHQ"/>
+      </result>
+    </node>
+    <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_QNiXB943EeKoAaC3_LV0dw" name="AddShipNameValue" isReplaceAll="true">
+      <object xmi:id="_QNiXCN43EeKoAaC3_LV0dw" name="object" incoming="_QNiXAd43EeKoAaC3_LV0dw">
+        <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQaGd9mpEeK6iduXuBguHQ"/>
+      </object>
+      <structuralFeature xmi:type="uml:Property" href="../VehiclesConverted.uml#_KQatIdmpEeK6iduXuBguHQ"/>
+      <result xmi:id="_QNiXCd43EeKoAaC3_LV0dw" name="result"/>
+      <value xmi:id="_QNiXCt43EeKoAaC3_LV0dw" name="value" incoming="_QNiXAN43EeKoAaC3_LV0dw"/>
     </node>
   </packagedElement>
 </uml:Model>

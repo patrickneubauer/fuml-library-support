@@ -13,3 +13,5 @@ bin-release/
 
 external-library-support-fuml-test/models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml
 external-library-support-fuml-test/debug/debug.out
+
+external-library-support-fuml-gui/

@@ -37,19 +37,25 @@ import fUML.Semantics.Classes.Kernel.Object_;
 import fUML.Semantics.Classes.Kernel.Reference;
 import fUML.Semantics.Classes.Kernel.StringValue;
 import fUML.Semantics.Classes.Kernel.StructuredValue;
+import fUML.Semantics.Classes.Kernel.ValueList;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.BasicActions.InputPin;
 import fUML.Syntax.Actions.BasicActions.OutputPin;
 import fUML.Syntax.Actions.IntermediateActions.AddStructuralFeatureValueAction;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
+import fUML.Syntax.Actions.IntermediateActions.ValueSpecificationAction;
 import fUML.Syntax.Activities.IntermediateActivities.Activity;
 import fUML.Syntax.Activities.IntermediateActivities.ObjectFlow;
 import fUML.Syntax.Classes.Kernel.Class_;
+import fUML.Syntax.Classes.Kernel.LiteralBoolean;
+import fUML.Syntax.Classes.Kernel.LiteralInteger;
+import fUML.Syntax.Classes.Kernel.LiteralString;
 import fUML.Syntax.Classes.Kernel.Operation;
 import fUML.Syntax.Classes.Kernel.Parameter;
 import fUML.Syntax.Classes.Kernel.ParameterList;
 import fUML.Syntax.Classes.Kernel.Property;
+import fUML.Syntax.Classes.Kernel.StructuralFeature;
 
 /**
  * Implementation of the {@link IntegrationLayer}
@@ -137,46 +143,96 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	}
 
 	/**
-	 * TODO Finish implementing the handling of AddStructuralFeatureValueAction
-	 * @param event
+	 * Handles the {@link AddStructuralFeatureValueAction} accessing an external library
+	 * 
+	 * Details:
+	 * - Initially, the {@link AddStructuralFeatureValueAction} is obtained from an {@link AddStructuralFeatureValueActionEntryEvent}
+	 * - Then, the {@link StructuralFeature} {@link Property} is replaced with the value on the value {@link InputPin} from the {@link AddStructuralFeatureValueAction}
+	 * - Then, the Java {@link Field} value that corresponds to the {@link AddStructuralFeatureValueAction}'s value is also replaced with the newly obtained value
+	 * 
+	 * Capabilities:
+	 * Can set StructuralFeatureValues of type {@link LiteralBoolean}, {@link LiteralInteger} and {@link LiteralString}
+	 * 
+	 * @param event an {@link AddStructuralFeatureValueActionEntryEvent}
 	 */
 	private void handleExternalAddStructuralFeatureValueAction(Event event) {
 		
-		/* Arrive this method on an AddStructuralFeatureValueActionEntryEvent
-		 * and obtain the corresponding Java Object to the fUML Object_.
-		 * Then, REPLACE the Structural Feature (Property) value entirely with the value on <Input Pin> value.
-		 * Then, also REPLACE the Java Field value that corresponds to the Structural Feature value. 
-		 * At the end, update fUmlJavaMap and javaFUmlMap and REPLACE Locus Object_.
-		 */
 		AddStructuralFeatureValueAction addStructuralFeatureValueAction = EventHelper.getExternalAddStructuralFeatureValueAction(event);
-
 		
 		try {
 			Object_ fUmlObject = obtainFUmlObjectFromAddStructuralFeatureValueActivationInputPin(event, addStructuralFeatureValueAction);
 			Property property = (Property) addStructuralFeatureValueAction.structuralFeature;
-			Class_ propertyType = (Class_) property.typedElement.type;
 			
 			Object javaObject = getJavaObject(fUmlObject);
 			Class<?> javaClass = javaObject.getClass();
 			Field javaField = javaClass.getField(property.name);
 			
-			// Replace Structural Feature (Property) value entirely with the value on AddStructuralFeatureValue's value InputPin
+			// ------------------------------------------------
 			
-			// Replace Java Field value that corresponds to the Structural Feature value
-			if (propertyType.name.equals("boolean")) {
+			// Step 1: Replace Structural Feature (Property) value entirely with the value on AddStructuralFeatureValue's value InputPin
+			InputPin valueInputPin = addStructuralFeatureValueAction.value;
+			ValueSpecificationAction valueSpecificationAction = (ValueSpecificationAction) valueInputPin.incoming.get(0).source.owner;
+			
+			if (valueSpecificationAction.value instanceof LiteralBoolean) {
+				LiteralBoolean literal = (LiteralBoolean) valueSpecificationAction.value;
+				BooleanValue value = new BooleanValue();
+				value.value = literal.value;
+				
+				ValueList valueList = new ValueList();
+				valueList.add(value);
+				fUmlObject.setFeatureValue(property, valueList, 0);
+				
+			} else if (valueSpecificationAction.value instanceof LiteralInteger) {
+				LiteralInteger literal = (LiteralInteger) valueSpecificationAction.value;
+				IntegerValue value = new IntegerValue();
+				value.value = literal.value;
+				
+				ValueList valueList = new ValueList();
+				valueList.add(value);
+				fUmlObject.setFeatureValue(property, valueList, 0);
+				
+			} else if (valueSpecificationAction.value instanceof LiteralString) {
+				LiteralString literal = (LiteralString) valueSpecificationAction.value;
+				StringValue value = new StringValue();
+				value.value = literal.value;
+				
+				ValueList valueList = new ValueList();
+				valueList.add(value);
+				fUmlObject.setFeatureValue(property, valueList, 0);
+				
+			} else {
+				// CASE: Complex Type			
+				// TODO?
+				
+			}
+			
+			// ------------------------------------------------
+			
+			// Step 2: Replace Java Field value that corresponds to the Structural Feature value
+			if (valueSpecificationAction.value instanceof LiteralBoolean) {
 				BooleanValue value = (BooleanValue) fUmlObject.getFeatureValue(property).values.get(0);
 				javaField.setBoolean(javaObject, value.value);
 				
 				
-			} else if (propertyType.name.equals("int")) {
+			} else if (valueSpecificationAction.value instanceof LiteralInteger) {
 				IntegerValue value = (IntegerValue) fUmlObject.getFeatureValue(property).values.get(0);
 				javaField.setInt(javaObject, value.value);
 				
-			} else if (propertyType.name.equals("String")) {
+			} else if (valueSpecificationAction.value instanceof LiteralString) {
 				StringValue value = (StringValue) fUmlObject.getFeatureValue(property).values.get(0);
 				javaField.set(javaObject, value.value);
 				
+			} else {
+				// CASE: Complex Type
+				// TODO?
+				
 			}
+			
+			// ------------------------------------------------
+			
+			// Step 3: Update the HashMaps
+			// Not necessary, reason:
+			// HashMap data structure just keeps references to the objects and not the objects itself.
 			
 		} catch (Exception e) {
 			Debug.out("Failed to handle external AddStructuralFeatureValueAction. Exception: " + e);
@@ -366,11 +422,8 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			Object_ newFUmlObject = object_Transformer.getObject_();
 
 			// Step 3: Update the HashMaps
-			// TODO: Check if this really is necessary.
-			// Reason: It seems that the HashMap data structure just keeps references to the objects and not the objects itself.
-			Object oldJavaObject = getJavaObject(fUmlObject);
-			removeObjects(oldJavaObject);
-			addObjects(newFUmlObject, javaObject);
+			// Not necessary, reason:
+			// HashMap data structure just keeps references to the objects and not the objects itself.
 
 			// Step 4: Translate return value into fUML Parameter
 			Parameter outputParameter = ActivityHelper.getReturnParameter(activity);
@@ -398,7 +451,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 			} else {
 				
-				// NOTE the following lines are not tested with anything different than Object_ (e.g. Enum)
+				// NOTE the following lines are not tested with anything different than Object_ (e.g. Enum or Array is not tested)
 				
 				if (activity.specification != null && activity.specification instanceof Operation && ((Operation) activity.specification).type != null && ((Operation) activity.specification).type instanceof Class_) {
 					Operation operation = (Operation) activity.specification;
