@@ -94,7 +94,7 @@ public class Object_Transformer {
  					
 					Debug.out(this, "Creating a field of type " + javaField.getType().getName());
 					
-					if (javaField.getType().getName().equals("boolean")) {
+					if (javaField.get(javaObject) instanceof java.lang.Boolean) {
 
 						boolean javaFieldValue = (boolean) javaField.get(javaObject);
 						BooleanValue fUmlFieldValue = new BooleanValue();
@@ -105,7 +105,7 @@ public class Object_Transformer {
 							featureValue.values.set(0, fUmlFieldValue);
 						}
 
-					} else if (javaField.getType().getName().equals("int")) {
+					} else if (javaField.get(javaObject) instanceof java.lang.Integer) {
 
 						int javaFieldValue = (int) javaField.get(javaObject);
 						IntegerValue fUmlFieldValue = new IntegerValue();
@@ -116,7 +116,7 @@ public class Object_Transformer {
 							featureValue.values.set(0, fUmlFieldValue);
 						}
 
-					} else if (javaField.getType().getName().equals("java.lang.String")) {
+					} else if (javaField.get(javaObject) instanceof java.lang.String) {
 
 						String javaFieldValue = (String) javaField.get(javaObject);
 						StringValue fUmlFieldValue = new StringValue();

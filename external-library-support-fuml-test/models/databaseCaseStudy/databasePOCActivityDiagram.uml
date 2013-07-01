@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_ewufYODDEeKaH-4BX1dETA">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_mqYDwODlEeKaH-4BX1dETA" name="DatabasePOCActivity" node="_Mu2gcODmEeKaH-4BX1dETA _sbi-4ODqEeKaH-4BX1dETA _snGyUOIhEeKaH-4BX1dETA _sXl2AOIpEeK47cnjitAJ5Q _eZ5WoOIqEeK47cnjitAJ5Q _UF46wOIrEeK47cnjitAJ5Q _Xb2xAOIrEeK47cnjitAJ5Q _kE7xYOIrEeK47cnjitAJ5Q _lyHE4OIrEeK47cnjitAJ5Q _mon2IOIrEeK47cnjitAJ5Q __vtPUOIrEeK47cnjitAJ5Q _BgciQOIuEeK47cnjitAJ5Q _RVtEkOJLEeKLVfjmiErMEw">
+    <ownedParameter xmi:id="_HlOPgOIrEeK47cnjitAJ5Q" name="outputParameter" direction="out"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_j4sIUOIvEeK47cnjitAJ5Q" name="ObjectFlowConnectionSpecificationToCall" source="_gbJLwOIhEeKaH-4BX1dETA" target="_xymT4OIuEeK47cnjitAJ5Q"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_lD1s0OIvEeK47cnjitAJ5Q" name="ObjectFlowSqlCommand1SpecificationToCall" source="_y3owsOIrEeK47cnjitAJ5Q" target="_1ehzEOIuEeK47cnjitAJ5Q"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_l9Dz0OIvEeK47cnjitAJ5Q" name="ObjectFlowSqlCommand2SpecificationToCall" source="_DYFrQOIsEeK47cnjitAJ5Q" target="_3o-4cOIuEeK47cnjitAJ5Q"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_mymUsOIvEeK47cnjitAJ5Q" name="ObjectFlowSqlQuerySpecificationToCall" source="_4CwKsOIrEeK47cnjitAJ5Q" target="_E_JoUOIvEeK47cnjitAJ5Q"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_ntNi0OIvEeK47cnjitAJ5Q" name="ObjectFlowResultSetAttributeSpecificationToCall" source="_6RR3wOIrEeK47cnjitAJ5Q" target="_WED60OIvEeK47cnjitAJ5Q"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_XDBA8OIwEeK47cnjitAJ5Q" name="ObjectFlowFromGetConnectionToCreateStatement" source="_Vb29QOItEeK47cnjitAJ5Q" target="_vEchAOItEeK47cnjitAJ5Q"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_btOGQOIwEeK47cnjitAJ5Q" name="ObjectFlowFromCreateStatementToFork" source="_bfsSgOIuEeK47cnjitAJ5Q" target="_RVtEkOJLEeKLVfjmiErMEw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_X4i6wOIwEeK47cnjitAJ5Q" name="ObjectFlowFromForkToExecuteSqlCmd1" source="_RVtEkOJLEeKLVfjmiErMEw" target="_0G2OcOIuEeK47cnjitAJ5Q"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_Yzxz8OIwEeK47cnjitAJ5Q" name="ObjectFlowFromForkToExecuteSqlCmd2" source="_RVtEkOJLEeKLVfjmiErMEw" target="_ge9B0OIuEeK47cnjitAJ5Q"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_dEsPgOIwEeK47cnjitAJ5Q" name="ObjectFlowFromForkToExecuteQuery" source="_RVtEkOJLEeKLVfjmiErMEw" target="_IC5GIOIvEeK47cnjitAJ5Q"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_apbG8OIwEeK47cnjitAJ5Q" name="ObjectFlowFromExecuteQueryToGetString" source="_KD7JwOIvEeK47cnjitAJ5Q" target="_Z-Jx0OIvEeK47cnjitAJ5Q"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_ZrmMwOIwEeK47cnjitAJ5Q" name="ObjectFlowFromGetStringToFinal" source="_bcO5YOIvEeK47cnjitAJ5Q" target="_UF46wOIrEeK47cnjitAJ5Q"/>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_sbi-4ODqEeKaH-4BX1dETA" name="ConnectionSpecification">
+      <result xmi:id="_gbJLwOIhEeKaH-4BX1dETA" name="url" outgoing="_j4sIUOIvEeK47cnjitAJ5Q"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_WFIaMOIhEeKaH-4BX1dETA" name="" value="jdbc:h2:~/test"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_kE7xYOIrEeK47cnjitAJ5Q" name="SqlCommand1Specification">
+      <result xmi:id="_y3owsOIrEeK47cnjitAJ5Q" name="sqlCmd1" outgoing="_lD1s0OIvEeK47cnjitAJ5Q"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_wyheUOIrEeK47cnjitAJ5Q" name="" value="create table test(id int primary key, name varchar(255))"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="__vtPUOIrEeK47cnjitAJ5Q" name="SqlCommand2Specification">
+      <result xmi:id="_DYFrQOIsEeK47cnjitAJ5Q" name="sqlCmd2" outgoing="_l9Dz0OIvEeK47cnjitAJ5Q"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_CjMDkOIsEeK47cnjitAJ5Q" name="" value="insert into test values(1, 'Hello')"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_lyHE4OIrEeK47cnjitAJ5Q" name="SqlQuerySpecification">
+      <result xmi:id="_4CwKsOIrEeK47cnjitAJ5Q" name="sqlQuery" outgoing="_mymUsOIvEeK47cnjitAJ5Q"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_3EOs8OIrEeK47cnjitAJ5Q" value="select * from test"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_mon2IOIrEeK47cnjitAJ5Q" name="ResultSetAttributeSpecification">
+      <result xmi:id="_6RR3wOIrEeK47cnjitAJ5Q" name="resultSetAttribute" outgoing="_ntNi0OIvEeK47cnjitAJ5Q"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_5hL3kOIrEeK47cnjitAJ5Q" value="name"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_Mu2gcODmEeKaH-4BX1dETA" name="getConnection">
+      <argument xmi:id="_xymT4OIuEeK47cnjitAJ5Q" name="url" incoming="_j4sIUOIvEeK47cnjitAJ5Q"/>
+      <result xmi:id="_Vb29QOItEeK47cnjitAJ5Q" name="result" outgoing="_XDBA8OIwEeK47cnjitAJ5Q"/>
+      <operation href="java.sqlConverted.uml#_92uRQOInEeKveahi8QUVDA"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_snGyUOIhEeKaH-4BX1dETA" name="createStatement">
+      <result xmi:id="_bfsSgOIuEeK47cnjitAJ5Q" name="result" outgoing="_btOGQOIwEeK47cnjitAJ5Q"/>
+      <operation href="java.sqlConverted.uml#_92b9YeInEeKveahi8QUVDA"/>
+      <target xmi:id="_vEchAOItEeK47cnjitAJ5Q" name="target" incoming="_XDBA8OIwEeK47cnjitAJ5Q"/>
+    </node>
+    <node xmi:type="uml:ForkNode" xmi:id="_RVtEkOJLEeKLVfjmiErMEw" name="fork" outgoing="_X4i6wOIwEeK47cnjitAJ5Q _Yzxz8OIwEeK47cnjitAJ5Q _dEsPgOIwEeK47cnjitAJ5Q" incoming="_btOGQOIwEeK47cnjitAJ5Q"/>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_sXl2AOIpEeK47cnjitAJ5Q" name="executeSqlCmd1">
+      <argument xmi:id="_1ehzEOIuEeK47cnjitAJ5Q" name="sqlCmd1" incoming="_lD1s0OIvEeK47cnjitAJ5Q"/>
+      <operation href="java.sqlConverted.uml#_93UuRuInEeKveahi8QUVDA"/>
+      <target xmi:id="_0G2OcOIuEeK47cnjitAJ5Q" name="target" incoming="_X4i6wOIwEeK47cnjitAJ5Q"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_BgciQOIuEeK47cnjitAJ5Q" name="executeSqlCmd2">
+      <argument xmi:id="_3o-4cOIuEeK47cnjitAJ5Q" name="sqlCmd2" incoming="_l9Dz0OIvEeK47cnjitAJ5Q"/>
+      <operation href="java.sqlConverted.uml#_93UuRuInEeKveahi8QUVDA"/>
+      <target xmi:id="_ge9B0OIuEeK47cnjitAJ5Q" name="target" incoming="_Yzxz8OIwEeK47cnjitAJ5Q"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_eZ5WoOIqEeK47cnjitAJ5Q" name="executeQuery">
+      <argument xmi:id="_E_JoUOIvEeK47cnjitAJ5Q" name="sqlQuery" incoming="_mymUsOIvEeK47cnjitAJ5Q"/>
+      <result xmi:id="_KD7JwOIvEeK47cnjitAJ5Q" name="result" outgoing="_apbG8OIwEeK47cnjitAJ5Q"/>
+      <operation href="java.sqlConverted.uml#_93UHMeInEeKveahi8QUVDA"/>
+      <target xmi:id="_IC5GIOIvEeK47cnjitAJ5Q" name="target" incoming="_dEsPgOIwEeK47cnjitAJ5Q"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_Xb2xAOIrEeK47cnjitAJ5Q" name="getString">
+      <argument xmi:id="_WED60OIvEeK47cnjitAJ5Q" name="resultSetAttribute" incoming="_ntNi0OIvEeK47cnjitAJ5Q"/>
+      <result xmi:id="_bcO5YOIvEeK47cnjitAJ5Q" name="result" outgoing="_ZrmMwOIwEeK47cnjitAJ5Q"/>
+      <operation href="java.sqlConverted.uml#_922NEeInEeKveahi8QUVDA"/>
+      <target xmi:id="_Z-Jx0OIvEeK47cnjitAJ5Q" name="target" incoming="_apbG8OIwEeK47cnjitAJ5Q"/>
+    </node>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_UF46wOIrEeK47cnjitAJ5Q" name="OutputString" incoming="_ZrmMwOIwEeK47cnjitAJ5Q" parameter="_HlOPgOIrEeK47cnjitAJ5Q"/>
+  </packagedElement>
+</uml:Model>

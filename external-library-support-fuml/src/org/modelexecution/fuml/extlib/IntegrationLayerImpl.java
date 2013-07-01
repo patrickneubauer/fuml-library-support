@@ -436,19 +436,19 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			ParameterValue outputParameterValue = new ParameterValue();
 			outputParameterValue.parameter = outputParameter;
 
-			if (javaMethod.getReturnType().getName().equals("boolean")) {
+			if (javaMethodReturnValue instanceof java.lang.Boolean) {
 
 				BooleanValue booleanValue = new BooleanValue();
 				booleanValue.value = (boolean) javaMethodReturnValue;
 				outputParameterValue.values.add(booleanValue);
 
-			} else if (javaMethod.getReturnType().getName().equals("int")) {
+			} else if (javaMethodReturnValue instanceof java.lang.Integer) {
 
 				IntegerValue integerValue = new IntegerValue();
 				integerValue.value = (int) javaMethodReturnValue;
 				outputParameterValue.values.add(integerValue);
 
-			} else if (javaMethod.getReturnType().getName().equals("java.lang.String")) {
+			} else if (javaMethodReturnValue instanceof java.lang.String) {
 
 				StringValue stringValue = new StringValue();
 				stringValue.value = (String) javaMethodReturnValue;
