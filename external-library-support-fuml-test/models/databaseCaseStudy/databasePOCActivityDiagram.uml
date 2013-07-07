@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_ewufYODDEeKaH-4BX1dETA">
-  <packagedElement xmi:type="uml:Activity" xmi:id="_mqYDwODlEeKaH-4BX1dETA" name="DatabasePOCActivity" node="_Mu2gcODmEeKaH-4BX1dETA _sbi-4ODqEeKaH-4BX1dETA _snGyUOIhEeKaH-4BX1dETA _sXl2AOIpEeK47cnjitAJ5Q _eZ5WoOIqEeK47cnjitAJ5Q _UF46wOIrEeK47cnjitAJ5Q _Xb2xAOIrEeK47cnjitAJ5Q _kE7xYOIrEeK47cnjitAJ5Q _lyHE4OIrEeK47cnjitAJ5Q _mon2IOIrEeK47cnjitAJ5Q __vtPUOIrEeK47cnjitAJ5Q _BgciQOIuEeK47cnjitAJ5Q _RVtEkOJLEeKLVfjmiErMEw">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_mqYDwODlEeKaH-4BX1dETA" name="DatabasePOCActivity" node="_sbi-4ODqEeKaH-4BX1dETA _snGyUOIhEeKaH-4BX1dETA _sXl2AOIpEeK47cnjitAJ5Q _eZ5WoOIqEeK47cnjitAJ5Q _UF46wOIrEeK47cnjitAJ5Q _Xb2xAOIrEeK47cnjitAJ5Q _kE7xYOIrEeK47cnjitAJ5Q _lyHE4OIrEeK47cnjitAJ5Q _mon2IOIrEeK47cnjitAJ5Q __vtPUOIrEeK47cnjitAJ5Q _BgciQOIuEeK47cnjitAJ5Q _RVtEkOJLEeKLVfjmiErMEw _YHp_gObrEeKKd4HyT8iQxQ">
     <ownedParameter xmi:id="_HlOPgOIrEeK47cnjitAJ5Q" name="outputParameter" direction="out"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_j4sIUOIvEeK47cnjitAJ5Q" name="ObjectFlowConnectionSpecificationToCall" source="_gbJLwOIhEeKaH-4BX1dETA" target="_xymT4OIuEeK47cnjitAJ5Q"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_lD1s0OIvEeK47cnjitAJ5Q" name="ObjectFlowSqlCommand1SpecificationToCall" source="_y3owsOIrEeK47cnjitAJ5Q" target="_1ehzEOIuEeK47cnjitAJ5Q"/>
@@ -34,10 +34,10 @@
       <result xmi:id="_6RR3wOIrEeK47cnjitAJ5Q" name="resultSetAttribute" outgoing="_ntNi0OIvEeK47cnjitAJ5Q"/>
       <value xmi:type="uml:LiteralString" xmi:id="_5hL3kOIrEeK47cnjitAJ5Q" value="name"/>
     </node>
-    <node xmi:type="uml:CallOperationAction" xmi:id="_Mu2gcODmEeKaH-4BX1dETA" name="getConnection">
+    <node xmi:type="uml:CallBehaviorAction" xmi:id="_YHp_gObrEeKKd4HyT8iQxQ" name="getConnection">
       <argument xmi:id="_xymT4OIuEeK47cnjitAJ5Q" name="url" incoming="_j4sIUOIvEeK47cnjitAJ5Q"/>
       <result xmi:id="_Vb29QOItEeK47cnjitAJ5Q" name="result" outgoing="_XDBA8OIwEeK47cnjitAJ5Q"/>
-      <operation href="java.sqlConverted.uml#_92uRQOInEeKveahi8QUVDA"/>
+      <behavior xmi:type="uml:Activity" href="java.sqlConverted.uml#_Jg3GEuJkEeKCsfcgfiOuoA"/>
     </node>
     <node xmi:type="uml:CallOperationAction" xmi:id="_snGyUOIhEeKaH-4BX1dETA" name="createStatement">
       <result xmi:id="_bfsSgOIuEeK47cnjitAJ5Q" name="result" outgoing="_btOGQOIwEeK47cnjitAJ5Q"/>

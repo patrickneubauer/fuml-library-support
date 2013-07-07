@@ -43,7 +43,7 @@ import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
 import fUML.Semantics.Loci.LociL1.Locus;
 
 /**
- * Integration Test (IT) Class for {@link IntegrationLayer} on the Mail Case Study
+ * Integration Test (IT) Class for {@link IntegrationLayer} on the Database Case Study
  * 
  * @author Patrick Neubauer
  * 
