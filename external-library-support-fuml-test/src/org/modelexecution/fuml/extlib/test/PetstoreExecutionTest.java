@@ -16,10 +16,10 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
+import org.modelexecution.fuml.extlib.papyrus.PapyrusModelILExecutor;
 import org.modelexecution.fumldebug.core.ExecutionEventListener;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.trace.tracemodel.Trace;
-import org.modelexecution.fumldebug.papyrus.PapyrusModelExecutor;
 
 import fUML.Semantics.Classes.Kernel.CompoundValue;
 import fUML.Semantics.Classes.Kernel.ExtensionalValue;
@@ -51,7 +51,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 	 */
 	@Test
 	public void testScenario1() {
-		PapyrusModelExecutor executor = new PapyrusModelExecutor(
+		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
 				"models/petstoreCaseStudy/petstore.di");
 		clearLocus(executor);
 		Trace trace = executor.executeActivity("scenario1", null, null);
@@ -94,7 +94,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 	 */
 	@Test
 	public void testScenario2() {
-		PapyrusModelExecutor executor = new PapyrusModelExecutor(
+		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
 				"models/petstoreCaseStudy/petstore.di");
 		clearLocus(executor);
 		Trace trace = executor.executeActivity("scenario2", null, null);
@@ -125,7 +125,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 	 */
 	@Test
 	public void testScenario3() {
-		PapyrusModelExecutor executor = new PapyrusModelExecutor(
+		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
 				"models/petstoreCaseStudy/petstore.di");
 		clearLocus(executor);
 		Trace trace = executor.executeActivity("scenario3", null, null);
@@ -150,7 +150,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 	 */
 	@Test
 	public void testScenario4() {
-		PapyrusModelExecutor executor = new PapyrusModelExecutor(
+		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
 				"models/petstoreCaseStudy/petstore.di");
 		clearLocus(executor);
 		Trace trace = executor.executeActivity("scenario4", null, null);
@@ -185,7 +185,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 	 */
 	@Test
 	public void testScenario5() {
-		PapyrusModelExecutor executor = new PapyrusModelExecutor(
+		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
 				"models/petstoreCaseStudy/petstore.di");
 		clearLocus(executor);
 		Trace trace = executor.executeActivity("scenario5", null, null);
@@ -203,7 +203,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 	 */
 	@Test
 	public void testScenario6() {
-		PapyrusModelExecutor executor = new PapyrusModelExecutor(
+		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
 				"models/petstoreCaseStudy/petstore.di");
 		clearLocus(executor);
 		executor.executeActivity("scenario6", null, null);
@@ -287,7 +287,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 	 */
 	@Test
 	public void testScenario7() {
-		PapyrusModelExecutor executor = new PapyrusModelExecutor(
+		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
 				"models/petstoreCaseStudy/petstore.di");
 		clearLocus(executor);
 
@@ -380,7 +380,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 		Assert.assertEquals(0, cartitems.size()); 		
 	}
 
-	private Object_ getItemByName(PapyrusModelExecutor executor, String name) {
+	private Object_ getItemByName(PapyrusModelILExecutor executor, String name) {
 		Set<Object_> items = getObjects(executor, "Item");
 		Iterator<Object_> itemsIterator = items.iterator();
 		while (itemsIterator.hasNext()) {
@@ -393,7 +393,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 		return null;
 	}
 
-	private Object_ getCustomerByLogin(PapyrusModelExecutor executor,
+	private Object_ getCustomerByLogin(PapyrusModelILExecutor executor,
 			String customerlogin) {
 		Set<Object_> customers = getObjects(executor, "Customer");
 		Iterator<Object_> customersIterator = customers.iterator();
@@ -407,7 +407,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 		return null;
 	}
 
-	private void clearLocus(PapyrusModelExecutor executor) {
+	private void clearLocus(PapyrusModelILExecutor executor) {
 		executor.getExecutionContext().removeEventListener(this);
 		executor.getExecutionContext().addEventListener(this);
 		executor.getExecutionContext().getLocus().extensionalValues.clear();
@@ -422,7 +422,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 		return null;
 	}
 
-	private Set<Object_> getObjects(PapyrusModelExecutor executor,
+	private Set<Object_> getObjects(PapyrusModelILExecutor executor,
 			String classifiername) {
 		Set<Object_> objects = new HashSet<Object_>();
 		for (ExtensionalValue extensionalValue : executor.getExecutionContext()
@@ -439,7 +439,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 		return objects;
 	}
 
-	private Set<Link> getLinks(PapyrusModelExecutor executor,
+	private Set<Link> getLinks(PapyrusModelILExecutor executor,
 			String associationname) {
 		Set<Link> links = new HashSet<Link>();
 		for (ExtensionalValue extensionalValue : executor.getExecutionContext()
@@ -456,7 +456,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 		return links;
 	}
 
-	private Set<Object_> getLinkedObjects(PapyrusModelExecutor executor,
+	private Set<Object_> getLinkedObjects(PapyrusModelILExecutor executor,
 			String associationname, Object_ knownObject, String knownEndName) {
 		Set<Object_> linkedObjects = new HashSet<Object_>();
 		Association association = getAssociation(executor, associationname);
@@ -494,7 +494,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 		return null;
 	}
 
-	private Association getAssociation(PapyrusModelExecutor executor,
+	private Association getAssociation(PapyrusModelILExecutor executor,
 			String associationname) {
 		Iterator<Link> linksIterator = getLinks(executor, associationname)
 				.iterator();

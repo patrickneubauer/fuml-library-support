@@ -3,12 +3,7 @@
  */
 package org.modelexecution.fuml.extlib.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,29 +13,36 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.papyrus.infra.core.sashwindows.di.PageList;
+import org.eclipse.papyrus.infra.core.sashwindows.di.SashWindowsMngr;
+import org.eclipse.papyrus.infra.core.sashwindows.di.util.DiResourceFactoryImpl;
 import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.modelexecution.fuml.convert.ConverterRegistry;
+import org.modelexecution.fuml.convert.IConversionResult;
+import org.modelexecution.fuml.convert.IConverter;
 import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.IntegrationLayer;
 import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
 import org.modelexecution.fuml.extlib.UML2Preparer;
 import org.modelexecution.fumldebug.core.ExecutionEventListener;
-import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
+import org.modelexecution.fumldebug.papyrus.util.DiResourceUtil;
 
-import fUML.Semantics.Classes.Kernel.BooleanValue;
-import fUML.Semantics.Classes.Kernel.IntegerValue;
-import fUML.Semantics.Classes.Kernel.Object_;
-import fUML.Semantics.Classes.Kernel.StringValue;
-import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
-import fUML.Semantics.Loci.LociL1.Locus;
+import fUML.Syntax.Actions.BasicActions.CallBehaviorAction;
+import fUML.Syntax.Activities.CompleteStructuredActivities.StructuredActivityNode;
+import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
+import fUML.Syntax.Activities.IntermediateActivities.DecisionNode;
+import fUML.Syntax.CommonBehaviors.BasicBehaviors.Behavior;
+import fUML.Syntax.CommonBehaviors.BasicBehaviors.OpaqueBehavior;
 
 /**
  * Integration Test (IT) Class for {@link IntegrationLayer} on the Petstore Case Study
@@ -53,6 +55,16 @@ public class PetstoreCaseStudy implements ExecutionEventListener {
 	private ResourceSet resourceSet;
 	private List<Event> eventlist = new ArrayList<Event>();
 	private IntegrationLayerImpl integrationLayer = new IntegrationLayerImpl();
+	
+	// -----------------
+	
+	private static final ConverterRegistry converterRegistry = ConverterRegistry
+			.getInstance();
+	private static final String PLATFORM_RESOURCE = "platform:/resource";
+	private IConversionResult conversionResult;
+	private Resource diResource;
+	
+	// -----------------
 
 	public PetstoreCaseStudy() {
 		integrationLayer.getExecutionContext().addEventListener(this);
@@ -68,8 +80,11 @@ public class PetstoreCaseStudy implements ExecutionEventListener {
 	@Before
 	public void prepareResourceSet() {
 		resourceSet = new ResourceSetImpl();
-		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
+//		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
+//		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
+		
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
+				.put("di", new DiResourceFactoryImpl()); //$NON-NLS-1$
 	}
 
 	@Before
@@ -115,6 +130,72 @@ public class PetstoreCaseStudy implements ExecutionEventListener {
 		}
 		return null;
 	}
+	
+	// -------------------
+	
+	private void replaceOpaqueBehaviors(fUML.Syntax.Activities.IntermediateActivities.Activity activity) {
+		List<ActivityNode> nodesWithBehavior = new ArrayList<ActivityNode>();
+		nodesWithBehavior.addAll(getBehaviorNodes(activity.node));
+
+		for (ActivityNode node : nodesWithBehavior) {
+			if (node instanceof CallBehaviorAction) {
+				CallBehaviorAction callBehaviorAction = (CallBehaviorAction) node;
+				Behavior behavior = callBehaviorAction.behavior;
+				OpaqueBehavior behaviorReplacement = integrationLayer.getExecutionContext()
+						.getOpaqueBehavior(behavior.name);
+				if (behaviorReplacement != null) {
+					callBehaviorAction.behavior = behaviorReplacement;
+				}
+			} else if (node instanceof DecisionNode) {
+				DecisionNode decision = (DecisionNode) node;
+				Behavior behavior = decision.decisionInput;
+				OpaqueBehavior behaviorReplacement = integrationLayer.getExecutionContext()
+						.getOpaqueBehavior(behavior.name);
+				if (behaviorReplacement != null) {
+					decision.decisionInput = behaviorReplacement;
+				}
+			}
+		}
+	}
+	
+	private List<ActivityNode> getBehaviorNodes(List<ActivityNode> nodes) {
+		List<ActivityNode> nodesWithBehavior = new ArrayList<ActivityNode>();
+		for (ActivityNode node : nodes) {
+			if (node instanceof CallBehaviorAction) {
+				CallBehaviorAction action = (CallBehaviorAction) node;
+				nodesWithBehavior.add(action);
+			} else if (node instanceof DecisionNode) {
+				DecisionNode decision = (DecisionNode) node;
+				if (decision.decisionInput != null) {
+					nodesWithBehavior.add(decision);
+				}
+			}
+			if (node instanceof StructuredActivityNode) {
+				StructuredActivityNode structurednode = (StructuredActivityNode) node;
+				nodesWithBehavior.addAll(getBehaviorNodes(structurednode.node));
+			}
+		}
+		return nodesWithBehavior;
+	}
+	
+	private IConversionResult convertDiResource() {
+		NamedElement namedElement = obtainFirstNamedElement();
+		IConverter converter = getConverter(namedElement);
+		return converter.convert(namedElement);
+	}
+
+	private NamedElement obtainFirstNamedElement() {
+		SashWindowsMngr sashWindowMngr = DiResourceUtil
+				.obtainSashWindowMngr(diResource);
+		PageList pageList = sashWindowMngr.getPageList();
+		return DiResourceUtil.obtainFirstNamedElement(pageList);
+	}
+
+	private IConverter getConverter(NamedElement namedElement) {
+		return converterRegistry.getConverter(namedElement);
+	}
+	
+	// -------------------
 
 	/**
 	 * Tests {@link CreateObjectAction} that invokes an Object from an external
@@ -126,13 +207,18 @@ public class PetstoreCaseStudy implements ExecutionEventListener {
 		String activityDiagramFilePath = "models/petstoreCaseStudy/petstore.uml";
 		String activityName = "scenario7";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
+//		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
+//		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+//				.next();
 
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
+//		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
+//		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
+//		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
+				
+		// Replace Opaque Behaviors
+		conversionResult = convertDiResource();
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = conversionResult.getActivity(activityName);
+		replaceOpaqueBehaviors(fUMLActivity);
 
 		// Execute fUML Activity
 		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());

@@ -909,6 +909,8 @@
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_KQatYNmpEeK6iduXuBguHQ"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_KQatX9mpEeK6iduXuBguHQ" value="1"/>
           </ownedParameter>
+          <ownedParameter xmi:id="_y92P4OfdEeKmB4-3kF5U3A" name="outputParameter" direction="out"/>
+          <ownedParameter xmi:id="_7wAMkOfeEeKhoPvkuTJE1Q" name="target"/>
         </ownedOperation>
         <ownedOperation xmi:id="_KQatYdmpEeK6iduXuBguHQ" name="getShip" visibility="public" method="_g_dK-OYgEeK7ArIQqqMapQ">
           <ownedParameter xmi:id="_KQatYtmpEeK6iduXuBguHQ" visibility="public" type="_KQaGd9mpEeK6iduXuBguHQ" direction="return">
@@ -1127,6 +1129,7 @@
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_KQbUVdmpEeK6iduXuBguHQ"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_KQbUVNmpEeK6iduXuBguHQ" value="1"/>
           </ownedParameter>
+          <ownedParameter xmi:id="_pVhLEOfaEeKNoJEcwdh5QQ" name="Parameter1" direction="out"/>
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_KQbUVtmpEeK6iduXuBguHQ" name="SimpleEngine">
