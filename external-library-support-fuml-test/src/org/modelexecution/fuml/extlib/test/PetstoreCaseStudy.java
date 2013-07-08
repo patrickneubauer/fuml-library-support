@@ -178,23 +178,6 @@ public class PetstoreCaseStudy implements ExecutionEventListener {
 		return nodesWithBehavior;
 	}
 	
-	private IConversionResult convertDiResource() {
-		NamedElement namedElement = obtainFirstNamedElement();
-		IConverter converter = getConverter(namedElement);
-		return converter.convert(namedElement);
-	}
-
-	private NamedElement obtainFirstNamedElement() {
-		SashWindowsMngr sashWindowMngr = DiResourceUtil
-				.obtainSashWindowMngr(diResource);
-		PageList pageList = sashWindowMngr.getPageList();
-		return DiResourceUtil.obtainFirstNamedElement(pageList);
-	}
-
-	private IConverter getConverter(NamedElement namedElement) {
-		return converterRegistry.getConverter(namedElement);
-	}
-	
 	// -------------------
 
 	/**
@@ -207,17 +190,15 @@ public class PetstoreCaseStudy implements ExecutionEventListener {
 		String activityDiagramFilePath = "models/petstoreCaseStudy/petstore.uml";
 		String activityName = "scenario7";
 
-//		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-//		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-//				.next();
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
 
-//		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-//		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-//		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
+		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
+		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
+		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
 				
 		// Replace Opaque Behaviors
-		conversionResult = convertDiResource();
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = conversionResult.getActivity(activityName);
 		replaceOpaqueBehaviors(fUMLActivity);
 
 		// Execute fUML Activity
