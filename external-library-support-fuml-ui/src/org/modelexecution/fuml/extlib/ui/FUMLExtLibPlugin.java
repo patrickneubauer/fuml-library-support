@@ -12,41 +12,66 @@ package org.modelexecution.fuml.extlib.ui;
 import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
-public class FUMLExtLibUIPlugin extends AbstractUIPlugin {
+public class FUMLExtLibPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.modelexecution.fuml.extlib.ui"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.modelexecution.fuml.extlib.plugin"; //$NON-NLS-1$
 	private final static String ICONS_PATH = "icons/"; //$NON-NLS-1$
-
+	
+	public static final String PROCESS_FACTORY_ID = "org.modelexecution.fuml.extlib.activityProcessFactory";
+	public static final String ATT_RESOURCE = "ATT_RESOURCE"; //$NON-NLS-1$
+	public static final String ATT_ACTIVITY_NAME = "ATT_NAME"; //$NON-NLS-1$
+	
+	private static BundleContext context;
+	
 	// The shared instance
-	private static FUMLExtLibUIPlugin plugin;
+	private static FUMLExtLibPlugin plugin;
 
 	// Images
 	public final static String IMG_ACTIVITY_LAUNCH = "IMG_ACTIVITY_LAUNCH"; //$NON-NLS-1$
 
-	public FUMLExtLibUIPlugin() {
+	public FUMLExtLibPlugin() {
+		super();
+		setDefault(this);
+	}
+	
+	static BundleContext getContext() {
+		return context;
 	}
 
 	public void start(BundleContext context) throws Exception {
-		super.start(context);
-		plugin = this;
+		FUMLExtLibPlugin.context = context;
 	}
 
 	public void stop(BundleContext context) throws Exception {
-		plugin = null;
-		super.stop(context);
+		FUMLExtLibPlugin.context = null;
 	}
 
-	public static FUMLExtLibUIPlugin getDefault() {
+	private static void setDefault(FUMLExtLibPlugin plugin) {
+		plugin = plugin;
+	}
+	
+	public static FUMLExtLibPlugin getDefault() {
 		return plugin;
+	}
+	
+	public static void log(IStatus status) {
+		getDefault().getLog().log(status);
+	}
+	
+	public static void log(Throwable t) {
+		IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, t.getMessage(), t);
+		log(status);
 	}
 
 	protected void initializeImageRegistry(ImageRegistry reg) {

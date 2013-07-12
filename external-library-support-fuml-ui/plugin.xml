@@ -17,5 +17,12 @@
             type="org.modelexecution.fumldebug.debugger.launchConfigurationType">
       </launchConfigurationTabGroup>
    </extension>
+   <extension
+         point="org.eclipse.debug.core.processFactories">
+      <processFactory
+            class="org.modelexecution.fuml.extlib.process.ActivityProcessFactory"
+            id="org.modelexecution.fuml.extlib.activityProcessFactory">
+      </processFactory>
+   </extension>
 
 </plugin>
