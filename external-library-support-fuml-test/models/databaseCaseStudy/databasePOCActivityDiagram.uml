@@ -37,7 +37,7 @@
     <node xmi:type="uml:CallBehaviorAction" xmi:id="_YHp_gObrEeKKd4HyT8iQxQ" name="getConnection">
       <argument xmi:id="_xymT4OIuEeK47cnjitAJ5Q" name="url" incoming="_j4sIUOIvEeK47cnjitAJ5Q"/>
       <result xmi:id="_Vb29QOItEeK47cnjitAJ5Q" name="result" outgoing="_XDBA8OIwEeK47cnjitAJ5Q"/>
-      <behavior xmi:type="uml:Activity" href="java.sqlConverted.uml#_Jg3GEuJkEeKCsfcgfiOuoA"/>
+      <behavior xmi:type="uml:Activity" href="java.sqlConverted.uml#_jrBDEObtEeKz7IYMvTx5-g"/>
     </node>
     <node xmi:type="uml:CallOperationAction" xmi:id="_snGyUOIhEeKaH-4BX1dETA" name="createStatement">
       <result xmi:id="_bfsSgOIuEeK47cnjitAJ5Q" name="result" outgoing="_btOGQOIwEeK47cnjitAJ5Q"/>

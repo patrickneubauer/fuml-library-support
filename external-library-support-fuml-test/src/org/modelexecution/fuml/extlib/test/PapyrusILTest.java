@@ -74,7 +74,7 @@ public class PapyrusILTest implements ExecutionEventListener {
 	@Test
 	public void shipToString() {
 		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
-				"models/activityWithCreateObjectAction/papyrusTest.di");
+				"models/modelsAccessingAnExternalLibrary/papyrusCreated/papyrusTest.di");
 		clearLocus(executor);
 		Trace trace = executor.executeActivity("PapyrusTestAD", null, null);
 
