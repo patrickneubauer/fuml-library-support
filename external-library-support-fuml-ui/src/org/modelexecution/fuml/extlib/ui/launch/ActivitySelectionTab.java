@@ -115,7 +115,7 @@ public class ActivitySelectionTab extends AbstractLaunchConfigurationTab {
 
 	private void createResourceLabel(Font font, Composite comp) {
 		Label programLabel = new Label(comp, SWT.NONE);
-		programLabel.setText("&Ressource:");
+		programLabel.setText("&Resource:");
 		programLabel.setLayoutData(new GridData(GridData.BEGINNING));
 		programLabel.setFont(font);
 	}

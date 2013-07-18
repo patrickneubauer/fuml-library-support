@@ -10,7 +10,7 @@
             delegateName="fUML Activiy Launcher"
             id="org.modelexecution.extlib.plugin.launchConfigurationType"
             modes="run, debug"
-            name="fUML Activity"
+            name="fUML Extlib Activity"
             sourceLocatorId="org.modelexecution.fumldebug.debugger.sourceLocator"
             sourcePathComputerId="org.modelexecution.fumldebug.debugger.sourcePathComputer">
       </launchConfigurationType>
