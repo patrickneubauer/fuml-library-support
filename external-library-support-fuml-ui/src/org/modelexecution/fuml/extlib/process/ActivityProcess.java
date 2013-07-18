@@ -9,7 +9,6 @@
  */
 package org.modelexecution.fuml.extlib.process;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,24 +28,13 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IStreamsProxy;
+import org.modelexecution.fuml.extlib.plugin.logger.ConsoleLogger;
 import org.modelexecution.fuml.extlib.plugin.process.internal.InternalActivityProcess;
 import org.modelexecution.fumldebug.core.ExecutionEventListener;
 import org.modelexecution.fumldebug.core.ExecutionEventProvider;
-import org.modelexecution.fumldebug.core.event.ActivityEntryEvent;
 import org.modelexecution.fumldebug.core.event.Event;
-import org.modelexecution.fumldebug.core.event.SuspendEvent;
-import org.modelexecution.fumldebug.core.event.writer.EventWriter;
-import org.modelexecution.fumldebug.core.trace.tracemodel.Trace;
-import org.modelexecution.fumldebug.debugger.FUMLDebuggerPlugin;
-import org.modelexecution.fumldebug.debugger.logger.ConsoleLogger;
-import org.modelexecution.fumldebug.debugger.logger.ErrorAwareEventWriter;
-import org.modelexecution.fumldebug.debugger.process.internal.ErrorEvent;
-import org.modelexecution.fumldebug.debugger.process.internal.TracePointDescription;
-import org.modelexecution.fumldebug.debugger.process.internal.TracePointDescription.ExecutionMoment;
-
 import fUML.Semantics.Loci.LociL1.Locus;
 import fUML.Syntax.Activities.IntermediateActivities.Activity;
-import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
 
 public class ActivityProcess extends PlatformObject implements IProcess, ExecutionEventProvider {
 
@@ -57,12 +45,9 @@ public class ActivityProcess extends PlatformObject implements IProcess, Executi
 	private Map attributes;
 
 	private List<Event> allEvents = new ArrayList<Event>();
-	private List<Event> newEvents = new ArrayList<Event>();
 	private ExecutionEventProvider eventEmitter = new ExecutionEventProviderImpl();
 
 	private ConsoleLogger consoleLogger = new ConsoleLogger();
-	private EventWriter eventWriter = new ErrorAwareEventWriter();
-
 	private boolean isStarted = false;
 	private boolean isTerminated = false;
 
@@ -91,119 +76,8 @@ public class ActivityProcess extends PlatformObject implements IProcess, Executi
 	}
 
 	public void runActivityProcess() {
-		clearEventLists();
-		resetStateFlags();
 		this.internalActivityProcess.run();
-		processEvents();
-	}
-
-	private void clearEventLists() {
-		allEvents.clear();
-		newEvents.clear();
-	}
-
-	private void resetStateFlags() {
-		isStarted = false;
-		isTerminated = false;
-	}
-
-	private void processEvents() {
-		updateEventLists();
-		logNewEvents();
-		updateState();
-		propagateNewEvents();
-	}
-
-	private void updateEventLists() {
-		newEvents.clear();
-		newEvents.addAll(internalActivityProcess.pollEvents());
-		allEvents.addAll(newEvents);
-	}
-
-	private void logNewEvents() {
-		for (Event event : newEvents) {
-			try {
-				if (event instanceof ErrorEvent) {
-					consoleLogger.writeError(eventWriter.write(event));
-				} else {
-					consoleLogger.write(eventWriter.write(event));
-				}
-			} catch (IOException e) {
-				FUMLDebuggerPlugin.log(e);
-			}
-		}
-	}
-
-	private void updateState() {
-		if (newEvents.isEmpty())
-			return;
-
-		if (isStarting()) {
-			setStarted(true);
-		}
-
-		if (isTerminating()) {
-			try {
-				terminate();
-			} catch (DebugException e) {
-				FUMLDebuggerPlugin.log(e);
-			}
-		}
-
-		if (isSuspending()) {
-			fireSuspendEvent();
-		}
-
-		if (isFailing()) {
-			try {
-				terminate();
-			} catch (DebugException e) {
-				FUMLDebuggerPlugin.log(e);
-			}
-		}
-	}
-
-	private boolean isStarting() {
-		return !isStarted && !isTerminated && isLastActivityEntryEvent();
-	}
-
-	private boolean isLastActivityEntryEvent() {
-		return newEvents.get(0) instanceof ActivityEntryEvent;
-	}
-
-	private void setStarted(boolean started) {
-		isStarted = started;
-		fireChangeEvent();
-	}
-
-	private boolean isTerminating() {
-		return isStarted && !isTerminated && internalActivityProcess.isFinalActivityExitEvent(getLastNewEvent());
-	}
-
-	private boolean isSuspending() {
-		return isStarted && !isTerminated && isSuspendEvent(getLastNewEvent());
-	}
-
-	private boolean isFailing() {
-		return isStarted && !isTerminated && isErrorEvent(getLastNewEvent());
-	}
-
-	private boolean isErrorEvent(Event event) {
-		return event instanceof ErrorEvent;
-	}
-
-	private boolean isSuspendEvent(Event event) {
-		return event instanceof SuspendEvent;
-	}
-
-	private Event getLastNewEvent() {
-		return newEvents.get(newEvents.size() - 1);
-	}
-
-	private void propagateNewEvents() {
-		for (Event event : newEvents) {
-			eventEmitter.notifyEventListener(event);
-		}
+		
 	}
 
 	public List<Event> getAllEvents() {
@@ -233,46 +107,6 @@ public class ActivityProcess extends PlatformObject implements IProcess, Executi
 		internalActivityProcess.destroy();
 		isTerminated = true;
 		fireTerminateEvent();
-	}
-
-	public void resume() {
-		internalActivityProcess.resume();
-		processEvents();
-		fireChangeEvent();
-	}
-
-	public void suspend() {
-		internalActivityProcess.suspend();
-		processEvents();
-		fireSuspendEvent();
-	}
-
-	public void stepInto(int executionId) {
-		internalActivityProcess.nextStep(executionId);
-		processEvents();
-		fireChangeEvent();
-	}
-
-	public void stepInto(int executionId, ActivityNode activityNode) {
-		internalActivityProcess.nextStep(executionId, activityNode);
-		processEvents();
-		fireChangeEvent();
-	}
-
-	public void stepOver(int executionId, ActivityNode activityNode) {
-		TracePointDescription pointDescription = new TracePointDescription(executionId, ExecutionMoment.EXIT, activityNode);
-		stepUntil(executionId, pointDescription);
-	}
-
-	public void stepReturn(int executionId) {
-		TracePointDescription pointDescription = new TracePointDescription(executionId, ExecutionMoment.EXIT);
-		stepUntil(executionId, pointDescription);
-	}
-
-	private void stepUntil(int executionId, TracePointDescription pointDescription) {
-		internalActivityProcess.stepUntil(executionId, pointDescription);
-		processEvents();
-		fireChangeEvent();
 	}
 
 	@Override
@@ -385,13 +219,7 @@ public class ActivityProcess extends PlatformObject implements IProcess, Executi
 		eventEmitter.notifyEventListener(event);
 	}
 
-	public void addBreakpoint(ActivityNode node) {
-		internalActivityProcess.addBreakpoint(node);
-	}
-
-	public void removeBreakpoint(ActivityNode node) {
-		internalActivityProcess.removeBreakpoint(node);
-	}
+	
 
 	private class ExecutionEventProviderImpl implements ExecutionEventProvider {
 		private Set<ExecutionEventListener> listeners = new HashSet<ExecutionEventListener>();
@@ -416,10 +244,6 @@ public class ActivityProcess extends PlatformObject implements IProcess, Executi
 
 	public Locus getLocus() {
 		return this.internalActivityProcess.getLocus();
-	}
-
-	public Trace getTrace() {
-		return this.internalActivityProcess.getTrace();
 	}
 
 }

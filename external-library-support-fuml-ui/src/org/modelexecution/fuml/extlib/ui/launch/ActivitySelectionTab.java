@@ -42,7 +42,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ResourceListSelectionDialog;
-import org.modelexecution.fumldebug.debugger.FUMLDebuggerPlugin;
+import org.modelexecution.fuml.extlib.ui.FUMLExtLibPlugin;
 import org.modelexecution.fumldebug.debugger.provider.IActivityProvider;
 import org.modelexecution.fumldebug.debugger.provider.IActivityProviderFactory;
 import org.modelexecution.fumldebug.ui.commons.FUMLUICommons;
@@ -58,6 +58,7 @@ public class ActivitySelectionTab extends AbstractLaunchConfigurationTab {
 	private Collection<Activity> activities = Collections.emptyList();
 	private TreeViewer activityList;
 	private Activity selectedActivity = null;
+	private Composite comp_1;
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -73,14 +74,14 @@ public class ActivitySelectionTab extends AbstractLaunchConfigurationTab {
 	}
 
 	private Composite createContainerComposite(Composite parent, Font font) {
-		Composite comp = new Composite(parent, SWT.NONE);
-		setControl(comp);
-		GridLayout topLayout = new GridLayout();
-		topLayout.verticalSpacing = 0;
-		topLayout.numColumns = 3;
-		comp.setLayout(topLayout);
-		comp.setFont(font);
-		return comp;
+		comp_1 = new Composite(parent, SWT.NONE);
+		setControl(comp_1);
+		GridLayout gl_comp_1 = new GridLayout();
+		gl_comp_1.verticalSpacing = 0;
+		gl_comp_1.numColumns = 3;
+		comp_1.setLayout(gl_comp_1);
+		comp_1.setFont(font);
+		return comp_1;
 	}
 
 	private void createResourceSelectionControls(Font font, Composite comp) {
@@ -114,9 +115,8 @@ public class ActivitySelectionTab extends AbstractLaunchConfigurationTab {
 
 	private void createResourceLabel(Font font, Composite comp) {
 		Label programLabel = new Label(comp, SWT.NONE);
-		programLabel.setText("&Resource:");
-		GridData gd = new GridData(GridData.BEGINNING);
-		programLabel.setLayoutData(gd);
+		programLabel.setText("&Ressource:");
+		programLabel.setLayoutData(new GridData(GridData.BEGINNING));
 		programLabel.setFont(font);
 	}
 
@@ -135,6 +135,7 @@ public class ActivitySelectionTab extends AbstractLaunchConfigurationTab {
 	}
 
 	private void createActivitySelectionControls(Font font, Composite comp) {
+		new Label(comp_1, SWT.NONE);
 		Group group = new Group(comp, SWT.BORDER);
 		group.setText("Select Activity");
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -257,9 +258,9 @@ public class ActivitySelectionTab extends AbstractLaunchConfigurationTab {
 		String defValActivityName = ""; //$NON-NLS-1$
 		try {
 			defValResourceText = configuration.getAttribute(
-					FUMLDebuggerPlugin.ATT_RESOURCE, (String) null);
+					FUMLExtLibPlugin.ATT_RESOURCE, (String) null);
 			defValActivityName = configuration.getAttribute(
-					FUMLDebuggerPlugin.ATT_ACTIVITY_NAME, (String) null);
+					FUMLExtLibPlugin.ATT_ACTIVITY_NAME, (String) null);
 		} catch (CoreException e) {
 			setErrorMessage(e.getMessage());
 		}
@@ -285,11 +286,11 @@ public class ActivitySelectionTab extends AbstractLaunchConfigurationTab {
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(DebugPlugin.ATTR_PROCESS_FACTORY_ID,
-				FUMLDebuggerPlugin.PROCESS_FACTORY_ID);
-		configuration.setAttribute(FUMLDebuggerPlugin.ATT_RESOURCE,
+				FUMLExtLibPlugin.PROCESS_FACTORY_ID);
+		configuration.setAttribute(FUMLExtLibPlugin.ATT_RESOURCE,
 				resourceText.getText().trim());
 		if (selectedActivity != null) {
-			configuration.setAttribute(FUMLDebuggerPlugin.ATT_ACTIVITY_NAME,
+			configuration.setAttribute(FUMLExtLibPlugin.ATT_ACTIVITY_NAME,
 					selectedActivity.name);
 		}
 	}
