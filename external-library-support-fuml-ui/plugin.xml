@@ -37,22 +37,6 @@
             class="org.modelexecution.fuml.extlib.process.ActivityProcessFactory"
             id="org.modelexecution.fuml.extlib.activityProcessFactory">
       </processFactory>
-   </extension>
-   <extension
-         point="org.eclipse.debug.core.sourceLocators">
-      <sourceLocator
-            class="org.modelexecution.fumldebug.debugger.sourcelookup.ActivitySourceLookupDirector"
-            id="org.modelexecution.fumldebug.debugger.sourceLocator"
-            name="fUML Activity Source Lookup Director">
-      </sourceLocator>
-   </extension>
-   <extension
-         point="org.eclipse.debug.core.sourcePathComputers">
-      <sourcePathComputer
-            class="org.modelexecution.fumldebug.debugger.sourcelookup.ActivitySourcePathComputerDelegate"
-            id="org.modelexecution.fumldebug.debugger.sourcePathComputer">
-      </sourcePathComputer>
-   </extension>
-   
+   </extension>   
 
 </plugin>
