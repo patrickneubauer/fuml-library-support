@@ -19,7 +19,7 @@
          point="org.eclipse.debug.ui.launchConfigurationTypeImages">
       <launchConfigurationTypeImage
             configTypeID="org.modelexecution.extlib.plugin.launchConfigurationType"
-            icon="icons/ActivityLaunch.png"
+            icon="icons/ExtLibActivityLaunch.png"
             id="org.modelexecution.fumldebug.extlib.plugin.launchConfigurationTypeImage">
       </launchConfigurationTypeImage>
    </extension>
