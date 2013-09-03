@@ -29,8 +29,9 @@ public class FUMLExtLibPlugin extends AbstractUIPlugin {
 	private final static String ICONS_PATH = "icons/"; //$NON-NLS-1$
 	
 	public static final String PROCESS_FACTORY_ID = "org.modelexecution.fuml.extlib.activityProcessFactory";
-	public static final String ATT_RESOURCE = "ATT_RESOURCE"; //$NON-NLS-1$
+	public static final String ATT_ACTIVITY_RESOURCE = "ATT_ACTIVITY_RESOURCE"; //$NON-NLS-1$
 	public static final String ATT_ACTIVITY_NAME = "ATT_NAME"; //$NON-NLS-1$
+	public static final String ATT_CLASS_RESOURCE = "ATT_CLASS_RESOURCE";
 	
 	private static BundleContext context;
 	
@@ -38,7 +39,7 @@ public class FUMLExtLibPlugin extends AbstractUIPlugin {
 	private static FUMLExtLibPlugin plugin;
 
 	// Images
-	public final static String IMG_ACTIVITY_LAUNCH = "IMG_ACTIVITY_LAUNCH"; //$NON-NLS-1$
+	public final static String IMG_EXTLIB_ACTIVITY_LAUNCH = "IMG_EXTLIB_ACTIVITY_LAUNCH"; //$NON-NLS-1$
 
 	public FUMLExtLibPlugin() {
 		super();
@@ -75,7 +76,7 @@ public class FUMLExtLibPlugin extends AbstractUIPlugin {
 	}
 
 	protected void initializeImageRegistry(ImageRegistry reg) {
-		declareImage(IMG_ACTIVITY_LAUNCH, ICONS_PATH + "ActivityLaunch.png"); //$NON-NLS-1$
+		declareImage(IMG_EXTLIB_ACTIVITY_LAUNCH, ICONS_PATH + "ExtLibActivityLaunch.png"); //$NON-NLS-1$
 	}
 
 	private void declareImage(String key, String path) {

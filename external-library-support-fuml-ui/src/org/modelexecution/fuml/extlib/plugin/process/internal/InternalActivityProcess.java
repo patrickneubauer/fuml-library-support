@@ -6,6 +6,7 @@
  * 
  * Contributors:
  * Philip Langer - initial API and implementation
+ * Patrick Neubauer - modified version that uses the IntegrationLayer's ExecutionContext
  */
 package org.modelexecution.fuml.extlib.plugin.process.internal;
 

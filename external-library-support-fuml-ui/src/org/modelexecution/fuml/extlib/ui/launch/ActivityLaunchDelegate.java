@@ -17,39 +17,35 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.uml2.uml.UMLPackage;
+import org.eclipse.uml2.uml.resource.UMLResource;
 import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.UML2Preparer;
 import org.modelexecution.fuml.extlib.plugin.process.internal.InternalActivityProcess;
 import org.modelexecution.fuml.extlib.plugin.process.internal.InternalActivityProcess.Mode;
 import org.modelexecution.fuml.extlib.ui.FUMLExtLibPlugin;
+import org.modelexecution.fumldebug.debugger.provider.IActivityProvider;
+import org.modelexecution.fumldebug.debugger.provider.IActivityProviderFactory;
 
 import fUML.Syntax.Activities.IntermediateActivities.Activity;
 
 public class ActivityLaunchDelegate extends LaunchConfigurationDelegate {
 
-	private static final String ACTIVITY_EXEC_LABEL = "fUML Activity Execution Process";
+	private static final String ACTIVITY_EXEC_LABEL = "fUML ExtLib Activity Execution Process";
 	private ResourceSet resourceSet;
 
 	@Override
 	public void launch(ILaunchConfiguration configuration, String mode,
 			ILaunch launch, IProgressMonitor monitor) throws CoreException {
 
-		String resourcePath = getResourcePath(configuration);
+		String activityResourcePath = getActivityResourcePath(configuration);
 		String activityName = getActivityName(configuration);
-		IResource iResource = loadResource(resourcePath);
+		String classResourcePath = getClassResourcePath(configuration);
+
+		prepareResourceSet();
 		
-		/* TODO This has to be put in a tab like ExtlibSelectionTab */ 
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String jarFilePath = "extlibs/Vehicles.jar";
-		
-		UML2Preparer preparer = new UML2Preparer();
-		preparer.load(inputFilePath);
-		preparer.convert(jarFilePath);
-		preparer.save(externalUmlFilePath);
-		/* finished with extlibs */
-		
-		org.eclipse.uml2.uml.Activity umlActivity = loadActivity(resourcePath, activityName, externalUmlFilePath);
+		org.eclipse.uml2.uml.Activity umlActivity = loadActivity(activityResourcePath, activityName, classResourcePath);
 		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
 				.next();
 
@@ -58,12 +54,28 @@ public class ActivityLaunchDelegate extends LaunchConfigurationDelegate {
 
 		IProcess process = DebugPlugin.newProcess(launch, activityProcess,
 				ACTIVITY_EXEC_LABEL);
+		
+		if (mode.equals(ILaunchManager.DEBUG_MODE)) {
+			/* NOTE: Not yet supported */
+		}
 
 	}
+	
+	private void prepareResourceSet() {
+		resourceSet = new ResourceSetImpl();
+		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
+	}
 
-	private String getResourcePath(ILaunchConfiguration configuration)
+	private String getClassResourcePath(ILaunchConfiguration configuration) 
 			throws CoreException {
-		return configuration.getAttribute(FUMLExtLibPlugin.ATT_RESOURCE,
+		return configuration.getAttribute(FUMLExtLibPlugin.ATT_CLASS_RESOURCE,
+				(String) null);
+	}
+
+	private String getActivityResourcePath(ILaunchConfiguration configuration)
+			throws CoreException {
+		return configuration.getAttribute(FUMLExtLibPlugin.ATT_ACTIVITY_RESOURCE,
 				(String) null);
 	}
 
@@ -71,11 +83,6 @@ public class ActivityLaunchDelegate extends LaunchConfigurationDelegate {
 			throws CoreException {
 		return configuration.getAttribute(FUMLExtLibPlugin.ATT_ACTIVITY_NAME,
 				(String) null);
-	}
-
-	private IResource loadResource(String resourcePath) {
-		return ResourcesPlugin.getWorkspace().getRoot()
-				.findMember(resourcePath);
 	}
 
 	private Mode getProcessMode(String mode) {
@@ -90,17 +97,18 @@ public class ActivityLaunchDelegate extends LaunchConfigurationDelegate {
 		return obtainActivity(getResource(path, furtherPaths), activityName);
 	}
 
-	private Resource getResource(String activitypath, String... paths) {
+	private Resource getResource(String activityPath, String... paths) {
+		String workspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile().getAbsolutePath();
 		for (String path : paths) {
-			resourceSet.getResource(URI.createFileURI(new File(path).getAbsolutePath()), true);
+			resourceSet.getResource(URI.createFileURI(new File(workspacePath + path).getAbsolutePath()), true);
 		}
-		return resourceSet.getResource(URI.createFileURI(new File(activitypath).getAbsolutePath()), true);
+		return resourceSet.getResource(URI.createFileURI(new File(workspacePath + activityPath).getAbsolutePath()), true);
 	}
 
 	private org.eclipse.uml2.uml.Activity obtainActivity(Resource resource, String activityName) {
 		for (TreeIterator<EObject> iterator = resource.getAllContents(); iterator.hasNext();) {
 			EObject next = iterator.next();
-			if (next instanceof Activity) {
+			if (next instanceof org.eclipse.uml2.uml.Activity) {
 				org.eclipse.uml2.uml.Activity activity = (org.eclipse.uml2.uml.Activity) next;
 				if (activityName.equals(activity.getName())) {
 					return activity;

@@ -43,9 +43,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ResourceListSelectionDialog;
 import org.modelexecution.fuml.extlib.ui.FUMLExtLibPlugin;
+import org.modelexecution.fuml.extlib.ui.commons.FUMLLibraryUICommons;
 import org.modelexecution.fumldebug.debugger.provider.IActivityProvider;
 import org.modelexecution.fumldebug.debugger.provider.IActivityProviderFactory;
-import org.modelexecution.fumldebug.ui.commons.FUMLUICommons;
 import org.modelexecution.fumldebug.ui.commons.provider.ActivityContentProvider;
 import org.modelexecution.fumldebug.ui.commons.provider.ActivityLabelProvider;
 
@@ -53,12 +53,13 @@ import fUML.Syntax.Activities.IntermediateActivities.Activity;
 
 public class ActivitySelectionTab extends AbstractLaunchConfigurationTab {
 
-	private Text resourceText;
-	private Button browseResourceButton;
+	private Text activityResourceText;
+	private Button browseActivityResourceButton;
+	private Text classResourceText;
+	private Button browseClassResourceButton;
 	private Collection<Activity> activities = Collections.emptyList();
 	private TreeViewer activityList;
 	private Activity selectedActivity = null;
-	private Composite comp_1;
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -67,75 +68,131 @@ public class ActivitySelectionTab extends AbstractLaunchConfigurationTab {
 		Font font = parent.getFont();
 		Composite comp = createContainerComposite(parent, font);
 		createVerticalSpacer(comp, 3);
-		createResourceSelectionControls(font, comp);
+		
+		createActivityResourceSelectionControls(font, comp);		
+		createVerticalSpacer(comp, 3);
+		
+		createClassResourceSelectionControls(font, comp);
 		createVerticalSpacer(comp, 10);
+		
 		createActivitySelectionControls(font, comp);
 		createVerticalSpacer(comp, 3);
 	}
 
 	private Composite createContainerComposite(Composite parent, Font font) {
-		comp_1 = new Composite(parent, SWT.NONE);
-		setControl(comp_1);
-		GridLayout gl_comp_1 = new GridLayout();
-		gl_comp_1.verticalSpacing = 0;
-		gl_comp_1.numColumns = 3;
-		comp_1.setLayout(gl_comp_1);
-		comp_1.setFont(font);
-		return comp_1;
+		Composite comp = new Composite(parent, SWT.NONE);
+		setControl(comp);
+		GridLayout topLayout = new GridLayout();
+		topLayout.verticalSpacing = 0;
+		topLayout.numColumns = 3;
+		comp.setLayout(topLayout);
+		comp.setFont(font);
+		return comp;
 	}
 
-	private void createResourceSelectionControls(Font font, Composite comp) {
-		createResourceLabel(font, comp);
-		createResourceTextControl(font, comp);
-		createResourceBrowseButton(comp);
+	private void createActivityResourceSelectionControls(Font font, Composite comp) {
+		createActivityResourceLabel(font, comp);
+		createActivityResourceTextControl(font, comp);
+		createActivityResourceBrowseButton(comp);
+	}
+	
+	private void createClassResourceSelectionControls(Font font, Composite comp) {
+		createClassResourceLabel(font, comp);
+		createClassResourceTextControl(font, comp);
+		createClassResourceBrowseButton(comp);
 	}
 
-	private void createResourceBrowseButton(Composite comp) {
-		browseResourceButton = createPushButton(comp, "&Browse", null);
-		browseResourceButton.addSelectionListener(new SelectionAdapter() {
+	private void createActivityResourceBrowseButton(Composite comp) {
+		browseActivityResourceButton = createPushButton(comp, "&Browse", null);
+		browseActivityResourceButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				browseResource();
+				browseActivityResource();
+			}
+		});
+	}
+	
+	private void createClassResourceBrowseButton(Composite comp) {
+		browseClassResourceButton = createPushButton(comp, "&Browse", null);
+		browseClassResourceButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				browseClassResource();
 			}
 		});
 	}
 
-	private void createResourceTextControl(Font font, Composite comp) {
+	private void createActivityResourceTextControl(Font font, Composite comp) {
 		GridData gd;
-		resourceText = new Text(comp, SWT.SINGLE | SWT.BORDER);
+		activityResourceText = new Text(comp, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
-		resourceText.setLayoutData(gd);
-		resourceText.setFont(font);
-		resourceText.addModifyListener(new ModifyListener() {
+		activityResourceText.setLayoutData(gd);
+		activityResourceText.setFont(font);
+		activityResourceText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				updateActivities();
 				updateLaunchConfigurationDialog();
 			}
 		});
 	}
+	
+	private void createClassResourceTextControl(Font font, Composite comp) {
+		GridData gd;
+		classResourceText = new Text(comp, SWT.SINGLE | SWT.BORDER);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		classResourceText.setLayoutData(gd);
+		classResourceText.setFont(font);
+		classResourceText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				//updateActivities();
+				updateLaunchConfigurationDialog();
+			}
+		});
+	}
 
-	private void createResourceLabel(Font font, Composite comp) {
+	private void createActivityResourceLabel(Font font, Composite comp) {
 		Label programLabel = new Label(comp, SWT.NONE);
-		programLabel.setText("&Resource:");
-		programLabel.setLayoutData(new GridData(GridData.BEGINNING));
+		programLabel.setText("&Activity Resource:");
+		GridData gd = new GridData(GridData.BEGINNING);
+		programLabel.setLayoutData(gd);
+		programLabel.setFont(font);
+	}
+	
+	private void createClassResourceLabel(Font font, Composite comp) {
+		Label programLabel = new Label(comp, SWT.NONE);
+		programLabel.setText("&Class Resource:");
+		GridData gd = new GridData(GridData.BEGINNING);
+		programLabel.setLayoutData(gd);
 		programLabel.setFont(font);
 	}
 
-	protected void browseResource() {
+	protected void browseActivityResource() {
 		ResourceListSelectionDialog dialog = new ResourceListSelectionDialog(
 				getShell(), ResourcesPlugin.getWorkspace().getRoot(),
 				IResource.FILE);
-		dialog.setTitle("Resource");
+		dialog.setTitle("Activity Resource");
 		dialog.setMessage("Select a resource to debug");
 		if (dialog.open() == Window.OK) {
 			Object[] files = dialog.getResult();
 			IFile file = (IFile) files[0];
-			resourceText.setText(file.getFullPath().toString());
+			activityResourceText.setText(file.getFullPath().toString());
+		}
+
+	}
+	
+	protected void browseClassResource() {
+		ResourceListSelectionDialog dialog = new ResourceListSelectionDialog(
+				getShell(), ResourcesPlugin.getWorkspace().getRoot(),
+				IResource.FILE);
+		dialog.setTitle("Class Resource");
+		dialog.setMessage("Select a resource to debug");
+		if (dialog.open() == Window.OK) {
+			Object[] files = dialog.getResult();
+			IFile file = (IFile) files[0];
+			classResourceText.setText(file.getFullPath().toString());
 		}
 
 	}
 
 	private void createActivitySelectionControls(Font font, Composite comp) {
-		new Label(comp_1, SWT.NONE);
 		Group group = new Group(comp, SWT.BORDER);
 		group.setText("Select Activity");
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -206,7 +263,7 @@ public class ActivitySelectionTab extends AbstractLaunchConfigurationTab {
 
 	protected IResource getResource() {
 		return ResourcesPlugin.getWorkspace().getRoot()
-				.findMember(resourceText.getText());
+				.findMember(activityResourceText.getText());
 	}
 
 	@Override
@@ -249,26 +306,32 @@ public class ActivitySelectionTab extends AbstractLaunchConfigurationTab {
 	}
 
 	private boolean isResourceEmpty() {
-		return resourceText.getText().isEmpty();
+		return activityResourceText.getText().isEmpty();
 	}
 
 	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
-		String defValResourceText = ""; //$NON-NLS-1$
+		String defValActivityResourceText = ""; //$NON-NLS-1$
 		String defValActivityName = ""; //$NON-NLS-1$
+		String defValClassResourceText = ""; //$NON-NLS-1$
 		try {
-			defValResourceText = configuration.getAttribute(
-					FUMLExtLibPlugin.ATT_RESOURCE, (String) null);
+			defValActivityResourceText = configuration.getAttribute(
+					FUMLExtLibPlugin.ATT_ACTIVITY_RESOURCE, (String) null);
+			defValClassResourceText = configuration.getAttribute(
+					FUMLExtLibPlugin.ATT_CLASS_RESOURCE, (String) null);
 			defValActivityName = configuration.getAttribute(
 					FUMLExtLibPlugin.ATT_ACTIVITY_NAME, (String) null);
 		} catch (CoreException e) {
 			setErrorMessage(e.getMessage());
 		}
 
-		resourceText.setText(defValResourceText == null ? "" //$NON-NLS-1$
-				: defValResourceText);
+		activityResourceText.setText(defValActivityResourceText == null ? "" //$NON-NLS-1$
+				: defValActivityResourceText);
+		classResourceText.setText(defValClassResourceText == null ? "" //$NON-NLS-1$
+				: defValClassResourceText);
 		updateActivities();
 		Activity activity = getActivityByName(defValActivityName);
+		
 		if (activity != null) {
 			activityList.setSelection(new StructuredSelection(activity));
 		}
@@ -287,8 +350,10 @@ public class ActivitySelectionTab extends AbstractLaunchConfigurationTab {
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(DebugPlugin.ATTR_PROCESS_FACTORY_ID,
 				FUMLExtLibPlugin.PROCESS_FACTORY_ID);
-		configuration.setAttribute(FUMLExtLibPlugin.ATT_RESOURCE,
-				resourceText.getText().trim());
+		configuration.setAttribute(FUMLExtLibPlugin.ATT_ACTIVITY_RESOURCE,
+				activityResourceText.getText().trim());
+		configuration.setAttribute(FUMLExtLibPlugin.ATT_CLASS_RESOURCE,
+				classResourceText.getText().trim());
 		if (selectedActivity != null) {
 			configuration.setAttribute(FUMLExtLibPlugin.ATT_ACTIVITY_NAME,
 					selectedActivity.name);
@@ -297,12 +362,12 @@ public class ActivitySelectionTab extends AbstractLaunchConfigurationTab {
 
 	@Override
 	public String getName() {
-		return "Activity";
+		return "ExtLib Activity";
 	}
 
 	@Override
 	public Image getImage() {
-		return FUMLUICommons.getImage(FUMLUICommons.IMG_ACTIVITY);
+		return FUMLLibraryUICommons.getImage(FUMLLibraryUICommons.IMG_EXTLIB_ACTIVITY);
 	}
 
 }
