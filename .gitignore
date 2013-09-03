@@ -17,3 +17,5 @@ external-library-support-fuml-test/debug/debug.out
 external-library-support-fuml-gui/
 
 external-library-support-fuml-test/debug.out
+
+external-library-support-fuml-test/models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml
