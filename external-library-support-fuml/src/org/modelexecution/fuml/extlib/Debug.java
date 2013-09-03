@@ -17,7 +17,7 @@ public class Debug {
 		SYSTEM_OUT_AND_FILE_OUT,
 		FILE_OUT_ONLY
 	}
-	public static File DEBUG_FILE = new File("debug/debug.out");
+	public static File DEBUG_FILE = new File("debug.out");
 	public static DEBUG_MODE debugMode = DEBUG_MODE.SYSTEM_OUT_AND_FILE_OUT;
 	public static Object previousObject = null;
 
