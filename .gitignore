@@ -15,3 +15,5 @@ external-library-support-fuml-test/models/modelsAccessingAnExternalLibrary/Vehic
 external-library-support-fuml-test/debug/debug.out
 
 external-library-support-fuml-gui/
+
+external-library-support-fuml-test/debug.out
