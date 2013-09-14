@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_M80NYB0SEeOrcrPuTzvbSA" name="model">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_M9BowB0SEeOrcrPuTzvbSA" name="CreateShipAD" node="_gVutYB0TEeOrcrPuTzvbSA _g3bFMB0TEeOrcrPuTzvbSA _gOvfIB0UEeOrcrPuTzvbSA">
+    <ownedParameter xmi:id="_gNjMUB0UEeOrcrPuTzvbSA" name="OutputShip" direction="out">
+      <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQaGd9mpEeK6iduXuBguHQ"/>
+    </ownedParameter>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_i9HmYB0TEeOrcrPuTzvbSA" name="ControlFlow1" source="_gVutYB0TEeOrcrPuTzvbSA" target="_g3bFMB0TEeOrcrPuTzvbSA">
+      <guard xmi:type="uml:LiteralBoolean" xmi:id="_i9INcB0TEeOrcrPuTzvbSA" value="true"/>
+      <weight xmi:type="uml:LiteralInteger" xmi:id="_i9INcR0TEeOrcrPuTzvbSA"/>
+    </edge>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_294JgB0UEeOrcrPuTzvbSA" name="ObjectFlow1" source="_g3bsQB0TEeOrcrPuTzvbSA" target="_gOvfIB0UEeOrcrPuTzvbSA">
+      <guard xmi:type="uml:LiteralBoolean" xmi:id="_295XoB0UEeOrcrPuTzvbSA" value="true"/>
+      <weight xmi:type="uml:LiteralInteger" xmi:id="_295XoR0UEeOrcrPuTzvbSA" value="1"/>
+    </edge>
+    <node xmi:type="uml:InitialNode" xmi:id="_gVutYB0TEeOrcrPuTzvbSA" name="InitialNode1" outgoing="_i9HmYB0TEeOrcrPuTzvbSA"/>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_g3bFMB0TEeOrcrPuTzvbSA" name="CreateObjectAction1" incoming="_i9HmYB0TEeOrcrPuTzvbSA">
+      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQaGd9mpEeK6iduXuBguHQ"/>
+      <result xmi:id="_g3bsQB0TEeOrcrPuTzvbSA" name="target" outgoing="_294JgB0UEeOrcrPuTzvbSA">
+        <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQaGd9mpEeK6iduXuBguHQ"/>
+        <upperBound xmi:type="uml:LiteralInteger" xmi:id="_g3bsQR0TEeOrcrPuTzvbSA" value="1"/>
+      </result>
+    </node>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_gOvfIB0UEeOrcrPuTzvbSA" name="OutputShip" incoming="_294JgB0UEeOrcrPuTzvbSA" isControlType="true" parameter="_gNjMUB0UEeOrcrPuTzvbSA">
+      <upperBound xmi:type="uml:LiteralInteger" xmi:id="_gOwGMB0UEeOrcrPuTzvbSA" value="1"/>
+    </node>
+  </packagedElement>
+</uml:Model>

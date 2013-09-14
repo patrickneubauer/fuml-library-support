@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_jn_ZQB0cEeOrcrPuTzvbSA" name="model">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_joAnYB0cEeOrcrPuTzvbSA" name="CreateAndCallTruckAD" node="_qOlSwB0cEeOrcrPuTzvbSA _q9hcYB0cEeOrcrPuTzvbSA _4-NMEB0gEeOrcrPuTzvbSA _hz5MIB0hEeOrcrPuTzvbSA">
+    <ownedOperation xmi:id="_HCT1cB0gEeOrcrPuTzvbSA" name="Operation1"/>
+    <ownedParameter xmi:id="_hyuugB0hEeOrcrPuTzvbSA" name="OutputString" direction="out">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedParameter>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_sAvz8B0cEeOrcrPuTzvbSA" name="ControlFlow1" source="_qOlSwB0cEeOrcrPuTzvbSA" target="_q9hcYB0cEeOrcrPuTzvbSA">
+      <guard xmi:type="uml:LiteralBoolean" xmi:id="_sAwbAB0cEeOrcrPuTzvbSA" value="true"/>
+      <weight xmi:type="uml:LiteralInteger" xmi:id="_sAwbAR0cEeOrcrPuTzvbSA"/>
+    </edge>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_D7kRgB0hEeOrcrPuTzvbSA" name="ObjectFlow1" source="_q9iqgB0cEeOrcrPuTzvbSA" target="_7I6JEh0gEeOrcrPuTzvbSA">
+      <guard xmi:type="uml:LiteralBoolean" xmi:id="_D7lfoB0hEeOrcrPuTzvbSA" value="true"/>
+      <weight xmi:type="uml:LiteralInteger" xmi:id="_D7lfoR0hEeOrcrPuTzvbSA" value="1"/>
+    </edge>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_ti8NMB0hEeOrcrPuTzvbSA" name="ObjectFlow2" source="_7I5iAB0gEeOrcrPuTzvbSA" target="_hz5MIB0hEeOrcrPuTzvbSA">
+      <guard xmi:type="uml:LiteralBoolean" xmi:id="_ti80QB0hEeOrcrPuTzvbSA" value="true"/>
+      <weight xmi:type="uml:LiteralInteger" xmi:id="_ti80QR0hEeOrcrPuTzvbSA" value="1"/>
+    </edge>
+    <node xmi:type="uml:InitialNode" xmi:id="_qOlSwB0cEeOrcrPuTzvbSA" name="InitialNode1" outgoing="_sAvz8B0cEeOrcrPuTzvbSA"/>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_q9hcYB0cEeOrcrPuTzvbSA" name="CreateObjectAction1" incoming="_sAvz8B0cEeOrcrPuTzvbSA">
+      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQatctmpEeK6iduXuBguHQ"/>
+      <result xmi:id="_q9iqgB0cEeOrcrPuTzvbSA" name="target" outgoing="_D7kRgB0hEeOrcrPuTzvbSA">
+        <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQatctmpEeK6iduXuBguHQ"/>
+        <upperBound xmi:type="uml:LiteralInteger" xmi:id="_q9iqgR0cEeOrcrPuTzvbSA" value="1"/>
+      </result>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_4-NMEB0gEeOrcrPuTzvbSA" name="CallOperationAction1">
+      <result xmi:id="_7I5iAB0gEeOrcrPuTzvbSA" outgoing="_ti8NMB0hEeOrcrPuTzvbSA">
+        <eAnnotations xmi:id="_7I6JEB0gEeOrcrPuTzvbSA" source="PinToParameterLink">
+          <details xmi:id="_7I6JER0gEeOrcrPuTzvbSA" key="PinToParameterLink" value="_KQbUNtmpEeK6iduXuBguHQ"/>
+        </eAnnotations>
+        <name xsi:nil="true"/>
+        <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQcii9mpEeK6iduXuBguHQ"/>
+        <upperBound xmi:type="uml:LiteralInteger" xmi:id="_7I5iAR0gEeOrcrPuTzvbSA" value="1"/>
+      </result>
+      <operation href="../VehiclesConverted.uml#_KQbUNdmpEeK6iduXuBguHQ"/>
+      <target xmi:id="_7I6JEh0gEeOrcrPuTzvbSA" name="target" incoming="_D7kRgB0hEeOrcrPuTzvbSA">
+        <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQatctmpEeK6iduXuBguHQ"/>
+        <upperBound xmi:type="uml:LiteralInteger" xmi:id="_7I6JEx0gEeOrcrPuTzvbSA" value="1"/>
+      </target>
+    </node>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_hz5MIB0hEeOrcrPuTzvbSA" name="OutputString" incoming="_ti8NMB0hEeOrcrPuTzvbSA" isControlType="true" parameter="_hyuugB0hEeOrcrPuTzvbSA">
+      <upperBound xmi:type="uml:LiteralInteger" xmi:id="_hz5zMB0hEeOrcrPuTzvbSA" value="1"/>
+    </node>
+  </packagedElement>
+</uml:Model>

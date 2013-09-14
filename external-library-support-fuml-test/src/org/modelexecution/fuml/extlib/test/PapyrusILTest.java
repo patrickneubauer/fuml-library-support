@@ -10,6 +10,7 @@
 package org.modelexecution.fuml.extlib.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,6 +24,7 @@ import org.modelexecution.fumldebug.core.ExecutionEventListener;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.trace.tracemodel.Trace;
 
+import fUML.Semantics.Classes.Kernel.BooleanValue;
 import fUML.Semantics.Classes.Kernel.CompoundValue;
 import fUML.Semantics.Classes.Kernel.ExtensionalValue;
 import fUML.Semantics.Classes.Kernel.FeatureValue;
@@ -72,11 +74,47 @@ public class PapyrusILTest implements ExecutionEventListener {
 	 * Tests the Integration Layer functionality on models created by the Papyrus Model Editor
 	 */
 	@Test
-	public void shipToString() {
+	public void createShip() {
 		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
-				"models/modelsAccessingAnExternalLibrary/papyrusCreated/papyrusTest.di");
+				"models/modelsAccessingAnExternalLibrary/papyrusCreated/papyrusILTest.di");
 		clearLocus(executor);
-		Trace trace = executor.executeActivity("PapyrusTestAD", null, null);
+		Trace trace = executor.executeActivity("CreateShipAD", null, null);
+
+		ParameterValueList output = executor.getExecutionContext()
+				.getActivityOutput(
+						trace.getActivityExecutions().get(0)
+								.getActivityExecutionID());
+		
+		Assert.assertEquals(1, output.size());
+		Assert.assertEquals(1, output.get(0).values.size());
+		
+		Assert.assertTrue(output.get(0).values.get(0) instanceof Reference);
+		Reference fUmlObjectReference = (Reference) output.get(0).values.get(0);
+		Object_ fUmlObject = fUmlObjectReference.referent;
+		
+		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
+		assertEquals(0, ((IntegerValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
+
+		assertEquals("name", fUmlObject.getFeatureValues().get(1).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(1).values.get(0) instanceof StringValue);
+		assertEquals("NoName", ((StringValue) fUmlObject.getFeatureValues().get(1).values.get(0)).value);
+
+		assertEquals("oceanLiner", fUmlObject.getFeatureValues().get(2).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
+		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
+		
+	}
+	
+	/**
+	 * Tests the Integration Layer functionality on models created by the Papyrus Model Editor
+	 */
+	@Test
+	public void createAndCallTruck() {
+		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
+				"models/modelsAccessingAnExternalLibrary/papyrusCreated/papyrusILTest2.di");
+		clearLocus(executor);
+		Trace trace = executor.executeActivity("CreateAndCallTruckAD", null, null);
 
 		ParameterValueList output = executor.getExecutionContext()
 				.getActivityOutput(
@@ -84,33 +122,13 @@ public class PapyrusILTest implements ExecutionEventListener {
 								.getActivityExecutionID());
 		
 		System.out.println("finished. TODO: check for correct output!");
-//		Assert.assertEquals(1, output.size());
-//		Assert.assertEquals(1, output.get(0).values.size());
-//		Assert.assertEquals(1,
-//				((IntegerValue) output.get(0).values.get(0)).value);
-//
-//		Set<Object_> objects = getObjects(executor, "ApplicationController");
-//		Assert.assertEquals(1, objects.size());
-//		Object_ applicationController = objects.iterator().next();
-//		objects = getObjects(executor, "Session");
-//		Assert.assertEquals(1, objects.size());
-//		Object_ session = objects.iterator().next();
-//		Set<Link> links = getLinks(executor, "applicationController_session_1");
-//		Assert.assertEquals(1, links.size());
-//		Link sessionlink = links.iterator().next();
-//		Assert.assertEquals(1, getFeatureValue(sessionlink, "sessions").size());
-//		Assert.assertEquals(
-//				session,
-//				((Reference) getFeatureValue(sessionlink, "sessions").get(0)).referent);
-//		Assert.assertEquals(1,
-//				getFeatureValue(sessionlink, "applicationController").size());
-//		Assert.assertEquals(
-//				applicationController,
-//				((Reference) getFeatureValue(sessionlink,
-//						"applicationController").get(0)).referent);
-//
-//		Assert.assertEquals(0,
-//				getFeatureValue(applicationController, "foundCustomer").size());
+		Assert.assertEquals(1, output.size());
+		Assert.assertEquals(1, output.get(0).values.size());
+		
+		String stringParameterValue = output.get(0).values.getValue(0).toString(); 
+		
+		Assert.assertEquals("This pickup-truck has 3 seats, 2 doors and 4 wheels.", stringParameterValue);
+		
 	}
 
 

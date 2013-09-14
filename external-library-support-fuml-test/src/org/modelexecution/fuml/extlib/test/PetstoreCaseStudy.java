@@ -31,9 +31,11 @@ import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.IntegrationLayer;
 import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
 import org.modelexecution.fuml.extlib.UML2Preparer;
+import org.modelexecution.fuml.extlib.papyrus.PapyrusModelILExecutor;
 import org.modelexecution.fumldebug.core.ExecutionEventListener;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
+import org.modelexecution.fumldebug.core.trace.tracemodel.Trace;
 import org.modelexecution.fumldebug.papyrus.util.DiResourceUtil;
 
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
@@ -179,6 +181,14 @@ public class PetstoreCaseStudy implements ExecutionEventListener {
 	}
 	
 	// -------------------
+	
+	private void clearLocus(PapyrusModelILExecutor executor) {
+		executor.getExecutionContext().removeEventListener(this);
+		executor.getExecutionContext().addEventListener(this);
+		executor.getExecutionContext().getLocus().extensionalValues.clear();
+	}
+	
+	// -------------------
 
 	/**
 	 * Tests {@link CreateObjectAction} that invokes an Object from an external
@@ -220,6 +230,19 @@ public class PetstoreCaseStudy implements ExecutionEventListener {
 //		assertTrue(outputParameterValue.values.get(0) instanceof StringValue);
 //		// Check if operation's return value is correct (!)
 //		assertTrue(((StringValue) outputParameterValue.values.get(0)).value.contains("JavaMail")); // otherwise it would throw an exception
+	}
+	
+	@Test
+	public void petstoreScenario7PapyrusTest() {
+		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
+				"models/petstoreCaseStudy/petstore.di");
+		clearLocus(executor);
+
+		Trace trace = executor.executeActivity("scenario7", null, null);
+		ParameterValueList output = executor.getExecutionContext()
+				.getActivityOutput(
+						trace.getActivityExecutions().get(0)
+								.getActivityExecutionID());
 	}
 
 }
