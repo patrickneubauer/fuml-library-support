@@ -5,6 +5,7 @@ package org.modelexecution.fuml.extlib.test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.TreeIterator;
@@ -199,18 +200,22 @@ public class PetstoreCaseStudy implements ExecutionEventListener {
 		String externalUmlFilePath = "models/petstoreCaseStudy/commons-email-1.3.1Converted.uml";
 		String activityDiagramFilePath = "models/petstoreCaseStudy/petstore.uml";
 		String activityName = "scenario7";
-
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-				
+		
+		// Convert
+		Resource resource = getResource(activityDiagramFilePath, externalUmlFilePath);
+		UML2Converter uml2Converter = new UML2Converter();
+		IConversionResult conversionResult2 = uml2Converter.convert(resource.getContents().get(0));
+		
 		// Replace Opaque Behaviors
-		replaceOpaqueBehaviors(fUMLActivity);
+		Iterator<fUML.Syntax.Activities.IntermediateActivities.Activity> iterator = conversionResult2.getActivities().iterator();
+		while(iterator.hasNext()) {
+			fUML.Syntax.Activities.IntermediateActivities.Activity activity = iterator.next();
+			replaceOpaqueBehaviors(activity);
+		}
 
+		// Get Activity
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = conversionResult2.getActivity(activityName);
+		
 		// Execute fUML Activity
 		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
 
