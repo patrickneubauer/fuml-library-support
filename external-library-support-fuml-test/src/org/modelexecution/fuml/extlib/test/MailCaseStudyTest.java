@@ -3,12 +3,9 @@
  */
 package org.modelexecution.fuml.extlib.test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,14 +30,9 @@ import org.modelexecution.fumldebug.core.ExecutionEventListener;
 import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
-
-import fUML.Semantics.Classes.Kernel.BooleanValue;
-import fUML.Semantics.Classes.Kernel.IntegerValue;
-import fUML.Semantics.Classes.Kernel.Object_;
 import fUML.Semantics.Classes.Kernel.StringValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
-import fUML.Semantics.Loci.LociL1.Locus;
 
 /**
  * Integration Test (IT) Class for {@link IntegrationLayer} on the Mail Case Study
