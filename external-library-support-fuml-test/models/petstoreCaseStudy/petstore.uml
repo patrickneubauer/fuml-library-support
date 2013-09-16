@@ -3866,4 +3866,34 @@
       <upperBound xmi:type="uml:LiteralInteger" xmi:id="_HhlIAeJfEeK8HamiyIssFw" value="1"/>
     </node>
   </packagedElement>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_0ZsngB6_EeOcKtPJULTUYQ" name="scenario7Customer" node="__nt_IB6_EeOcKtPJULTUYQ _FGUV0B7AEeOcKtPJULTUYQ _yvwYwB7AEeOcKtPJULTUYQ">
+    <ownedParameter xmi:id="_yuktAB7AEeOcKtPJULTUYQ" name="customer" type="_40rm0N_OEeKxs-T-7hfQjA" direction="out"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_K2AcgB7AEeOcKtPJULTUYQ" name="ObjectFlow1" source="__nwbYB6_EeOcKtPJULTUYQ" target="_FGXZIB7AEeOcKtPJULTUYQ">
+      <guard xmi:type="uml:LiteralBoolean" xmi:id="_K2Et8B7AEeOcKtPJULTUYQ" value="true"/>
+      <weight xmi:type="uml:LiteralInteger" xmi:id="_K2FVAB7AEeOcKtPJULTUYQ" value="1"/>
+    </edge>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_qWnHEB7BEeOcKtPJULTUYQ" name="ObjectFlow2" source="_FGWyEB7AEeOcKtPJULTUYQ" target="_yvwYwB7AEeOcKtPJULTUYQ">
+      <guard xmi:type="uml:LiteralBoolean" xmi:id="_qWrYgB7BEeOcKtPJULTUYQ" value="true"/>
+      <weight xmi:type="uml:LiteralInteger" xmi:id="_qWsmoB7BEeOcKtPJULTUYQ" value="1"/>
+    </edge>
+    <node xmi:type="uml:CallBehaviorAction" xmi:id="__nt_IB6_EeOcKtPJULTUYQ" name="scenario7" behavior="_AITCwOJeEeK8HamiyIssFw">
+      <result xmi:id="__nwbYB6_EeOcKtPJULTUYQ" name="order" outgoing="_K2AcgB7AEeOcKtPJULTUYQ" type="_8uei4N_OEeKxs-T-7hfQjA">
+        <eAnnotations xmi:id="__nwbYh6_EeOcKtPJULTUYQ" source="PinToParameterLink">
+          <details xmi:id="__nwbYx6_EeOcKtPJULTUYQ" key="PinToParameterLink" value="_HhIcEOJfEeK8HamiyIssFw"/>
+        </eAnnotations>
+        <upperBound xmi:type="uml:LiteralInteger" xmi:id="__nwbYR6_EeOcKtPJULTUYQ" value="1"/>
+      </result>
+    </node>
+    <node xmi:type="uml:ReadStructuralFeatureAction" xmi:id="_FGUV0B7AEeOcKtPJULTUYQ" name="read customer" structuralFeature="_WZMYIN_QEeKxs-T-7hfQjA">
+      <object xmi:id="_FGXZIB7AEeOcKtPJULTUYQ" name="target" incoming="_K2AcgB7AEeOcKtPJULTUYQ" type="_8uei4N_OEeKxs-T-7hfQjA">
+        <upperBound xmi:type="uml:LiteralInteger" xmi:id="_FGXZIR7AEeOcKtPJULTUYQ" value="1"/>
+      </object>
+      <result xmi:id="_FGWyEB7AEeOcKtPJULTUYQ" name="result" outgoing="_qWnHEB7BEeOcKtPJULTUYQ" type="_40rm0N_OEeKxs-T-7hfQjA">
+        <upperBound xmi:type="uml:LiteralInteger" xmi:id="_FGWyER7AEeOcKtPJULTUYQ" value="1"/>
+      </result>
+    </node>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_yvwYwB7AEeOcKtPJULTUYQ" name="customer" incoming="_qWnHEB7BEeOcKtPJULTUYQ" type="_40rm0N_OEeKxs-T-7hfQjA" isControlType="true" parameter="_yuktAB7AEeOcKtPJULTUYQ">
+      <upperBound xmi:type="uml:LiteralInteger" xmi:id="_yvw_0B7AEeOcKtPJULTUYQ" value="1"/>
+    </node>
+  </packagedElement>
 </uml:Model>
