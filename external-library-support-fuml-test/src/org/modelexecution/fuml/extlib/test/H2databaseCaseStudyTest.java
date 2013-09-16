@@ -48,13 +48,13 @@ import fUML.Semantics.Loci.LociL1.Locus;
  * @author Patrick Neubauer
  * 
  */
-public class DatabaseCaseStudyTest implements ExecutionEventListener {
+public class H2databaseCaseStudyTest implements ExecutionEventListener {
 
 	private ResourceSet resourceSet;
 	private List<Event> eventlist = new ArrayList<Event>();
 	private IntegrationLayerImpl integrationLayer = new IntegrationLayerImpl();
 
-	public DatabaseCaseStudyTest() {
+	public H2databaseCaseStudyTest() {
 		integrationLayer.getExecutionContext().addEventListener(this);
 	}
 
@@ -76,9 +76,9 @@ public class DatabaseCaseStudyTest implements ExecutionEventListener {
 	public void setUp() {
 		eventlist = new ArrayList<Event>();
 		
-		String inputFilePath = "models/databaseCaseStudy/mongo-java-driver-2.10.1.uml";
-		String outputFilePath = "models/databaseCaseStudy/mongo-java-driver-2.10.1Converted.uml";
-		String[] jarFilePaths = {"extlibs/mongo-java-driver-2.10.1.jar"};
+		String inputFilePath = "models/h2DatabaseCaseStudy/h2-1.3.172.uml";
+		String outputFilePath = "models/H2databaseCaseStudyTest.java/h2-1.3.172Converted.uml";
+		String[] jarFilePaths = {"extlibs/h2-1.3.172.jar", "extlibs/java.sql.jar"};
 
 		UML2Preparer converter = new UML2Preparer();
 		converter.load(inputFilePath);
@@ -121,10 +121,10 @@ public class DatabaseCaseStudyTest implements ExecutionEventListener {
 	 * library and a {@link CallOperationAction} on the invoked Object setting an input value field AND returning an output value
 	 */
 	@Test
-	public void databaseCaseStudyTest() {		
-		String externalUmlFilePath = "models/databaseCaseStudy/mongo-java-driver-2.10.1Converted.uml";
-		String activityDiagramFilePath = "models/databaseCaseStudy/DatabaseAD.uml";
-		String activityName = "DatabaseActivity";
+	public void databaseCaseStudyPOCTest() {		
+		String externalUmlFilePath = "models/databaseCaseStudy/h2-1.3.172Converted.uml";
+		String activityDiagramFilePath = "models/databaseCaseStudy/databasePOCActivityDiagram.uml";
+		String activityName = "DatabasePOCActivity";
 
 		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
 		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
@@ -139,20 +139,20 @@ public class DatabaseCaseStudyTest implements ExecutionEventListener {
 
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
-//		ParameterValue outputParameterValue = null;
-//
-//		for (Event event : eventlist) {
-//			if (event.toString().contains("ActivityNodeEntryEvent node = getString")) {
-//				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
-//				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
-//						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
-//			}
-//		}
-//
-//		assertTrue(outputParameterValue != null);
-//		assertTrue(outputParameterValue.values.get(0) instanceof StringValue);
-//		// Check if operation's return value is correct (!)
-//		assertTrue(((StringValue) outputParameterValue.values.get(0)).value.contains("Hello")); // otherwise it would throw an exception
+		ParameterValue outputParameterValue = null;
+
+		for (Event event : eventlist) {
+			if (event.toString().contains("ActivityNodeEntryEvent node = getString")) {
+				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
+				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
+						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
+			}
+		}
+
+		assertTrue(outputParameterValue != null);
+		assertTrue(outputParameterValue.values.get(0) instanceof StringValue);
+		// Check if operation's return value is correct (!)
+		assertTrue(((StringValue) outputParameterValue.values.get(0)).value.contains("Hello")); // otherwise it would throw an exception
 	}
 
 }
