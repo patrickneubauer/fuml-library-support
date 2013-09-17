@@ -3961,4 +3961,143 @@
       <upperBound xmi:type="uml:LiteralInteger" xmi:id="_yvw_0B7AEeOcKtPJULTUYQ" value="1"/>
     </node>
   </packagedElement>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_iQGYQB-YEeOvJIGgO48agQ" name="SendEmail" node="_nFL34B-YEeOvJIGgO48agQ _qY5EUB-YEeOvJIGgO48agQ _ymlegB-YEeOvJIGgO48agQ _6LOUoB-YEeOvJIGgO48agQ _DkKZ8B-ZEeOvJIGgO48agQ">
+    <ownedParameter xmi:id="_AVI5MB-ZEeOvJIGgO48agQ" name="sendConfirmation" direction="out"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_MaikwB-ZEeOvJIGgO48agQ" name="ControlFlowFromInitialNodeToScenario7Customer" source="_nFL34B-YEeOvJIGgO48agQ" target="_qY5EUB-YEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_M9s8MB-ZEeOvJIGgO48agQ" name="ObjectFlowFromScenario7CustomerToReadEmail" source="_UYW9oB-eEeOvJIGgO48agQ" target="_bwMt4B-eEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_Ne7Z8B-ZEeOvJIGgO48agQ" name="ObjectFlowFromReadEmailToMailActivity" source="_fU0EIB-eEeOvJIGgO48agQ" target="_rC1KcB-eEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_OQk5UB-ZEeOvJIGgO48agQ" name="ObjectFlowFromMailActivityToFinal" source="_vbM44B-eEeOvJIGgO48agQ" target="_DkKZ8B-ZEeOvJIGgO48agQ"/>
+    <node xmi:type="uml:InitialNode" xmi:id="_nFL34B-YEeOvJIGgO48agQ" name="initialNode" outgoing="_MaikwB-ZEeOvJIGgO48agQ"/>
+    <node xmi:type="uml:CallBehaviorAction" xmi:id="_qY5EUB-YEeOvJIGgO48agQ" name="scenario7Customer" incoming="_MaikwB-ZEeOvJIGgO48agQ" behavior="_0ZsngB6_EeOcKtPJULTUYQ">
+      <result xmi:id="_UYW9oB-eEeOvJIGgO48agQ" name="result" outgoing="_M9s8MB-ZEeOvJIGgO48agQ"/>
+    </node>
+    <node xmi:type="uml:ReadStructuralFeatureAction" xmi:id="_ymlegB-YEeOvJIGgO48agQ" name="read email" structuralFeature="_nR2MwN_PEeKxs-T-7hfQjA">
+      <object xmi:id="_bwMt4B-eEeOvJIGgO48agQ" name="target" incoming="_M9s8MB-ZEeOvJIGgO48agQ"/>
+      <result xmi:id="_fU0EIB-eEeOvJIGgO48agQ" name="result" outgoing="_Ne7Z8B-ZEeOvJIGgO48agQ"/>
+    </node>
+    <node xmi:type="uml:CallBehaviorAction" xmi:id="_6LOUoB-YEeOvJIGgO48agQ" name="MailActivity" behavior="_VMxyQB-gEeOvJIGgO48agQ">
+      <argument xmi:id="_rC1KcB-eEeOvJIGgO48agQ" name="email" incoming="_Ne7Z8B-ZEeOvJIGgO48agQ"/>
+      <result xmi:id="_vbM44B-eEeOvJIGgO48agQ" name="result" outgoing="_OQk5UB-ZEeOvJIGgO48agQ"/>
+    </node>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_DkKZ8B-ZEeOvJIGgO48agQ" name="sendConfirmation" incoming="_OQk5UB-ZEeOvJIGgO48agQ" parameter="_AVI5MB-ZEeOvJIGgO48agQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_VMxyQB-gEeOvJIGgO48agQ" name="MailActivity" node="_VMxyWR-gEeOvJIGgO48agQ _VMxyWx-gEeOvJIGgO48agQ _VMxyXB-gEeOvJIGgO48agQ _VMxyXx-gEeOvJIGgO48agQ _VMxyYh-gEeOvJIGgO48agQ _VMxyZR-gEeOvJIGgO48agQ _VMxyaB-gEeOvJIGgO48agQ _VMxyax-gEeOvJIGgO48agQ _VMxybh-gEeOvJIGgO48agQ _VMxycR-gEeOvJIGgO48agQ _VMxydx-gEeOvJIGgO48agQ _VMxyex-gEeOvJIGgO48agQ _VMxyfx-gEeOvJIGgO48agQ _VMxyhB-gEeOvJIGgO48agQ _VMxyiB-gEeOvJIGgO48agQ _VMxyjB-gEeOvJIGgO48agQ _VMxykB-gEeOvJIGgO48agQ _VMxylB-gEeOvJIGgO48agQ _VMxymB-gEeOvJIGgO48agQ _VMxymx-gEeOvJIGgO48agQ _VMxynB-gEeOvJIGgO48agQ">
+    <ownedParameter xmi:id="_VMxyQR-gEeOvJIGgO48agQ" name="outputParameter" direction="out"/>
+    <ownedParameter xmi:id="_VMxyQh-gEeOvJIGgO48agQ" name="email">
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_VMxyQx-gEeOvJIGgO48agQ" value=""/>
+    </ownedParameter>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxyRB-gEeOvJIGgO48agQ" name="ObjectFlowFromCreateToFork" source="_VMxyWh-gEeOvJIGgO48agQ" target="_VMxyWx-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxyRR-gEeOvJIGgO48agQ" name="ObjectFlowFromForkToSetHostName" source="_VMxyWx-gEeOvJIGgO48agQ" target="_VMxyeh-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxyRh-gEeOvJIGgO48agQ" name="ObjectFlowFromForkToSetSmtpPort" source="_VMxyWx-gEeOvJIGgO48agQ" target="_VMxyfh-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxyRx-gEeOvJIGgO48agQ" name="ObjectFlowFromForkToSetAuthentication" source="_VMxyWx-gEeOvJIGgO48agQ" target="_VMxygx-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxySB-gEeOvJIGgO48agQ" name="ObjectFlowFromForkToSetSslSpecification" source="_VMxyWx-gEeOvJIGgO48agQ" target="_VMxyhx-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxySR-gEeOvJIGgO48agQ" name="ObjectFlowFromForkToSetFrom" source="_VMxyWx-gEeOvJIGgO48agQ" target="_VMxyix-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxySh-gEeOvJIGgO48agQ" name="ObjectFlowFromForkToSetSubject" source="_VMxyWx-gEeOvJIGgO48agQ" target="_VMxyjx-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxySx-gEeOvJIGgO48agQ" name="ObjectFlowFromForkToSetMsg" source="_VMxyWx-gEeOvJIGgO48agQ" target="_VMxykx-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxyTB-gEeOvJIGgO48agQ" name="ObjectFlowFromForkToSetAddTo" source="_VMxyWx-gEeOvJIGgO48agQ" target="_VMxylx-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxyTR-gEeOvJIGgO48agQ" name="ObjectFlowFromForkToSend" source="_VMxyWx-gEeOvJIGgO48agQ" target="_VMxymh-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxyTh-gEeOvJIGgO48agQ" name="ObjectFlowFromSendToFinal" source="_VMxymR-gEeOvJIGgO48agQ" target="_VMxymx-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxyTx-gEeOvJIGgO48agQ" name="ObjectFlowHostNameSpecificationToCall" source="_VMxyYB-gEeOvJIGgO48agQ" target="_VMxyeB-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxyUB-gEeOvJIGgO48agQ" name="ObjectFlowSmtpPortSpecificationToCall" source="_VMxyXR-gEeOvJIGgO48agQ" target="_VMxyfB-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxyUR-gEeOvJIGgO48agQ" name="ObjectFlowAuthenticationUserNameSpecificationToCall" source="_VMxyYx-gEeOvJIGgO48agQ" target="_VMxygB-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxyUh-gEeOvJIGgO48agQ" name="ObjectFlowAuthenticationPasswordSpecificationToCall" source="_VMxyZh-gEeOvJIGgO48agQ" target="_VMxygR-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxyUx-gEeOvJIGgO48agQ" name="ObjectFlowSslSpecificationToCall" source="_VMxyaR-gEeOvJIGgO48agQ" target="_VMxyhR-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxyVB-gEeOvJIGgO48agQ" name="ObjectFlowFromSpecificationToCall" source="_VMxybB-gEeOvJIGgO48agQ" target="_VMxyiR-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxyVR-gEeOvJIGgO48agQ" name="ObjectFlowSubjectSpecificationToCall" source="_VMxybx-gEeOvJIGgO48agQ" target="_VMxyjR-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxyVh-gEeOvJIGgO48agQ" name="ObjectFlowMsgSpecificationToCall" source="_VMxych-gEeOvJIGgO48agQ" target="_VMxykR-gEeOvJIGgO48agQ"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VMxyWB-gEeOvJIGgO48agQ" name="ObjectFlowEmailInputToCall" source="_VMxynB-gEeOvJIGgO48agQ" target="_VMxylR-gEeOvJIGgO48agQ"/>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_VMxyWR-gEeOvJIGgO48agQ" name="CreateSimpleEmailObject">
+      <classifier xmi:type="uml:Class" href="commons-email-1.3.1Converted.uml#_GL7JZsoFEeKz2r6nEKmBEw"/>
+      <result xmi:id="_VMxyWh-gEeOvJIGgO48agQ" name="target" outgoing="_VMxyRB-gEeOvJIGgO48agQ"/>
+    </node>
+    <node xmi:type="uml:ForkNode" xmi:id="_VMxyWx-gEeOvJIGgO48agQ" name="fork" outgoing="_VMxyTB-gEeOvJIGgO48agQ _VMxyRx-gEeOvJIGgO48agQ _VMxySR-gEeOvJIGgO48agQ _VMxyRR-gEeOvJIGgO48agQ _VMxySx-gEeOvJIGgO48agQ _VMxyRh-gEeOvJIGgO48agQ _VMxySB-gEeOvJIGgO48agQ _VMxySh-gEeOvJIGgO48agQ _VMxyTR-gEeOvJIGgO48agQ" incoming="_VMxyRB-gEeOvJIGgO48agQ"/>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_VMxyXB-gEeOvJIGgO48agQ" name="SmtpPortValueSpecificationAction">
+      <result xmi:id="_VMxyXR-gEeOvJIGgO48agQ" name="smtpPort" outgoing="_VMxyUB-gEeOvJIGgO48agQ"/>
+      <value xmi:type="uml:LiteralInteger" xmi:id="_VMxyXh-gEeOvJIGgO48agQ" value="465"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_VMxyXx-gEeOvJIGgO48agQ" name="HostNameValueSpecificationAction">
+      <result xmi:id="_VMxyYB-gEeOvJIGgO48agQ" name="hostName" outgoing="_VMxyTx-gEeOvJIGgO48agQ"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_VMxyYR-gEeOvJIGgO48agQ" value="smtp.googlemail.com"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_VMxyYh-gEeOvJIGgO48agQ" name="AuthenticationUserNameValueSpecificationAction">
+      <result xmi:id="_VMxyYx-gEeOvJIGgO48agQ" name="userName" outgoing="_VMxyUR-gEeOvJIGgO48agQ"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_VMxyZB-gEeOvJIGgO48agQ" value="franzmair1980"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_VMxyZR-gEeOvJIGgO48agQ" name="AuthenticationPasswordValueSpecificationAction">
+      <result xmi:id="_VMxyZh-gEeOvJIGgO48agQ" name="password" outgoing="_VMxyUh-gEeOvJIGgO48agQ"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_VMxyZx-gEeOvJIGgO48agQ" value="1980franzmair"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_VMxyaB-gEeOvJIGgO48agQ" name="SSLOnConnectValueSpecificationAction">
+      <result xmi:id="_VMxyaR-gEeOvJIGgO48agQ" name="ssl" outgoing="_VMxyUx-gEeOvJIGgO48agQ"/>
+      <value xmi:type="uml:LiteralBoolean" xmi:id="_VMxyah-gEeOvJIGgO48agQ" name="" value="true"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_VMxyax-gEeOvJIGgO48agQ" name="FromValueSpecificationAction">
+      <result xmi:id="_VMxybB-gEeOvJIGgO48agQ" name="from" outgoing="_VMxyVB-gEeOvJIGgO48agQ"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_VMxybR-gEeOvJIGgO48agQ" name="" value="franzmair1980@gmail.com"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_VMxybh-gEeOvJIGgO48agQ" name="SubjectValueSpecificationAction">
+      <result xmi:id="_VMxybx-gEeOvJIGgO48agQ" name="subject" outgoing="_VMxyVR-gEeOvJIGgO48agQ"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_VMxycB-gEeOvJIGgO48agQ" value="Your Purchase at the PetStore"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_VMxycR-gEeOvJIGgO48agQ" name="MsgValueSpecificationAction">
+      <result xmi:id="_VMxych-gEeOvJIGgO48agQ" name="msg" outgoing="_VMxyVh-gEeOvJIGgO48agQ"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_VMxycx-gEeOvJIGgO48agQ" name="" value="Dear Customer, Thank You for your purchase. Best regards, the PetStore Team."/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_VMxydx-gEeOvJIGgO48agQ" name="SetHostNameCallOperationAction">
+      <argument xmi:id="_VMxyeB-gEeOvJIGgO48agQ" name="hostName" incoming="_VMxyTx-gEeOvJIGgO48agQ"/>
+      <result xmi:id="_VMxyeR-gEeOvJIGgO48agQ" name="result"/>
+      <operation href="commons-email-1.3.1Converted.uml#_GMM2OMoFEeKz2r6nEKmBEw"/>
+      <target xmi:id="_VMxyeh-gEeOvJIGgO48agQ" name="target" incoming="_VMxyRR-gEeOvJIGgO48agQ"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_VMxyex-gEeOvJIGgO48agQ" name="SetSmtpPortCallOperationAction">
+      <argument xmi:id="_VMxyfB-gEeOvJIGgO48agQ" name="smtpPort" incoming="_VMxyUB-gEeOvJIGgO48agQ"/>
+      <result xmi:id="_VMxyfR-gEeOvJIGgO48agQ" name="result"/>
+      <operation href="commons-email-1.3.1Converted.uml#_GMNdRsoFEeKz2r6nEKmBEw"/>
+      <target xmi:id="_VMxyfh-gEeOvJIGgO48agQ" name="target" incoming="_VMxyRh-gEeOvJIGgO48agQ"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_VMxyfx-gEeOvJIGgO48agQ" name="SetAuthenticationCallOperationAction">
+      <argument xmi:id="_VMxygB-gEeOvJIGgO48agQ" name="userName" incoming="_VMxyUR-gEeOvJIGgO48agQ"/>
+      <argument xmi:id="_VMxygR-gEeOvJIGgO48agQ" name="password" incoming="_VMxyUh-gEeOvJIGgO48agQ"/>
+      <result xmi:id="_VMxygh-gEeOvJIGgO48agQ" name="result"/>
+      <operation href="commons-email-1.3.1Converted.uml#_GMMPJcoFEeKz2r6nEKmBEw"/>
+      <target xmi:id="_VMxygx-gEeOvJIGgO48agQ" name="target" incoming="_VMxyRx-gEeOvJIGgO48agQ"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_VMxyhB-gEeOvJIGgO48agQ" name="SetSSLOnConnectCallOperationAction">
+      <argument xmi:id="_VMxyhR-gEeOvJIGgO48agQ" name="ssl" incoming="_VMxyUx-gEeOvJIGgO48agQ"/>
+      <result xmi:id="_VMxyhh-gEeOvJIGgO48agQ" name="result"/>
+      <operation href="commons-email-1.3.1Converted.uml#_GMUK9soFEeKz2r6nEKmBEw"/>
+      <target xmi:id="_VMxyhx-gEeOvJIGgO48agQ" name="target" incoming="_VMxySB-gEeOvJIGgO48agQ"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_VMxyiB-gEeOvJIGgO48agQ" name="SetFromCallOperationAction">
+      <argument xmi:id="_VMxyiR-gEeOvJIGgO48agQ" name="from" incoming="_VMxyVB-gEeOvJIGgO48agQ"/>
+      <result xmi:id="_VMxyih-gEeOvJIGgO48agQ" name="result"/>
+      <operation href="commons-email-1.3.1Converted.uml#_GMNdTsoFEeKz2r6nEKmBEw"/>
+      <target xmi:id="_VMxyix-gEeOvJIGgO48agQ" name="target" incoming="_VMxySR-gEeOvJIGgO48agQ"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_VMxyjB-gEeOvJIGgO48agQ" name="SetSubjectCallOperationAction">
+      <argument xmi:id="_VMxyjR-gEeOvJIGgO48agQ" name="subject" incoming="_VMxyVR-gEeOvJIGgO48agQ"/>
+      <result xmi:id="_VMxyjh-gEeOvJIGgO48agQ" name="result"/>
+      <operation href="commons-email-1.3.1Converted.uml#_GMRutcoFEeKz2r6nEKmBEw"/>
+      <target xmi:id="_VMxyjx-gEeOvJIGgO48agQ" name="target" incoming="_VMxySh-gEeOvJIGgO48agQ"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_VMxykB-gEeOvJIGgO48agQ" name="SetMsgCallOperationAction">
+      <argument xmi:id="_VMxykR-gEeOvJIGgO48agQ" name="msg" incoming="_VMxyVh-gEeOvJIGgO48agQ"/>
+      <result xmi:id="_VMxykh-gEeOvJIGgO48agQ" name="result"/>
+      <operation href="commons-email-1.3.1Converted.uml#_GMRuu8oFEeKz2r6nEKmBEw"/>
+      <target xmi:id="_VMxykx-gEeOvJIGgO48agQ" name="target" incoming="_VMxySx-gEeOvJIGgO48agQ"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_VMxylB-gEeOvJIGgO48agQ" name="AddToCallOperationAction">
+      <argument xmi:id="_VMxylR-gEeOvJIGgO48agQ" name="addTo" incoming="_VMxyWB-gEeOvJIGgO48agQ"/>
+      <result xmi:id="_VMxylh-gEeOvJIGgO48agQ" name="result"/>
+      <operation href="commons-email-1.3.1Converted.uml#_GMOEW8oFEeKz2r6nEKmBEw"/>
+      <target xmi:id="_VMxylx-gEeOvJIGgO48agQ" name="target" incoming="_VMxyTB-gEeOvJIGgO48agQ"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_VMxymB-gEeOvJIGgO48agQ" name="SendCallOperationAction">
+      <result xmi:id="_VMxymR-gEeOvJIGgO48agQ" name="result" outgoing="_VMxyTh-gEeOvJIGgO48agQ"/>
+      <operation href="commons-email-1.3.1Converted.uml#_GMSVxsoFEeKz2r6nEKmBEw"/>
+      <target xmi:id="_VMxymh-gEeOvJIGgO48agQ" name="target" incoming="_VMxyTR-gEeOvJIGgO48agQ"/>
+    </node>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_VMxymx-gEeOvJIGgO48agQ" name="OutputString" incoming="_VMxyTh-gEeOvJIGgO48agQ" parameter="_VMxyQR-gEeOvJIGgO48agQ"/>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_VMxynB-gEeOvJIGgO48agQ" name="Email" outgoing="_VMxyWB-gEeOvJIGgO48agQ" parameter="_VMxyQh-gEeOvJIGgO48agQ"/>
+  </packagedElement>
 </uml:Model>
