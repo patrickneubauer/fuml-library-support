@@ -52,7 +52,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 	@Test
 	public void testScenario1() {
 		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
-				"models/petstoreCaseStudy/petstore.di");
+				"models/petstoreCaseStudyPOC/petstore.di");
 		clearLocus(executor);
 		Trace trace = executor.executeActivity("scenario1", null, null);
 
@@ -95,7 +95,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 	@Test
 	public void testScenario2() {
 		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
-				"models/petstoreCaseStudy/petstore.di");
+				"models/petstoreCaseStudyPOC/petstore.di");
 		clearLocus(executor);
 		Trace trace = executor.executeActivity("scenario2", null, null);
 
@@ -126,7 +126,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 	@Test
 	public void testScenario3() {
 		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
-				"models/petstoreCaseStudy/petstore.di");
+				"models/petstoreCaseStudyPOC/petstore.di");
 		clearLocus(executor);
 		Trace trace = executor.executeActivity("scenario3", null, null);
 
@@ -151,7 +151,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 	@Test
 	public void testScenario4() {
 		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
-				"models/petstoreCaseStudy/petstore.di");
+				"models/petstoreCaseStudyPOC/petstore.di");
 		clearLocus(executor);
 		Trace trace = executor.executeActivity("scenario4", null, null);
 
@@ -186,7 +186,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 	@Test
 	public void testScenario5() {
 		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
-				"models/petstoreCaseStudy/petstore.di");
+				"models/petstoreCaseStudyPOC/petstore.di");
 		clearLocus(executor);
 		Trace trace = executor.executeActivity("scenario5", null, null);
 
@@ -204,7 +204,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 	@Test
 	public void testScenario6() {
 		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
-				"models/petstoreCaseStudy/petstore.di");
+				"models/petstoreCaseStudyPOC/petstore.di");
 		clearLocus(executor);
 		executor.executeActivity("scenario6", null, null);
 
@@ -288,7 +288,7 @@ public class PetstoreExecutionTest implements ExecutionEventListener {
 	@Test
 	public void testScenario7() {
 		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
-				"models/petstoreCaseStudy/petstore.di");
+				"models/petstoreCaseStudyPOC/petstore.di");
 		clearLocus(executor);
 
 		Trace trace = executor.executeActivity("scenario7", null, null);
