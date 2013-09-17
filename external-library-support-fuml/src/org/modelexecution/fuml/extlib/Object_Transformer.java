@@ -135,7 +135,7 @@ public class Object_Transformer {
 						 */
 						Debug.out(this, "Enum fields are currently not supported (skip)");
 
-					} else {
+					} else if (javaField.get(javaObject) != null) {
 						/*
 						 * "javaField" is none of the above types (!)
 						 * Therefore, it might be a {@link StructuredValue} i.e. an Object_ itself
@@ -191,7 +191,10 @@ public class Object_Transformer {
 							Object_Creator object_Creator = new Object_Creator(newFUmlObject, newJavaObject, executionContext);
 							newFUmlObject = object_Creator.getfUmlObject();
 						} catch(Exception e) {
-							Debug.out(this, "Java Field (" + javaField.getName() + ") of Type (" + classOfJavaField.getName() + ") is set to null. Private default constructor? Exception: " + e);
+							/* NOTE: Exception of type InstantiationException will be thrown here for every Java Field 
+							 * which is an unsupported complex field such as Lists, Maps etc.
+							 * */
+							Debug.out(this, "Java Field (" + javaField.getName() + ") of Type (" + classOfJavaField.getName() + ") is set to null. Default constructor private or not available or Java Field is an unsupported complex field. Skipping Java Field.");
 						}
 						
 						// ------------------------------------------------
