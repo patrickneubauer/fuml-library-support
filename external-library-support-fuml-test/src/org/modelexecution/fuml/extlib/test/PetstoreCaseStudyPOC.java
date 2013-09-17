@@ -21,6 +21,7 @@ import org.eclipse.papyrus.infra.core.sashwindows.di.util.DiResourceFactoryImpl;
 import org.eclipse.uml2.uml.Activity;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.modelexecution.fuml.convert.ConverterRegistry;
 import org.modelexecution.fuml.convert.IConversionResult;
@@ -46,14 +47,14 @@ import fUML.Syntax.CommonBehaviors.BasicBehaviors.Behavior;
 import fUML.Syntax.CommonBehaviors.BasicBehaviors.OpaqueBehavior;
 
 /**
- * Integration Test (IT) Class for {@link IntegrationLayer} on the Petstore Case Study
+ * Integration Test (IT) Class for {@link IntegrationLayer} on the Petstore Case Study Proof-Of-Concept
  * It contains tests that use the IntegrationLayer's ExecutionContext directly and
  * tests that use the IntegrationLayer's ExecutionContext via the PapyrusModelILExecutor
  * 
  * @author Patrick Neubauer
  * 
  */
-public class PetstoreCaseStudy implements ExecutionEventListener {
+public class PetstoreCaseStudyPOC implements ExecutionEventListener {
 
 	private ResourceSet resourceSet;
 	private List<Event> eventlist = new ArrayList<Event>();
@@ -69,7 +70,7 @@ public class PetstoreCaseStudy implements ExecutionEventListener {
 	
 	// -----------------
 
-	public PetstoreCaseStudy() {
+	public PetstoreCaseStudyPOC() {
 		integrationLayer.getExecutionContext().addEventListener(this);
 	}
 
@@ -94,8 +95,8 @@ public class PetstoreCaseStudy implements ExecutionEventListener {
 	public void setUp() {
 		eventlist = new ArrayList<Event>();
 		
-		String inputFilePath = "models/petstoreCaseStudy/commons-email-1.3.1.uml";
-		String outputFilePath = "models/petstoreCaseStudy/commons-email-1.3.1Converted.uml";
+		String inputFilePath = "models/petstoreCaseStudyPOC/commons-email-1.3.1.uml";
+		String outputFilePath = "models/petstoreCaseStudyPOC/commons-email-1.3.1Converted.uml";
 		String[] jarFilePaths = {"extlibs/commons-email-1.3.1.jar", "extlibs/mail.jar"};
 
 		UML2Preparer converter = new UML2Preparer();
@@ -196,8 +197,8 @@ public class PetstoreCaseStudy implements ExecutionEventListener {
 	 */
 	@Test
 	public void petstoreScenario7Test() {		
-		String externalUmlFilePath = "models/petstoreCaseStudy/commons-email-1.3.1Converted.uml";
-		String activityDiagramFilePath = "models/petstoreCaseStudy/petstore.uml";
+		String externalUmlFilePath = "models/petstoreCaseStudyPOC/commons-email-1.3.1Converted.uml";
+		String activityDiagramFilePath = "models/petstoreCaseStudyPOC/petstore.uml";
 		String activityName = "scenario7";
 		
 		// Convert
@@ -247,8 +248,8 @@ public class PetstoreCaseStudy implements ExecutionEventListener {
 	 */
 	@Test
 	public void petstoreScenario7CustomerTest() {		
-		String externalUmlFilePath = "models/petstoreCaseStudy/commons-email-1.3.1Converted.uml";
-		String activityDiagramFilePath = "models/petstoreCaseStudy/petstore.uml";
+		String externalUmlFilePath = "models/petstoreCaseStudyPOC/commons-email-1.3.1Converted.uml";
+		String activityDiagramFilePath = "models/petstoreCaseStudyPOC/petstore.uml";
 		String activityName = "scenario7Customer";
 		
 		// Convert
@@ -304,7 +305,7 @@ public class PetstoreCaseStudy implements ExecutionEventListener {
 	@Test
 	public void petstoreScenario7CustomerPapyrusTest() {
 		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
-				"models/petstoreCaseStudy/petstore.di");
+				"models/petstoreCaseStudyPOC/petstore.di");
 		clearLocus(executor);
 
 		Trace trace = executor.executeActivity("scenario7Customer", null, null);
@@ -336,7 +337,7 @@ public class PetstoreCaseStudy implements ExecutionEventListener {
 	@Test
 	public void petstoreScenario7PapyrusTest() {
 		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
-				"models/petstoreCaseStudy/petstore.di");
+				"models/petstoreCaseStudyPOC/petstore.di");
 		clearLocus(executor);
 
 		Trace trace = executor.executeActivity("scenario7", null, null);
