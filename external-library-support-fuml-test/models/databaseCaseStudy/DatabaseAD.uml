@@ -31,7 +31,9 @@
     </node>
     <node xmi:type="uml:CallOperationAction" xmi:id="_PpyrAB1UEeOrcrPuTzvbSA" name="GetDB">
       <argument xmi:id="_hiFiQB1UEeOrcrPuTzvbSA" name="dbName" incoming="_5ZF8wB3aEeOIgZ8gNCjZtw"/>
-      <result xmi:id="_ue2ToB1UEeOrcrPuTzvbSA" name="result" outgoing="_F-naMB3YEeOIgZ8gNCjZtw"/>
+      <result xmi:id="_ue2ToB1UEeOrcrPuTzvbSA" name="result" outgoing="_F-naMB3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_Jun8kR3iEeOIgZ8gNCjZtw"/>
+      </result>
       <operation href="mongo-java-driver-2.10.1Converted.uml#_Jzo_cB3iEeOIgZ8gNCjZtw"/>
       <target xmi:id="_rEcCQB1UEeOrcrPuTzvbSA" name="target" incoming="_FY5eAB3YEeOIgZ8gNCjZtw"/>
     </node>
@@ -43,7 +45,9 @@
       <argument xmi:id="_IWu3oB1VEeOrcrPuTzvbSA" name="dbCollectionName" incoming="_3diPAB3aEeOIgZ8gNCjZtw"/>
       <result xmi:id="_Q3TxkB1VEeOrcrPuTzvbSA" name="result" outgoing="_GlLq8B3YEeOIgZ8gNCjZtw"/>
       <operation href="mongo-java-driver-2.10.1Converted.uml#_Jx4r9R3iEeOIgZ8gNCjZtw"/>
-      <target xmi:id="_PZqH0B1VEeOrcrPuTzvbSA" name="target" incoming="_F-naMB3YEeOIgZ8gNCjZtw"/>
+      <target xmi:id="_PZqH0B1VEeOrcrPuTzvbSA" name="target" incoming="_F-naMB3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_Jun8kR3iEeOIgZ8gNCjZtw"/>
+      </target>
     </node>
     <node xmi:type="uml:ForkNode" xmi:id="_-1Iy4B3TEeOIgZ8gNCjZtw" name="tableFork" outgoing="_IbN_gB3YEeOIgZ8gNCjZtw _KW1-sB3YEeOIgZ8gNCjZtw" incoming="_GlLq8B3YEeOIgZ8gNCjZtw"/>
     <node xmi:type="uml:CreateObjectAction" xmi:id="_ZiaggB1VEeOrcrPuTzvbSA" name="document">
@@ -64,13 +68,17 @@
       <argument xmi:id="_kyDdwB3OEeOIgZ8gNCjZtw" name="insertValue" incoming="_4w-z4B3aEeOIgZ8gNCjZtw"/>
       <result xmi:id="_niWbIB3OEeOIgZ8gNCjZtw" name="result"/>
       <operation href="mongo-java-driver-2.10.1Converted.uml#_J2Jg4R3iEeOIgZ8gNCjZtw"/>
-      <target xmi:id="_mYHcoB3OEeOIgZ8gNCjZtw" name="target" incoming="_Hxd34B3YEeOIgZ8gNCjZtw"/>
+      <target xmi:id="_mYHcoB3OEeOIgZ8gNCjZtw" name="target" incoming="_Hxd34B3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_JuidAh3iEeOIgZ8gNCjZtw"/>
+      </target>
     </node>
     <node xmi:type="uml:CallOperationAction" xmi:id="_1rOI0B1WEeOrcrPuTzvbSA" name="Insert">
       <argument xmi:id="_6vN4oB3OEeOIgZ8gNCjZtw" name="dbObject" incoming="_TSGFoB3cEeOIgZ8gNCjZtw"/>
       <result xmi:id="_4L1V4B3OEeOIgZ8gNCjZtw" name="result"/>
       <operation href="mongo-java-driver-2.10.1Converted.uml#_JyLm6B3iEeOIgZ8gNCjZtw"/>
-      <target xmi:id="_2ZLFcB3OEeOIgZ8gNCjZtw" name="target" incoming="_IbN_gB3YEeOIgZ8gNCjZtw"/>
+      <target xmi:id="_2ZLFcB3OEeOIgZ8gNCjZtw" name="target" incoming="_IbN_gB3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_JusOAB3iEeOIgZ8gNCjZtw"/>
+      </target>
     </node>
     <node xmi:type="uml:CreateObjectAction" xmi:id="_iQ43EB1WEeOrcrPuTzvbSA" name="query">
       <classifier xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_JuidAh3iEeOIgZ8gNCjZtw"/>
@@ -90,18 +98,28 @@
       <argument xmi:id="_D-V6oB3PEeOIgZ8gNCjZtw" name="queryValue" incoming="_6yQvIB3aEeOIgZ8gNCjZtw"/>
       <result xmi:id="_JJJyoB3PEeOIgZ8gNCjZtw" name="result"/>
       <operation href="mongo-java-driver-2.10.1Converted.uml#_J2Jg4R3iEeOIgZ8gNCjZtw"/>
-      <target xmi:id="_H1LCQB3PEeOIgZ8gNCjZtw" name="target" incoming="_JvayUB3YEeOIgZ8gNCjZtw"/>
+      <target xmi:id="_H1LCQB3PEeOIgZ8gNCjZtw" name="target" incoming="_JvayUB3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_JuidAh3iEeOIgZ8gNCjZtw"/>
+      </target>
     </node>
     <node xmi:type="uml:CallOperationAction" xmi:id="_JSUrQB1XEeOrcrPuTzvbSA" name="Find">
       <argument xmi:id="_LHXLwB3PEeOIgZ8gNCjZtw" name="dbObject" incoming="_K_X-UB3YEeOIgZ8gNCjZtw"/>
-      <result xmi:id="_QllH8B3PEeOIgZ8gNCjZtw" name="result" outgoing="_LwLwMB3YEeOIgZ8gNCjZtw"/>
+      <result xmi:id="_QllH8B3PEeOIgZ8gNCjZtw" name="result" outgoing="_LwLwMB3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_Ju1X8B3iEeOIgZ8gNCjZtw"/>
+      </result>
       <operation href="mongo-java-driver-2.10.1Converted.uml#_JyWmAR3iEeOIgZ8gNCjZtw"/>
-      <target xmi:id="_OAwawB3PEeOIgZ8gNCjZtw" name="target" incoming="_KW1-sB3YEeOIgZ8gNCjZtw"/>
+      <target xmi:id="_OAwawB3PEeOIgZ8gNCjZtw" name="target" incoming="_KW1-sB3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_JusOAB3iEeOIgZ8gNCjZtw"/>
+      </target>
     </node>
     <node xmi:type="uml:CallOperationAction" xmi:id="_bI0dMB3PEeOIgZ8gNCjZtw" name="Next">
-      <result xmi:id="_fxX8sB3PEeOIgZ8gNCjZtw" name="result" outgoing="_NJQb8B3YEeOIgZ8gNCjZtw"/>
+      <result xmi:id="_fxX8sB3PEeOIgZ8gNCjZtw" name="result" outgoing="_NJQb8B3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_JuidAh3iEeOIgZ8gNCjZtw"/>
+      </result>
       <operation href="mongo-java-driver-2.10.1Converted.uml#_Jy1HJB3iEeOIgZ8gNCjZtw"/>
-      <target xmi:id="_eWU7AB3PEeOIgZ8gNCjZtw" name="target" incoming="_LwLwMB3YEeOIgZ8gNCjZtw"/>
+      <target xmi:id="_eWU7AB3PEeOIgZ8gNCjZtw" name="target" incoming="_LwLwMB3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_Ju1X8B3iEeOIgZ8gNCjZtw"/>
+      </target>
     </node>
     <node xmi:type="uml:ActivityParameterNode" xmi:id="_7Pb0UB3PEeOIgZ8gNCjZtw" name="OutputDbObject" incoming="_NJQb8B3YEeOIgZ8gNCjZtw" parameter="_4yl-cB3PEeOIgZ8gNCjZtw"/>
   </packagedElement>

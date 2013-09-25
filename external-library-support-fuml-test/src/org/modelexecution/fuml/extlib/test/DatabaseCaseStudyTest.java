@@ -30,6 +30,7 @@ import org.modelexecution.fuml.extlib.IntegrationLayer;
 import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
 import org.modelexecution.fuml.extlib.UML2Preparer;
 import org.modelexecution.fumldebug.core.ExecutionEventListener;
+import org.modelexecution.fumldebug.core.event.ActivityEntryEvent;
 import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
@@ -37,6 +38,7 @@ import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
 import fUML.Semantics.Classes.Kernel.BooleanValue;
 import fUML.Semantics.Classes.Kernel.IntegerValue;
 import fUML.Semantics.Classes.Kernel.Object_;
+import fUML.Semantics.Classes.Kernel.Reference;
 import fUML.Semantics.Classes.Kernel.StringValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
@@ -139,20 +141,24 @@ public class DatabaseCaseStudyTest implements ExecutionEventListener {
 
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
-//		ParameterValue outputParameterValue = null;
-//
-//		for (Event event : eventlist) {
-//			if (event.toString().contains("ActivityNodeEntryEvent node = getString")) {
-//				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
-//				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
-//						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
-//			}
-//		}
-//
-//		assertTrue(outputParameterValue != null);
-//		assertTrue(outputParameterValue.values.get(0) instanceof StringValue);
-//		// Check if operation's return value is correct (!)
-//		assertTrue(((StringValue) outputParameterValue.values.get(0)).value.contains("Hello")); // otherwise it would throw an exception
+		ParameterValue outputParameterValue = null;
+
+		for (Event event : eventlist) {
+			if (event.toString().contains("ActivityEntryEvent activity = DatabaseActivity")) {
+				ActivityEntryEvent activityEntryEvent = (ActivityEntryEvent) event;
+				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
+						.getActivityOutput(activityEntryEvent.getActivityExecutionID()).get(0);
+			}
+		}
+
+		assertTrue(outputParameterValue != null);
+		assertTrue(outputParameterValue.parameter.name.equals("outputParameter"));
+		
+		// Escalated MongoDB Case Study
+		// Check output parameter value is empty
+		assertTrue(outputParameterValue.values.size()==0);
+		
+		
 	}
 
 }
