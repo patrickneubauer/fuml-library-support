@@ -461,14 +461,23 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				if (activity.specification != null && activity.specification instanceof Operation && ((Operation) activity.specification).type != null && ((Operation) activity.specification).type instanceof Class_) {
 					Operation operation = (Operation) activity.specification;
 					Class_ returnType = (Class_) operation.type;
-					Object_ newfUmlObject = new Object_();
-					newfUmlObject.types.add(returnType);
+					Object_ newComplexFUmlObject = new Object_();
+					newComplexFUmlObject.types.add(returnType);
 					
-					Object_Creator object_Creator = new Object_Creator(newfUmlObject, javaMethodReturnValue, executionContext);
+					Object_Creator object_Creator = new Object_Creator(newComplexFUmlObject, javaMethodReturnValue, executionContext);
+					newComplexFUmlObject = object_Creator.getfUmlObject();
+					newFUmlObject.locus.add(newComplexFUmlObject); // add new complex Object_ to Locus
+					newComplexFUmlObject.locus = newFUmlObject.locus; // same Locus ?
 					
 					Reference reference = new Reference();
 					reference.referent = object_Creator.getfUmlObject();
 					outputParameterValue.values.add(reference);
+					
+					// Replace with new complex fUML Object
+					newFUmlObject = newComplexFUmlObject;
+
+					// Add objects to internal map
+					addObjects(newFUmlObject, javaMethodReturnValue);
 				}
 				
 			}
@@ -518,6 +527,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				} else if (fUmlInputParameter.type.name.toString().equals("String")) {
 					String javaInputParameterValue = (String) ((StringValue) fUmlInputParameterValue.values.get(0)).value;					
 					javaParameterWithValueMap.put(javaInputParameterValue, String.class);
+				} else if (fUmlInputParameter.type.name.toString().equals("Object")) {
+					Object javaInputParameterValue = (Object) fUmlInputParameterValue.values.get(0);					
+					javaParameterWithValueMap.put(javaInputParameterValue, Object.class);
 				}
 			}// for loop (fUmlParameterWithValueMap)
 		}// if (fUmlParameterWithValueMap not empty)
@@ -541,7 +553,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		for (Parameter parameter : parameterList) {
 			if (parameter.name != null && parameter.type != null) {
 				if (parameter.type.name.toString().equals("boolean") || parameter.type.name.toString().equals("int")
-						|| parameter.type.name.toString().equals("String")) {
+						|| parameter.type.name.toString().equals("String") || parameter.type.name.toString().equals("Object")) {
 					
 					// Find a corresponding ParameterValue for this Parameter in the Locus
 					for (ExtensionalValue extensionalValue : extensionalValueList) {
