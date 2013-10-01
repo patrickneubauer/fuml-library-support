@@ -68,8 +68,8 @@ public class MailCaseStudyTest implements ExecutionEventListener {
 	public void setUp() {
 		eventlist = new ArrayList<Event>();
 		
-		String inputFilePath = "models/mailCaseStudy/commons-email-1.3.1.uml";
-		String outputFilePath = "models/mailCaseStudy/commons-email-1.3.1Converted.uml";
+		String inputFilePath = "models/MailCaseStudy/commons-email-1.3.1.uml";
+		String outputFilePath = "models/MailCaseStudy/commons-email-1.3.1Converted.uml";
 		String[] jarFilePaths = {"extlibs/commons-email-1.3.1.jar", "extlibs/mail.jar"};
 
 		UML2Preparer converter = new UML2Preparer();
@@ -114,8 +114,8 @@ public class MailCaseStudyTest implements ExecutionEventListener {
 	 */
 	@Test
 	public void mailCaseStudyTest() {		
-		String externalUmlFilePath = "models/mailCaseStudy/commons-email-1.3.1Converted.uml";
-		String activityDiagramFilePath = "models/mailCaseStudy/mailActivityDiagram.uml";
+		String externalUmlFilePath = "models/MailCaseStudy/commons-email-1.3.1Converted.uml";
+		String activityDiagramFilePath = "models/MailCaseStudy/MailActivityModel.uml";
 		String activityName = "MailActivity";
 
 		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);

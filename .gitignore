@@ -19,3 +19,9 @@ external-library-support-fuml-gui/
 external-library-support-fuml-test/debug.out
 
 external-library-support-fuml-test/models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml
+
+external-library-support-fuml-test/models/DatabaseCaseStudy/mongo-java-driver-2.10.1Converted.uml
+
+external-library-support-fuml-test/models/MailCaseStudy/commons-email-1.3.1Converted.uml
+
+external-library-support-fuml-test/models/PetstoreCaseStudy/commons-email-1.3.1Converted.uml

@@ -77,8 +77,8 @@ public class PetstoreCaseStudyTest implements ExecutionEventListener {
 	public void setUp() {
 		eventlist = new ArrayList<Event>();
 		
-		String inputFilePath = "models/petstoreCaseStudy/commons-email-1.3.1.uml";
-		String outputFilePath = "models/petstoreCaseStudy/commons-email-1.3.1Converted.uml";
+		String inputFilePath = "models/PetstoreCaseStudy/commons-email-1.3.1.uml";
+		String outputFilePath = "models/PetstoreCaseStudy/commons-email-1.3.1Converted.uml";
 		String[] jarFilePaths = {"extlibs/commons-email-1.3.1.jar", "extlibs/mail.jar"};
 
 		UML2Preparer converter = new UML2Preparer();
@@ -172,8 +172,8 @@ public class PetstoreCaseStudyTest implements ExecutionEventListener {
 	 */
 	@Test
 	public void petstoreCaseStudyTest() {		
-		String externalUmlFilePath = "models/petstoreCaseStudy/commons-email-1.3.1Converted.uml";
-		String activityDiagramFilePath = "models/petstoreCaseStudy/petstore.uml";
+		String externalUmlFilePath = "models/PetstoreCaseStudy/commons-email-1.3.1Converted.uml";
+		String activityDiagramFilePath = "models/PetstoreCaseStudy/petstore.uml";
 		String activityName = "SendEmail";
 
 		// Convert

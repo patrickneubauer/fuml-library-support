@@ -1251,11 +1251,11 @@
         <upperBound xmi:type="uml:LiteralInteger" xmi:id="_KIvEmd_7EeKxs-T-7hfQjA" value="1"/>
       </result>
     </node>
-    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_NWMfEN_7EeKxs-T-7hfQjA" name="bill">
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_NWMfEN_7EeKxs-T-7hfQjA" name="billy">
       <result xmi:id="_Rz-5AN_7EeKxs-T-7hfQjA" name="result" outgoing="_XQHKgN_7EeKxs-T-7hfQjA">
         <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UhwG0N_7EeKxs-T-7hfQjA" name="" value="1"/>
       </result>
-      <value xmi:type="uml:LiteralString" xmi:id="_Oow6MN_7EeKxs-T-7hfQjA" name="" value="bill"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_Oow6MN_7EeKxs-T-7hfQjA" name="" value="billy"/>
     </node>
     <node xmi:type="uml:ValueSpecificationAction" xmi:id="_PKFekN_7EeKxs-T-7hfQjA" name="liz">
       <result xmi:id="_ScJsQN_7EeKxs-T-7hfQjA" name="result" outgoing="_ZgkxQN_7EeKxs-T-7hfQjA">
@@ -1265,11 +1265,11 @@
     </node>
     <node xmi:type="uml:ForkNode" xmi:id="_XPrFoN_7EeKxs-T-7hfQjA" name="ForkNode1" outgoing="_abC1cN_7EeKxs-T-7hfQjA _bKptcN_7EeKxs-T-7hfQjA" incoming="_XQHKgN_7EeKxs-T-7hfQjA"/>
     <node xmi:type="uml:ForkNode" xmi:id="_ZgIFUN_7EeKxs-T-7hfQjA" name="ForkNode2" outgoing="_b1MfQN_7EeKxs-T-7hfQjA _c3tFIN_7EeKxs-T-7hfQjA" incoming="_ZgkxQN_7EeKxs-T-7hfQjA"/>
-    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_ThER4B7xEeOBfdNOw9-NAA" name="email bill">
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_ThER4B7xEeOBfdNOw9-NAA" name="email billy">
       <result xmi:id="_WDl5AB7xEeOBfdNOw9-NAA" name="result" outgoing="_1PuoEB71EeOUIq7mNkGnmw">
         <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5YLoAB7xEeOBfdNOw9-NAA" name="" value="1"/>
       </result>
-      <value xmi:type="uml:LiteralString" xmi:id="_YnagoB7xEeOBfdNOw9-NAA" name="" value="petstore-bill@trash-mail.com"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_YnagoB7xEeOBfdNOw9-NAA" name="" value="petstore-billy@trash-mail.com"/>
     </node>
     <node xmi:type="uml:ValueSpecificationAction" xmi:id="_b8wEwB7xEeOBfdNOw9-NAA" name="email liz">
       <result xmi:id="_d7j60B7xEeOBfdNOw9-NAA" name="result" outgoing="_t2DEwB71EeOUIq7mNkGnmw">

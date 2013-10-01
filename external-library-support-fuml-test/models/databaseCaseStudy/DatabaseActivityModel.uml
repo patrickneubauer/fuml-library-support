@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_In3yUB1SEeOrcrPuTzvbSA">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_P44h0B1SEeOrcrPuTzvbSA" name="DatabaseActivity" node="_aIcGEB1SEeOrcrPuTzvbSA _PpyrAB1UEeOrcrPuTzvbSA _8yn7QB1UEeOrcrPuTzvbSA _ZiaggB1VEeOrcrPuTzvbSA _lz2c8B1VEeOrcrPuTzvbSA _iQ43EB1WEeOrcrPuTzvbSA _tfNJoB1WEeOrcrPuTzvbSA _1rOI0B1WEeOrcrPuTzvbSA _JSUrQB1XEeOrcrPuTzvbSA _bI0dMB3PEeOIgZ8gNCjZtw _7Pb0UB3PEeOIgZ8gNCjZtw _Hv-jwB3QEeOIgZ8gNCjZtw _JiylMB3QEeOIgZ8gNCjZtw _KMg3oB3QEeOIgZ8gNCjZtw _K-RrwB3QEeOIgZ8gNCjZtw _MH4YIB3QEeOIgZ8gNCjZtw _NNNBcB3QEeOIgZ8gNCjZtw _-1Iy4B3TEeOIgZ8gNCjZtw _QBIIUB3VEeOIgZ8gNCjZtw _pgrPYB3WEeOIgZ8gNCjZtw _kn-w0Cm4EeOhse2xPtI-bQ">
+    <ownedParameter xmi:id="_4yl-cB3PEeOIgZ8gNCjZtw" name="outputParameter" direction="out"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_FY5eAB3YEeOIgZ8gNCjZtw" name="ObjectFlowFromCreateMongoClientToGetDb" source="_77Ln0B1SEeOrcrPuTzvbSA" target="_rEcCQB1UEeOrcrPuTzvbSA"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_F-naMB3YEeOIgZ8gNCjZtw" name="ObjectFlowFromGetDbToGetCollection" source="_ue2ToB1UEeOrcrPuTzvbSA" target="_PZqH0B1VEeOrcrPuTzvbSA"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_GlLq8B3YEeOIgZ8gNCjZtw" name="ObjectFlowFromGetCollectionToTableFork" source="_Q3TxkB1VEeOrcrPuTzvbSA" target="_-1Iy4B3TEeOIgZ8gNCjZtw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_HI6qIB3YEeOIgZ8gNCjZtw" name="ObjectFlowFromCreateBasicDBObjectToDocumentFork" source="_g7F-QB1VEeOrcrPuTzvbSA" target="_QBIIUB3VEeOIgZ8gNCjZtw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_Hxd34B3YEeOIgZ8gNCjZtw" name="ObjectFlowFromDocumentForkToPut" source="_QBIIUB3VEeOIgZ8gNCjZtw" target="_mYHcoB3OEeOIgZ8gNCjZtw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_TSGFoB3cEeOIgZ8gNCjZtw" name="ObjectFlowFromDocumentForkToInsert" source="_QBIIUB3VEeOIgZ8gNCjZtw" target="_6vN4oB3OEeOIgZ8gNCjZtw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_IbN_gB3YEeOIgZ8gNCjZtw" name="ObjectFlowFromTableForkToInsert" source="_-1Iy4B3TEeOIgZ8gNCjZtw" target="_2ZLFcB3OEeOIgZ8gNCjZtw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_JBWLYB3YEeOIgZ8gNCjZtw" name="ObjectFlowFromCreateBasicDBObjectToQueryFork" source="_obLPEB1WEeOrcrPuTzvbSA" target="_pgrPYB3WEeOIgZ8gNCjZtw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_JvayUB3YEeOIgZ8gNCjZtw" name="ObjectFlowFromQueryForkToPut" source="_pgrPYB3WEeOIgZ8gNCjZtw" target="_H1LCQB3PEeOIgZ8gNCjZtw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_KW1-sB3YEeOIgZ8gNCjZtw" name="ObjectFlowFromTableForkToFind" source="_-1Iy4B3TEeOIgZ8gNCjZtw" target="_OAwawB3PEeOIgZ8gNCjZtw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_K_X-UB3YEeOIgZ8gNCjZtw" name="ObjectFlowFromQueryForkToFind" source="_pgrPYB3WEeOIgZ8gNCjZtw" target="_LHXLwB3PEeOIgZ8gNCjZtw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_LwLwMB3YEeOIgZ8gNCjZtw" name="ObjectFlowFromFindToNext" source="_QllH8B3PEeOIgZ8gNCjZtw" target="_eWU7AB3PEeOIgZ8gNCjZtw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_NJQb8B3YEeOIgZ8gNCjZtw" name="ObjectFlowFromNextToFinal" source="_fxX8sB3PEeOIgZ8gNCjZtw" target="_7Pb0UB3PEeOIgZ8gNCjZtw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_5ZF8wB3aEeOIgZ8gNCjZtw" name="ObjectFlowFromDbNameSpecificationToCall" source="_hSG6MB3QEeOIgZ8gNCjZtw" target="_hiFiQB1UEeOrcrPuTzvbSA"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_3diPAB3aEeOIgZ8gNCjZtw" name="ObjectFlowFromDbCollectionNameSpecificationToCall" source="_nhtQAB3QEeOIgZ8gNCjZtw" target="_IWu3oB1VEeOrcrPuTzvbSA"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_4E7mMB3aEeOIgZ8gNCjZtw" name="ObjectFlowFromInsertKeySpecificationToCall" source="_8KggAB3QEeOIgZ8gNCjZtw" target="_iA6L0B3OEeOIgZ8gNCjZtw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_4w-z4B3aEeOIgZ8gNCjZtw" name="ObjectFlowFromInsertValueSpecificationToCall" source="_9aDcUB3QEeOIgZ8gNCjZtw" target="_kyDdwB3OEeOIgZ8gNCjZtw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_6KmSMB3aEeOIgZ8gNCjZtw" name="ObjectFlowFromQueryKeySpecificationToCall" source="_9liTkB3QEeOIgZ8gNCjZtw" target="_A37jUB3PEeOIgZ8gNCjZtw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_6yQvIB3aEeOIgZ8gNCjZtw" name="ObjectFlowFromQueryValueSpecificationToCall" source="_9wQV0B3QEeOIgZ8gNCjZtw" target="_D-V6oB3PEeOIgZ8gNCjZtw"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_ntJyACm4EeOhse2xPtI-bQ" name="controlFlow0" source="_kn-w0Cm4EeOhse2xPtI-bQ" target="_aIcGEB1SEeOrcrPuTzvbSA"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_tYiAcCm4EeOhse2xPtI-bQ" name="controlFlow1" source="_8yn7QB1UEeOrcrPuTzvbSA" target="_ZiaggB1VEeOrcrPuTzvbSA"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_t40DACm4EeOhse2xPtI-bQ" name="controlFlow2" source="_ZiaggB1VEeOrcrPuTzvbSA" target="_lz2c8B1VEeOrcrPuTzvbSA"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_uV3ycCm4EeOhse2xPtI-bQ" name="controlFlow3" source="_lz2c8B1VEeOrcrPuTzvbSA" target="_1rOI0B1WEeOrcrPuTzvbSA"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_uyUd4Cm4EeOhse2xPtI-bQ" name="controlFlow4" source="_1rOI0B1WEeOrcrPuTzvbSA" target="_iQ43EB1WEeOrcrPuTzvbSA"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_vUD5ACm4EeOhse2xPtI-bQ" name="controlFlow5" source="_iQ43EB1WEeOrcrPuTzvbSA" target="_tfNJoB1WEeOrcrPuTzvbSA"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_Kd0UkCm5EeOhse2xPtI-bQ" name="controlFlow6" source="_tfNJoB1WEeOrcrPuTzvbSA" target="_JSUrQB1XEeOrcrPuTzvbSA"/>
+    <node xmi:type="uml:InitialNode" xmi:id="_kn-w0Cm4EeOhse2xPtI-bQ" name="initialNode" outgoing="_ntJyACm4EeOhse2xPtI-bQ"/>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_aIcGEB1SEeOrcrPuTzvbSA" name="MongoClient" incoming="_ntJyACm4EeOhse2xPtI-bQ">
+      <classifier xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_JvW8YB3iEeOIgZ8gNCjZtw"/>
+      <result xmi:id="_77Ln0B1SEeOrcrPuTzvbSA" name="target" outgoing="_FY5eAB3YEeOIgZ8gNCjZtw"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_Hv-jwB3QEeOIgZ8gNCjZtw" name="dbName">
+      <result xmi:id="_hSG6MB3QEeOIgZ8gNCjZtw" name="dbName" outgoing="_5ZF8wB3aEeOIgZ8gNCjZtw"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_fONIwB3QEeOIgZ8gNCjZtw" value="mydatabase"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_PpyrAB1UEeOrcrPuTzvbSA" name="GetDB">
+      <argument xmi:id="_hiFiQB1UEeOrcrPuTzvbSA" name="dbName" incoming="_5ZF8wB3aEeOIgZ8gNCjZtw"/>
+      <result xmi:id="_ue2ToB1UEeOrcrPuTzvbSA" name="result" outgoing="_F-naMB3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_Jun8kR3iEeOIgZ8gNCjZtw"/>
+      </result>
+      <operation href="mongo-java-driver-2.10.1Converted.uml#_Jzo_cB3iEeOIgZ8gNCjZtw"/>
+      <target xmi:id="_rEcCQB1UEeOrcrPuTzvbSA" name="target" incoming="_FY5eAB3YEeOIgZ8gNCjZtw"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_JiylMB3QEeOIgZ8gNCjZtw" name="dbCollectionName">
+      <result xmi:id="_nhtQAB3QEeOIgZ8gNCjZtw" name="dbCollectionName" outgoing="_3diPAB3aEeOIgZ8gNCjZtw"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_m-8hMB3QEeOIgZ8gNCjZtw" value="mytable"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_8yn7QB1UEeOrcrPuTzvbSA" name="GetCollection" outgoing="_tYiAcCm4EeOhse2xPtI-bQ">
+      <argument xmi:id="_IWu3oB1VEeOrcrPuTzvbSA" name="dbCollectionName" incoming="_3diPAB3aEeOIgZ8gNCjZtw"/>
+      <result xmi:id="_Q3TxkB1VEeOrcrPuTzvbSA" name="result" outgoing="_GlLq8B3YEeOIgZ8gNCjZtw"/>
+      <operation href="mongo-java-driver-2.10.1Converted.uml#_Jx4r9R3iEeOIgZ8gNCjZtw"/>
+      <target xmi:id="_PZqH0B1VEeOrcrPuTzvbSA" name="target" incoming="_F-naMB3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_Jun8kR3iEeOIgZ8gNCjZtw"/>
+      </target>
+    </node>
+    <node xmi:type="uml:ForkNode" xmi:id="_-1Iy4B3TEeOIgZ8gNCjZtw" name="tableFork" outgoing="_IbN_gB3YEeOIgZ8gNCjZtw _KW1-sB3YEeOIgZ8gNCjZtw" incoming="_GlLq8B3YEeOIgZ8gNCjZtw"/>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_ZiaggB1VEeOrcrPuTzvbSA" name="document" outgoing="_t40DACm4EeOhse2xPtI-bQ" incoming="_tYiAcCm4EeOhse2xPtI-bQ">
+      <classifier xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_JuidAh3iEeOIgZ8gNCjZtw"/>
+      <result xmi:id="_g7F-QB1VEeOrcrPuTzvbSA" name="target" outgoing="_HI6qIB3YEeOIgZ8gNCjZtw"/>
+    </node>
+    <node xmi:type="uml:ForkNode" xmi:id="_QBIIUB3VEeOIgZ8gNCjZtw" name="documentFork" outgoing="_Hxd34B3YEeOIgZ8gNCjZtw _TSGFoB3cEeOIgZ8gNCjZtw" incoming="_HI6qIB3YEeOIgZ8gNCjZtw"/>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_KMg3oB3QEeOIgZ8gNCjZtw" name="insertKey">
+      <result xmi:id="_8KggAB3QEeOIgZ8gNCjZtw" name="insertKey" outgoing="_4E7mMB3aEeOIgZ8gNCjZtw"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_7oc70B3QEeOIgZ8gNCjZtw" value="mykey"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_K-RrwB3QEeOIgZ8gNCjZtw" name="insertValue">
+      <result xmi:id="_9aDcUB3QEeOIgZ8gNCjZtw" name="insertValue" outgoing="_4w-z4B3aEeOIgZ8gNCjZtw"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_9aDcUR3QEeOIgZ8gNCjZtw" value="myvalue"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_lz2c8B1VEeOrcrPuTzvbSA" name="Put" outgoing="_uV3ycCm4EeOhse2xPtI-bQ" incoming="_t40DACm4EeOhse2xPtI-bQ">
+      <argument xmi:id="_iA6L0B3OEeOIgZ8gNCjZtw" name="insertKey" incoming="_4E7mMB3aEeOIgZ8gNCjZtw"/>
+      <argument xmi:id="_kyDdwB3OEeOIgZ8gNCjZtw" name="insertValue" incoming="_4w-z4B3aEeOIgZ8gNCjZtw"/>
+      <result xmi:id="_niWbIB3OEeOIgZ8gNCjZtw" name="result"/>
+      <operation href="mongo-java-driver-2.10.1Converted.uml#_J2Jg4R3iEeOIgZ8gNCjZtw"/>
+      <target xmi:id="_mYHcoB3OEeOIgZ8gNCjZtw" name="target" incoming="_Hxd34B3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_JuidAh3iEeOIgZ8gNCjZtw"/>
+      </target>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_1rOI0B1WEeOrcrPuTzvbSA" name="Insert" outgoing="_uyUd4Cm4EeOhse2xPtI-bQ" incoming="_uV3ycCm4EeOhse2xPtI-bQ">
+      <argument xmi:id="_6vN4oB3OEeOIgZ8gNCjZtw" name="dbObject" incoming="_TSGFoB3cEeOIgZ8gNCjZtw"/>
+      <result xmi:id="_4L1V4B3OEeOIgZ8gNCjZtw" name="result"/>
+      <operation href="mongo-java-driver-2.10.1Converted.uml#_JyLm6B3iEeOIgZ8gNCjZtw"/>
+      <target xmi:id="_2ZLFcB3OEeOIgZ8gNCjZtw" name="target" incoming="_IbN_gB3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_JusOAB3iEeOIgZ8gNCjZtw"/>
+      </target>
+    </node>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_iQ43EB1WEeOrcrPuTzvbSA" name="query" outgoing="_vUD5ACm4EeOhse2xPtI-bQ" incoming="_uyUd4Cm4EeOhse2xPtI-bQ">
+      <classifier xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_JuidAh3iEeOIgZ8gNCjZtw"/>
+      <result xmi:id="_obLPEB1WEeOrcrPuTzvbSA" name="target" outgoing="_JBWLYB3YEeOIgZ8gNCjZtw"/>
+    </node>
+    <node xmi:type="uml:ForkNode" xmi:id="_pgrPYB3WEeOIgZ8gNCjZtw" name="queryFork" outgoing="_K_X-UB3YEeOIgZ8gNCjZtw _JvayUB3YEeOIgZ8gNCjZtw" incoming="_JBWLYB3YEeOIgZ8gNCjZtw"/>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_MH4YIB3QEeOIgZ8gNCjZtw" name="queryKey">
+      <result xmi:id="_9liTkB3QEeOIgZ8gNCjZtw" name="queryKey" outgoing="_6KmSMB3aEeOIgZ8gNCjZtw"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_9liTkR3QEeOIgZ8gNCjZtw" value="mykey"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_NNNBcB3QEeOIgZ8gNCjZtw" name="queryValue">
+      <result xmi:id="_9wQV0B3QEeOIgZ8gNCjZtw" name="queryValue" outgoing="_6yQvIB3aEeOIgZ8gNCjZtw"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_9wQ84B3QEeOIgZ8gNCjZtw" value="myvalue"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_tfNJoB1WEeOrcrPuTzvbSA" name="Put" outgoing="_Kd0UkCm5EeOhse2xPtI-bQ" incoming="_vUD5ACm4EeOhse2xPtI-bQ">
+      <argument xmi:id="_A37jUB3PEeOIgZ8gNCjZtw" name="queryKey" incoming="_6KmSMB3aEeOIgZ8gNCjZtw"/>
+      <argument xmi:id="_D-V6oB3PEeOIgZ8gNCjZtw" name="queryValue" incoming="_6yQvIB3aEeOIgZ8gNCjZtw"/>
+      <result xmi:id="_JJJyoB3PEeOIgZ8gNCjZtw" name="result"/>
+      <operation href="mongo-java-driver-2.10.1Converted.uml#_J2Jg4R3iEeOIgZ8gNCjZtw"/>
+      <target xmi:id="_H1LCQB3PEeOIgZ8gNCjZtw" name="target" incoming="_JvayUB3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_JuidAh3iEeOIgZ8gNCjZtw"/>
+      </target>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_JSUrQB1XEeOrcrPuTzvbSA" name="Find" incoming="_Kd0UkCm5EeOhse2xPtI-bQ">
+      <argument xmi:id="_LHXLwB3PEeOIgZ8gNCjZtw" name="dbObject" incoming="_K_X-UB3YEeOIgZ8gNCjZtw"/>
+      <result xmi:id="_QllH8B3PEeOIgZ8gNCjZtw" name="result" outgoing="_LwLwMB3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_Ju1X8B3iEeOIgZ8gNCjZtw"/>
+      </result>
+      <operation href="mongo-java-driver-2.10.1Converted.uml#_JyWmAR3iEeOIgZ8gNCjZtw"/>
+      <target xmi:id="_OAwawB3PEeOIgZ8gNCjZtw" name="target" incoming="_KW1-sB3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_JusOAB3iEeOIgZ8gNCjZtw"/>
+      </target>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_bI0dMB3PEeOIgZ8gNCjZtw" name="Next">
+      <result xmi:id="_fxX8sB3PEeOIgZ8gNCjZtw" name="result" outgoing="_NJQb8B3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_JuidAh3iEeOIgZ8gNCjZtw"/>
+      </result>
+      <operation href="mongo-java-driver-2.10.1Converted.uml#_Jy1HJB3iEeOIgZ8gNCjZtw"/>
+      <target xmi:id="_eWU7AB3PEeOIgZ8gNCjZtw" name="target" incoming="_LwLwMB3YEeOIgZ8gNCjZtw">
+        <type xmi:type="uml:Class" href="mongo-java-driver-2.10.1Converted.uml#_Ju1X8B3iEeOIgZ8gNCjZtw"/>
+      </target>
+    </node>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_7Pb0UB3PEeOIgZ8gNCjZtw" name="OutputDbObject" incoming="_NJQb8B3YEeOIgZ8gNCjZtw" parameter="_4yl-cB3PEeOIgZ8gNCjZtw"/>
+  </packagedElement>
+</uml:Model>

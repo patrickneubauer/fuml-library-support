@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_GL1CwMoFEeKz2r6nEKmBEw" name="commons-email-1.3.1">
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_GL1CwMoFEeKz2r6nEKmBEw" name="commons-email-1.3.1">
   <eAnnotations xmi:id="_GMgYMcoFEeKz2r6nEKmBEw" source="Jar2UML">
     <details xmi:id="_GMgYMsoFEeKz2r6nEKmBEw" key="majorBytecodeFormatVersion" value="49"/>
     <details xmi:id="_GMgYM8oFEeKz2r6nEKmBEw" key="minorBytecodeFormatVersion" value="0"/>
@@ -35,9 +35,9 @@
                 <ownedParameter xmi:id="_GL_a1soFEeKz2r6nEKmBEw" name="return" type="_GL57RcoFEeKz2r6nEKmBEw" direction="return"/>
               </ownedOperation>
             </packagedElement>
-            <packagedElement xmi:type="uml:Class" xmi:id="_GL4tJsoFEeKz2r6nEKmBEw" name="DataSourceBaseResolver" clientDependency="_GL57QsoFEeKz2r6nEKmBEw" isAbstract="true">
+            <packagedElement xmi:type="uml:Class" xmi:id="_GL4tJsoFEeKz2r6nEKmBEw" clientDependency="_GL57QsoFEeKz2r6nEKmBEw" name="DataSourceBaseResolver" isAbstract="true">
               <generalization xmi:id="_GL57Q8oFEeKz2r6nEKmBEw" general="_GL57QcoFEeKz2r6nEKmBEw"/>
-              <interfaceRealization xmi:id="_GL57QsoFEeKz2r6nEKmBEw" supplier="_GL57QMoFEeKz2r6nEKmBEw" client="_GL4tJsoFEeKz2r6nEKmBEw" contract="_GL57QMoFEeKz2r6nEKmBEw"/>
+              <interfaceRealization xmi:id="_GL57QsoFEeKz2r6nEKmBEw" client="_GL4tJsoFEeKz2r6nEKmBEw" supplier="_GL57QMoFEeKz2r6nEKmBEw" contract="_GL57QMoFEeKz2r6nEKmBEw"/>
               <ownedOperation xmi:id="_GMB3EMoFEeKz2r6nEKmBEw" name="&lt;init>" visibility="public"/>
               <ownedOperation xmi:id="_GMB3EcoFEeKz2r6nEKmBEw" name="&lt;init>" visibility="public">
                 <ownedParameter xmi:id="_GMB3EsoFEeKz2r6nEKmBEw" name="lenient" type="_GL4tLMoFEeKz2r6nEKmBEw"/>
@@ -143,10 +143,10 @@
               <ownedParameter xmi:id="_GMIkysoFEeKz2r6nEKmBEw" name="return" type="_GL57RcoFEeKz2r6nEKmBEw" direction="return"/>
             </ownedOperation>
           </packagedElement>
-          <packagedElement xmi:type="uml:Class" xmi:id="_GL57RMoFEeKz2r6nEKmBEw" name="ByteArrayDataSource" clientDependency="_GL57RsoFEeKz2r6nEKmBEw">
+          <packagedElement xmi:type="uml:Class" xmi:id="_GL57RMoFEeKz2r6nEKmBEw" clientDependency="_GL57RsoFEeKz2r6nEKmBEw" name="ByteArrayDataSource">
             <generalization xmi:id="_GL57R8oFEeKz2r6nEKmBEw" general="_GL57QcoFEeKz2r6nEKmBEw"/>
             <ownedAttribute xmi:id="_GMCeIsoFEeKz2r6nEKmBEw" name="BUFFER_SIZE" visibility="public" isLeaf="true" isStatic="true" type="_GL57SMoFEeKz2r6nEKmBEw" isReadOnly="true"/>
-            <interfaceRealization xmi:id="_GL57RsoFEeKz2r6nEKmBEw" supplier="_GL57RcoFEeKz2r6nEKmBEw" client="_GL57RMoFEeKz2r6nEKmBEw" contract="_GL57RcoFEeKz2r6nEKmBEw"/>
+            <interfaceRealization xmi:id="_GL57RsoFEeKz2r6nEKmBEw" client="_GL57RMoFEeKz2r6nEKmBEw" supplier="_GL57RcoFEeKz2r6nEKmBEw" contract="_GL57RcoFEeKz2r6nEKmBEw"/>
             <ownedOperation xmi:id="_GMCeI8oFEeKz2r6nEKmBEw" name="&lt;init>" visibility="public">
               <ownedParameter xmi:id="_GMCeJMoFEeKz2r6nEKmBEw" name="data" type="_GL6iUcoFEeKz2r6nEKmBEw"/>
               <ownedParameter xmi:id="_GMCeJcoFEeKz2r6nEKmBEw" name="aType" type="_GL4tLcoFEeKz2r6nEKmBEw"/>
@@ -734,30 +734,6 @@
             <ownedAttribute xmi:id="_GMaRmsoFEeKz2r6nEKmBEw" name="html" visibility="protected" type="_GL4tLcoFEeKz2r6nEKmBEw"/>
             <ownedAttribute xmi:id="_GMa4oMoFEeKz2r6nEKmBEw" name="inlineImages" visibility="protected" type="_GL7JYsoFEeKz2r6nEKmBEw"/>
             <ownedAttribute xmi:id="_GMa4ocoFEeKz2r6nEKmBEw" name="inlineEmbeds" visibility="protected" type="_GL7wdcoFEeKz2r6nEKmBEw"/>
-            <nestedClassifier xmi:type="uml:Class" xmi:id="_GL9lpcoFEeKz2r6nEKmBEw" name="InlineImage" visibility="package">
-              <generalization xmi:id="_GL9lpsoFEeKz2r6nEKmBEw" general="_GL57QcoFEeKz2r6nEKmBEw"/>
-              <ownedOperation xmi:id="_GMZqicoFEeKz2r6nEKmBEw" name="&lt;init>" visibility="public">
-                <ownedParameter xmi:id="_GMZqisoFEeKz2r6nEKmBEw" name="cid" type="_GL4tLcoFEeKz2r6nEKmBEw"/>
-                <ownedParameter xmi:id="_GMZqi8oFEeKz2r6nEKmBEw" name="dataSource" type="_GL57RcoFEeKz2r6nEKmBEw"/>
-                <ownedParameter xmi:id="_GMZqjMoFEeKz2r6nEKmBEw" name="mbp" type="_GL-MsMoFEeKz2r6nEKmBEw"/>
-              </ownedOperation>
-              <ownedOperation xmi:id="_GMZqjcoFEeKz2r6nEKmBEw" name="getCid" visibility="public">
-                <ownedParameter xmi:id="_GMZqjsoFEeKz2r6nEKmBEw" name="return" type="_GL4tLcoFEeKz2r6nEKmBEw" direction="return"/>
-              </ownedOperation>
-              <ownedOperation xmi:id="_GMZqj8oFEeKz2r6nEKmBEw" name="getDataSource" visibility="public">
-                <ownedParameter xmi:id="_GMaRkMoFEeKz2r6nEKmBEw" name="return" type="_GL57RcoFEeKz2r6nEKmBEw" direction="return"/>
-              </ownedOperation>
-              <ownedOperation xmi:id="_GMaRkcoFEeKz2r6nEKmBEw" name="getMbp" visibility="public">
-                <ownedParameter xmi:id="_GMaRksoFEeKz2r6nEKmBEw" name="return" type="_GL-MsMoFEeKz2r6nEKmBEw" direction="return"/>
-              </ownedOperation>
-              <ownedOperation xmi:id="_GMaRk8oFEeKz2r6nEKmBEw" name="equals" visibility="public">
-                <ownedParameter xmi:id="_GMaRlMoFEeKz2r6nEKmBEw" name="obj" type="_GL57QcoFEeKz2r6nEKmBEw"/>
-                <ownedParameter xmi:id="_GMaRlcoFEeKz2r6nEKmBEw" name="return" type="_GL4tLMoFEeKz2r6nEKmBEw" direction="return"/>
-              </ownedOperation>
-              <ownedOperation xmi:id="_GMaRlsoFEeKz2r6nEKmBEw" name="hashCode" visibility="public">
-                <ownedParameter xmi:id="_GMaRl8oFEeKz2r6nEKmBEw" name="return" type="_GL57SMoFEeKz2r6nEKmBEw" direction="return"/>
-              </ownedOperation>
-            </nestedClassifier>
             <ownedOperation xmi:id="_GMa4osoFEeKz2r6nEKmBEw" name="&lt;init>" visibility="public"/>
             <ownedOperation xmi:id="_GMa4o8oFEeKz2r6nEKmBEw" name="setTextMsg" visibility="public">
               <ownedParameter xmi:id="_GMa4pMoFEeKz2r6nEKmBEw" name="aText" type="_GL4tLcoFEeKz2r6nEKmBEw"/>
@@ -802,6 +778,30 @@
               <ownedParameter xmi:id="_GMcGyMoFEeKz2r6nEKmBEw" name="return" type="_GL4tLcoFEeKz2r6nEKmBEw" direction="return"/>
             </ownedOperation>
             <ownedOperation xmi:id="_GMcGycoFEeKz2r6nEKmBEw" name="buildMimeMessage" visibility="public"/>
+            <nestedClassifier xmi:type="uml:Class" xmi:id="_GL9lpcoFEeKz2r6nEKmBEw" name="InlineImage" visibility="package">
+              <generalization xmi:id="_GL9lpsoFEeKz2r6nEKmBEw" general="_GL57QcoFEeKz2r6nEKmBEw"/>
+              <ownedOperation xmi:id="_GMZqicoFEeKz2r6nEKmBEw" name="&lt;init>" visibility="public">
+                <ownedParameter xmi:id="_GMZqisoFEeKz2r6nEKmBEw" name="cid" type="_GL4tLcoFEeKz2r6nEKmBEw"/>
+                <ownedParameter xmi:id="_GMZqi8oFEeKz2r6nEKmBEw" name="dataSource" type="_GL57RcoFEeKz2r6nEKmBEw"/>
+                <ownedParameter xmi:id="_GMZqjMoFEeKz2r6nEKmBEw" name="mbp" type="_GL-MsMoFEeKz2r6nEKmBEw"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_GMZqjcoFEeKz2r6nEKmBEw" name="getCid" visibility="public">
+                <ownedParameter xmi:id="_GMZqjsoFEeKz2r6nEKmBEw" name="return" type="_GL4tLcoFEeKz2r6nEKmBEw" direction="return"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_GMZqj8oFEeKz2r6nEKmBEw" name="getDataSource" visibility="public">
+                <ownedParameter xmi:id="_GMaRkMoFEeKz2r6nEKmBEw" name="return" type="_GL57RcoFEeKz2r6nEKmBEw" direction="return"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_GMaRkcoFEeKz2r6nEKmBEw" name="getMbp" visibility="public">
+                <ownedParameter xmi:id="_GMaRksoFEeKz2r6nEKmBEw" name="return" type="_GL-MsMoFEeKz2r6nEKmBEw" direction="return"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_GMaRk8oFEeKz2r6nEKmBEw" name="equals" visibility="public">
+                <ownedParameter xmi:id="_GMaRlMoFEeKz2r6nEKmBEw" name="obj" type="_GL57QcoFEeKz2r6nEKmBEw"/>
+                <ownedParameter xmi:id="_GMaRlcoFEeKz2r6nEKmBEw" name="return" type="_GL4tLMoFEeKz2r6nEKmBEw" direction="return"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_GMaRlsoFEeKz2r6nEKmBEw" name="hashCode" visibility="public">
+                <ownedParameter xmi:id="_GMaRl8oFEeKz2r6nEKmBEw" name="return" type="_GL57SMoFEeKz2r6nEKmBEw" direction="return"/>
+              </ownedOperation>
+            </nestedClassifier>
           </packagedElement>
           <packagedElement xmi:type="uml:Class" xmi:id="_GL8-ksoFEeKz2r6nEKmBEw" name="EmailConstants" isLeaf="true">
             <generalization xmi:id="_GL8-k8oFEeKz2r6nEKmBEw" general="_GL57QcoFEeKz2r6nEKmBEw"/>

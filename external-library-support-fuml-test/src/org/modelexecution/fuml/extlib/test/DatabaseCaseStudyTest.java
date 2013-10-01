@@ -78,8 +78,8 @@ public class DatabaseCaseStudyTest implements ExecutionEventListener {
 	public void setUp() {
 		eventlist = new ArrayList<Event>();
 		
-		String inputFilePath = "models/databaseCaseStudy/mongo-java-driver-2.10.1.uml";
-		String outputFilePath = "models/databaseCaseStudy/mongo-java-driver-2.10.1Converted.uml";
+		String inputFilePath = "models/DatabaseCaseStudy/mongo-java-driver-2.10.1.uml";
+		String outputFilePath = "models/DatabaseCaseStudy/mongo-java-driver-2.10.1Converted.uml";
 		String[] jarFilePaths = {"extlibs/mongo-java-driver-2.10.1.jar"};
 
 		UML2Preparer converter = new UML2Preparer();
@@ -124,8 +124,8 @@ public class DatabaseCaseStudyTest implements ExecutionEventListener {
 	 */
 	@Test
 	public void databaseCaseStudyTest() {		
-		String externalUmlFilePath = "models/databaseCaseStudy/mongo-java-driver-2.10.1Converted.uml";
-		String activityDiagramFilePath = "models/databaseCaseStudy/DatabaseAD.uml";
+		String externalUmlFilePath = "models/DatabaseCaseStudy/mongo-java-driver-2.10.1Converted.uml";
+		String activityDiagramFilePath = "models/DatabaseCaseStudy/DatabaseActivityModel.uml";
 		String activityName = "DatabaseActivity";
 
 		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
