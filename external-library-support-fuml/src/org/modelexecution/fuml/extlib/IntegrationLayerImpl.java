@@ -48,12 +48,14 @@ import fUML.Syntax.Actions.IntermediateActions.ValueSpecificationAction;
 import fUML.Syntax.Activities.IntermediateActivities.Activity;
 import fUML.Syntax.Activities.IntermediateActivities.ObjectFlow;
 import fUML.Syntax.Classes.Kernel.Class_;
+import fUML.Syntax.Classes.Kernel.Element;
+import fUML.Syntax.Classes.Kernel.ElementList;
 import fUML.Syntax.Classes.Kernel.LiteralBoolean;
 import fUML.Syntax.Classes.Kernel.LiteralInteger;
 import fUML.Syntax.Classes.Kernel.LiteralString;
 import fUML.Syntax.Classes.Kernel.Operation;
 import fUML.Syntax.Classes.Kernel.Parameter;
-import fUML.Syntax.Classes.Kernel.ParameterList;
+import fUML.Syntax.Classes.Kernel.ParameterDirectionKind;
 import fUML.Syntax.Classes.Kernel.Property;
 import fUML.Syntax.Classes.Kernel.StructuralFeature;
 
@@ -390,7 +392,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 			// ------------------------------------------------
 			
-			LinkedHashMap<Parameter, ParameterValue> fUmlParameterWithValueMap = obtainfUmlInputParameters(activity.specification.ownedParameter, executionContext.getLocus().extensionalValues);
+			LinkedHashMap<Parameter, ParameterValue> fUmlParameterWithValueMap = obtainfUmlInputParameters(activity.specification.ownedElement, executionContext.getLocus().extensionalValues);
 
 			// ------------------------------------------------
 			
@@ -405,13 +407,31 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			
 			if (javaParameterWithValueMap.size() > 0) {
 				// Case: With Input Parameter(s)
-				javaMethod = javaClass.getMethod(methodName, javaParameterWithValueMap.values().toArray(new Class[0]));
-
-				// Warning: the following invocation alters javaObject (!)
-				javaMethodReturnValue = javaMethod.invoke(javaObject, javaParameterWithValueMap.keySet().toArray());
+				
+				if (javaParameterWithValueMap.values().toArray().length == 1 && javaParameterWithValueMap.values().toArray()[0].toString().contains("java.lang.Object")) {
+					// Case: SINGLE complex input parameter (no multiple or combination with primitive parameters)
+					
+					Method[] availableJavaMethods = javaClass.getMethods();
+					for (Method availableJavaMethod : availableJavaMethods) {
+						if (availableJavaMethod.getName().equals(methodName)) {
+							Class<?> complexMethodParameterType = availableJavaMethod.getParameterTypes()[0];
+							javaMethod = javaClass.getMethod(methodName, complexMethodParameterType);	
+							javaMethodReturnValue = javaMethod.invoke(javaObject, javaParameterWithValueMap.keySet().toArray()[0]);
+							break;
+						}						
+					}
+					
+				} else {
+					// Case: Any number of primitive input parameter combination (int, boolean, String)
+					
+					javaMethod = javaClass.getMethod(methodName, javaParameterWithValueMap.values().toArray(new Class[0]));
+					// Warning: the following invocation alters javaObject (!)
+					javaMethodReturnValue = javaMethod.invoke(javaObject, javaParameterWithValueMap.keySet().toArray());
+				}
 			
 			} else {
 				// Case: Without Input Parameter(s)
+				
 				javaMethod = javaClass.getMethod(methodName, null);
 
 				// Warning: the following invocation alters javaObject (!)
@@ -526,9 +546,11 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				} else if (fUmlInputParameter.type.name.toString().equals("String")) {
 					String javaInputParameterValue = (String) ((StringValue) fUmlInputParameterValue.values.get(0)).value;					
 					javaParameterWithValueMap.put(javaInputParameterValue, String.class);
-				} else if (fUmlInputParameter.type.name.toString().equals("Object")) {
-					Object javaInputParameterValue = fUmlInputParameterValue.values.get(0);					
-					javaParameterWithValueMap.put(javaInputParameterValue, Object.class);
+				} else /*if (fUmlInputParameter.type.name.toString().equals("Object")) */ {
+					Reference referenceToObject = (Reference) fUmlInputParameterValue.values.get(0);
+					// TODO Here a fUML Object_ to Java Object transformation is required
+//					Object javaInputParameterValue = referenceToObject.referent;			
+//					javaParameterWithValueMap.put(javaInputParameterValue, Object.class);
 				}
 			}// for loop (fUmlParameterWithValueMap)
 		}// if (fUmlParameterWithValueMap not empty)
@@ -540,40 +562,45 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	/**
 	 * Obtains an ordered map of {@link Parameter} and its corresponding {@link ParameterValue}
 	 * 
-	 * @param parameterList {@link ParameterList} from which to to obtain {@link Parameter}s
+	 * @param elementList {@link ElementList} from which to to obtain input {@link Parameter}s
 	 * @param extensionalValueList {@link ExtensionalValueList} from the Locus from which to obtain the {@link ParameterValue} for a corresponding {@link Parameter} in {@code parameterList}
 	 * @return a {@link LinkedHashMap} (ordered) on the {@link Parameter} and its corresponding {@link ParameterValue} found in the {@code parameterList}
 	 */
-	private LinkedHashMap<Parameter, ParameterValue> obtainfUmlInputParameters(ParameterList parameterList, ExtensionalValueList extensionalValueList) {
+	private LinkedHashMap<Parameter, ParameterValue> obtainfUmlInputParameters(ElementList elementList, ExtensionalValueList extensionalValueList) {
 		
 		LinkedHashMap<Parameter, ParameterValue> parameterWithParameterValueMap = new LinkedHashMap<Parameter, ParameterValue>();
 		
-		// Go through the list of Parameters
-		for (Parameter parameter : parameterList) {
-			if (parameter.name != null && parameter.type != null) {
-				if (parameter.type.name.toString().equals("boolean") || parameter.type.name.toString().equals("int")
-						|| parameter.type.name.toString().equals("String") || parameter.type.name.toString().equals("Object")) {
-					
-					// Find a corresponding ParameterValue for this Parameter in the Locus
-					for (ExtensionalValue extensionalValue : extensionalValueList) {
-						if (extensionalValue instanceof ActivityExecution) {
-							ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
-
-							for (ParameterValue parameterValue : activityExecution.parameterValues) {
-								if (parameterValue.parameter != null && parameterValue.parameter.qualifiedName != null
-										&& parameterValue.parameter.qualifiedName.equals(parameter.qualifiedName)) {
-									parameterWithParameterValueMap.put(parameter, parameterValue);
-									break; // since corresponding ParameterValue has been found
-								}
-							}// for loop (parameterValueList)
-
-						}
-					}// for loop (executionContext.getLocus().extensionalValues)					
-					
-				}
-			}
-		}// for loop (parameterList)
-		
+		// Go through the list of Elements
+		for (Element element : elementList) {
+			if (element instanceof Parameter) {
+				Parameter parameter = (Parameter) element;
+			
+				if (parameter.direction == ParameterDirectionKind.in && parameter.name != null && parameter.type != null) {
+//					if (parameter.type.name.toString().equals("boolean") || parameter.type.name.toString().equals("int")
+//							|| parameter.type.name.toString().equals("String") || parameter.type.name.toString().equals("Object")) {
+						
+						// Find a corresponding ParameterValue for this Parameter in the Locus
+						for (ExtensionalValue extensionalValue : extensionalValueList) {
+							if (extensionalValue instanceof ActivityExecution) {
+								ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
+	
+								for (ParameterValue parameterValue : activityExecution.parameterValues) {
+									if (parameterValue.parameter != null && parameterValue.parameter.qualifiedName != null
+											&& parameterValue.parameter.qualifiedName.equals(parameter.qualifiedName)) {
+										parameterWithParameterValueMap.put(parameter, parameterValue);
+										break; // since corresponding ParameterValue has been found
+									}
+								}// for loop (parameterValueList)
+	
+							}
+						}// for loop (executionContext.getLocus().extensionalValues)					
+						
+					}
+				//}
+				
+			}// element instanceof Parameter
+			
+		}// for loop (elementList)
 		return parameterWithParameterValueMap;
 	}
 	
