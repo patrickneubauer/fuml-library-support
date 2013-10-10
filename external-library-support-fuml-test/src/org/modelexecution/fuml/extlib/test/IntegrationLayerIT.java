@@ -473,6 +473,48 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	
 	/**
 	 * Tests {@link CreateObjectAction} that invokes an Object from an external
+	 * library and an inherited {@link CallOperationAction} on the invoked Object setting an input value field
+	 */
+	@Test
+	public void inputValueFromInheritedExternalCallOperationActionTest() {
+		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveInputValueToInheritedOperationActivityDiagram.uml";
+		String activityName = "InputValueInheritedOperationCallActivity";
+
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
+
+		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
+		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
+		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
+
+		
+		// Execute fUML Activity
+		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+
+		Locus locus = integrationLayer.getExecutionContext().getLocus();
+		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
+
+		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
+		assertEquals(0, ((IntegerValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
+
+		assertEquals("name", fUmlObject.getFeatureValues().get(1).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(1).values.get(0) instanceof StringValue);
+		assertEquals("NoName", ((StringValue) fUmlObject.getFeatureValues().get(1).values.get(0)).value);
+
+		assertEquals("oceanLiner", fUmlObject.getFeatureValues().get(2).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
+		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
+	
+		assertEquals("seats", fUmlObject.getFeatureValues().get(4).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(4).values.get(0) instanceof IntegerValue);
+		assertEquals(50, ((IntegerValue) fUmlObject.getFeatureValues().get(4).values.get(0)).value);
+	}
+	
+	/**
+	 * Tests {@link CreateObjectAction} that invokes an Object from an external
 	 * library and a {@link CallOperationAction} on the invoked Object setting an input value field AND returning an output value
 	 */
 	@Test
@@ -742,7 +784,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 		// TODO Check if the fUmlObject contains the SimpleEngine instance as set by setEngine Operation
 		// First, the bug in fUML.Semantics.Classes.Kernel.StructuredValue.createFeatureValues() must be fixed
 		// The bug causes that "this.getTypes()", if no containing types, still has size = 1 and then the following lines cause a NullPointerException
-
+		// Second, a fUML Object_ to Java Object transformation needs to be done by the IntegrationLayer
 	}
 	
 	/**
