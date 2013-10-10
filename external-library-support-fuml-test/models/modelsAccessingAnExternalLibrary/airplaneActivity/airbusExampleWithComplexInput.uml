@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_zOH2cDDtEeO0x_xk1yyKWg">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_51B5ADDtEeO0x_xk1yyKWg" name="AirbusExampleActivity" node="_PowrEDDuEeO0x_xk1yyKWg _zo1AADDuEeO0x_xk1yyKWg _5w800DDuEeO0x_xk1yyKWg _AnVd0DDvEeO0x_xk1yyKWg _PMM1cDDvEeO0x_xk1yyKWg _ghdREDDvEeO0x_xk1yyKWg __M8uADDvEeO0x_xk1yyKWg _LGXu4DD3EeO0x_xk1yyKWg _tG0qkDD5EeO0x_xk1yyKWg _LiQDgDEAEeO0x_xk1yyKWg _Mn1LgDEAEeO0x_xk1yyKWg _nIg_cDEBEeO0x_xk1yyKWg _oDG_cDEBEeO0x_xk1yyKWg _oRfZsDEBEeO0x_xk1yyKWg _oZHrsDEBEeO0x_xk1yyKWg _og1dQDEBEeO0x_xk1yyKWg _LxDClDECEeO0x_xk1yyKWg _N-pikDECEeO0x_xk1yyKWg _OMETgDECEeO0x_xk1yyKWg _QYaPQDECEeO0x_xk1yyKWg _QjPmQDECEeO0x_xk1yyKWg _RmZsYDECEeO0x_xk1yyKWg _j5lTYDEDEeO0x_xk1yyKWg _kCYDADEDEeO0x_xk1yyKWg _kI7W8DEDEeO0x_xk1yyKWg _kQU_cDEDEeO0x_xk1yyKWg _CqjtQDEEEeO0x_xk1yyKWg _CwPegDEEEeO0x_xk1yyKWg _C48HgDEEEeO0x_xk1yyKWg _EFOUcDEEEeO0x_xk1yyKWg _dRBOgDEEEeO0x_xk1yyKWg _yOaOcDEEEeO0x_xk1yyKWg _KdpZoDEFEeO0x_xk1yyKWg _HQ_pQDF6EeOYGbbtrgjuWg _QipVoDGMEeOpGqfGgX-1nw">
+    <ownedParameter xmi:id="_A7p9cDDuEeO0x_xk1yyKWg" name="toString" direction="out">
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_BUy2MDDuEeO0x_xk1yyKWg" value=""/>
+    </ownedParameter>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_zFB48DD6EeO0x_xk1yyKWg" name="ObjectFlowFromCreateComplexEngineToFork" source="_1WzNMDF8EeOYGbbtrgjuWg" target="_tG0qkDD5EeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_X2FuEDGMEeOpGqfGgX-1nw" name="ObjectFlowFromCreateFuelToFuelFork" source="_zWSuADF8EeOYGbbtrgjuWg" target="_QipVoDGMEeOpGqfGgX-1nw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_yaEQYDD6EeO0x_xk1yyKWg" name="ObjectFlowFromFuelForkToSetFuel" source="_QipVoDGMEeOpGqfGgX-1nw" target="_u5A8wDEAEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_zuOm8DD6EeO0x_xk1yyKWg" name="ObjectFlowFromHorsePowerSpecificationToCall" source="_7LGpMDDvEeO0x_xk1yyKWg" target="_0qkrsDEAEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_0bMaoDD6EeO0x_xk1yyKWg" name="ObjectFlowFromVendorSpecificationToCall" source="_GqHDIDDwEeO0x_xk1yyKWg" target="_04vDgDEAEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_2DCiMDD6EeO0x_xk1yyKWg" name="ObjectFlowFromComplexEngineForkToSetFuel" source="_tG0qkDD5EeO0x_xk1yyKWg" target="_inn70DF9EeOYGbbtrgjuWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_3YJT8DD6EeO0x_xk1yyKWg" name="ObjectFlowFromComplexEngineForkToSetVendor" source="_tG0qkDD5EeO0x_xk1yyKWg" target="_04vDgTEAEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_2uU64DD6EeO0x_xk1yyKWg" name="ObjectFlowFromComplexEngineForkToSetHorsePower" source="_tG0qkDD5EeO0x_xk1yyKWg" target="_0qkrsTEAEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_1OccgDD6EeO0x_xk1yyKWg" name="ObjectFlowFromCreateAirplaneToFork" source="_0Ie_8DF8EeOYGbbtrgjuWg" target="_LiQDgDEAEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_4CUSUDD6EeO0x_xk1yyKWg" name="ObjectFlowFromManufacturerSpecificationToCall" source="_xGC_kDEBEeO0x_xk1yyKWg" target="_LxDClTECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_4pdx4DD6EeO0x_xk1yyKWg" name="ObjectFlowFromModelSpecificationToCall" source="_xdpnQDEBEeO0x_xk1yyKWg" target="_N-pikTECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_5e16sDD6EeO0x_xk1yyKWg" name="ObjectFlowFromTypeSpecificationToCall" source="_xxfwUDEBEeO0x_xk1yyKWg" target="_OMETgTECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_6OrcMDD6EeO0x_xk1yyKWg" name="ObjectFlowFromSeatsSpecificationToCall" source="_y-NbEDEBEeO0x_xk1yyKWg" target="_QYaPQTECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_6476IDD6EeO0x_xk1yyKWg" name="ObjectFlowFromDoorsSpecificationToCall" source="_zHDOADEBEeO0x_xk1yyKWg" target="_QjPmQTECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_7huYcDD6EeO0x_xk1yyKWg" name="ObjectFlowFromComplexEngineForkToSetEngine" source="_tG0qkDD5EeO0x_xk1yyKWg" target="_RmZsYTECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_HqeLkDD-EeO0x_xk1yyKWg" name="ObjectFlowFromAirplaneForkToSetManufacturer" source="_LiQDgDEAEeO0x_xk1yyKWg" target="_LxDCljECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_IZP9IDD-EeO0x_xk1yyKWg" name="ObjectFlowFromAirplaneForkToSetModel" source="_LiQDgDEAEeO0x_xk1yyKWg" target="_N-pikjECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_JIdMgDD-EeO0x_xk1yyKWg" name="ObjectFlowFromAirplaneForkToSetType" source="_LiQDgDEAEeO0x_xk1yyKWg" target="_OMETgjECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_J5Q-YDD-EeO0x_xk1yyKWg" name="ObjectFlowFromAirplaneForkToSetSeats" source="_LiQDgDEAEeO0x_xk1yyKWg" target="_QYaPQjECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_G5WQoDD-EeO0x_xk1yyKWg" name="ObjectFlowFromAirplaneForkToSetDoors" source="_LiQDgDEAEeO0x_xk1yyKWg" target="_QjPmQjECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_HqeLkDD-EeO0x_xk1yyKWg" name="ObjectFlowFromAirplaneForkToSetEngine" source="_LiQDgDEAEeO0x_xk1yyKWg" target="_RmZsYzECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_8LGFkDD6EeO0x_xk1yyKWg" name="ObjectFlowFromCreateAviatorToFork" source="_09swsDF8EeOYGbbtrgjuWg" target="_Mn1LgDEAEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_Par1ADD9EeO0x_xk1yyKWg" name="ObjectFlowFromMultiEngineLicenseSpecificationToCall" source="_j5lTYTEDEeO0x_xk1yyKWg" target="_CqjtQTEEEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_QJW44DD9EeO0x_xk1yyKWg" name="ObjectFlowFromFirstNameSpecificationToCall" source="_kCYDATEDEeO0x_xk1yyKWg" target="_CwPegTEEEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_RAnRADD9EeO0x_xk1yyKWg" name="ObjectFlowFromLastNameSpecificationToCall" source="_kI7W8TEDEeO0x_xk1yyKWg" target="_C48HgTEEEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_Rxi-sDD9EeO0x_xk1yyKWg" name="ObjectFlowFromNationalitySpecificationToCall" source="_kQU_cTEDEeO0x_xk1yyKWg" target="_EFOUcTEEEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_Sg9CYDD9EeO0x_xk1yyKWg" name="ObjectFlowFromAviatorForkToSetMultiEngineLicense" source="_Mn1LgDEAEeO0x_xk1yyKWg" target="_CqjtQjEEEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_TYsisDD9EeO0x_xk1yyKWg" name="ObjectFlowFromAviatorForkToSetFirstName" source="_Mn1LgDEAEeO0x_xk1yyKWg" target="_CwPegjEEEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_UMcT0DD9EeO0x_xk1yyKWg" name="ObjectFlowFromAviatorForkToSetLastName" source="_Mn1LgDEAEeO0x_xk1yyKWg" target="_C48HgjEEEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_VHDh8DD9EeO0x_xk1yyKWg" name="ObjectFlowFromAviatorForkToSetNationality" source="_Mn1LgDEAEeO0x_xk1yyKWg" target="_EFOUcjEEEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_FXmKADD-EeO0x_xk1yyKWg" name="ObjectFlowFromAirplaneForkToSetAviator" source="_LiQDgDEAEeO0x_xk1yyKWg" target="_dRBOgTEEEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_IZP9IDD-EeO0x_xk1yyKWg" name="ObjectFlowFromAviatorForkToSetAviator" source="_LiQDgDEAEeO0x_xk1yyKWg" target="_dRBOgjEEEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_JIdMgDD-EeO0x_xk1yyKWg" name="ObjectFlowFromAirplaneForkToToString" source="_LiQDgDEAEeO0x_xk1yyKWg" target="_5WuU8DEEEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_J5Q-YDD-EeO0x_xk1yyKWg" name="ObjectFlowFromToStringToFinal" source="_LiQDgDEAEeO0x_xk1yyKWg" target="_KdpZoDEFEeO0x_xk1yyKWg"/>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_PowrEDDuEeO0x_xk1yyKWg" name="aircraftFuel">
+      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_ccMfGTDqEeO0HcCldteYpQ"/>
+      <result xmi:id="_zWSuADF8EeOYGbbtrgjuWg" name="target" outgoing="_X2FuEDGMEeOpGqfGgX-1nw"/>
+    </node>
+    <node xmi:type="uml:ForkNode" xmi:id="_QipVoDGMEeOpGqfGgX-1nw" name="aircraftFuelFork" outgoing="_yaEQYDD6EeO0x_xk1yyKWg" incoming="_X2FuEDGMEeOpGqfGgX-1nw"/>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_zo1AADDuEeO0x_xk1yyKWg" name="airbusEngine">
+      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_ccMeXDDqEeO0HcCldteYpQ"/>
+      <result xmi:id="_1WzNMDF8EeOYGbbtrgjuWg" name="target" outgoing="_zFB48DD6EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:ForkNode" xmi:id="_tG0qkDD5EeO0x_xk1yyKWg" name="complexEngineFork" outgoing="_2DCiMDD6EeO0x_xk1yyKWg _2uU64DD6EeO0x_xk1yyKWg _3YJT8DD6EeO0x_xk1yyKWg _7huYcDD6EeO0x_xk1yyKWg" incoming="_zFB48DD6EeO0x_xk1yyKWg"/>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_ghdREDDvEeO0x_xk1yyKWg" name="horsePower">
+      <result xmi:id="_7LGpMDDvEeO0x_xk1yyKWg" name="horsePower" outgoing="_zuOm8DD6EeO0x_xk1yyKWg"/>
+      <value xmi:type="uml:LiteralInteger" xmi:id="_1HTTsDDvEeO0x_xk1yyKWg" name="" value="22000"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="__M8uADDvEeO0x_xk1yyKWg" name="vendor">
+      <result xmi:id="_GqHDIDDwEeO0x_xk1yyKWg" name="vendor" outgoing="_0bMaoDD6EeO0x_xk1yyKWg"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_BdtPsDDwEeO0x_xk1yyKWg" name="" value="Pratt &amp; Whitney"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_5w800DDuEeO0x_xk1yyKWg" name="setFuel">
+      <argument xmi:id="_u5A8wDEAEeO0x_xk1yyKWg" name="aircraftFuel" incoming="_yaEQYDD6EeO0x_xk1yyKWg"/>
+      <result xmi:id="_xMD9cDEAEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesConverted.uml#_ccMeZjDqEeO0HcCldteYpQ"/>
+      <target xmi:id="_inn70DF9EeOYGbbtrgjuWg" name="target" incoming="_2DCiMDD6EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_AnVd0DDvEeO0x_xk1yyKWg" name="setHorsePower">
+      <argument xmi:id="_0qkrsDEAEeO0x_xk1yyKWg" name="horsePower" incoming="_zuOm8DD6EeO0x_xk1yyKWg"/>
+      <result xmi:id="_0qlSwDEAEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesConverted.uml#_ccMekjDqEeO0HcCldteYpQ"/>
+      <target xmi:id="_0qkrsTEAEeO0x_xk1yyKWg" name="target" incoming="_2uU64DD6EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_PMM1cDDvEeO0x_xk1yyKWg" name="setVendor">
+      <argument xmi:id="_04vDgDEAEeO0x_xk1yyKWg" name="vendor" incoming="_0bMaoDD6EeO0x_xk1yyKWg"/>
+      <result xmi:id="_04vDgjEAEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesConverted.uml#_ccMenTDqEeO0HcCldteYpQ"/>
+      <target xmi:id="_04vDgTEAEeO0x_xk1yyKWg" name="target" incoming="_3YJT8DD6EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_LGXu4DD3EeO0x_xk1yyKWg" name="airbusAirplane">
+      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_ccL31jDqEeO0HcCldteYpQ"/>
+      <result xmi:id="_0Ie_8DF8EeOYGbbtrgjuWg" name="target" outgoing="_1OccgDD6EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:ForkNode" xmi:id="_LiQDgDEAEeO0x_xk1yyKWg" name="airplaneFork" outgoing="_G5WQoDD-EeO0x_xk1yyKWg _HqeLkDD-EeO0x_xk1yyKWg _HqeLkDD-EeO0x_xk1yyKWg _FXmKADD-EeO0x_xk1yyKWg _IZP9IDD-EeO0x_xk1yyKWg _IZP9IDD-EeO0x_xk1yyKWg _JIdMgDD-EeO0x_xk1yyKWg _JIdMgDD-EeO0x_xk1yyKWg _J5Q-YDD-EeO0x_xk1yyKWg _J5Q-YDD-EeO0x_xk1yyKWg" incoming="_1OccgDD6EeO0x_xk1yyKWg"/>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_nIg_cDEBEeO0x_xk1yyKWg" name="manufacturer">
+      <result xmi:id="_xGC_kDEBEeO0x_xk1yyKWg" name="manufacturer" outgoing="_4CUSUDD6EeO0x_xk1yyKWg"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_xGC_kTEBEeO0x_xk1yyKWg" name="" value="Pratt &amp; Whitney"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_oDG_cDEBEeO0x_xk1yyKWg" name="model">
+      <result xmi:id="_xdpnQDEBEeO0x_xk1yyKWg" name="model" outgoing="_4pdx4DD6EeO0x_xk1yyKWg"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_xdqOUDEBEeO0x_xk1yyKWg" name="" value="A320-214"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_oRfZsDEBEeO0x_xk1yyKWg" name="type">
+      <result xmi:id="_xxfwUDEBEeO0x_xk1yyKWg" name="type" outgoing="_5e16sDD6EeO0x_xk1yyKWg"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_xxfwUTEBEeO0x_xk1yyKWg" name="" value="multi-engine"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_oZHrsDEBEeO0x_xk1yyKWg" name="seats">
+      <result xmi:id="_y-NbEDEBEeO0x_xk1yyKWg" name="seats" outgoing="_6OrcMDD6EeO0x_xk1yyKWg"/>
+      <value xmi:type="uml:LiteralInteger" xmi:id="_y-NbETEBEeO0x_xk1yyKWg" name="" value="150"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_og1dQDEBEeO0x_xk1yyKWg" name="doors">
+      <result xmi:id="_zHDOADEBEeO0x_xk1yyKWg" name="doors" outgoing="_6476IDD6EeO0x_xk1yyKWg"/>
+      <value xmi:type="uml:LiteralInteger" xmi:id="_zHDOATEBEeO0x_xk1yyKWg" name="" value="8"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_LxDClDECEeO0x_xk1yyKWg" name="setManufacturer">
+      <argument xmi:id="_LxDClTECEeO0x_xk1yyKWg" name="manufacturer" incoming="_4CUSUDD6EeO0x_xk1yyKWg"/>
+      <result xmi:id="_LxDClzECEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesConverted.uml#_ccL3_DDqEeO0HcCldteYpQ"/>
+      <target xmi:id="_LxDCljECEeO0x_xk1yyKWg" name="target" incoming="_HqeLkDD-EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_N-pikDECEeO0x_xk1yyKWg" name="setModel">
+      <argument xmi:id="_N-pikTECEeO0x_xk1yyKWg" name="model" incoming="_4pdx4DD6EeO0x_xk1yyKWg"/>
+      <result xmi:id="_N-pikzECEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesConverted.uml#_ccL4BzDqEeO0HcCldteYpQ"/>
+      <target xmi:id="_N-pikjECEeO0x_xk1yyKWg" name="target" incoming="_IZP9IDD-EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_OMETgDECEeO0x_xk1yyKWg" name="setType">
+      <argument xmi:id="_OMETgTECEeO0x_xk1yyKWg" name="type" incoming="_5e16sDD6EeO0x_xk1yyKWg"/>
+      <result xmi:id="_OMETgzECEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesConverted.uml#_ccL4EjDqEeO0HcCldteYpQ"/>
+      <target xmi:id="_OMETgjECEeO0x_xk1yyKWg" name="target" incoming="_JIdMgDD-EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_QYaPQDECEeO0x_xk1yyKWg" name="setSeats">
+      <argument xmi:id="_QYaPQTECEeO0x_xk1yyKWg" name="seats" incoming="_6OrcMDD6EeO0x_xk1yyKWg"/>
+      <result xmi:id="_QYaPQzECEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesConverted.uml#_ccNFRDDqEeO0HcCldteYpQ"/>
+      <target xmi:id="_QYaPQjECEeO0x_xk1yyKWg" name="target" incoming="_J5Q-YDD-EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_QjPmQDECEeO0x_xk1yyKWg" name="setDoors">
+      <argument xmi:id="_QjPmQTECEeO0x_xk1yyKWg" name="doors" incoming="_6476IDD6EeO0x_xk1yyKWg"/>
+      <result xmi:id="_QjPmQzECEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesConverted.uml#_ccNFOTDqEeO0HcCldteYpQ"/>
+      <target xmi:id="_QjPmQjECEeO0x_xk1yyKWg" name="target" incoming="_G5WQoDD-EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_RmZsYDECEeO0x_xk1yyKWg" name="setEngine">
+      <argument xmi:id="_RmZsYTECEeO0x_xk1yyKWg" name="airbusEngine" incoming="_7huYcDD6EeO0x_xk1yyKWg"/>
+      <result xmi:id="_RmZsYjECEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesConverted.uml#_ccMeIDDqEeO0HcCldteYpQ"/>
+      <target xmi:id="_RmZsYzECEeO0x_xk1yyKWg" name="target" incoming="_HqeLkDD-EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_j5lTYDEDEeO0x_xk1yyKWg" name="multiEngineLicense">
+      <result xmi:id="_j5lTYTEDEeO0x_xk1yyKWg" name="multiEngineLicense" outgoing="_Par1ADD9EeO0x_xk1yyKWg"/>
+      <value xmi:type="uml:LiteralBoolean" xmi:id="_v0MrQDEDEeO0x_xk1yyKWg" value="true"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_kCYDADEDEeO0x_xk1yyKWg" name="firstName">
+      <result xmi:id="_kCYDATEDEeO0x_xk1yyKWg" name="firstName" outgoing="_QJW44DD9EeO0x_xk1yyKWg"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_kCYDAjEDEeO0x_xk1yyKWg" name="" value="Chesley"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_kI7W8DEDEeO0x_xk1yyKWg" name="lastName">
+      <result xmi:id="_kI7W8TEDEeO0x_xk1yyKWg" name="lastName" outgoing="_RAnRADD9EeO0x_xk1yyKWg"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_kI7W8jEDEeO0x_xk1yyKWg" name="" value="Sullenberger"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_kQU_cDEDEeO0x_xk1yyKWg" name="nationality">
+      <result xmi:id="_kQU_cTEDEeO0x_xk1yyKWg" name="nationality" outgoing="_Rxi-sDD9EeO0x_xk1yyKWg"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_kQU_cjEDEeO0x_xk1yyKWg" name="" value="American"/>
+    </node>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_HQ_pQDF6EeOYGbbtrgjuWg" name="createMultiEngineAviator">
+      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_ccLQiTDqEeO0HcCldteYpQ"/>
+      <result xmi:id="_09swsDF8EeOYGbbtrgjuWg" name="target" outgoing="_8LGFkDD6EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:ForkNode" xmi:id="_Mn1LgDEAEeO0x_xk1yyKWg" name="aviatorFork" outgoing="_Sg9CYDD9EeO0x_xk1yyKWg _TYsisDD9EeO0x_xk1yyKWg _UMcT0DD9EeO0x_xk1yyKWg _VHDh8DD9EeO0x_xk1yyKWg" incoming="_8LGFkDD6EeO0x_xk1yyKWg"/>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_CqjtQDEEEeO0x_xk1yyKWg" name="setMultiEngineLicense">
+      <argument xmi:id="_CqjtQTEEEeO0x_xk1yyKWg" name="multiEngineLicense" incoming="_Par1ADD9EeO0x_xk1yyKWg"/>
+      <result xmi:id="_CqjtQzEEEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesConverted.uml#_ccLQtDDqEeO0HcCldteYpQ"/>
+      <target xmi:id="_CqjtQjEEEeO0x_xk1yyKWg" name="target" incoming="_Sg9CYDD9EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_CwPegDEEEeO0x_xk1yyKWg" name="setFirstName">
+      <argument xmi:id="_CwPegTEEEeO0x_xk1yyKWg" name="firstName" incoming="_QJW44DD9EeO0x_xk1yyKWg"/>
+      <result xmi:id="_CwPegzEEEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesConverted.uml#_ccKpDTDqEeO0HcCldteYpQ"/>
+      <target xmi:id="_CwPegjEEEeO0x_xk1yyKWg" name="target" incoming="_TYsisDD9EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_C48HgDEEEeO0x_xk1yyKWg" name="setLastName">
+      <argument xmi:id="_C48HgTEEEeO0x_xk1yyKWg" name="lastName" incoming="_RAnRADD9EeO0x_xk1yyKWg"/>
+      <result xmi:id="_C48HgzEEEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesConverted.uml#_ccKpGDDqEeO0HcCldteYpQ"/>
+      <target xmi:id="_C48HgjEEEeO0x_xk1yyKWg" name="target" incoming="_UMcT0DD9EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_EFOUcDEEEeO0x_xk1yyKWg" name="setNationality">
+      <argument xmi:id="_EFOUcTEEEeO0x_xk1yyKWg" name="nationality" incoming="_Rxi-sDD9EeO0x_xk1yyKWg"/>
+      <result xmi:id="_EFOUczEEEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesConverted.uml#_ccLQAjDqEeO0HcCldteYpQ"/>
+      <target xmi:id="_EFOUcjEEEeO0x_xk1yyKWg" name="target" incoming="_VHDh8DD9EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_dRBOgDEEEeO0x_xk1yyKWg" name="setAviator">
+      <argument xmi:id="_dRBOgTEEEeO0x_xk1yyKWg" name="multiEngineAviator" incoming="_FXmKADD-EeO0x_xk1yyKWg"/>
+      <result xmi:id="_dRBOgzEEEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesConverted.uml#_ccL4HTDqEeO0HcCldteYpQ"/>
+      <target xmi:id="_dRBOgjEEEeO0x_xk1yyKWg" name="target" incoming="_IZP9IDD-EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_yOaOcDEEEeO0x_xk1yyKWg" name="toString">
+      <result xmi:id="_96I1wDEEEeO0x_xk1yyKWg" name="toString"/>
+      <operation href="../VehiclesConverted.uml#_ccMeJzDqEeO0HcCldteYpQ"/>
+      <target xmi:id="_5WuU8DEEEeO0x_xk1yyKWg" name="target" incoming="_JIdMgDD-EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_KdpZoDEFEeO0x_xk1yyKWg" name="OutputString" incoming="_J5Q-YDD-EeO0x_xk1yyKWg" parameter="_A7p9cDDuEeO0x_xk1yyKWg"/>
+  </packagedElement>
+</uml:Model>

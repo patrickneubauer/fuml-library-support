@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_zOH2cDDtEeO0x_xk1yyKWg">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_51B5ADDtEeO0x_xk1yyKWg" name="AirbusExampleActivity" node="_LGXu4DD3EeO0x_xk1yyKWg _LiQDgDEAEeO0x_xk1yyKWg _nIg_cDEBEeO0x_xk1yyKWg _oDG_cDEBEeO0x_xk1yyKWg _oRfZsDEBEeO0x_xk1yyKWg _oZHrsDEBEeO0x_xk1yyKWg _og1dQDEBEeO0x_xk1yyKWg _LxDClDECEeO0x_xk1yyKWg _N-pikDECEeO0x_xk1yyKWg _OMETgDECEeO0x_xk1yyKWg _QYaPQDECEeO0x_xk1yyKWg _QjPmQDECEeO0x_xk1yyKWg _KdpZoDEFEeO0x_xk1yyKWg">
+    <ownedParameter xmi:id="_A7p9cDDuEeO0x_xk1yyKWg" name="airplane" direction="out">
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_BUy2MDDuEeO0x_xk1yyKWg" value=""/>
+    </ownedParameter>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_1OccgDD6EeO0x_xk1yyKWg" name="ObjectFlowFromCreateAirplaneToFork" source="_0Ie_8DF8EeOYGbbtrgjuWg" target="_LiQDgDEAEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_4CUSUDD6EeO0x_xk1yyKWg" name="ObjectFlowFromManufacturerSpecificationToCall" source="_xGC_kDEBEeO0x_xk1yyKWg" target="_LxDClTECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_4pdx4DD6EeO0x_xk1yyKWg" name="ObjectFlowFromModelSpecificationToCall" source="_xdpnQDEBEeO0x_xk1yyKWg" target="_N-pikTECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_5e16sDD6EeO0x_xk1yyKWg" name="ObjectFlowFromTypeSpecificationToCall" source="_xxfwUDEBEeO0x_xk1yyKWg" target="_OMETgTECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_6OrcMDD6EeO0x_xk1yyKWg" name="ObjectFlowFromSeatsSpecificationToCall" source="_y-NbEDEBEeO0x_xk1yyKWg" target="_QYaPQTECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_6476IDD6EeO0x_xk1yyKWg" name="ObjectFlowFromDoorsSpecificationToCall" source="_zHDOADEBEeO0x_xk1yyKWg" target="_QjPmQTECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_HqeLkDD-EeO0x_xk1yyKWg" name="ObjectFlowFromAirplaneForkToSetManufacturer" source="_LiQDgDEAEeO0x_xk1yyKWg" target="_LxDCljECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_IZP9IDD-EeO0x_xk1yyKWg" name="ObjectFlowFromAirplaneForkToSetModel" source="_LiQDgDEAEeO0x_xk1yyKWg" target="_N-pikjECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_JIdMgDD-EeO0x_xk1yyKWg" name="ObjectFlowFromAirplaneForkToSetType" source="_LiQDgDEAEeO0x_xk1yyKWg" target="_OMETgjECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_J5Q-YDD-EeO0x_xk1yyKWg" name="ObjectFlowFromAirplaneForkToSetSeats" source="_LiQDgDEAEeO0x_xk1yyKWg" target="_QYaPQjECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_G5WQoDD-EeO0x_xk1yyKWg" name="ObjectFlowFromAirplaneForkToSetDoors" source="_LiQDgDEAEeO0x_xk1yyKWg" target="_QjPmQjECEeO0x_xk1yyKWg"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_JIdMgDD-EeO0x_xk1yyKWg" name="ObjectFlowFromAirplaneForkToFinal" source="_LiQDgDEAEeO0x_xk1yyKWg" target="_KdpZoDEFEeO0x_xk1yyKWg"/>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_LGXu4DD3EeO0x_xk1yyKWg" name="airbusAirplane">
+      <classifier xmi:type="uml:Class" href="../VehiclesWithAirplaneConverted.uml#__PPDaDGnEeO0HcCldteYpQ"/>
+      <result xmi:id="_0Ie_8DF8EeOYGbbtrgjuWg" name="target" outgoing="_1OccgDD6EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:ForkNode" xmi:id="_LiQDgDEAEeO0x_xk1yyKWg" name="airplaneFork" outgoing="_HqeLkDD-EeO0x_xk1yyKWg _IZP9IDD-EeO0x_xk1yyKWg _J5Q-YDD-EeO0x_xk1yyKWg _G5WQoDD-EeO0x_xk1yyKWg _JIdMgDD-EeO0x_xk1yyKWg _JIdMgDD-EeO0x_xk1yyKWg" incoming="_1OccgDD6EeO0x_xk1yyKWg"/>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_nIg_cDEBEeO0x_xk1yyKWg" name="manufacturer">
+      <result xmi:id="_xGC_kDEBEeO0x_xk1yyKWg" name="manufacturer" outgoing="_4CUSUDD6EeO0x_xk1yyKWg"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_xGC_kTEBEeO0x_xk1yyKWg" name="" value="Airbus"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_oDG_cDEBEeO0x_xk1yyKWg" name="model">
+      <result xmi:id="_xdpnQDEBEeO0x_xk1yyKWg" name="model" outgoing="_4pdx4DD6EeO0x_xk1yyKWg"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_xdqOUDEBEeO0x_xk1yyKWg" name="" value="A320-214"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_oRfZsDEBEeO0x_xk1yyKWg" name="type">
+      <result xmi:id="_xxfwUDEBEeO0x_xk1yyKWg" name="type" outgoing="_5e16sDD6EeO0x_xk1yyKWg"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_xxfwUTEBEeO0x_xk1yyKWg" name="" value="multi-engine"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_oZHrsDEBEeO0x_xk1yyKWg" name="seats">
+      <result xmi:id="_y-NbEDEBEeO0x_xk1yyKWg" name="seats" outgoing="_6OrcMDD6EeO0x_xk1yyKWg"/>
+      <value xmi:type="uml:LiteralInteger" xmi:id="_y-NbETEBEeO0x_xk1yyKWg" name="" value="150"/>
+    </node>
+    <node xmi:type="uml:ValueSpecificationAction" xmi:id="_og1dQDEBEeO0x_xk1yyKWg" name="doors">
+      <result xmi:id="_zHDOADEBEeO0x_xk1yyKWg" name="doors" outgoing="_6476IDD6EeO0x_xk1yyKWg"/>
+      <value xmi:type="uml:LiteralInteger" xmi:id="_zHDOATEBEeO0x_xk1yyKWg" name="" value="8"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_LxDClDECEeO0x_xk1yyKWg" name="setManufacturer">
+      <argument xmi:id="_LxDClTECEeO0x_xk1yyKWg" name="manufacturer" incoming="_4CUSUDD6EeO0x_xk1yyKWg"/>
+      <result xmi:id="_LxDClzECEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesWithAirplaneConverted.uml#__PPDjjGnEeO0HcCldteYpQ"/>
+      <target xmi:id="_LxDCljECEeO0x_xk1yyKWg" name="target" incoming="_HqeLkDD-EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_N-pikDECEeO0x_xk1yyKWg" name="setModel">
+      <argument xmi:id="_N-pikTECEeO0x_xk1yyKWg" name="model" incoming="_4pdx4DD6EeO0x_xk1yyKWg"/>
+      <result xmi:id="_N-pikzECEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesWithAirplaneConverted.uml#__PPDmTGnEeO0HcCldteYpQ"/>
+      <target xmi:id="_N-pikjECEeO0x_xk1yyKWg" name="target" incoming="_IZP9IDD-EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_OMETgDECEeO0x_xk1yyKWg" name="setType">
+      <argument xmi:id="_OMETgTECEeO0x_xk1yyKWg" name="type" incoming="_5e16sDD6EeO0x_xk1yyKWg"/>
+      <result xmi:id="_OMETgzECEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesWithAirplaneConverted.uml#__PPDpDGnEeO0HcCldteYpQ"/>
+      <target xmi:id="_OMETgjECEeO0x_xk1yyKWg" name="target" incoming="_JIdMgDD-EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_QYaPQDECEeO0x_xk1yyKWg" name="setSeats">
+      <argument xmi:id="_QYaPQTECEeO0x_xk1yyKWg" name="seats" incoming="_6OrcMDD6EeO0x_xk1yyKWg"/>
+      <result xmi:id="_QYaPQzECEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesWithAirplaneConverted.uml#__PQRuTGnEeO0HcCldteYpQ"/>
+      <target xmi:id="_QYaPQjECEeO0x_xk1yyKWg" name="target" incoming="_J5Q-YDD-EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_QjPmQDECEeO0x_xk1yyKWg" name="setDoors">
+      <argument xmi:id="_QjPmQTECEeO0x_xk1yyKWg" name="doors" incoming="_6476IDD6EeO0x_xk1yyKWg"/>
+      <result xmi:id="_QjPmQzECEeO0x_xk1yyKWg" name="result"/>
+      <operation href="../VehiclesWithAirplaneConverted.uml#__PQRrjGnEeO0HcCldteYpQ"/>
+      <target xmi:id="_QjPmQjECEeO0x_xk1yyKWg" name="target" incoming="_G5WQoDD-EeO0x_xk1yyKWg"/>
+    </node>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_KdpZoDEFEeO0x_xk1yyKWg" name="OutputAirplane" incoming="_JIdMgDD-EeO0x_xk1yyKWg" parameter="_A7p9cDDuEeO0x_xk1yyKWg"/>
+  </packagedElement>
+</uml:Model>
