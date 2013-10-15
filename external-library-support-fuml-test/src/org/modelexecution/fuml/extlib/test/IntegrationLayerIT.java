@@ -34,6 +34,7 @@ import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
 
 import fUML.Semantics.Classes.Kernel.BooleanValue;
+import fUML.Semantics.Classes.Kernel.FeatureValue;
 import fUML.Semantics.Classes.Kernel.IntegerValue;
 import fUML.Semantics.Classes.Kernel.Object_;
 import fUML.Semantics.Classes.Kernel.Reference;
@@ -41,6 +42,9 @@ import fUML.Semantics.Classes.Kernel.StringValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
 import fUML.Semantics.Loci.LociL1.Locus;
+import fUML.Syntax.Classes.Kernel.Class_;
+import fUML.Syntax.Classes.Kernel.Feature;
+import fUML.Syntax.Classes.Kernel.Property;
 
 /**
  * Integration Test (IT) Class for {@link IntegrationLayer}
@@ -761,7 +765,6 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 * a complex object (here: an instance of SimpleEngine)
 	 */
 	@Test
-	@Ignore
 	public void simpleEngineInputValueFromExternalCallOperationActionTest() {
 		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithComplexValues/VehiclesComplexInputValueActivityDiagram.uml";
@@ -781,10 +784,18 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
 
-		// TODO Check if the fUmlObject contains the SimpleEngine instance as set by setEngine Operation
-		// First, the bug in fUML.Semantics.Classes.Kernel.StructuredValue.createFeatureValues() must be fixed
-		// The bug causes that "this.getTypes()", if no containing types, still has size = 1 and then the following lines cause a NullPointerException
-		// Second, a fUML Object_ to Java Object transformation needs to be done by the IntegrationLayer
+		// Check if the fUmlObject is a Car with a SimpleEngine having horsePower equal to 100
+		assertEquals("Car", fUmlObject.types.get(0).name);
+		assertEquals("engine", fUmlObject.getFeatureValues().get(0).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(0).feature instanceof Property);
+		
+		Property simpleEngineProperty = (Property) fUmlObject.getFeatureValues().get(0).feature;
+		assertEquals("SimpleEngine", simpleEngineProperty.class_.name);
+		
+		Object_ simpleEngineObject_ = (Object_)fUmlObject.getFeatureValues().get(0).values.get(0);
+		assertEquals(100, ((IntegerValue) simpleEngineObject_.featureValues.get(0).values.get(0)).value);
+		assertEquals("NoVendor", ((StringValue) simpleEngineObject_.featureValues.get(1).values.get(0)).value);
+
 	}
 	
 	/**

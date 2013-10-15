@@ -5,6 +5,7 @@ package org.modelexecution.fuml.extlib;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -129,12 +130,17 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		Debug.out(this, "* Handling external CreateObjectAction *");
 		
 		Object_ fUmlPlaceholderObject = obtainFUmlPlaceholderObject();
-		Object javaObject = obtainJavaObject(event);
-
-		Object_Transformer object_Transformer = new Object_Transformer(fUmlPlaceholderObject, javaObject, event, executionContext);
-		Object_ fUmlObject = object_Transformer.getObject_();
-
+		CreateObjectAction createObjectAction = EventHelper.getExternalCreateObjectAction(event);
+		Object_ fUmlObject = null;
+		Object javaObject = null;
+		
 		try {
+			String[] classJarPaths = ActionHelper.getClassJarPaths(createObjectAction.classifier.ownedComment);
+			String classNamespaceAndName = ActionHelper.getClassNamespaceAndName(createObjectAction.classifier);
+			javaObject = obtainJavaObject(classJarPaths, classNamespaceAndName);
+			Object_Transformer object_Transformer = new Object_Transformer(fUmlPlaceholderObject, javaObject, event, executionContext);
+			fUmlObject = object_Transformer.getObject_();
+
 			replaceLocusObject(fUmlPlaceholderObject, fUmlObject);
 			assignObject_ToCreateObjectActionOutputPin(event, fUmlObject);
 			assignTargetInputPinToCallOperationAction(event);
@@ -345,20 +351,17 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	/**
 	 * Obtains a Java {@link Object} from a given {@code event} using the
 	 * {@link DynamicClassLoader}
-	 * 
+	 * @param jarPaths TODO
+	 * @param classNamespaceAndName TODO
 	 * @param event
 	 *            from which the {@link Object} is obtained
+	 * 
 	 * @return Java {@link Object} instance if found, null otherwise
 	 */
-	private Object obtainJavaObject(Event event) {
+	private Object obtainJavaObject(String[] jarPaths, String classNamespaceAndName) {
 		Object javaObject = null;
 
 		try {
-			CreateObjectAction createObjectAction = EventHelper.getExternalCreateObjectAction(event);
-
-			String[] jarPaths = ActionHelper.getClassJarPaths(createObjectAction);
-			String classNamespaceAndName = ActionHelper.getClassNamespaceAndName(createObjectAction);
-
 			dynamicClassLoader = new DynamicClassLoader(jarPaths);
 			ClassLoader classLoader = dynamicClassLoader.getClassLoader();
 
@@ -370,7 +373,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		}
 
 		return javaObject;
-	}// obtainJavaObject
+	}// obtainJavaObject from CreateObjectAction
 
 	private void handleExternalCallOperationAction(Event event) {
 		Debug.out(this, "* Handling external CallOperationAction *");
@@ -396,7 +399,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 			// ------------------------------------------------
 			
-			LinkedHashMap<Object, Class> javaParameterWithValueMap = obtainJavaInputParameters(fUmlParameterWithValueMap);
+			LinkedHashMap<Object, Class> javaInputParameterWithValueMap = obtainJavaInputParameters(fUmlParameterWithValueMap);
 			
 			// ------------------------------------------------
 
@@ -405,28 +408,32 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			Method javaMethod = null;
 			Object javaMethodReturnValue = null;
 			
-			if (javaParameterWithValueMap.size() > 0) {
+			if (javaInputParameterWithValueMap.size() > 0) {
 				// Case: With Input Parameter(s)
 				
-				if (javaParameterWithValueMap.values().toArray().length == 1 && javaParameterWithValueMap.values().toArray()[0].toString().contains("java.lang.Object")) {
+				if (javaInputParameterWithValueMap.values().toArray().length == 1 && 
+						!javaInputParameterWithValueMap.values().toArray()[0].toString().contains("boolean") &&
+						!javaInputParameterWithValueMap.values().toArray()[0].toString().contains("int") &&
+						!javaInputParameterWithValueMap.values().toArray()[0].toString().contains("String")) {
 					// Case: SINGLE complex input parameter (no multiple or combination with primitive parameters)
 					
 					Method[] availableJavaMethods = javaClass.getMethods();
 					for (Method availableJavaMethod : availableJavaMethods) {
 						if (availableJavaMethod.getName().equals(methodName)) {
-							Class<?> complexMethodParameterType = availableJavaMethod.getParameterTypes()[0];
-							javaMethod = javaClass.getMethod(methodName, complexMethodParameterType);	
-							javaMethodReturnValue = javaMethod.invoke(javaObject, javaParameterWithValueMap.keySet().toArray()[0]);
-							break;
+							
+							Class<?> complexMethodInputParameterType = availableJavaMethod.getParameterTypes()[0];
+							javaMethod = javaClass.getMethod(methodName, complexMethodInputParameterType);	
+							javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameterWithValueMap.keySet().toArray());
+
 						}						
 					}
 					
 				} else {
 					// Case: Any number of primitive input parameter combination (int, boolean, String)
 					
-					javaMethod = javaClass.getMethod(methodName, javaParameterWithValueMap.values().toArray(new Class[0]));
+					javaMethod = javaClass.getMethod(methodName, javaInputParameterWithValueMap.values().toArray(new Class[0]));
 					// Warning: the following invocation alters javaObject (!)
-					javaMethodReturnValue = javaMethod.invoke(javaObject, javaParameterWithValueMap.keySet().toArray());
+					javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameterWithValueMap.keySet().toArray());
 				}
 			
 			} else {
@@ -546,11 +553,11 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				} else if (fUmlInputParameter.type.name.toString().equals("String")) {
 					String javaInputParameterValue = (String) ((StringValue) fUmlInputParameterValue.values.get(0)).value;					
 					javaParameterWithValueMap.put(javaInputParameterValue, String.class);
-				} else /*if (fUmlInputParameter.type.name.toString().equals("Object")) */ {
-					Reference referenceToObject = (Reference) fUmlInputParameterValue.values.get(0);
-					// TODO Here a fUML Object_ to Java Object transformation is required
-//					Object javaInputParameterValue = referenceToObject.referent;			
-//					javaParameterWithValueMap.put(javaInputParameterValue, Object.class);
+				} else {
+					// Case: Complex Input Parameter
+					Reference reference = (Reference) fUmlInputParameterValue.values.get(0);
+					Object javaObject = fUmlJavaMap.get(reference.referent);
+					javaParameterWithValueMap.put(javaObject, javaObject.getClass());
 				}
 			}// for loop (fUmlParameterWithValueMap)
 		}// if (fUmlParameterWithValueMap not empty)
