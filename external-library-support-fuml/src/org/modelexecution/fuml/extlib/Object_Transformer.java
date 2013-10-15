@@ -92,7 +92,7 @@ public class Object_Transformer {
 					Field javaField = javaClassFromObjectWithFeature.getDeclaredField(featureValue.feature.name);
  					javaField.setAccessible(true); // shut down security
  					
-					Debug.out(this, "Creating a field of type " + javaField.getType().getName());
+					Debug.out(this, "Transforming a field of type " + javaField.getType().getName());
 					
 					if (javaField.get(javaObject) instanceof java.lang.Boolean) {
 
@@ -251,11 +251,10 @@ public class Object_Transformer {
 			for (Entry<Class<?>, List<Field>> entrySet : clazzFieldMap.entrySet()) {
 				for (Field javaField : entrySet.getValue()) {
 					if (javaField.getName().equals(feature.name)) {
-						// return the corresponding clazz (key) of the field (value)
+						// return the corresponding Java Class (key) of the field (value)
 						return entrySet.getKey();
 					}
 				}
-				
 			}
 			
 		}

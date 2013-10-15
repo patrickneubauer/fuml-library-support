@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
+import fUML.Syntax.Classes.Kernel.Classifier;
 import fUML.Syntax.Classes.Kernel.Comment;
 import fUML.Syntax.Classes.Kernel.CommentList;
 import fUML.Syntax.Classes.Kernel.Namespace;
@@ -19,9 +20,9 @@ import fUML.Syntax.Classes.Kernel.Namespace;
 public class ActionHelper {
 
 	/*
-	 * Obtains the referenced JAR path(s) from the {@code createObjectAction}
+	 * Obtains the referenced JAR path(s) from the {@code commentList}
 	 * 
-	 * @param createObjectAction the {@link CreateObjectAction} to get the JAR
+	 * @param commentList the {@link CommentList} to get the JAR
 	 * path(s) from
 	 * 
 	 * @return {@link String[]} representing the file path(s) of the JAR(s) found or
@@ -29,8 +30,7 @@ public class ActionHelper {
 	 * 
 	 * @throws Exception Whenever the JAR path(s) could not be obtained
 	 */
-	public static String[] getClassJarPaths(CreateObjectAction createObjectAction) throws Exception {
-		CommentList commentList = createObjectAction.classifier.ownedComment;
+	public static String[] getClassJarPaths(CommentList commentList) throws Exception {
 		Pattern pattern = Pattern.compile(Pattern.quote(UML2Preparer.JAR_FILES_DELIMITER));
 		
 		for (Comment comment : commentList) {
@@ -40,7 +40,7 @@ public class ActionHelper {
 			}
 		}
 
-		throw new Exception("Error occured while trying to obtain the external JAR path from " + createObjectAction);
+		throw new Exception("Error occured while trying to obtain the external JAR path from " + commentList);
 	}// obtainClassJarPath
 
 	/**
@@ -53,14 +53,14 @@ public class ActionHelper {
 	 * @throws Exception
 	 *             Whenever the Class name could not be obtained
 	 */
-	private static String obtainClassName(CreateObjectAction createObjectAction) throws Exception {
-		if (createObjectAction.classifier != null) {
-			if (createObjectAction.classifier.name != "") {
-				return createObjectAction.classifier.name;
+	private static String obtainClassName(Classifier classifier) throws Exception {
+		if (classifier != null) {
+			if (classifier.name != "") {
+				return classifier.name;
 			}
 		}
 
-		throw new Exception("Error occured while trying to obtain the Class name from " + createObjectAction);
+		throw new Exception("Error occured while trying to obtain the Class name from " + classifier);
 	}// obtainClassName(CreateObjectAction)
 	
 	/**
@@ -75,9 +75,9 @@ public class ActionHelper {
 	 * @throws Exception
 	 *             Whenever the Class name could not be obtained
 	 */
-	public static String getClassNamespaceAndName(CreateObjectAction createObjectAction) throws Exception {
-		String namespace = obtainClassNamespace(createObjectAction);
-		String className = obtainClassName(createObjectAction);
+	public static String getClassNamespaceAndName(Classifier classifier) throws Exception {
+		String namespace = obtainClassNamespace(classifier);
+		String className = obtainClassName(classifier);
 
 		if (namespace != null && namespace != "") {
 			return namespace + "." + className;
@@ -142,14 +142,14 @@ public class ActionHelper {
 	 * @throws Exception
 	 *             Whenever the Class namespace could not be obtained
 	 */
-	private static String obtainClassNamespace(CreateObjectAction createObjectAction) {
-		if (createObjectAction.classifier != null) {
-			if (createObjectAction.classifier.namespace != null && createObjectAction.classifier.namespace.owner != null) {
+	private static String obtainClassNamespace(Classifier classifier) {
+		if (classifier != null) {
+			if (classifier.namespace != null && classifier.namespace.owner != null) {
 				// case: namespace has an owner namespace
-				return obtainClassOwnerNamespace(createObjectAction.classifier.namespace);
-			} else if (createObjectAction.classifier.namespace != null && createObjectAction.classifier.namespace.owner == null) {
+				return obtainClassOwnerNamespace(classifier.namespace);
+			} else if (classifier.namespace != null && classifier.namespace.owner == null) {
 				// case: namespace has NO owner namespace
-				return createObjectAction.classifier.namespace.name;
+				return classifier.namespace.name;
 			}
 		}
 

@@ -36,10 +36,10 @@ public class Object_Creator {
 		throw new Exception("Calling the default constructor is NOT ALLOWED.");
 	}
 	
-	public Object_Creator(Object_ fUmlObject, Object javaObject, ExecutionContext executionContext) {
+	public Object_Creator(Object_ fUmlPlaceholderObject, Object javaObject, ExecutionContext executionContext) {
 	
 		this.javaObject = javaObject;
-		this.fUmlObject = fUmlObject;
+		this.fUmlObject = fUmlPlaceholderObject;
 		this.executionContext = executionContext;
 		create();
 		
