@@ -3,7 +3,6 @@ package org.modelexecution.fuml.extlib;
 import java.lang.reflect.Field;
 
 import org.modelexecution.fumldebug.core.ExecutionContext;
-import org.modelexecution.fumldebug.core.event.Event;
 
 import fUML.Semantics.Classes.Kernel.BooleanValue;
 import fUML.Semantics.Classes.Kernel.FeatureValue;

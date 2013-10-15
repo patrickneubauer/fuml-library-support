@@ -40,7 +40,7 @@ public class ActionHelperTest {
 		classifier.ownedComment.add(comment);
 		createObjectAction.classifier = classifier;
 
-		String[] returnValue = ActionHelper.getClassJarPaths(createObjectAction);
+		String[] returnValue = ActionHelper.getClassJarPaths(createObjectAction.classifier.ownedComment);
 
 		assertEquals("extlibs/Vehicles.jar", returnValue[0]);
 	}// getClassSingleJarPathPositiveTest
@@ -54,7 +54,7 @@ public class ActionHelperTest {
 		classifier.ownedComment.add(comment);
 		createObjectAction.classifier = classifier;
 
-		String[] returnValue = ActionHelper.getClassJarPaths(createObjectAction);
+		String[] returnValue = ActionHelper.getClassJarPaths(createObjectAction.classifier.ownedComment);
 
 		assertEquals("extlibs/commons-email-1.3.1.jar", returnValue[0]);
 		assertEquals("extlibs/mail.jar", returnValue[1]);
@@ -64,7 +64,7 @@ public class ActionHelperTest {
 	public void getClassJarPathNoCommentTest() throws Exception {
 		CreateObjectAction createObjectAction = new CreateObjectAction();
 
-		String[] returnValue = ActionHelper.getClassJarPaths(createObjectAction);
+		String[] returnValue = ActionHelper.getClassJarPaths(createObjectAction.classifier.ownedComment);
 		// supposed to throw an Exception
 	}// getClassJarPathNoCommentTest
 
@@ -77,7 +77,7 @@ public class ActionHelperTest {
 		classifier.ownedComment.add(comment);
 		createObjectAction.classifier = classifier;
 
-		String[] returnValue = ActionHelper.getClassJarPaths(createObjectAction);
+		String[] returnValue = ActionHelper.getClassJarPaths(createObjectAction.classifier.ownedComment);
 		// supposed to throw an Exception
 	}// getClassJarPathEmptyCommentTest
 
@@ -90,7 +90,7 @@ public class ActionHelperTest {
 		classifier.ownedComment.add(comment);
 		createObjectAction.classifier = classifier;
 
-		String[] returnValue = ActionHelper.getClassJarPaths(createObjectAction);
+		String[] returnValue = ActionHelper.getClassJarPaths(createObjectAction.classifier.ownedComment);
 
 		assertEquals("", returnValue[0]);
 	}// getClassJarPathNoPathTest
@@ -107,7 +107,7 @@ public class ActionHelperTest {
 		classifier.name = "Ship";
 		createObjectAction.classifier = classifier;
 
-		String returnValue = ActionHelper.getClassNamespaceAndName(createObjectAction);
+		String returnValue = ActionHelper.getClassNamespaceAndName(createObjectAction.classifier);
 
 		assertEquals("vehiclelibrary.Ship", returnValue);
 	}// getClassNamespaceAndNameOfCreateObjectActionPositiveTest
@@ -119,10 +119,10 @@ public class ActionHelperTest {
 		CreateObjectAction createObjectAction = new CreateObjectAction();
 
 		try {
-			String returnValue = ActionHelper.getClassNamespaceAndName(createObjectAction);
+			String returnValue = ActionHelper.getClassNamespaceAndName(createObjectAction.classifier);
 		} catch (Exception e) {
 			assertTrue(e.getMessage().contains(
-					"Error occured while trying to obtain the Class name from fUML.Syntax.Actions.IntermediateActions.CreateObjectAction"));
+					"Error occured while trying to obtain the Class name from"));
 			thrown = true;
 		}
 
@@ -143,10 +143,10 @@ public class ActionHelperTest {
 		createObjectAction.classifier = classifier;
 
 		try {
-			String returnValue = ActionHelper.getClassNamespaceAndName(createObjectAction);
+			String returnValue = ActionHelper.getClassNamespaceAndName(createObjectAction.classifier);
 		} catch (Exception e) {
 			assertTrue(e.getMessage().contains(
-					"Error occured while trying to obtain the Class name from fUML.Syntax.Actions.IntermediateActions.CreateObjectAction"));
+					"Error occured while trying to obtain the Class name "));
 			thrown = true;
 		}
 
@@ -161,7 +161,7 @@ public class ActionHelperTest {
 		classifier.name = "Ship";
 		createObjectAction.classifier = classifier;
 
-		String returnValue = ActionHelper.getClassNamespaceAndName(createObjectAction);
+		String returnValue = ActionHelper.getClassNamespaceAndName(createObjectAction.classifier);
 
 		assertEquals("Ship", returnValue);
 	}// getClassNamespaceAndNameOfCreateObjectActionNoNamespaceTest
@@ -176,7 +176,7 @@ public class ActionHelperTest {
 		classifier.name = "Ship";
 		createObjectAction.classifier = classifier;
 
-		String returnValue = ActionHelper.getClassNamespaceAndName(createObjectAction);
+		String returnValue = ActionHelper.getClassNamespaceAndName(createObjectAction.classifier);
 
 		assertEquals("Ship", returnValue);
 	}// getClassNamespaceAndNameOfCreateObjectActionNoNamespaceTest

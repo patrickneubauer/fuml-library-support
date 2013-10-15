@@ -21,7 +21,6 @@ import org.eclipse.papyrus.infra.core.sashwindows.di.util.DiResourceFactoryImpl;
 import org.eclipse.uml2.uml.Activity;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.modelexecution.fuml.convert.ConverterRegistry;
 import org.modelexecution.fuml.convert.IConversionResult;

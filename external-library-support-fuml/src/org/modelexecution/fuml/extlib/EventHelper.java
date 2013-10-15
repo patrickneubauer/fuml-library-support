@@ -3,20 +3,12 @@
  */
 package org.modelexecution.fuml.extlib;
 
-import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.StructuralFeature;
-import org.eclipse.uml2.uml.internal.impl.AddStructuralFeatureValueActionImpl;
 import org.modelexecution.fumldebug.core.event.ActivityEntryEvent;
 import org.modelexecution.fumldebug.core.event.ActivityExitEvent;
 import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
 import org.modelexecution.fumldebug.core.event.ActivityNodeExitEvent;
 import org.modelexecution.fumldebug.core.event.Event;
-import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
-import org.modelexecution.fumldebug.core.event.ExtensionalValueEventType;
-import org.modelexecution.fumldebug.core.event.impl.ActivityEntryEventImpl;
-import org.modelexecution.fumldebug.core.event.impl.ActivityExitEventImpl;
-import org.modelexecution.fumldebug.core.event.impl.ActivityNodeEntryEventImpl;
-import org.modelexecution.fumldebug.core.event.impl.ActivityNodeExitEventImpl;
 
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.IntermediateActions.AddStructuralFeatureValueAction;

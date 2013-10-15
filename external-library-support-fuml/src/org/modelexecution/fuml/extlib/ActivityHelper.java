@@ -3,9 +3,6 @@
  */
 package org.modelexecution.fuml.extlib;
 
-import org.modelexecution.fumldebug.core.event.Event;
-
-import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Activities.IntermediateActivities.Activity;
 import fUML.Syntax.Classes.Kernel.Namespace;
 import fUML.Syntax.Classes.Kernel.Operation;

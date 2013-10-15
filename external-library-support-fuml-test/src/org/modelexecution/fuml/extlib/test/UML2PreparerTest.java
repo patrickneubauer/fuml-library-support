@@ -25,7 +25,8 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.junit.Before;
 import org.junit.Test;
-import org.modelexecution.fuml.extlib.UML2Preparer;
+import org.modelexecution.fuml.extlib.umlpreparer.UML2Preparer;
+
 
 /**
  * Class to test the {@link UML2Preparer} Can be run as a JUnit test (not a
@@ -47,8 +48,8 @@ public class UML2PreparerTest {
 
 	@Test
 	public void addPlaceholderActivitiesToVehiclesUML() {
-		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
-		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String inputFilePath = "samples/models/Vehicles.uml";
+		String outputFilePath = "samples/models/VehiclesConverted.uml";
 		String jarFilePath = "extlibs/Vehicles.jar";
 
 		UML2Preparer converter = new UML2Preparer();
@@ -67,9 +68,9 @@ public class UML2PreparerTest {
 	
 	@Test
 	public void addPlaceholderActivitiesToMailUML() {
-		String inputFilePath = "models/mailCaseStudy/commons-email-1.3.1.uml";
-		String outputFilePath = "models/mailCaseStudy/commons-email-1.3.1Converted.uml";
-		String[] jarFilePaths = {"extlibs/commons-email-1.3.1.jar", "extlibs/mail.jar"};
+		String inputFilePath = "samples/models/commons-email-1.3.1.uml";
+		String outputFilePath = "samples/models/commons-email-1.3.1Converted.uml";
+		String[] jarFilePaths = {"samples/extlibs/commons-email-1.3.1.jar", "samples/extlibs/mail.jar"};
 
 		UML2Preparer converter = new UML2Preparer();
 		converter.load(inputFilePath);

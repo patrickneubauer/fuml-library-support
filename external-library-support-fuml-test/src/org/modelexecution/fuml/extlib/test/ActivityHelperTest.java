@@ -7,11 +7,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.modelexecution.fuml.extlib.ActionHelper;
 import org.modelexecution.fuml.extlib.ActivityHelper;
 
 import fUML.Syntax.Activities.IntermediateActivities.Activity;
-import fUML.Syntax.Classes.Kernel.BehavioralFeature;
 import fUML.Syntax.Classes.Kernel.Namespace;
 import fUML.Syntax.Classes.Kernel.Operation;
 import fUML.Syntax.Classes.Kernel.Package;

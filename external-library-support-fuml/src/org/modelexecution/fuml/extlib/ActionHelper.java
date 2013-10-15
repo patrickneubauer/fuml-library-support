@@ -3,7 +3,6 @@
  */
 package org.modelexecution.fuml.extlib;
 
-import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
