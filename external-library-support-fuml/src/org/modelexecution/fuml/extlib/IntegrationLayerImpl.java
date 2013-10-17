@@ -150,7 +150,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		}
 
 		addObjects(fUmlObject, javaObject);
-	}
+	}// handleExternalCreateObjectAction
 
 	/**
 	 * Handles the {@link AddStructuralFeatureValueAction} accessing an external library
@@ -213,7 +213,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				
 			} else {
 				// CASE: Complex Type			
-				// TODO?
+				// Not implemented
 				
 			}
 			
@@ -241,15 +241,14 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			// ------------------------------------------------
 			
 			// Step 3: Update the HashMaps
-			// Not necessary, reason:
-			// HashMap data structure just keeps references to the objects and not the objects itself.
+			// Not necessary since the HashMap fields just keep references to the objects and not the objects itself
 			Debug.out(this, "*** Successfully handled external AddStructuralFeatureValueAction ***");
 			
 		} catch (Exception e) {
 			Debug.out(this, "!!! Failed to handle external AddStructuralFeatureValueAction !!! Exception: " + e);
 		}
 		
-	}
+	}// handleExternalAddStructuralFeatureValueAction
 	
 	
 	/**
@@ -350,8 +349,8 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	/**
 	 * Obtains a Java {@link Object} from a given {@code event} using the
 	 * {@link DynamicClassLoader}
-	 * @param jarPaths TODO
-	 * @param classNamespaceAndName TODO
+	 * @param jarPaths JAR paths from which to load the classes from
+	 * @param classNamespaceAndName Namespace and Class name of the Class from which the Object is obtained
 	 * @param event
 	 *            from which the {@link Object} is obtained
 	 * 
@@ -422,6 +421,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 							
 							Class<?> complexMethodInputParameterType = availableJavaMethod.getParameterTypes()[0];
 							javaMethod = javaClass.getMethod(methodName, complexMethodInputParameterType);	
+							// Warning: the following invocation alters javaObject (!)
 							javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameterWithValueMap.keySet().toArray());
 
 						}						
@@ -452,9 +452,8 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			Object_ newFUmlObject = object_Transformer.getObject_();
 
 			// Step 3: Update the HashMaps
-			// Not necessary, reason:
-			// HashMap data structure just keeps references to the objects and not the objects itself.
-
+			// Not necessary since the HashMap fields just keep references to the objects and not the objects itself
+			
 			// Step 4: Translate return value into fUML Parameter
 			Parameter outputParameter = ActivityHelper.getReturnParameter(activity);
 
@@ -482,7 +481,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			} else {
 				
 				// NOTE the following lines are not tested with anything different than Object_ (e.g. Enum or Array is not tested)
-				
+				 
 				if (activity.specification != null && activity.specification instanceof Operation && ((Operation) activity.specification).type != null && ((Operation) activity.specification).type instanceof Class_) {
 					Operation operation = (Operation) activity.specification;
 					Class_ returnType = (Class_) operation.type;
@@ -527,7 +526,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			Debug.out(this, "!!! Failed to handle external CallOperationAction !!! Exception: " + e);
 		}
 
-	}// callOperation
+	}// handleExternalCallOperationAction
 
 	/**
 	 * Obtains an ordered map of {@link Class} (i.e. Java parameter type) and its corresponding {@link Object} (i.e. Java parameter value)
@@ -562,7 +561,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		}// if (fUmlParameterWithValueMap not empty)
 		
 		return javaParameterWithValueMap;
-	}
+	}// obtainJavaInputParameters
 	
 	
 	/**
@@ -608,7 +607,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			
 		}// for loop (elementList)
 		return parameterWithParameterValueMap;
-	}
+	}// obtainfUmlInputParameters
 	
 
 	private Object_ obtainFUmlObjectFromActivityExecution(Event event) throws Exception {
