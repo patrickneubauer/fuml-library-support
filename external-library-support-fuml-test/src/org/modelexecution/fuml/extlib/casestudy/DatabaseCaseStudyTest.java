@@ -37,6 +37,16 @@ import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
 /**
  * Integration Test (IT) Class for {@link IntegrationLayer} on the Database Case Study
  * 
+ * IMPORTANT: Must be run as a JUnit Plug-in Test Run Configuration: Test runner
+ * = "JUnit 4" and run vm arguments include "-javaagent:lib/aspectjweaver.jar"
+ * 
+ * INFORMATION: This Case Study will only run if the MongoDB Server on localhost is
+ * installed and running. More can be found here: http://docs.mongodb.org/manual/tutorial/
+ * 
+ * RESULT: This Case Study will not "succeed" as the IntegrationLayer does not support 
+ * MULTIPLE COMPLEX INPUT parameters for CallOperationAction as required by:
+ * DBCollection.insert(DBObject ... arr)
+ * 
  * @author Patrick Neubauer
  * 
  */

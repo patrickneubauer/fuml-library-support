@@ -45,6 +45,9 @@ import fUML.Syntax.CommonBehaviors.BasicBehaviors.OpaqueBehavior;
 /**
  * Integration Test (IT) Class for {@link IntegrationLayer} on the Petstore Case Study
  * 
+ * IMPORTANT: Must be run as a JUnit Plug-in Test Run Configuration: Test runner
+ * = "JUnit 4" and run vm arguments include "-javaagent:lib/aspectjweaver.jar"
+ * 
  * @author Patrick Neubauer
  * 
  */
