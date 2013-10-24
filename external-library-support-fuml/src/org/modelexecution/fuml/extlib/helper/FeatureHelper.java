@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.modelexecution.fuml.extlib;
+package org.modelexecution.fuml.extlib.helper;
 
 import fUML.Semantics.Classes.Kernel.FeatureValue;
 import fUML.Syntax.Classes.Kernel.Namespace;

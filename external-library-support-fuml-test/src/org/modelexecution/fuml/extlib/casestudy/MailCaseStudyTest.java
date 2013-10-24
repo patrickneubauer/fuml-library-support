@@ -1,13 +1,12 @@
 /**
  * 
  */
-package org.modelexecution.fuml.extlib.test;
+package org.modelexecution.fuml.extlib.casestudy;
 
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.TreeIterator;
@@ -20,41 +19,35 @@ import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.modelexecution.fuml.convert.IConversionResult;
 import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.IntegrationLayer;
 import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
 import org.modelexecution.fuml.extlib.UML2Preparer;
 import org.modelexecution.fumldebug.core.ExecutionEventListener;
-import org.modelexecution.fumldebug.core.event.ActivityEntryEvent;
+import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
 
 import fUML.Semantics.Classes.Kernel.StringValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
-import fUML.Syntax.Actions.BasicActions.CallBehaviorAction;
-import fUML.Syntax.Activities.CompleteStructuredActivities.StructuredActivityNode;
-import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
-import fUML.Syntax.Activities.IntermediateActivities.DecisionNode;
-import fUML.Syntax.CommonBehaviors.BasicBehaviors.Behavior;
-import fUML.Syntax.CommonBehaviors.BasicBehaviors.OpaqueBehavior;
 
 /**
- * Integration Test (IT) Class for {@link IntegrationLayer} on the Petstore Case Study
+ * Integration Test (IT) Class for {@link IntegrationLayer} on the Mail Case Study
  * 
  * @author Patrick Neubauer
  * 
  */
-public class PetstoreCaseStudyTest implements ExecutionEventListener {
+public class MailCaseStudyTest implements ExecutionEventListener {
 
 	private ResourceSet resourceSet;
 	private List<Event> eventlist = new ArrayList<Event>();
 	private IntegrationLayerImpl integrationLayer = new IntegrationLayerImpl();
 
-	public PetstoreCaseStudyTest() {
+	public MailCaseStudyTest() {
 		integrationLayer.getExecutionContext().addEventListener(this);
 	}
 
@@ -76,8 +69,8 @@ public class PetstoreCaseStudyTest implements ExecutionEventListener {
 	public void setUp() {
 		eventlist = new ArrayList<Event>();
 		
-		String inputFilePath = "models/PetstoreCaseStudy/commons-email-1.3.1.uml";
-		String outputFilePath = "models/PetstoreCaseStudy/commons-email-1.3.1Converted.uml";
+		String inputFilePath = "models/MailCaseStudy/commons-email-1.3.1.uml";
+		String outputFilePath = "models/MailCaseStudy/commons-email-1.3.1Converted.uml";
 		String[] jarFilePaths = {"extlibs/commons-email-1.3.1.jar", "extlibs/mail.jar"};
 
 		UML2Preparer converter = new UML2Preparer();
@@ -115,81 +108,25 @@ public class PetstoreCaseStudyTest implements ExecutionEventListener {
 		}
 		return null;
 	}
-	
-	// -------------------
-	
-	private void replaceOpaqueBehaviors(fUML.Syntax.Activities.IntermediateActivities.Activity activity) {
-		List<ActivityNode> nodesWithBehavior = new ArrayList<ActivityNode>();
-		nodesWithBehavior.addAll(getBehaviorNodes(activity.node));
-
-		for (ActivityNode node : nodesWithBehavior) {
-			if (node instanceof CallBehaviorAction) {
-				CallBehaviorAction callBehaviorAction = (CallBehaviorAction) node;
-				Behavior behavior = callBehaviorAction.behavior;
-				OpaqueBehavior behaviorReplacement = integrationLayer.getExecutionContext()
-						.getOpaqueBehavior(behavior.name);
-				if (behaviorReplacement != null) {
-					callBehaviorAction.behavior = behaviorReplacement;
-				}
-			} else if (node instanceof DecisionNode) {
-				DecisionNode decision = (DecisionNode) node;
-				Behavior behavior = decision.decisionInput;
-				OpaqueBehavior behaviorReplacement = integrationLayer.getExecutionContext()
-						.getOpaqueBehavior(behavior.name);
-				if (behaviorReplacement != null) {
-					decision.decisionInput = behaviorReplacement;
-				}
-			}
-		}
-	}
-	
-	private List<ActivityNode> getBehaviorNodes(List<ActivityNode> nodes) {
-		List<ActivityNode> nodesWithBehavior = new ArrayList<ActivityNode>();
-		for (ActivityNode node : nodes) {
-			if (node instanceof CallBehaviorAction) {
-				CallBehaviorAction action = (CallBehaviorAction) node;
-				nodesWithBehavior.add(action);
-			} else if (node instanceof DecisionNode) {
-				DecisionNode decision = (DecisionNode) node;
-				if (decision.decisionInput != null) {
-					nodesWithBehavior.add(decision);
-				}
-			}
-			if (node instanceof StructuredActivityNode) {
-				StructuredActivityNode structurednode = (StructuredActivityNode) node;
-				nodesWithBehavior.addAll(getBehaviorNodes(structurednode.node));
-			}
-		}
-		return nodesWithBehavior;
-	}
-	
-	// -------------------
 
 	/**
 	 * Tests {@link CreateObjectAction} that invokes an Object from an external
 	 * library and a {@link CallOperationAction} on the invoked Object setting an input value field AND returning an output value
 	 */
 	@Test
-	public void petstoreCaseStudyTest() {		
-		String externalUmlFilePath = "models/PetstoreCaseStudy/commons-email-1.3.1Converted.uml";
-		String activityDiagramFilePath = "models/PetstoreCaseStudy/petstore.uml";
-		String activityName = "SendEmail";
+	public void mailCaseStudyTest() {		
+		String externalUmlFilePath = "models/MailCaseStudy/commons-email-1.3.1Converted.uml";
+		String activityDiagramFilePath = "models/MailCaseStudy/MailActivityModel.uml";
+		String activityName = "MailActivity";
 
-		// Convert
-		Resource resource = getResource(activityDiagramFilePath, externalUmlFilePath);
-		UML2Converter uml2Converter = new UML2Converter();
-		IConversionResult conversionResult2 = uml2Converter.convert(resource.getContents().get(0));
-		
-		// Replace Opaque Behaviors
-		Iterator<fUML.Syntax.Activities.IntermediateActivities.Activity> iterator = conversionResult2.getActivities().iterator();
-		while(iterator.hasNext()) {
-			fUML.Syntax.Activities.IntermediateActivities.Activity activity = iterator.next();
-			replaceOpaqueBehaviors(activity);
-		}
+		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
+				.next();
 
-		// Get Activity
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = conversionResult2.getActivity(activityName);
-		
+		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
+		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
+		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
+
 		// Execute fUML Activity
 		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
 
@@ -198,10 +135,10 @@ public class PetstoreCaseStudyTest implements ExecutionEventListener {
 		ParameterValue outputParameterValue = null;
 
 		for (Event event : eventlist) {
-			if (event.toString().contains("ActivityEntryEvent activity = SendEmail")) {
-				ActivityEntryEvent activityEntryEvent = (ActivityEntryEvent) event;
+			if (event.toString().contains("ActivityNodeEntryEvent node = SendCallOperationAction")) {
+				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
 				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
-						.getActivityOutput(activityEntryEvent.getActivityExecutionID()).get(0);
+						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
 			}
 		}
 

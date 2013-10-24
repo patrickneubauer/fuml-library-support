@@ -184,9 +184,9 @@ public class UML2Preparer {
 		try {
 			resource.save(new FileOutputStream(new File(outputFilePath)), null);
 		} catch (FileNotFoundException e) {
-			System.out.println("Coudln't find output file " + outputFilePath + ". Details: " + e);
+			Debug.out("Coudln't find output file " + outputFilePath + ". Details: " + e);
 		} catch (IOException e) {
-			System.out.println("Input/Output Exception occured. Details: " + e);
+			Debug.out("Input/Output Exception occured. Details: " + e);
 		}
 	}
 

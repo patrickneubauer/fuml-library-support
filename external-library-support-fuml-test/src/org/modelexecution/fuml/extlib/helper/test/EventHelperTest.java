@@ -1,13 +1,13 @@
 /**
  * 
  */
-package org.modelexecution.fuml.extlib.test;
+package org.modelexecution.fuml.extlib.helper.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.modelexecution.fuml.extlib.EventHelper;
+import org.modelexecution.fuml.extlib.helper.EventHelper;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.event.impl.ActivityEntryEventImpl;
 import org.modelexecution.fumldebug.core.event.impl.ActivityExitEventImpl;

@@ -1,9 +1,12 @@
 /**
  * 
  */
-package org.modelexecution.fuml.extlib;
+package org.modelexecution.fuml.extlib.helper;
 
 import java.util.regex.Pattern;
+
+import org.modelexecution.fuml.extlib.UML2Preparer;
+
 
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;

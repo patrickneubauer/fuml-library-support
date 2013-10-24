@@ -40,6 +40,17 @@ import fUML.Syntax.Classes.Kernel.Association;
 import fUML.Syntax.Classes.Kernel.Classifier;
 import fUML.Syntax.Classes.Kernel.Property;
 
+/**
+ * This class tests the compatibility of the IntegrationLayer with Papyrus
+ * based on {@link PapyrusModelILExecutor}. Therefore, it tests if it is able to 
+ * read and execute Papyrus files (*.di) referencing external libraries
+ * 
+ * IMPORTANT: Must be run as a JUnit Plug-in Test Run Configuration: Test runner
+ * = "JUnit 4" and run vm arguments include "-javaagent:lib/aspectjweaver.jar"
+ * 
+ * @author Patrick Neubauer
+ *
+ */
 public class PapyrusILTest implements ExecutionEventListener {
 
 	private StringBuffer log = new StringBuffer();
@@ -50,6 +61,10 @@ public class PapyrusILTest implements ExecutionEventListener {
 		log = new StringBuffer();
 	}
 	
+	/**
+	 * Tests if the {@link PapyrusModelILExecutor} is able to execute Papyrus files (*.di)
+	 * not referencing an external library.
+	 */
 	@Test
 	public void papyrusWithNoExtLibTest() {
 		PapyrusModelILExecutor executor = new PapyrusModelILExecutor(
@@ -71,7 +86,9 @@ public class PapyrusILTest implements ExecutionEventListener {
 	}
 
 	/**
-	 * Tests the Integration Layer functionality on models created by the Papyrus Model Editor
+	 * Tests if the {@link PapyrusModelILExecutor} is able to execute Papyrus files (*.di)
+	 * referencing an external library by creating an Object_ from the external library
+	 * using a CreateObjectAction
 	 */
 	@Test
 	public void createShip() {
@@ -107,7 +124,9 @@ public class PapyrusILTest implements ExecutionEventListener {
 	}
 	
 	/**
-	 * Tests the Integration Layer functionality on models created by the Papyrus Model Editor
+	 * Tests if the {@link PapyrusModelILExecutor} is able to execute Papyrus files (*.di)
+	 * referencing an external library by creating an Object_ from the external library
+	 * using a CreateObjectAction and then using a CallOperationAction to return a value
 	 */
 	@Test
 	public void createAndCallTruck() {
@@ -121,7 +140,6 @@ public class PapyrusILTest implements ExecutionEventListener {
 						trace.getActivityExecutions().get(0)
 								.getActivityExecutionID());
 		
-		System.out.println("finished. TODO: check for correct output!");
 		Assert.assertEquals(1, output.size());
 		Assert.assertEquals(1, output.get(0).values.size());
 		

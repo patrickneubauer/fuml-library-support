@@ -1,9 +1,10 @@
 /**
  * 
  */
-package org.modelexecution.fuml.extlib;
+package org.modelexecution.fuml.extlib.helper;
 
 import org.eclipse.uml2.uml.StructuralFeature;
+import org.modelexecution.fuml.extlib.Debug;
 import org.modelexecution.fumldebug.core.event.ActivityEntryEvent;
 import org.modelexecution.fumldebug.core.event.ActivityExitEvent;
 import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;

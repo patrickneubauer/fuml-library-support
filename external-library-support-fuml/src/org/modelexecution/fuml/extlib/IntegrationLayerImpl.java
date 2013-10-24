@@ -12,6 +12,9 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.modelexecution.fuml.extlib.helper.ActionHelper;
+import org.modelexecution.fuml.extlib.helper.ActivityHelper;
+import org.modelexecution.fuml.extlib.helper.EventHelper;
 import org.modelexecution.fumldebug.core.ExecutionContext;
 import org.modelexecution.fumldebug.core.event.ActivityEntryEvent;
 import org.modelexecution.fumldebug.core.event.ActivityExitEvent;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.modelexecution.fuml.extlib.test;
+package org.modelexecution.fuml.extlib.casestudy;
 
 import static org.junit.Assert.assertTrue;
 
@@ -27,27 +27,26 @@ import org.modelexecution.fuml.extlib.IntegrationLayer;
 import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
 import org.modelexecution.fuml.extlib.UML2Preparer;
 import org.modelexecution.fumldebug.core.ExecutionEventListener;
-import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
+import org.modelexecution.fumldebug.core.event.ActivityEntryEvent;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
 
-import fUML.Semantics.Classes.Kernel.StringValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
 
 /**
- * Integration Test (IT) Class for {@link IntegrationLayer} on the Mail Case Study
+ * Integration Test (IT) Class for {@link IntegrationLayer} on the Database Case Study
  * 
  * @author Patrick Neubauer
  * 
  */
-public class MailCaseStudyTest implements ExecutionEventListener {
+public class DatabaseCaseStudyTest implements ExecutionEventListener {
 
 	private ResourceSet resourceSet;
 	private List<Event> eventlist = new ArrayList<Event>();
 	private IntegrationLayerImpl integrationLayer = new IntegrationLayerImpl();
 
-	public MailCaseStudyTest() {
+	public DatabaseCaseStudyTest() {
 		integrationLayer.getExecutionContext().addEventListener(this);
 	}
 
@@ -69,9 +68,9 @@ public class MailCaseStudyTest implements ExecutionEventListener {
 	public void setUp() {
 		eventlist = new ArrayList<Event>();
 		
-		String inputFilePath = "models/MailCaseStudy/commons-email-1.3.1.uml";
-		String outputFilePath = "models/MailCaseStudy/commons-email-1.3.1Converted.uml";
-		String[] jarFilePaths = {"extlibs/commons-email-1.3.1.jar", "extlibs/mail.jar"};
+		String inputFilePath = "models/DatabaseCaseStudy/mongo-java-driver-2.10.1.uml";
+		String outputFilePath = "models/DatabaseCaseStudy/mongo-java-driver-2.10.1Converted.uml";
+		String[] jarFilePaths = {"extlibs/mongo-java-driver-2.10.1.jar"};
 
 		UML2Preparer converter = new UML2Preparer();
 		converter.load(inputFilePath);
@@ -114,10 +113,10 @@ public class MailCaseStudyTest implements ExecutionEventListener {
 	 * library and a {@link CallOperationAction} on the invoked Object setting an input value field AND returning an output value
 	 */
 	@Test
-	public void mailCaseStudyTest() {		
-		String externalUmlFilePath = "models/MailCaseStudy/commons-email-1.3.1Converted.uml";
-		String activityDiagramFilePath = "models/MailCaseStudy/MailActivityModel.uml";
-		String activityName = "MailActivity";
+	public void databaseCaseStudyTest() {		
+		String externalUmlFilePath = "models/DatabaseCaseStudy/mongo-java-driver-2.10.1Converted.uml";
+		String activityDiagramFilePath = "models/DatabaseCaseStudy/DatabaseActivityModel.uml";
+		String activityName = "DatabaseActivity";
 
 		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
 		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
@@ -135,17 +134,21 @@ public class MailCaseStudyTest implements ExecutionEventListener {
 		ParameterValue outputParameterValue = null;
 
 		for (Event event : eventlist) {
-			if (event.toString().contains("ActivityNodeEntryEvent node = SendCallOperationAction")) {
-				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
+			if (event.toString().contains("ActivityEntryEvent activity = DatabaseActivity")) {
+				ActivityEntryEvent activityEntryEvent = (ActivityEntryEvent) event;
 				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
-						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
+						.getActivityOutput(activityEntryEvent.getActivityExecutionID()).get(0);
 			}
 		}
 
 		assertTrue(outputParameterValue != null);
-		assertTrue(outputParameterValue.values.get(0) instanceof StringValue);
-		// Check if operation's return value is correct (!)
-		assertTrue(((StringValue) outputParameterValue.values.get(0)).value.contains("JavaMail")); // otherwise it would throw an exception
+		assertTrue(outputParameterValue.parameter.name.equals("outputParameter"));
+		
+		// Escalated MongoDB Case Study
+		// Check output parameter value is empty
+		assertTrue(outputParameterValue.values.size()==0);
+		
+		
 	}
 
 }

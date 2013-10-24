@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.modelexecution.fuml.extlib.test;
+package org.modelexecution.fuml.extlib.helper.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.modelexecution.fuml.extlib.ActionHelper;
+import org.modelexecution.fuml.extlib.helper.ActionHelper;
 
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;

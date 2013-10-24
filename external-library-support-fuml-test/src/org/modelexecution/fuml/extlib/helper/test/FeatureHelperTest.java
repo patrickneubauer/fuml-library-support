@@ -1,13 +1,13 @@
 /**
  * 
  */
-package org.modelexecution.fuml.extlib.test;
+package org.modelexecution.fuml.extlib.helper.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.modelexecution.fuml.extlib.FeatureHelper;
+import org.modelexecution.fuml.extlib.helper.FeatureHelper;
 
 import fUML.Semantics.Classes.Kernel.FeatureValue;
 import fUML.Syntax.Classes.Kernel.Class_;

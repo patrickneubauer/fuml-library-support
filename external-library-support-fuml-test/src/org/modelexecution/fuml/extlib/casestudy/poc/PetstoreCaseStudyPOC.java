@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.modelexecution.fuml.extlib.test;
+package org.modelexecution.fuml.extlib.casestudy.poc;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

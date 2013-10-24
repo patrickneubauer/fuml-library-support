@@ -41,6 +41,9 @@ import fUML.Semantics.Loci.LociL1.Locus;
 /**
  * Airbus Example Test Case
  * 
+ * IMPORTANT: Must be run as a JUnit Plug-in Test Run Configuration: Test runner
+ * = "JUnit 4" and run vm arguments include "-javaagent:lib/aspectjweaver.jar"
+ * 
  * @author Patrick Neubauer
  * 
  */

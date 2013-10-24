@@ -22,6 +22,7 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.IntegrationLayer;
@@ -44,6 +45,9 @@ import fUML.Syntax.Classes.Kernel.Property;
 
 /**
  * Integration Test (IT) Class for {@link IntegrationLayer}
+ * 
+ * IMPORTANT: Must be run as a JUnit Plug-in Test Run Configuration: Test runner
+ * = "JUnit 4" and run vm arguments include "-javaagent:lib/aspectjweaver.jar"
  * 
  * @author Patrick Neubauer
  * 
@@ -759,8 +763,12 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 * Tests {@link CreateObjectAction} that invokes an Object from an external
 	 * library and a {@link CallOperationAction} on the invoked Object returning
 	 * a complex object (here: an instance of SimpleEngine)
+	 * 
+	 * NOTE: This test will only success when the IntegrationLayer supports
+	 * COMPLEX INPUT PARAMETER for CallOperationAction (therefore it is set to @Ignore)
 	 */
 	@Test
+	@Ignore
 	public void simpleEngineInputValueFromExternalCallOperationActionTest() {
 		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithComplexValues/VehiclesComplexInputValueActivityDiagram.uml";
