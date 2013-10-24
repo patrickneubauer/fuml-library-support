@@ -2,7 +2,6 @@ package org.modelexecution.fuml.extlib.ui.launch;
 
 import java.io.File;
 
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -21,14 +20,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.modelexecution.fuml.convert.uml2.UML2Converter;
-import org.modelexecution.fuml.extlib.umlpreparer.UML2Preparer;
 import org.modelexecution.fuml.extlib.plugin.process.internal.InternalActivityProcess;
 import org.modelexecution.fuml.extlib.plugin.process.internal.InternalActivityProcess.Mode;
 import org.modelexecution.fuml.extlib.ui.FUMLExtLibPlugin;
-import org.modelexecution.fumldebug.debugger.provider.IActivityProvider;
-import org.modelexecution.fumldebug.debugger.provider.IActivityProviderFactory;
-
-import fUML.Syntax.Activities.IntermediateActivities.Activity;
 
 public class ActivityLaunchDelegate extends LaunchConfigurationDelegate {
 
