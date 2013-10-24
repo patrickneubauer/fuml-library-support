@@ -38,6 +38,9 @@ import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
 /**
  * Integration Test (IT) Class for {@link IntegrationLayer} on the Mail Case Study
  * 
+ * IMPORTANT: Must be run as a JUnit Plug-in Test Run Configuration: Test runner
+ * = "JUnit 4" and run vm arguments include "-javaagent:lib/aspectjweaver.jar"
+ * 
  * @author Patrick Neubauer
  * 
  */
