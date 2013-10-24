@@ -48,6 +48,13 @@ import fUML.Syntax.CommonBehaviors.BasicBehaviors.OpaqueBehavior;
  * IMPORTANT: Must be run as a JUnit Plug-in Test Run Configuration: Test runner
  * = "JUnit 4" and run vm arguments include "-javaagent:lib/aspectjweaver.jar"
  * 
+ * RESULT: This Case Study will succeed and send an e-mail to the customer
+ * that purchased items from the PetStore in scenario7 of activity model.
+ * In detail: the scenario7Customer activity is called which itself calls the
+ * scenario7 to get the customer Object_ from it. Then the e-mail address of the
+ * customer is retrieved and passed to the external mail library operation
+ * in order to finally send the e-mail.
+ * 
  * @author Patrick Neubauer
  * 
  */

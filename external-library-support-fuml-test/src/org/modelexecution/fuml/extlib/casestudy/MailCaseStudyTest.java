@@ -41,6 +41,9 @@ import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
  * IMPORTANT: Must be run as a JUnit Plug-in Test Run Configuration: Test runner
  * = "JUnit 4" and run vm arguments include "-javaagent:lib/aspectjweaver.jar"
  * 
+ * RESULT: This Case Study will succeed and send an e-mail to the associated
+ * e-mail address referenced in the activity model
+ * 
  * @author Patrick Neubauer
  * 
  */
