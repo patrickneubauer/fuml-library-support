@@ -21,13 +21,14 @@ public class DynamicClassLoader {
 	/**
 	 * Creates an instance of the class from which a {@link ClassLoader} can be
 	 * obtained
+	 * NOTE that the created class loader has no parent class loader
 	 * 
 	 * @param jarPaths
 	 *            RELATIVE paths pointing to the JAR file in the file system
 	 */
 	public DynamicClassLoader(String... jarPaths) {
 		jarURLs = getJarPaths(jarPaths);
-		classLoader = new URLClassLoader(jarURLs);
+		classLoader = new URLClassLoader(jarURLs, null);
 	}
 
 	/**
