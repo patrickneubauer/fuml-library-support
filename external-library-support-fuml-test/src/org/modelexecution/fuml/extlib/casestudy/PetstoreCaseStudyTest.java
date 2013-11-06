@@ -26,7 +26,7 @@ import org.modelexecution.fuml.convert.IConversionResult;
 import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.IntegrationLayer;
 import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
-import org.modelexecution.fuml.extlib.UML2Preparer;
+import org.modelexecution.fuml.extlib.umlpreparer.UML2Preparer;
 import org.modelexecution.fumldebug.core.ExecutionEventListener;
 import org.modelexecution.fumldebug.core.event.ActivityEntryEvent;
 import org.modelexecution.fumldebug.core.event.Event;

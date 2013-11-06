@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.IntegrationLayer;
 import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
-import org.modelexecution.fuml.extlib.UML2Preparer;
+import org.modelexecution.fuml.extlib.umlpreparer.UML2Preparer;
 import org.modelexecution.fumldebug.core.ExecutionEventListener;
 import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
 import org.modelexecution.fumldebug.core.event.Event;
@@ -768,7 +768,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 * COMPLEX INPUT PARAMETER for CallOperationAction (therefore it is set to @Ignore)
 	 */
 	@Test
-	@Ignore
+	//@Ignore
 	public void simpleEngineInputValueFromExternalCallOperationActionTest() {
 		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithComplexValues/VehiclesComplexInputValueActivityDiagram.uml";

@@ -24,7 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
-import org.modelexecution.fuml.extlib.UML2Preparer;
+import org.modelexecution.fuml.extlib.umlpreparer.UML2Preparer;
 import org.modelexecution.fumldebug.core.ExecutionEventListener;
 import org.modelexecution.fumldebug.core.event.ActivityExitEvent;
 import org.modelexecution.fumldebug.core.event.Event;
