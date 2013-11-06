@@ -359,11 +359,18 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 * 
 	 * @return Java {@link Object} instance if found, null otherwise
 	 */
+	private HashMap<String, DynamicClassLoader> classLoaders = new HashMap<String, DynamicClassLoader>();
+	
 	private Object obtainJavaObject(String[] jarPaths, String classNamespaceAndName) {
 		Object javaObject = null;
 
-		try {
+		if(classLoaders.containsKey(jarPaths[0])) // TODO improve
+			dynamicClassLoader = classLoaders.get(jarPaths[0]);
+		else {
 			dynamicClassLoader = new DynamicClassLoader(jarPaths);
+			classLoaders.put(jarPaths[0], dynamicClassLoader);
+		}
+		try {
 			ClassLoader classLoader = dynamicClassLoader.getClassLoader();
 
 			Class<?> clazz = classLoader.loadClass(classNamespaceAndName);
@@ -423,10 +430,10 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 						if (availableJavaMethod.getName().equals(methodName)) {
 							
 							Class<?> complexMethodInputParameterType = availableJavaMethod.getParameterTypes()[0];
-							javaMethod = javaClass.getMethod(methodName, complexMethodInputParameterType);	
-							// Warning: the following invocation alters javaObject (!)
-							javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameterWithValueMap.keySet().toArray());
-
+							javaMethod = javaClass.getMethod(methodName, complexMethodInputParameterType);
+							
+							// Warning: the following invocation alters javaObject (!)		
+							javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameterWithValueMap.keySet().toArray()[0]);
 						}						
 					}
 					
