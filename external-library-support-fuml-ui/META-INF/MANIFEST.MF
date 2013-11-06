@@ -13,8 +13,7 @@ Require-Bundle: org.eclipse.ui;visibility:=reexport,
  org.modelexecution.fuml.extlib.umlpreparer;bundle-version="1.0.0",
  org.modelexecution.fumldebug.debugger;bundle-version="1.0.0",
  org.modelexecution.fumldebug.ui.commons;bundle-version="1.0.0",
- org.modelexecution.fuml.convert.uml2;bundle-version="1.0.0",
- org.modelexecution.fuml.extlib.ui.commons;bundle-version="1.0.0"
+ org.modelexecution.fuml.convert.uml2;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Import-Package: fUML.Semantics.CommonBehaviors.BasicBehaviors,
@@ -22,3 +21,5 @@ Import-Package: fUML.Semantics.CommonBehaviors.BasicBehaviors,
  fUML.Syntax.Activities.IntermediateActivities,
  org.modelexecution.fumldebug.core,
  org.modelexecution.fumldebug.core.event
+Export-Package: org.modelexecution.fuml.extlib.ui.commons,
+ org.modelexecution.fuml.extlib.ui.commons.provider
