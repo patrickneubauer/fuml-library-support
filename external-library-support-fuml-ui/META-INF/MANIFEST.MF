@@ -10,7 +10,6 @@ Require-Bundle: org.eclipse.ui;visibility:=reexport,
  org.eclipse.debug.ui;bundle-version="3.7.102";visibility:=reexport,
  org.eclipse.ui.ide;bundle-version="3.7.0";visibility:=reexport,
  org.modelexecution.fuml.extlib;bundle-version="1.0.0",
- org.modelexecution.fuml.extlib.umlpreparer;bundle-version="1.0.0",
  org.modelexecution.fumldebug.debugger;bundle-version="1.0.0",
  org.modelexecution.fumldebug.ui.commons;bundle-version="1.0.0",
  org.modelexecution.fuml.convert.uml2;bundle-version="1.0.0"
