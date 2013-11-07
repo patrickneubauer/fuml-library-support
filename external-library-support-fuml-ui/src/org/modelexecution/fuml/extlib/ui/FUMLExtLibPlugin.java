@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -27,6 +28,7 @@ public class FUMLExtLibPlugin extends AbstractUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.modelexecution.fuml.extlib.plugin"; //$NON-NLS-1$
 	private final static String ICONS_PATH = "icons/"; //$NON-NLS-1$
+	public final static String IMG_EXTLIB_ACTIVITY = "IMG_EXTLIB_ACTIVITY"; //$NON-NLS-1$
 	
 	public static final String PROCESS_FACTORY_ID = "org.modelexecution.fuml.extlib.activityProcessFactory";
 	public static final String ATT_ACTIVITY_RESOURCE = "ATT_ACTIVITY_RESOURCE"; //$NON-NLS-1$
@@ -58,8 +60,8 @@ public class FUMLExtLibPlugin extends AbstractUIPlugin {
 		FUMLExtLibPlugin.context = null;
 	}
 
-	private static void setDefault(FUMLExtLibPlugin plugin) {
-		plugin = plugin;
+	private static void setDefault(FUMLExtLibPlugin plugin_) {
+		plugin = plugin_;
 	}
 	
 	public static FUMLExtLibPlugin getDefault() {
@@ -91,4 +93,7 @@ public class FUMLExtLibPlugin extends AbstractUIPlugin {
 		}
 	}
 
+	public static Image getImage(String key) {
+		return getDefault().getImageRegistry().get(key);
+	}
 }

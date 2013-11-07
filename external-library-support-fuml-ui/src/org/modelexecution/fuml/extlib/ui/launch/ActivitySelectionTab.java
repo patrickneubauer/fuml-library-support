@@ -43,7 +43,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ResourceListSelectionDialog;
 import org.modelexecution.fuml.extlib.ui.FUMLExtLibPlugin;
-import org.modelexecution.fuml.extlib.ui.commons.FUMLLibraryUICommons;
 import org.modelexecution.fumldebug.debugger.provider.IActivityProvider;
 import org.modelexecution.fumldebug.debugger.provider.IActivityProviderFactory;
 import org.modelexecution.fumldebug.ui.commons.provider.ActivityContentProvider;
@@ -367,7 +366,7 @@ public class ActivitySelectionTab extends AbstractLaunchConfigurationTab {
 
 	@Override
 	public Image getImage() {
-		return FUMLLibraryUICommons.getImage(FUMLLibraryUICommons.IMG_EXTLIB_ACTIVITY);
+		return FUMLExtLibPlugin.getImage(FUMLExtLibPlugin.IMG_EXTLIB_ACTIVITY);
 	}
 
 }

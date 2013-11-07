@@ -12,7 +12,7 @@ package org.modelexecution.fuml.extlib.ui.commons.provider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
-import org.modelexecution.fuml.extlib.ui.commons.FUMLLibraryUICommons;
+import org.modelexecution.fuml.extlib.ui.FUMLExtLibPlugin;
 
 import fUML.Syntax.Activities.IntermediateActivities.Activity;
 import fUML.Syntax.Classes.Kernel.NamedElement;
@@ -31,7 +31,7 @@ public class ActivityLabelProvider implements ILabelProvider {
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof Activity) {
-			return FUMLLibraryUICommons.getImage(FUMLLibraryUICommons.IMG_EXTLIB_ACTIVITY);
+			return FUMLExtLibPlugin.getImage(FUMLExtLibPlugin.IMG_EXTLIB_ACTIVITY);
 		}
 		return null;
 	}

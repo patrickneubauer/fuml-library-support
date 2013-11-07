@@ -21,5 +21,4 @@ Import-Package: fUML.Semantics.CommonBehaviors.BasicBehaviors,
  fUML.Syntax.Activities.IntermediateActivities,
  org.modelexecution.fumldebug.core,
  org.modelexecution.fumldebug.core.event
-Export-Package: org.modelexecution.fuml.extlib.ui.commons,
- org.modelexecution.fuml.extlib.ui.commons.provider
+Export-Package: org.modelexecution.fuml.extlib.ui.commons.provider
