@@ -5,6 +5,7 @@ package org.modelexecution.fuml.extlib;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -72,8 +73,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 	private final ExecutionContext executionContext = ExecutionContext.getInstance();
 
-	private DynamicClassLoader dynamicClassLoader;
-
+	private HashMap<String, DynamicClassLoader> dynamicClassLoaderMap = new HashMap<String, DynamicClassLoader>();
+	//private DynamicClassLoader dynamicClassLoader;	
+	
 	private HashMap<Object_, Object> fUmlJavaMap = new HashMap<Object_, Object>();
 	private HashMap<Object, Object_> javaFUmlMap = new HashMap<Object, Object_>();
 
@@ -140,7 +142,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			String[] classJarPaths = ActionHelper.getClassJarPaths(createObjectAction.classifier.ownedComment);
 			String classNamespaceAndName = ActionHelper.getClassNamespaceAndName(createObjectAction.classifier);
 			javaObject = obtainJavaObject(classJarPaths, classNamespaceAndName);
-			Object_Transformer object_Transformer = new Object_Transformer(fUmlPlaceholderObject, javaObject, event, executionContext);
+			Object_Transformer object_Transformer = new Object_Transformer(fUmlPlaceholderObject, javaObject, event, this);
 			fUmlObject = object_Transformer.getObject_();
 
 			replaceLocusObject(fUmlPlaceholderObject, fUmlObject);
@@ -349,6 +351,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 	}// replaceLocusObject
 
+
+	
+	
 	/**
 	 * Obtains a Java {@link Object} from a given {@code event} using the
 	 * {@link DynamicClassLoader}
@@ -359,17 +364,18 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 * 
 	 * @return Java {@link Object} instance if found, null otherwise
 	 */
-	private HashMap<String, DynamicClassLoader> classLoaders = new HashMap<String, DynamicClassLoader>();
-	
 	private Object obtainJavaObject(String[] jarPaths, String classNamespaceAndName) {
 		Object javaObject = null;
+		DynamicClassLoader dynamicClassLoader = null;
+		Arrays.sort(jarPaths);
 
-		if(classLoaders.containsKey(jarPaths[0])) // TODO improve
-			dynamicClassLoader = classLoaders.get(jarPaths[0]);
+		if(dynamicClassLoaderMap.containsKey(Arrays.toString(jarPaths)))
+			dynamicClassLoader = dynamicClassLoaderMap.get(Arrays.toString(jarPaths));
 		else {
 			dynamicClassLoader = new DynamicClassLoader(jarPaths);
-			classLoaders.put(jarPaths[0], dynamicClassLoader);
+			dynamicClassLoaderMap.put(Arrays.toString(jarPaths), dynamicClassLoader);
 		}
+		
 		try {
 			ClassLoader classLoader = dynamicClassLoader.getClassLoader();
 
@@ -427,13 +433,16 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 					
 					Method[] availableJavaMethods = javaClass.getMethods();
 					for (Method availableJavaMethod : availableJavaMethods) {
-						if (availableJavaMethod.getName().equals(methodName)) {
+						if (availableJavaMethod.getName().equals(methodName) && 
+								availableJavaMethod.getParameterTypes()[0].equals(javaInputParameterWithValueMap.keySet().toArray()[0].getClass())) {
 							
 							Class<?> complexMethodInputParameterType = availableJavaMethod.getParameterTypes()[0];
 							javaMethod = javaClass.getMethod(methodName, complexMethodInputParameterType);
 							
 							// Warning: the following invocation alters javaObject (!)		
 							javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameterWithValueMap.keySet().toArray()[0]);
+							
+							break; // method call has already been made, go to step 2
 						}						
 					}
 					
@@ -458,7 +467,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 			// Step 2: Update the corresponding fUML Object_ using the
 			// Object_Transfomer
-			Object_Transformer object_Transformer = new Object_Transformer(fUmlObject, javaObject, event, executionContext);
+			Object_Transformer object_Transformer = new Object_Transformer(fUmlObject, javaObject, event, this);
 			Object_ newFUmlObject = object_Transformer.getObject_();
 
 			// Step 3: Update the HashMaps
@@ -488,7 +497,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				stringValue.value = (String) javaMethodReturnValue;
 				outputParameterValue.values.add(stringValue);
 
-			} else {
+			} else if (javaMethodReturnValue != null) {
 				
 				// NOTE the following lines are not tested with anything different than Object_ (e.g. Enum or Array is not tested)
 				 

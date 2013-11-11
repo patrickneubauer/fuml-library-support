@@ -62,7 +62,7 @@ public class Object_Creator {
 				property.redefinitionContext.add(fUmlClass);
 				property.setName(javaField.getName());
 				
-				Debug.out(this, "Creating a field of type " + javaField.getType().getName());
+				Debug.out(this, "Creating field '" + javaField.getName() + "' of type " + javaField.getType().getName());
 		
 				if (javaField.get(javaObject) instanceof java.lang.Boolean) {
 					

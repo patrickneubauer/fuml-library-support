@@ -39,18 +39,18 @@ public class Object_Transformer {
 	private Object javaObject;
 	private HashMap<Class<?>, List<Field>> clazzFieldMap;
 	private Event event;
-	private ExecutionContext executionContext;
+	private IntegrationLayer integrationLayer;
 
 	public Object_Transformer() throws Exception {
 		throw new Exception("Calling the default constructor is NOT ALLOWED.");
 	}
 
-	public Object_Transformer(Object_ fUmlPlaceholderObject, Object javaObject, Event event, ExecutionContext executionContext) {
+	public Object_Transformer(Object_ fUmlPlaceholderObject, Object javaObject, Event event, IntegrationLayer integrationLayer) {
 
 		this.fUmlObject = fUmlPlaceholderObject;
 		this.javaObject = javaObject;
 		this.event = event;
-		this.executionContext = executionContext;
+		this.integrationLayer = integrationLayer;
 		this.clazzFieldMap = getAllFields(javaObject.getClass());
 		transform();
 
@@ -85,7 +85,7 @@ public class Object_Transformer {
 					Field javaField = javaClassFromObjectWithFeature.getDeclaredField(featureValue.feature.name);
  					javaField.setAccessible(true); // shut down security
  					
-					Debug.out(this, "Transforming a field of type " + javaField.getType().getName());
+					Debug.out(this, "Transforming field '" + javaField.getName() + "' of type " + javaField.getType().getName());
 					
 					if (javaField.get(javaObject) instanceof java.lang.Boolean) {
 
@@ -134,76 +134,89 @@ public class Object_Transformer {
 						 * Therefore, it might be a {@link StructuredValue} i.e. an Object_ itself
 						 */
 						Debug.out(this, javaField.getType().getName() + " is a complex field");
-												
-						Link link = new Link();
-						Association association = new Association();
-						Property parentProperty = new Property();			// Car property
-						Property childProperty = null;						// SimpleEngine property
 						
-						parentProperty.class_ = fUmlClass;
-						parentProperty.association = association;
+						// Look for a corresponding fUML Object_
+						Object_ fUmlFieldValue = integrationLayer.getFUmlObject(javaField.get(javaObject));
 						
-						
-						// Get the member property from the fUML Class
-						for (NamedElement namedElement : fUmlClass.member) {
-							if (namedElement.name.equals(featureValue.feature.name)) {
-								childProperty = (Property)namedElement;
-								// Add the field property to the Association
-								association.memberEnd.add(childProperty);
+						if (fUmlFieldValue != null) {
+							// Set corresponding fUML Object_ as feature value
+							if (featureValue.values.size() == 0) {
+								featureValue.values.add(0, fUmlFieldValue);
+							} else {
+								featureValue.values.set(0, fUmlFieldValue);
 							}
-						}
-						
-						// ------------------------------------------------
-						
-						//Object newJavaObject = javaField.get(javaObject);
-						Class<?> classOfJavaField = javaField.getType();
-						Object newJavaObject = null;
-						
-						Object_ newFUmlObject = new Object_();
-						
- 						/* TODO You may want to replace the following for loop by 
-						 * childProperty.class_ = fUmlObject.types.get(0).ownerMember.FindTheCorrectPropertyByItsName.class_
-						 * when "class_" becomes available (hence is not null anymore)
-						 */
-						if (childProperty != null && childProperty.association != null) {
-	 						for (Type type : childProperty.association.endType) {
-								if (!type.equals(fUmlClass)) {
-									// This entails that there are only 2 endTypes and the one which is not the fUmlObject's Class
-									// is the childProperty's Class
-									childProperty.class_ = (Class_) type;
-									newFUmlObject.types.add(childProperty.class_);
+						} else {
+												
+							Link link = new Link();
+							Association association = new Association();
+							Property parentProperty = new Property();			// Car property
+							Property childProperty = null;						// SimpleEngine property
+							
+							parentProperty.class_ = fUmlClass;
+							parentProperty.association = association;
+							
+							
+							// Get the member property from the fUML Class
+							for (NamedElement namedElement : fUmlClass.member) {
+								if (namedElement.name.equals(featureValue.feature.name)) {
+									childProperty = (Property)namedElement;
+									// Add the field property to the Association
+									association.memberEnd.add(childProperty);
 								}
 							}
-						}
- 						
- 						// Trying to instantiate the Java Field using it's Classes default constructor (if available)
- 						// If the Java Field is instantiated successfully, a corresponding Object_ is created
- 						
-						try {
-							newJavaObject = classOfJavaField.newInstance();
-							Object_Creator object_Creator = new Object_Creator(newFUmlObject, newJavaObject, executionContext);
-							newFUmlObject = object_Creator.getfUmlObject();
-						} catch(Exception e) {
-							/* NOTE: Exception of type InstantiationException will be thrown here for every Java Field 
-							 * which is an unsupported complex field such as Lists, Maps etc.
-							 * */
-							Debug.out(this, "Java Field (" + javaField.getName() + ") of Type (" + classOfJavaField.getName() + ") is set to null. Default constructor private or not available or Java Field is an unsupported complex field. Skipping Java Field.");
-						}
-						
-						// ------------------------------------------------
-						
-						association.memberEnd.add(parentProperty);				
-						link.type = association;
-						//link.addTo(executionContext.getLocus());  
-						/* TODO Check where the Link instance has to be put
-						 * Therefore, check where to add a fUML Link (UML association) between the newly 
-						 * created complex Object_ and its parent Object_
-						 */
-						
-						if (featureValue.values.size() == 0) {
-							featureValue.values.add(0, newFUmlObject);
-						} else {
-							featureValue.values.set(0, newFUmlObject);
+							
+							// ------------------------------------------------
+							
+							//Object newJavaObject = javaField.get(javaObject);
+							Class<?> classOfJavaField = javaField.getType();
+							Object newJavaObject = null;
+							
+							Object_ newFUmlObject = new Object_();
+							
+	 						/* TODO You may want to replace the following for loop by 
+							 * childProperty.class_ = fUmlObject.types.get(0).ownerMember.FindTheCorrectPropertyByItsName.class_
+							 * when "class_" becomes available (hence is not null anymore)
+							 */
+							if (childProperty != null && childProperty.association != null) {
+		 						for (Type type : childProperty.association.endType) {
+									if (!type.equals(fUmlClass)) {
+										// This entails that there are only 2 endTypes and the one which is not the fUmlObject's Class
+										// is the childProperty's Class
+										childProperty.class_ = (Class_) type;
+										newFUmlObject.types.add(childProperty.class_);
+									}
+								}
+							}
+	 						
+	 						// Trying to instantiate the Java Field using it's Classes default constructor (if available)
+	 						// If the Java Field is instantiated successfully, a corresponding Object_ is created
+	 						
+							try {
+								newJavaObject = classOfJavaField.newInstance();
+								Object_Creator object_Creator = new Object_Creator(newFUmlObject, newJavaObject, integrationLayer.getExecutionContext());
+								newFUmlObject = object_Creator.getfUmlObject();
+							} catch(Exception e) {
+								/* NOTE: Exception of type InstantiationException will be thrown here for every Java Field 
+								 * which is an unsupported complex field such as Lists, Maps etc.
+								 * */
+								Debug.out(this, "Java Field (" + javaField.getName() + ") of Type (" + classOfJavaField.getName() + ") is set to null. Default constructor private or not available or Java Field is an unsupported complex field. Skipping Java Field.");
+							}
+							
+							// ------------------------------------------------
+							
+							association.memberEnd.add(parentProperty);				
+							link.type = association;
+							//link.addTo(executionContext.getLocus());  
+							/* TODO Check where the Link instance has to be put
+							 * Therefore, check where to add a fUML Link (UML association) between the newly 
+							 * created complex Object_ and its parent Object_
+							 */
+							
+							if (featureValue.values.size() == 0) {
+								featureValue.values.add(0, newFUmlObject);
+							} else {
+								featureValue.values.set(0, newFUmlObject);
+							}
 						}
 						
 					}

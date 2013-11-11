@@ -763,12 +763,8 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 	 * Tests {@link CreateObjectAction} that invokes an Object from an external
 	 * library and a {@link CallOperationAction} on the invoked Object returning
 	 * a complex object (here: an instance of SimpleEngine)
-	 * 
-	 * NOTE: This test will only success when the IntegrationLayer supports
-	 * COMPLEX INPUT PARAMETER for CallOperationAction (therefore it is set to @Ignore)
 	 */
 	@Test
-	//@Ignore
 	public void simpleEngineInputValueFromExternalCallOperationActionTest() {
 		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithComplexValues/VehiclesComplexInputValueActivityDiagram.uml";
