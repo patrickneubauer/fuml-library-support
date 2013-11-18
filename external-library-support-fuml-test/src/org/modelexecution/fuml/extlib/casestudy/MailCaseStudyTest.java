@@ -6,8 +6,6 @@ package org.modelexecution.fuml.extlib.casestudy;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -26,10 +24,6 @@ import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.IntegrationLayer;
 import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
 import org.modelexecution.fuml.extlib.umlpreparer.UML2Preparer;
-import org.modelexecution.fumldebug.core.ExecutionEventListener;
-import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
-import org.modelexecution.fumldebug.core.event.Event;
-import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
 
 import fUML.Semantics.Classes.Kernel.StringValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
@@ -47,22 +41,10 @@ import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
  * @author Patrick Neubauer
  * 
  */
-public class MailCaseStudyTest implements ExecutionEventListener {
+public class MailCaseStudyTest {
 
 	private ResourceSet resourceSet;
-	private List<Event> eventlist = new ArrayList<Event>();
 	private IntegrationLayerImpl integrationLayer = new IntegrationLayerImpl();
-
-	public MailCaseStudyTest() {
-		integrationLayer.getExecutionContext().addEventListener(this);
-	}
-
-	@Override
-	public void notify(Event event) {
-		if (!(event instanceof ExtensionalValueEvent)) {
-			eventlist.add(event);
-		}
-	}
 
 	@Before
 	public void prepareResourceSet() {
@@ -73,8 +55,6 @@ public class MailCaseStudyTest implements ExecutionEventListener {
 
 	@Before
 	public void setUp() {
-		eventlist = new ArrayList<Event>();
-		
 		String inputFilePath = "models/MailCaseStudy/commons-email-1.3.1.uml";
 		String outputFilePath = "models/MailCaseStudy/commons-email-1.3.1Converted.uml";
 		String[] jarFilePaths = {"extlibs/commons-email-1.3.1.jar", "extlibs/mail.jar"};
@@ -138,15 +118,7 @@ public class MailCaseStudyTest implements ExecutionEventListener {
 
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
-		ParameterValue outputParameterValue = null;
-
-		for (Event event : eventlist) {
-			if (event.toString().contains("ActivityNodeEntryEvent node = SendCallOperationAction")) {
-				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
-				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
-						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
-			}
-		}
+		ParameterValue outputParameterValue = integrationLayer.getOutputParameterValue("ActivityNodeEntryEvent", "SendCallOperationAction");
 
 		assertTrue(outputParameterValue != null);
 		assertTrue(outputParameterValue.values.get(0) instanceof StringValue);

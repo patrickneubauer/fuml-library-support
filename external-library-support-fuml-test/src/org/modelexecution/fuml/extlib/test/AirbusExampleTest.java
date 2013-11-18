@@ -6,8 +6,6 @@ package org.modelexecution.fuml.extlib.test;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -25,10 +23,6 @@ import org.junit.Test;
 import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
 import org.modelexecution.fuml.extlib.umlpreparer.UML2Preparer;
-import org.modelexecution.fumldebug.core.ExecutionEventListener;
-import org.modelexecution.fumldebug.core.event.ActivityExitEvent;
-import org.modelexecution.fumldebug.core.event.Event;
-import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
 
 import fUML.Semantics.Classes.Kernel.IntegerValue;
 import fUML.Semantics.Classes.Kernel.Object_;
@@ -47,22 +41,10 @@ import fUML.Semantics.Loci.LociL1.Locus;
  * @author Patrick Neubauer
  * 
  */
-public class AirbusExampleTest implements ExecutionEventListener {
+public class AirbusExampleTest {
 
 	private ResourceSet resourceSet;
-	private List<Event> eventlist = new ArrayList<Event>();
 	private IntegrationLayerImpl integrationLayer = new IntegrationLayerImpl();
-
-	public AirbusExampleTest() {
-		integrationLayer.getExecutionContext().addEventListener(this);
-	}
-
-	@Override
-	public void notify(Event event) {
-		if (!(event instanceof ExtensionalValueEvent)) {
-			eventlist.add(event);
-		}
-	}
 
 	@Before
 	public void prepareResourceSet() {
@@ -73,8 +55,6 @@ public class AirbusExampleTest implements ExecutionEventListener {
 
 	@Before
 	public void setUp() {
-		eventlist = new ArrayList<Event>();
-		
 		String inputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesWithAirplane.uml";
 		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesWithAirplaneConverted.uml";
 		String jarFilePath = "extlibs/VehiclesWithAirplane.jar";
@@ -141,15 +121,7 @@ public class AirbusExampleTest implements ExecutionEventListener {
 		
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
-		ParameterValue outputParameterValue = null;
-
-		for (Event event : eventlist) {
-			if (event.toString().contains("ActivityExitEvent activity = AirbusExampleActivity")) {
-				ActivityExitEvent activityNodeExitEvent = (ActivityExitEvent) event;
-				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
-						.getActivityOutput(activityNodeExitEvent.getActivityExecutionID()).get(0);
-			}
-		}
+		ParameterValue outputParameterValue = integrationLayer.getOutputParameterValue("ActivityExitEvent", "AirbusExampleActivity");
 
 		assertTrue(outputParameterValue != null);
 		assertTrue(outputParameterValue.values.get(0) instanceof Reference);

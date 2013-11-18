@@ -7,8 +7,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -22,16 +20,11 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.IntegrationLayer;
 import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
 import org.modelexecution.fuml.extlib.umlpreparer.UML2Preparer;
-import org.modelexecution.fumldebug.core.ExecutionEventListener;
-import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
-import org.modelexecution.fumldebug.core.event.Event;
-import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
 
 import fUML.Semantics.Classes.Kernel.BooleanValue;
 import fUML.Semantics.Classes.Kernel.IntegerValue;
@@ -52,22 +45,10 @@ import fUML.Syntax.Classes.Kernel.Property;
  * @author Patrick Neubauer
  * 
  */
-public class IntegrationLayerIT implements ExecutionEventListener {
+public class IntegrationLayerIT {
 
 	private ResourceSet resourceSet;
-	private List<Event> eventlist = new ArrayList<Event>();
 	private IntegrationLayerImpl integrationLayer = new IntegrationLayerImpl();
-
-	public IntegrationLayerIT() {
-		integrationLayer.getExecutionContext().addEventListener(this);
-	}
-
-	@Override
-	public void notify(Event event) {
-		if (!(event instanceof ExtensionalValueEvent)) {
-			eventlist.add(event);
-		}
-	}
 
 	@Before
 	public void prepareResourceSet() {
@@ -78,8 +59,6 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 
 	@Before
 	public void setUp() {
-		eventlist = new ArrayList<Event>();
-		
 		String inputFilePath = "models/modelsAccessingAnExternalLibrary/Vehicles.uml";
 		String outputFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
 		String jarFilePath = "extlibs/Vehicles.jar";
@@ -197,15 +176,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
-		ParameterValue outputParameterValue = null;
-
-		for (Event event : eventlist) {
-			if (event.toString().contains("ActivityNodeEntryEvent node = ToStringCallOperationAction")) {
-				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
-				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
-						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
-			}
-		}
+		ParameterValue outputParameterValue = integrationLayer.getOutputParameterValue("ActivityNodeEntryEvent", "ToStringCallOperationAction");
 
 		assertTrue(outputParameterValue != null);
  		assertEquals("This ocean liner ship, named NoName, with a length of 0 ft and has 4 seats, 4 doors.",
@@ -252,15 +223,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
-		ParameterValue outputParameterValue = null;
-
-		for (Event event : eventlist) {
-			if (event.toString().contains("ActivityNodeEntryEvent node = GetLengthCallOperationAction")) {
-				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
-				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
-						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
-			}
-		}
+		ParameterValue outputParameterValue = integrationLayer.getOutputParameterValue("ActivityNodeEntryEvent", "GetLengthCallOperationAction");
 
 		assertTrue(outputParameterValue != null);
 		assertTrue(outputParameterValue.values.get(0) instanceof IntegerValue);
@@ -307,15 +270,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
-		ParameterValue outputParameterValue = null;
-
-		for (Event event : eventlist) {
-			if (event.toString().contains("ActivityNodeEntryEvent node = IsOceanLinerCallOperationAction")) {
-				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
-				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
-						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
-			}
-		}
+		ParameterValue outputParameterValue = integrationLayer.getOutputParameterValue("ActivityNodeEntryEvent", "IsOceanLinerCallOperationAction");
 
 		assertTrue(outputParameterValue != null);
 		assertTrue(outputParameterValue.values.get(0) instanceof BooleanValue);
@@ -559,15 +514,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
-		ParameterValue outputParameterValue = null;
-
-		for (Event event : eventlist) {
-			if (event.toString().contains("ActivityNodeEntryEvent node = SetCurrentWarpSpeedCallOperationAction")) {
-				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
-				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
-						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
-			}
-		}
+		ParameterValue outputParameterValue = integrationLayer.getOutputParameterValue("ActivityNodeEntryEvent", "SetCurrentWarpSpeedCallOperationAction");
 
 		assertTrue(outputParameterValue != null);
 		assertTrue(outputParameterValue.values.get(0) instanceof BooleanValue);
@@ -648,16 +595,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
-		ParameterValue outputParameterValue = null;
-
-		for (Event event : eventlist) {
-			if (event.toString().contains("ActivityNodeEntryEvent node = GetEngineCallOperationAction")) {
-				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
-				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
-						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
-				break;
-			}
-		}
+		ParameterValue outputParameterValue = integrationLayer.getOutputParameterValue("ActivityNodeEntryEvent", "GetEngineCallOperationAction");
 
 		// Check if there is any output ParameterValue
 		assertTrue(outputParameterValue != null);
@@ -719,16 +657,7 @@ public class IntegrationLayerIT implements ExecutionEventListener {
 
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
-		ParameterValue outputParameterValue = null;
-
-		for (Event event : eventlist) {
-			if (event.toString().contains("ActivityNodeEntryEvent node = GetEngineCallOperationAction")) {
-				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
-				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
-						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
-				break;
-			}
-		}
+		ParameterValue outputParameterValue = integrationLayer.getOutputParameterValue("ActivityNodeEntryEvent", "GetEngineCallOperationAction");
 
 		// Check if there is any output ParameterValue
 		assertTrue(outputParameterValue != null);

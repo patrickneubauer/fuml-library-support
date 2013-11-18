@@ -27,10 +27,6 @@ import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.IntegrationLayer;
 import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
 import org.modelexecution.fuml.extlib.umlpreparer.UML2Preparer;
-import org.modelexecution.fumldebug.core.ExecutionEventListener;
-import org.modelexecution.fumldebug.core.event.ActivityEntryEvent;
-import org.modelexecution.fumldebug.core.event.Event;
-import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
 
 import fUML.Semantics.Classes.Kernel.StringValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
@@ -58,23 +54,11 @@ import fUML.Syntax.CommonBehaviors.BasicBehaviors.OpaqueBehavior;
  * @author Patrick Neubauer
  * 
  */
-public class PetstoreCaseStudyTest implements ExecutionEventListener {
+public class PetstoreCaseStudyTest {
 
 	private ResourceSet resourceSet;
-	private List<Event> eventlist = new ArrayList<Event>();
 	private IntegrationLayerImpl integrationLayer = new IntegrationLayerImpl();
-
-	public PetstoreCaseStudyTest() {
-		integrationLayer.getExecutionContext().addEventListener(this);
-	}
-
-	@Override
-	public void notify(Event event) {
-		if (!(event instanceof ExtensionalValueEvent)) {
-			eventlist.add(event);
-		}
-	}
-
+	
 	@Before
 	public void prepareResourceSet() {
 		resourceSet = new ResourceSetImpl();
@@ -84,8 +68,6 @@ public class PetstoreCaseStudyTest implements ExecutionEventListener {
 
 	@Before
 	public void setUp() {
-		eventlist = new ArrayList<Event>();
-		
 		String inputFilePath = "models/PetstoreCaseStudy/commons-email-1.3.1.uml";
 		String outputFilePath = "models/PetstoreCaseStudy/commons-email-1.3.1Converted.uml";
 		String[] jarFilePaths = {"extlibs/commons-email-1.3.1.jar", "extlibs/mail.jar"};
@@ -205,15 +187,7 @@ public class PetstoreCaseStudyTest implements ExecutionEventListener {
 
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
-		ParameterValue outputParameterValue = null;
-
-		for (Event event : eventlist) {
-			if (event.toString().contains("ActivityEntryEvent activity = SendEmail")) {
-				ActivityEntryEvent activityEntryEvent = (ActivityEntryEvent) event;
-				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
-						.getActivityOutput(activityEntryEvent.getActivityExecutionID()).get(0);
-			}
-		}
+		ParameterValue outputParameterValue = integrationLayer.getOutputParameterValue("ActivityEntryEvent", "SendEmail");
 
 		assertTrue(outputParameterValue != null);
 		assertTrue(outputParameterValue.values.get(0) instanceof StringValue);

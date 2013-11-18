@@ -30,7 +30,6 @@ import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
 import org.modelexecution.fuml.extlib.umlpreparer.UML2Preparer;
 import org.modelexecution.fuml.extlib.papyrus.PapyrusModelILExecutor;
 import org.modelexecution.fumldebug.core.ExecutionEventListener;
-import org.modelexecution.fumldebug.core.event.ActivityEntryEvent;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
 import org.modelexecution.fumldebug.core.trace.tracemodel.Trace;
@@ -220,16 +219,8 @@ public class PetstoreCaseStudyPOC implements ExecutionEventListener {
 
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
-		ParameterValue outputParameterValue = null;
-
-		for (Event event : eventlist) {
-			if (event.toString().contains("ActivityEntryEvent activity = scenario7")) {
-				ActivityEntryEvent activityEntryEvent = (ActivityEntryEvent) event;
-				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
-						.getActivityOutput(activityEntryEvent.getActivityExecutionID()).get(0);
-			}
-		}
-
+		ParameterValue outputParameterValue = integrationLayer.getOutputParameterValue("ActivityEntryEvent", "scenario7");
+		
 		assertTrue(outputParameterValue != null);
 		
 		assertTrue(outputParameterValue.values.get(0) instanceof Reference);
@@ -271,15 +262,7 @@ public class PetstoreCaseStudyPOC implements ExecutionEventListener {
 
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
-		ParameterValue outputParameterValue = null;
-
-		for (Event event : eventlist) {
-			if (event.toString().contains("ActivityEntryEvent activity = scenario7Customer")) {
-				ActivityEntryEvent activityEntryEvent = (ActivityEntryEvent) event;
-				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
-						.getActivityOutput(activityEntryEvent.getActivityExecutionID()).get(0);
-			}
-		}
+		ParameterValue outputParameterValue = integrationLayer.getOutputParameterValue("ActivityEntryEvent", "scenario7Customer");
 
 		assertTrue(outputParameterValue != null);
 		

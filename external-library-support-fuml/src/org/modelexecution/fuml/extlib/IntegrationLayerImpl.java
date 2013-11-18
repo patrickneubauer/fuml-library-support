@@ -5,10 +5,12 @@ package org.modelexecution.fuml.extlib;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -22,6 +24,7 @@ import org.modelexecution.fumldebug.core.event.ActivityExitEvent;
 import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
 import org.modelexecution.fumldebug.core.event.ActivityNodeExitEvent;
 import org.modelexecution.fumldebug.core.event.Event;
+import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
 import org.modelexecution.fumldebug.core.event.impl.ActivityEntryEventImpl;
 import org.modelexecution.fumldebug.core.event.impl.ActivityNodeExitEventImpl;
 
@@ -78,6 +81,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	
 	private HashMap<Object_, Object> fUmlJavaMap = new HashMap<Object_, Object>();
 	private HashMap<Object, Object_> javaFUmlMap = new HashMap<Object, Object_>();
+	
+	// Keep track of occurring events
+	private List<Event> eventList = new ArrayList<Event>();
 
 	private ExtensionalValueList previousExtensionalValueList = new ExtensionalValueList();
 
@@ -97,6 +103,10 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		 * (ExecutionContext.resume(int executionID)).
 		 */
 		Debug.out(this, "Received Event: " + event.toString());
+		
+		if (!(event instanceof ExtensionalValueEvent)) {
+			eventList.add(event);
+		}
 		
 		if (EventHelper.isExternalCreateObjectActionEntry(event)) {
 			Debug.out(this, "Storing current ExecutionContext's ExtensionalValueList for later comparison");
@@ -898,5 +908,44 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	public ExecutionContext getExecutionContext() {
 		return this.executionContext;
 	}// getExecutionContext
+	
+	/**
+	 * Retrieve the output parameter value of an {@link ActivityNodeEntryEvent} with
+	 * Action named {@code actionName}
+	 * @param eventKind kind of the event. Currently supported: 
+	 * 		- ActivityEntryEvent
+	 * 		- ActivityExitEvent
+	 * 		- ActivityNodeEntryEvent
+	 * 		- ActivityNodeExitEvent
+	 * @param actionName {@link ActivityNodeEntryEvent}'s action name
+	 * 
+	 * @return output parameter value of the {@link ActivityNodeEntryEvent} action
+	 */
+	public ParameterValue getOutputParameterValue(String eventKind, String actionName) {
+		for (Event event : eventList) {
+			if (eventKind.equals("ActivityNodeEntryEvent") &&
+					event.toString().contains("ActivityNodeEntryEvent node = " + actionName)) {
+				ActivityNodeEntryEvent activityNodeEntryEvent = (ActivityNodeEntryEvent) event;
+				return (ParameterValue) executionContext
+						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
+			} else if (eventKind.equals("ActivityNodeExitEvent") &&
+					event.toString().contains("ActivityNodeExitEvent node = " + actionName)) {
+				ActivityNodeExitEvent activityNodeEntryEvent = (ActivityNodeExitEvent) event;
+				return (ParameterValue) executionContext
+						.getActivityOutput(activityNodeEntryEvent.getActivityExecutionID()).get(0);
+			} else if (eventKind.equals("ActivityEntryEvent") &&
+					event.toString().contains("ActivityEntryEvent activity = " + actionName)) {
+				ActivityEntryEvent activityEntryEvent = (ActivityEntryEvent) event;
+				return (ParameterValue) executionContext
+						.getActivityOutput(activityEntryEvent.getActivityExecutionID()).get(0);
+			} else if (eventKind.equals("ActivityExitEvent") &&
+					event.toString().contains("ActivityExitEvent activity = " + actionName)) {
+				ActivityExitEvent activityEntryEvent = (ActivityExitEvent) event;
+				return (ParameterValue) executionContext
+						.getActivityOutput(activityEntryEvent.getActivityExecutionID()).get(0);
+			}
+		}
+		return null; // No ActivityNodeEntryEvent with the specified action name found
+	}// getActivityNodeEntryEventOutputParameterValue
 
 }// IntegrationLayerImpl

@@ -6,9 +6,6 @@ package org.modelexecution.fuml.extlib.casestudy;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -26,10 +23,6 @@ import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.IntegrationLayer;
 import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
 import org.modelexecution.fuml.extlib.umlpreparer.UML2Preparer;
-import org.modelexecution.fumldebug.core.ExecutionEventListener;
-import org.modelexecution.fumldebug.core.event.ActivityEntryEvent;
-import org.modelexecution.fumldebug.core.event.Event;
-import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
 
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
@@ -50,22 +43,10 @@ import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
  * @author Patrick Neubauer
  * 
  */
-public class DatabaseCaseStudyTest implements ExecutionEventListener {
+public class DatabaseCaseStudyTest {
 
 	private ResourceSet resourceSet;
-	private List<Event> eventlist = new ArrayList<Event>();
 	private IntegrationLayerImpl integrationLayer = new IntegrationLayerImpl();
-
-	public DatabaseCaseStudyTest() {
-		integrationLayer.getExecutionContext().addEventListener(this);
-	}
-
-	@Override
-	public void notify(Event event) {
-		if (!(event instanceof ExtensionalValueEvent)) {
-			eventlist.add(event);
-		}
-	}
 
 	@Before
 	public void prepareResourceSet() {
@@ -76,8 +57,6 @@ public class DatabaseCaseStudyTest implements ExecutionEventListener {
 
 	@Before
 	public void setUp() {
-		eventlist = new ArrayList<Event>();
-		
 		String inputFilePath = "models/DatabaseCaseStudy/mongo-java-driver-2.10.1.uml";
 		String outputFilePath = "models/DatabaseCaseStudy/mongo-java-driver-2.10.1Converted.uml";
 		String[] jarFilePaths = {"extlibs/mongo-java-driver-2.10.1.jar"};
@@ -141,15 +120,7 @@ public class DatabaseCaseStudyTest implements ExecutionEventListener {
 
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
-		ParameterValue outputParameterValue = null;
-
-		for (Event event : eventlist) {
-			if (event.toString().contains("ActivityEntryEvent activity = DatabaseActivity")) {
-				ActivityEntryEvent activityEntryEvent = (ActivityEntryEvent) event;
-				outputParameterValue = (ParameterValue) integrationLayer.getExecutionContext()
-						.getActivityOutput(activityEntryEvent.getActivityExecutionID()).get(0);
-			}
-		}
+		ParameterValue outputParameterValue = integrationLayer.getOutputParameterValue("ActivityEntryEvent", "DatabaseActivity");
 
 		assertTrue(outputParameterValue != null);
 		assertTrue(outputParameterValue.parameter.name.equals("outputParameter"));
