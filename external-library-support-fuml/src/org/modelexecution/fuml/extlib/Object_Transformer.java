@@ -9,9 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.modelexecution.fumldebug.core.ExecutionContext;
-import org.modelexecution.fumldebug.core.event.Event;
-
 import fUML.Semantics.Classes.Kernel.BooleanValue;
 import fUML.Semantics.Classes.Kernel.FeatureValue;
 import fUML.Semantics.Classes.Kernel.IntegerValue;
@@ -38,18 +35,16 @@ public class Object_Transformer {
 	private Object_ fUmlObject;
 	private Object javaObject;
 	private HashMap<Class<?>, List<Field>> clazzFieldMap;
-	private Event event;
 	private IntegrationLayer integrationLayer;
 
 	public Object_Transformer() throws Exception {
 		throw new Exception("Calling the default constructor is NOT ALLOWED.");
 	}
 
-	public Object_Transformer(Object_ fUmlPlaceholderObject, Object javaObject, Event event, IntegrationLayer integrationLayer) {
+	public Object_Transformer(Object_ fUmlPlaceholderObject, Object javaObject, IntegrationLayer integrationLayer) {
 
 		this.fUmlObject = fUmlPlaceholderObject;
 		this.javaObject = javaObject;
-		this.event = event;
 		this.integrationLayer = integrationLayer;
 		this.clazzFieldMap = getAllFields(javaObject.getClass());
 		transform();

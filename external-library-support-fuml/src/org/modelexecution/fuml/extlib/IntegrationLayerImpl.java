@@ -77,7 +77,6 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	private final ExecutionContext executionContext = ExecutionContext.getInstance();
 
 	private HashMap<String, DynamicClassLoader> dynamicClassLoaderMap = new HashMap<String, DynamicClassLoader>();
-	//private DynamicClassLoader dynamicClassLoader;	
 	
 	private HashMap<Object_, Object> fUmlJavaMap = new HashMap<Object_, Object>();
 	private HashMap<Object, Object_> javaFUmlMap = new HashMap<Object, Object_>();
@@ -152,7 +151,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			String[] classJarPaths = ActionHelper.getClassJarPaths(createObjectAction.classifier.ownedComment);
 			String classNamespaceAndName = ActionHelper.getClassNamespaceAndName(createObjectAction.classifier);
 			javaObject = obtainJavaObject(classJarPaths, classNamespaceAndName);
-			Object_Transformer object_Transformer = new Object_Transformer(fUmlPlaceholderObject, javaObject, event, this);
+			Object_Transformer object_Transformer = new Object_Transformer(fUmlPlaceholderObject, javaObject, this);
 			fUmlObject = object_Transformer.getObject_();
 
 			replaceLocusObject(fUmlPlaceholderObject, fUmlObject);
@@ -477,7 +476,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 			// Step 2: Update the corresponding fUML Object_ using the
 			// Object_Transfomer
-			Object_Transformer object_Transformer = new Object_Transformer(fUmlObject, javaObject, event, this);
+			Object_Transformer object_Transformer = new Object_Transformer(fUmlObject, javaObject, this);
 			Object_ newFUmlObject = object_Transformer.getObject_();
 
 			// Step 3: Update the HashMaps
