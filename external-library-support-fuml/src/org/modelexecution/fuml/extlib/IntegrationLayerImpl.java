@@ -309,6 +309,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 * @return the previously created fUML {@link Object_}
 	 */
 	private Object_ obtainFUmlPlaceholderObject() {
+		@SuppressWarnings("unchecked")
 		Collection<ExtensionalValueList> extValList = CollectionUtils.subtract(executionContext.getExtensionalValues(), previousExtensionalValueList);
 		Object_ fUmlPlaceholderObject = (Object_) extValList.toArray()[0];
 
@@ -444,11 +445,12 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			
 			} else {
 				// Case: Without Input Parameter(s)
+				Class<?> parameterType = null;
 				
-				javaMethod = javaClass.getMethod(methodName, null);
+				javaMethod = javaClass.getMethod(methodName, parameterType);
 
 				// Warning: the following invocation alters javaObject (!)
-				javaMethodReturnValue = javaMethod.invoke(javaObject, null);
+				javaMethodReturnValue = javaMethod.invoke(javaObject, parameterType);
 			}
 			
 			// ------------------------------------------------
