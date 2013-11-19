@@ -207,7 +207,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				fUmlObject.setFeatureValue(property, valueList, 0);
 				
 				// Replace Java field value
-				javaField.setBoolean(javaObject, value.value); 
+				javaField.setBoolean(javaObject, value.value);
 				
 			} else if (valueSpecificationAction.value instanceof LiteralInteger) {
 				LiteralInteger literal = (LiteralInteger) valueSpecificationAction.value;
@@ -401,7 +401,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 			// ------------------------------------------------
 			
-			LinkedHashMap<Object, Class> javaInputParameterWithValueMap = obtainJavaInputParameters(fUmlParameterWithValueMap);
+			LinkedHashMap<Object, Class<?>> javaInputParameterWithValueMap = obtainJavaInputParameters(fUmlParameterWithValueMap);
 			
 			// ------------------------------------------------
 
@@ -541,8 +541,8 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 * @param fUmlParameterWithValueMap a {@link LinkedHashMap} (ordered) on the {@link Parameter} and its corresponding {@link ParameterValue}
 	 * @return a {@link LinkedHashMap} (ordered) on the {@link Object} (i.e. Java parameter value) and its {@link Class} (i.e. Java parameter type) found in {@code fUmlParameterWithValueMap}
 	 */
-	private LinkedHashMap<Object, Class> obtainJavaInputParameters(LinkedHashMap<Parameter, ParameterValue> fUmlParameterWithValueMap) {
-		LinkedHashMap<Object, Class> javaParameterWithValueMap = new LinkedHashMap<Object, Class>();
+	private LinkedHashMap<Object, Class<?>> obtainJavaInputParameters(LinkedHashMap<Parameter, ParameterValue> fUmlParameterWithValueMap) {
+		LinkedHashMap<Object, Class<?>> javaParameterWithValueMap = new LinkedHashMap<Object, Class<?>>();
 		
 		if (fUmlParameterWithValueMap.size() > 0) {
 			for (Map.Entry<Parameter, ParameterValue> fUMLParameterWithValueMapEntry : fUmlParameterWithValueMap.entrySet()) {
