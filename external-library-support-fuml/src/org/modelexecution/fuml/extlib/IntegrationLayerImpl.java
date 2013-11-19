@@ -26,7 +26,6 @@ import org.modelexecution.fumldebug.core.event.ActivityNodeExitEvent;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
 import org.modelexecution.fumldebug.core.event.impl.ActivityEntryEventImpl;
-import org.modelexecution.fumldebug.core.event.impl.ActivityNodeExitEventImpl;
 
 import fUML.Semantics.Actions.BasicActions.CallOperationActionActivation;
 import fUML.Semantics.Actions.BasicActions.InputPinActivation;
@@ -194,7 +193,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			
 			// ------------------------------------------------
 			
-			// Step 1: Replace Structural Feature (Property) value entirely with the value on AddStructuralFeatureValue's value InputPin
+			// Replace Structural Feature (Property) value entirely with the value on AddStructuralFeatureValue's value InputPin
 			InputPin valueInputPin = addStructuralFeatureValueAction.value;
 			ValueSpecificationAction valueSpecificationAction = (ValueSpecificationAction) valueInputPin.incoming.get(0).source.owner;
 			
@@ -207,6 +206,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				valueList.add(value);
 				fUmlObject.setFeatureValue(property, valueList, 0);
 				
+				// Replace Java field value
+				javaField.setBoolean(javaObject, value.value); 
+				
 			} else if (valueSpecificationAction.value instanceof LiteralInteger) {
 				LiteralInteger literal = (LiteralInteger) valueSpecificationAction.value;
 				IntegerValue value = new IntegerValue();
@@ -215,6 +217,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				ValueList valueList = new ValueList();
 				valueList.add(value);
 				fUmlObject.setFeatureValue(property, valueList, 0);
+				
+				// Replace Java field value
+				javaField.setInt(javaObject, value.value);
 				
 			} else if (valueSpecificationAction.value instanceof LiteralString) {
 				LiteralString literal = (LiteralString) valueSpecificationAction.value;
@@ -225,6 +230,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				valueList.add(value);
 				fUmlObject.setFeatureValue(property, valueList, 0);
 				
+				// Replace Java field value
+				javaField.set(javaObject, value.value);
+				
 			} else {
 				// CASE: Complex Type			
 				// Not implemented
@@ -233,29 +241,6 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			
 			// ------------------------------------------------
 			
-			// Step 2: Replace Java Field value that corresponds to the Structural Feature value
-			if (valueSpecificationAction.value instanceof LiteralBoolean) {
-				BooleanValue value = (BooleanValue) fUmlObject.getFeatureValue(property).values.get(0);
-				javaField.setBoolean(javaObject, value.value);
-				
-			} else if (valueSpecificationAction.value instanceof LiteralInteger) {
-				IntegerValue value = (IntegerValue) fUmlObject.getFeatureValue(property).values.get(0);
-				javaField.setInt(javaObject, value.value);
-				
-			} else if (valueSpecificationAction.value instanceof LiteralString) {
-				StringValue value = (StringValue) fUmlObject.getFeatureValue(property).values.get(0);
-				javaField.set(javaObject, value.value);
-				
-			} else {
-				// CASE: Complex Type
-				// TODO?
-				
-			}
-			
-			// ------------------------------------------------
-			
-			// Step 3: Update the HashMaps
-			// Not necessary since the HashMap fields just keep references to the objects and not the objects itself
 			Debug.out(this, "*** Successfully handled external AddStructuralFeatureValueAction ***");
 			
 		} catch (Exception e) {
@@ -269,9 +254,8 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 * Obtains the fUML Object_ out of a {@link CallOperationAction} and the
 	 * current {@link Event} (which must be an {@link ActivityNodeEntryEvent}
 	 * 
-	 * @param callOperationActionEntryEvent
-	 *            the current {@Event}, must be of type
-	 *            {@link ActivityNodeEntryEvent}
+	 * @param event
+	 *            a CallOperationAction {@link ActivityNodeEntryEvent}
 	 * @param callOperationAction
 	 *            the {@link CallOperationAction} from which to obtain the fUML
 	 *            Object_
@@ -280,48 +264,43 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 *             When {@code callOperationActionEntryEvent} is not of type
 	 *             {@link ActivityNodeEntryEvent}
 	 */
-	private Object_ obtainFUmlObjectFromCallOperationActionEntryEvent(Event callOperationActionEntryEvent, CallOperationAction callOperationAction)
+	private Object_ obtainFUmlObjectFromCallOperationAction(ActivityNodeEntryEvent event, CallOperationAction callOperationAction)
 			throws Exception {
 
-		if (callOperationActionEntryEvent instanceof ActivityNodeEntryEvent) {
-			ActivityNodeEntryEvent event = (ActivityNodeEntryEvent) callOperationActionEntryEvent;
+		for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
+			if (extensionalValue instanceof ActivityExecution && extensionalValue.hashCode() == event.getActivityExecutionID()) {
+				ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
+				/*
+				 * Arrived at the correct ActivityExecution, next: obtain
+				 * CallOperationAction's target InputPin
+				 */
+				CallOperationActionActivation callOperationActionActivation = (CallOperationActionActivation) activityExecution.activationGroup
+						.getNodeActivation(callOperationAction);
+	
+				InputPinActivation inputPinActivation = (InputPinActivation) callOperationActionActivation
+						.getPinActivation(callOperationAction.target);
+	
+				for (Token token : inputPinActivation.heldTokens) {
+					if (token.holder.equals(inputPinActivation)) {
+						/*
+						 * Arrived at the correct ObjectToken, next: return
+						 * referring fUML Object_
+						 */
+						ObjectToken objectToken = (ObjectToken) token;
+						Reference reference = (Reference) objectToken.value;
+	
+						return reference.referent;
+	
+					}
+	
+				}// Token loop
+	
+			}
+		}// ExtensionalValue loop
 
-			for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
-				if (extensionalValue instanceof ActivityExecution && extensionalValue.hashCode() == event.getActivityExecutionID()) {
-					ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
-					/*
-					 * Arrived at the correct ActivityExecution, next: obtain
-					 * CallOperationAction's target InputPin
-					 */
-					CallOperationActionActivation callOperationActionActivation = (CallOperationActionActivation) activityExecution.activationGroup
-							.getNodeActivation(callOperationAction);
-
-					InputPinActivation inputPinActivation = (InputPinActivation) callOperationActionActivation
-							.getPinActivation(callOperationAction.target);
-
-					for (Token token : inputPinActivation.heldTokens) {
-						if (token.holder.equals(inputPinActivation)) {
-							/*
-							 * Arrived at the correct ObjectToken, next: return
-							 * referring fUML Object_
-							 */
-							ObjectToken objectToken = (ObjectToken) token;
-							Reference reference = (Reference) objectToken.value;
-
-							return reference.referent;
-
-						}
-
-					}// Token loop
-
-				}
-			}// ExtensionalValue loop
-
-		} else {
-			throw new Exception("Error occured while trying to obtain the fUML object.");
-		}
-
-		return null;
+		// If no prior return occurred, throw an Exception
+		throw new Exception("Error occured while trying to obtain the fUML object.");
+			
 	}// obtainFUmlObjectFromCallOperationActionEntryEvent
 
 	/**
@@ -659,10 +638,10 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 * @return {@link Object_} referenced at the {@link AddStructuralFeatureValueAction}'s object InputPin
 	 * @throws Exception
 	 */
-	private Object_ obtainFUmlObjectFromAddStructuralFeatureValueActivationInputPin(Event event, AddStructuralFeatureValueAction addStructuralFeatureValueAction) throws Exception {
+	private Object_ obtainFUmlObjectFromAddStructuralFeatureValueActivationInputPin(ActivityNodeEntryEvent event, AddStructuralFeatureValueAction addStructuralFeatureValueAction) throws Exception {
 
 		for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
-			if (extensionalValue.hashCode() == ((ActivityNodeEntryEvent) event).getActivityExecutionID()) {
+			if (extensionalValue.hashCode() == event.getActivityExecutionID()) {
 				ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
 				
 				AddStructuralFeatureValueActionActivation activation = (AddStructuralFeatureValueActionActivation) activityExecution.activationGroup.getNodeActivation(addStructuralFeatureValueAction);
