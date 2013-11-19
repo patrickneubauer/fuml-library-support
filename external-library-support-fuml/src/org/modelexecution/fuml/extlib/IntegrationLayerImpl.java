@@ -114,7 +114,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 		} else if (EventHelper.isExternalCreateObjectActionExit(event)) {
 			Debug.out(this, "Event is an external CreateObjectAction's ActivityNodeExitEvent");
-			handleExternalCreateObjectAction(event);
+			handleExternalCreateObjectAction( (ActivityNodeExitEvent) event );
 
 		} else if (EventHelper.isExternalCallOperationActionEntry(event)) {
 			Debug.out(this, "Event is an external CallOperationAction's ActivityNodeEntryEvent (skip)");
@@ -126,20 +126,20 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 		} else if (EventHelper.isExternalActivityEntryEvent(event)) {
 			Debug.out(this, "ENTERING ACTIVITY: " + ((ActivityEntryEvent) event).getActivity().name);
-			handleExternalCallOperationAction(event);
+			handleExternalCallOperationAction( (ActivityEntryEvent) event );
 
 		} else if (EventHelper.isExternalActivityExitEvent(event)) {
 			Debug.out(this, "EXITING ACTIVITY: " + ((ActivityExitEvent) event).getActivity().name);
 			// do nothing 
 			
 		} else if (EventHelper.isExternalAddStructuralFeatureValueActionEntryEvent(event)) {
-			handleExternalAddStructuralFeatureValueAction(event);
+			handleExternalAddStructuralFeatureValueAction( (ActivityNodeEntryEvent) event );
 
 		}
 		
 	}// notify
 
-	private void handleExternalCreateObjectAction(Event event) {
+	private void handleExternalCreateObjectAction(ActivityNodeExitEvent event) {
 		Debug.out(this, "* Handling external CreateObjectAction *");
 		
 		Object_ fUmlPlaceholderObject = obtainFUmlPlaceholderObject();
@@ -177,9 +177,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 * Capabilities:
 	 * Can set StructuralFeatureValues of type {@link LiteralBoolean}, {@link LiteralInteger} and {@link LiteralString}
 	 * 
-	 * @param event an {@link AddStructuralFeatureValueActionEntryEvent}
+	 * @param event an {@link ActivityNodeEntryEvent} containing an AddStructuralFeatureValueAction 
 	 */
-	private void handleExternalAddStructuralFeatureValueAction(Event event) {
+	private void handleExternalAddStructuralFeatureValueAction(ActivityNodeEntryEvent event) {
 		Debug.out(this, "* Handling external AddStructuralFeatureValueAction *");
 		
 		AddStructuralFeatureValueAction addStructuralFeatureValueAction = EventHelper.getExternalAddStructuralFeatureValueAction(event);
@@ -398,7 +398,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		return javaObject;
 	}// obtainJavaObject from CreateObjectAction
 
-	private void handleExternalCallOperationAction(Event event) {
+	private void handleExternalCallOperationAction(ActivityEntryEvent event) {
 		Debug.out(this, "* Handling external CallOperationAction *");
 		
 		// Obtain the Activity for modifications
@@ -638,19 +638,16 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	}// obtainfUmlInputParameters
 	
 
-	private Object_ obtainFUmlObjectFromActivityExecution(Event event) throws Exception {
-		if (EventHelper.isExternalActivityEntryEvent(event)) {
-
-			for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
-				if (extensionalValue.hashCode() == ((ActivityEntryEvent) event).getActivityExecutionID()) {
-					ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
-					Object_ fUmlObject = activityExecution.context;
-					return fUmlObject;
-				}
+	private Object_ obtainFUmlObjectFromActivityExecution(ActivityEntryEvent event) throws Exception {
+		for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
+			if (extensionalValue.hashCode() == event.getActivityExecutionID()) {
+				ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
+				Object_ fUmlObject = activityExecution.context;
+				return fUmlObject;
 			}
-
-		}// event instance of ActivityEntryEvent
-
+		}
+	
+		// If no prior return has been occurred, throw an Exception
 		throw new Exception("Failed to obtain the fUML Object_ from ActivityExecution.");
 	}// obtainFUmlObjectFromActivityExecution
 	
@@ -686,57 +683,53 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 * Assigns a given {@link Object_} as an {@link ObjectToken} to the
 	 * {@link CreateObjectAction}'s result {@link OutputPin}
 	 * 
-	 * @param createObjectActionExitEvent
-	 *            must be an instance of {@link ActivityNodeExitEventImpl} and
+	 * @param event
+	 *            must be an instance of {@link ActivityNodeExitEvent} and
 	 *            it's node must be an instance of {@link CreateObjectAction}
 	 * @param fUmlObject
 	 *            fUML {@link Object_} to set at the {@link ObjectToken}
 	 */
-	private void assignObject_ToCreateObjectActionOutputPin(Event createObjectActionExitEvent, Object_ fUmlObject) throws Exception {
-		CreateObjectAction createObjectAction = EventHelper.getExternalCreateObjectAction(createObjectActionExitEvent);
+	private void assignObject_ToCreateObjectActionOutputPin(ActivityNodeExitEvent event, Object_ fUmlObject) throws Exception {
+		CreateObjectAction createObjectAction = EventHelper.getExternalCreateObjectAction(event);
 		/*
 		 * Obtained the CreateObjectAction, next: navigate to the correct node
 		 * that is equal to the obtained CreateObjectAction
 		 */
 
-		if (createObjectActionExitEvent instanceof ActivityNodeExitEvent) {
-			ActivityNodeExitEvent event = (ActivityNodeExitEvent) createObjectActionExitEvent;
+		for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
+			if (extensionalValue instanceof ActivityExecution && extensionalValue.hashCode() == event.getActivityExecutionID()) {
+				ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
+				/*
+				 * Arrived at the correct ActivityExecution, next: obtain
+				 * CreateObjectAction's result OutputPin
+				 */
+				CreateObjectActionActivation createObjectActionActivation = (CreateObjectActionActivation) activityExecution.activationGroup
+						.getNodeActivation(createObjectAction);
+				OutputPinActivation outputPinActivation = (OutputPinActivation) createObjectActionActivation
+						.getPinActivation(createObjectAction.result);
 
-			for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
-				if (extensionalValue instanceof ActivityExecution && extensionalValue.hashCode() == event.getActivityExecutionID()) {
-					ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
-					/*
-					 * Arrived at the correct ActivityExecution, next: obtain
-					 * CreateObjectAction's result OutputPin
-					 */
-					CreateObjectActionActivation createObjectActionActivation = (CreateObjectActionActivation) activityExecution.activationGroup
-							.getNodeActivation(createObjectAction);
-					OutputPinActivation outputPinActivation = (OutputPinActivation) createObjectActionActivation
-							.getPinActivation(createObjectAction.result);
+				/**
+				 * Create a new ObjectToken that references the Object_ and
+				 * add it to the CreateObjectActionActivation's
+				 * OutputPinActivation
+				 */
+				ObjectToken objectToken = new ObjectToken();
 
-					/**
-					 * Create a new ObjectToken that references the Object_ and
-					 * add it to the CreateObjectActionActivation's
-					 * OutputPinActivation
-					 */
-					ObjectToken objectToken = new ObjectToken();
+				Reference reference = new Reference();
+				reference.referent = fUmlObject;
 
-					Reference reference = new Reference();
-					reference.referent = fUmlObject;
+				objectToken.value = reference;
 
-					objectToken.value = reference;
+				outputPinActivation.addToken(objectToken);
+				Debug.out(this, "Successfully assigned Object_ Reference to CreateObjectAction's OutputPin.");
+				return; // exit
 
-					outputPinActivation.addToken(objectToken);
-					Debug.out(this, "Successfully assigned Object_ Reference to CreateObjectAction's OutputPin.");
-					return; // exit
+			}
 
-				}
+		}// ExtensionalValue loop
 
-			}// ExtensionalValue loop
-
-		} else {
-			throw new Exception("Error occured while trying to assign Object_ to CreateObjectAction's result OutputPin.");
-		}
+		// If prior return did not occur, throw Exception
+		throw new Exception("Error occured while trying to assign Object_ to CreateObjectAction's result OutputPin.");
 
 	}// assignObject_ToCreateObjectActionOutputPin
 
@@ -744,12 +737,12 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 * Assigns the CallOperationAction's InputPin based on the
 	 * CreateObjectAction's OutputPin ObjectFlow
 	 * 
-	 * @param createObjectActionExitEvent
-	 *            must be an instance of {@link ActivityNodeExitEventImpl} and
+	 * @param event
+	 *            must be an instance of {@link ActivityNodeExitEvent} and
 	 *            it's node must be an instance of {@link CreateObjectAction}
 	 */
-	private void assignTargetInputPinToCallOperationAction(Event createObjectActionExitEvent) throws Exception {
-		CreateObjectAction createObjectAction = EventHelper.getExternalCreateObjectAction(createObjectActionExitEvent);
+	private void assignTargetInputPinToCallOperationAction(ActivityNodeExitEvent event) throws Exception {
+		CreateObjectAction createObjectAction = EventHelper.getExternalCreateObjectAction(event);
 
 		/**
 		 * Obtain the CreateObjectAction's OutputPin's ObjectFlow for comparison
