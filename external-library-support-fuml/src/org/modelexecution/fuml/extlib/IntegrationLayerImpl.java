@@ -423,12 +423,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 					for (Method availableJavaMethod : availableJavaMethods) {
 						if (availableJavaMethod.getName().equals(methodName) && 
 								availableJavaMethod.getParameterTypes()[0].equals(javaInputParameterWithValueMap.keySet().toArray()[0].getClass())) {
-							
-							Class<?> complexMethodInputParameterType = availableJavaMethod.getParameterTypes()[0];
-							javaMethod = javaClass.getMethod(methodName, complexMethodInputParameterType);
-							
+
 							// Warning: the following invocation alters javaObject (!)		
-							javaMethodReturnValue = javaMethod.invoke(javaObject, javaInputParameterWithValueMap.keySet().toArray()[0]);
+							javaMethodReturnValue = availableJavaMethod.invoke(javaObject, javaInputParameterWithValueMap.keySet().toArray()[0]);
 							
 							break; // method call has already been made, go to step 2
 						}						
@@ -436,6 +433,8 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 					
 				} else {
 					// Case: Any number of primitive input parameter combination (int, boolean, String)
+					// TODO: Add a condition to this else branch that allows it to execute only if
+					// all parameters in "javaInputParameterWithValueMap" are of primitive kind
 					
 					javaMethod = javaClass.getMethod(methodName, javaInputParameterWithValueMap.values().toArray(new Class[0]));
 					// Warning: the following invocation alters javaObject (!)
@@ -457,11 +456,8 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			// Object_Transfomer
 			Object_Transformer object_Transformer = new Object_Transformer(fUmlObject, javaObject, this);
 			Object_ newFUmlObject = object_Transformer.getObject_();
-
-			// Step 3: Update the HashMaps
-			// Not necessary since the HashMap fields just keep references to the objects and not the objects itself
 			
-			// Step 4: Translate return value into fUML Parameter
+			// Step 3: Translate return value into fUML Parameter
 			Parameter outputParameter = ActivityHelper.getReturnParameter(activity);
 
 			ParameterValue outputParameterValue = new ParameterValue();
@@ -517,10 +513,10 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			Debug.out(this, "Java Object : " + ToStringBuilder.reflectionToString(getJavaObject(newFUmlObject)));
 			Debug.out(this, "fUML Object_: " + getFUmlObject(javaObject));
 			
-			// Step 5.1: Plugging output parameter to Placeholder Activity (if not null)
+			// Step 4: Plugging output parameter to Placeholder Activity (if not null)
 			if (outputParameterValue.parameter != null) {
 				for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
-					if (extensionalValue.hashCode() == ((ActivityEntryEventImpl) event).getActivityExecutionID()) {
+					if (extensionalValue.hashCode() == event.getActivityExecutionID()) {
 						ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
 						activityExecution.setParameterValue(outputParameterValue);
 						Debug.out(this, "*** Successfully handled external CallOperationAction ***");
