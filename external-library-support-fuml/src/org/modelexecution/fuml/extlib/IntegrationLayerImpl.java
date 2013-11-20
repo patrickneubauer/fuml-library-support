@@ -397,7 +397,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 			// ------------------------------------------------
 			
-			LinkedHashMap<Parameter, ParameterValue> fUmlParameterWithValueMap = obtainfUmlInputParameters(activity.specification.ownedElement, executionContext.getLocus().extensionalValues);
+			LinkedHashMap<Parameter, ParameterValue> fUmlParameterWithValueMap = obtainfUmlInputParameters(event, activity.specification.ownedElement);
 
 			// ------------------------------------------------
 			
@@ -574,11 +574,12 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	/**
 	 * Obtains an ordered map of {@link Parameter} and its corresponding {@link ParameterValue}
 	 * 
+	 * @param event {@link CallOperationAction}'s {@link ActivityEntryEvent}
 	 * @param elementList {@link ElementList} from which to to obtain input {@link Parameter}s
-	 * @param extensionalValueList {@link ExtensionalValueList} from the Locus from which to obtain the {@link ParameterValue} for a corresponding {@link Parameter} in {@code parameterList}
+	 * 
 	 * @return a {@link LinkedHashMap} (ordered) on the {@link Parameter} and its corresponding {@link ParameterValue} found in the {@code parameterList}
 	 */
-	private LinkedHashMap<Parameter, ParameterValue> obtainfUmlInputParameters(ElementList elementList, ExtensionalValueList extensionalValueList) {
+	private LinkedHashMap<Parameter, ParameterValue> obtainfUmlInputParameters(ActivityEntryEvent event, ElementList elementList) {
 		
 		LinkedHashMap<Parameter, ParameterValue> parameterWithParameterValueMap = new LinkedHashMap<Parameter, ParameterValue>();
 		
@@ -588,27 +589,24 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				Parameter parameter = (Parameter) element;
 			
 				if (parameter.direction == ParameterDirectionKind.in && parameter.name != null && parameter.type != null) {
-//					if (parameter.type.name.toString().equals("boolean") || parameter.type.name.toString().equals("int")
-//							|| parameter.type.name.toString().equals("String") || parameter.type.name.toString().equals("Object")) {
 						
-						// Find a corresponding ParameterValue for this Parameter in the Locus
-						for (ExtensionalValue extensionalValue : extensionalValueList) {
-							if (extensionalValue instanceof ActivityExecution) {
-								ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
-	
-								for (ParameterValue parameterValue : activityExecution.parameterValues) {
-									if (parameterValue.parameter != null && parameterValue.parameter.qualifiedName != null
-											&& parameterValue.parameter.qualifiedName.equals(parameter.qualifiedName)) {
-										parameterWithParameterValueMap.put(parameter, parameterValue);
-										break; // since corresponding ParameterValue has been found
-									}
-								}// for loop (parameterValueList)
-	
-							}
-						}// for loop (executionContext.getLocus().extensionalValues)					
-						
-					}
-				//}
+					// Find a corresponding ParameterValue for this Parameter in this ActivityExecution
+					for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
+						if (extensionalValue.hashCode() == event.getActivityExecutionID()) {
+							ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
+							
+							for (ParameterValue parameterValue : activityExecution.parameterValues) {
+								if (parameterValue.parameter != null && parameterValue.parameter.qualifiedName != null
+										&& parameterValue.parameter.qualifiedName.equals(parameter.qualifiedName)) {
+									parameterWithParameterValueMap.put(parameter, parameterValue);
+									break; // since corresponding value for parameter has been found (look for the next parameter's value)
+								}
+							}// for loop (parameterValueList)
+							
+						}
+					}				
+					
+				}
 				
 			}// element instanceof Parameter
 			
@@ -616,7 +614,6 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		return parameterWithParameterValueMap;
 	}// obtainfUmlInputParameters
 	
-
 	private Object_ obtainFUmlObjectFromActivityExecution(ActivityEntryEvent event) throws Exception {
 		for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
 			if (extensionalValue.hashCode() == event.getActivityExecutionID()) {
