@@ -382,10 +382,10 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			// Obtain fUML Object_ from InputPinActivation in
 			// ActivityExecution
 			ActivityExecution activityExecution = getEventActivityExecution(event);
-			Object_ fUmlObject = activityExecution.context;
+			Object_ targetfUmlObject = activityExecution.context;
 
 			// Obtain corresponding Java Object
-			Object javaObject = fUmlJavaMap.get(fUmlObject);
+			Object javaObject = fUmlJavaMap.get(targetfUmlObject);
 
 			String methodName = ActivityHelper.getOperationName(activity);
 			String classNamespaceAndName = ActivityHelper.getOperationNamespaceAndName(activity);
@@ -449,8 +449,8 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 			// Step 2: Update the corresponding fUML Object_ using the
 			// Object_Transfomer
-			Object_Transformer object_Transformer = new Object_Transformer(fUmlObject, javaObject, this);
-			Object_ newFUmlObject = object_Transformer.getObject_();
+			Object_Transformer object_Transformer = new Object_Transformer(targetfUmlObject, javaObject, this);
+			targetfUmlObject = object_Transformer.getObject_();
 			
 			// Step 3: Translate return value into fUML Parameter
 			Parameter outputParameter = ActivityHelper.getReturnParameter(activity);
@@ -483,29 +483,26 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				if (activity.specification != null && activity.specification instanceof Operation && ((Operation) activity.specification).type != null && ((Operation) activity.specification).type instanceof Class_) {
 					Operation operation = (Operation) activity.specification;
 					Class_ returnType = (Class_) operation.type;
-					Object_ newComplexFUmlObject = new Object_();
-					newComplexFUmlObject.types.add(returnType);
+					Object_ complexfUmlReturnObject = new Object_();
+					complexfUmlReturnObject.types.add(returnType);
 					
-					Object_Creator object_Creator = new Object_Creator(newComplexFUmlObject, javaMethodReturnValue, executionContext);
-					newComplexFUmlObject = object_Creator.getfUmlObject();
-					newFUmlObject.locus.add(newComplexFUmlObject); // add new complex Object_ to Locus
-					newComplexFUmlObject.locus = newFUmlObject.locus; // same Locus ?
+					Object_Creator object_Creator = new Object_Creator(complexfUmlReturnObject, javaMethodReturnValue, executionContext);
+					complexfUmlReturnObject = object_Creator.getfUmlObject();
+					targetfUmlObject.locus.add(complexfUmlReturnObject); // add new complex Object_ to Locus
+					complexfUmlReturnObject.locus = targetfUmlObject.locus; // same Locus ?
 					
 					Reference reference = new Reference();
-					reference.referent = object_Creator.getfUmlObject();
+					reference.referent = complexfUmlReturnObject;
 					outputParameterValue.values.add(reference);
 					
-					// Replace with new complex fUML Object
-					newFUmlObject = newComplexFUmlObject;
-
 					// Add objects to internal map
-					addObjects(newFUmlObject, javaMethodReturnValue);
+					addObjects(targetfUmlObject, javaMethodReturnValue);
 				}
 				
 			}
 
 			Debug.out(this, "Java method return value from calling " + classNamespaceAndName + "." + methodName + " is '" + javaMethodReturnValue + "'");
-			Debug.out(this, "Java Object : " + ToStringBuilder.reflectionToString(getJavaObject(newFUmlObject)));
+			Debug.out(this, "Java Object : " + ToStringBuilder.reflectionToString(getJavaObject(targetfUmlObject)));
 			Debug.out(this, "fUML Object_: " + getFUmlObject(javaObject));
 			
 			// Step 4: Plugging output parameter to Placeholder Activity (if not null)
@@ -652,7 +649,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 *            it's node must be an instance of {@link CreateObjectAction}
 	 * @param fUmlObject
 	 *            fUML {@link Object_} to set at the {@link ObjectToken}
-	 * @throws Exception from {@link IntegrationLayerImpl.getEventActivityExecution}
+	 * @throws Exception 
 	 */
 	private void assignObject_ToCreateObjectActionOutputPin(ActivityNodeExitEvent event, Object_ fUmlObject) throws Exception {
 		CreateObjectAction createObjectAction = EventHelper.getExternalCreateObjectAction(event);
