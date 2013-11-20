@@ -20,12 +20,13 @@ import org.modelexecution.fuml.extlib.helper.ActivityHelper;
 import org.modelexecution.fuml.extlib.helper.EventHelper;
 import org.modelexecution.fumldebug.core.ExecutionContext;
 import org.modelexecution.fumldebug.core.event.ActivityEntryEvent;
+import org.modelexecution.fumldebug.core.event.ActivityEvent;
 import org.modelexecution.fumldebug.core.event.ActivityExitEvent;
 import org.modelexecution.fumldebug.core.event.ActivityNodeEntryEvent;
+import org.modelexecution.fumldebug.core.event.ActivityNodeEvent;
 import org.modelexecution.fumldebug.core.event.ActivityNodeExitEvent;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
-import org.modelexecution.fumldebug.core.event.impl.ActivityEntryEventImpl;
 
 import fUML.Semantics.Actions.BasicActions.CallOperationActionActivation;
 import fUML.Semantics.Actions.BasicActions.InputPinActivation;
@@ -260,44 +261,37 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 *            the {@link CallOperationAction} from which to obtain the fUML
 	 *            Object_
 	 * @return fUML {@link Object_} or null if not found
-	 * @throws Exception
-	 *             When {@code callOperationActionEntryEvent} is not of type
-	 *             {@link ActivityNodeEntryEvent}
+	 * @throws Exception Throws exception when fUML object could not be obtained
 	 */
 	private Object_ obtainFUmlObjectFromCallOperationAction(ActivityNodeEntryEvent event, CallOperationAction callOperationAction)
 			throws Exception {
 
-		for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
-			if (extensionalValue instanceof ActivityExecution && extensionalValue.hashCode() == event.getActivityExecutionID()) {
-				ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
-				/*
-				 * Arrived at the correct ActivityExecution, next: obtain
-				 * CallOperationAction's target InputPin
-				 */
-				CallOperationActionActivation callOperationActionActivation = (CallOperationActionActivation) activityExecution.activationGroup
-						.getNodeActivation(callOperationAction);
-	
-				InputPinActivation inputPinActivation = (InputPinActivation) callOperationActionActivation
-						.getPinActivation(callOperationAction.target);
-	
-				for (Token token : inputPinActivation.heldTokens) {
-					if (token.holder.equals(inputPinActivation)) {
-						/*
-						 * Arrived at the correct ObjectToken, next: return
-						 * referring fUML Object_
-						 */
-						ObjectToken objectToken = (ObjectToken) token;
-						Reference reference = (Reference) objectToken.value;
-	
-						return reference.referent;
-	
-					}
-	
-				}// Token loop
-	
-			}
-		}// ExtensionalValue loop
+		ActivityExecution activityExecution = getEventActivityExecution(event);
+		/*
+		 * Retrieved the correct ActivityExecution, next: obtain
+		 * CallOperationAction's target InputPin
+		 */
+		CallOperationActionActivation callOperationActionActivation = (CallOperationActionActivation) activityExecution.activationGroup
+				.getNodeActivation(callOperationAction);
 
+		InputPinActivation inputPinActivation = (InputPinActivation) callOperationActionActivation
+				.getPinActivation(callOperationAction.target);
+
+		for (Token token : inputPinActivation.heldTokens) {
+			if (token.holder.equals(inputPinActivation)) {
+				/*
+				 * Arrived at the correct ObjectToken, next: return
+				 * referring fUML Object_
+				 */
+				ObjectToken objectToken = (ObjectToken) token;
+				Reference reference = (Reference) objectToken.value;
+
+				return reference.referent;
+
+			}
+
+		}// Token loop
+	
 		// If no prior return occurred, throw an Exception
 		throw new Exception("Error occured while trying to obtain the fUML object.");
 			
@@ -387,7 +381,8 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 
 			// Obtain fUML Object_ from InputPinActivation in
 			// ActivityExecution
-			Object_ fUmlObject = obtainFUmlObjectFromActivityExecution(event);
+			ActivityExecution activityExecution = getEventActivityExecution(event);
+			Object_ fUmlObject = activityExecution.context;
 
 			// Obtain corresponding Java Object
 			Object javaObject = fUmlJavaMap.get(fUmlObject);
@@ -515,14 +510,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			
 			// Step 4: Plugging output parameter to Placeholder Activity (if not null)
 			if (outputParameterValue.parameter != null) {
-				for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
-					if (extensionalValue.hashCode() == event.getActivityExecutionID()) {
-						ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
-						activityExecution.setParameterValue(outputParameterValue);
-						Debug.out(this, "*** Successfully handled external CallOperationAction ***");
-						return; // exit
-					}
-				}
+				activityExecution.setParameterValue(outputParameterValue);
+				Debug.out(this, "*** Successfully handled external CallOperationAction ***");
+				return; // exit
 			}
 
 		} catch (Exception e) {
@@ -530,6 +520,30 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		}
 
 	}// handleExternalCallOperationAction
+	
+	private ActivityExecution getEventActivityExecution(ActivityEvent event) throws Exception {
+		
+		for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
+			if (extensionalValue.hashCode() == event.getActivityExecutionID()) {
+				return (ActivityExecution) extensionalValue;
+			}
+		}
+		
+		throw new Exception("Error occured while trying to obtain the event's ActivityExecution. Event = " + event);
+		
+	}
+	
+	private ActivityExecution getEventActivityExecution(ActivityNodeEvent event) throws Exception {
+		
+		for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
+			if (extensionalValue.hashCode() == event.getActivityExecutionID()) {
+				return (ActivityExecution) extensionalValue;
+			}
+		}
+		
+		throw new Exception("Error occured while trying to obtain the event's ActivityExecution. Event = " + event);
+		
+	}
 
 	/**
 	 * Obtains an ordered map of {@link Class} (i.e. Java parameter type) and its corresponding {@link Object} (i.e. Java parameter value)
@@ -574,8 +588,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 * @param elementList {@link ElementList} from which to to obtain input {@link Parameter}s
 	 * 
 	 * @return a {@link LinkedHashMap} (ordered) on the {@link Parameter} and its corresponding {@link ParameterValue} found in the {@code parameterList}
+	 * @throws Exception from {@link IntegrationLayerImpl.getEventActivityExecution}
 	 */
-	private LinkedHashMap<Parameter, ParameterValue> obtainfUmlInputParameters(ActivityEntryEvent event, ElementList elementList) {
+	private LinkedHashMap<Parameter, ParameterValue> obtainfUmlInputParameters(ActivityEntryEvent event, ElementList elementList) throws Exception {
 		
 		LinkedHashMap<Parameter, ParameterValue> parameterWithParameterValueMap = new LinkedHashMap<Parameter, ParameterValue>();
 		
@@ -587,20 +602,15 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				if (parameter.direction == ParameterDirectionKind.in && parameter.name != null && parameter.type != null) {
 						
 					// Find a corresponding ParameterValue for this Parameter in this ActivityExecution
-					for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
-						if (extensionalValue.hashCode() == event.getActivityExecutionID()) {
-							ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
-							
-							for (ParameterValue parameterValue : activityExecution.parameterValues) {
-								if (parameterValue.parameter != null && parameterValue.parameter.qualifiedName != null
-										&& parameterValue.parameter.qualifiedName.equals(parameter.qualifiedName)) {
-									parameterWithParameterValueMap.put(parameter, parameterValue);
-									break; // since corresponding value for parameter has been found (look for the next parameter's value)
-								}
-							}// for loop (parameterValueList)
-							
+					ActivityExecution activityExecution = getEventActivityExecution(event);
+					
+					for (ParameterValue parameterValue : activityExecution.parameterValues) {
+						if (parameterValue.parameter != null && parameterValue.parameter.qualifiedName != null
+								&& parameterValue.parameter.qualifiedName.equals(parameter.qualifiedName)) {
+							parameterWithParameterValueMap.put(parameter, parameterValue);
+							break; // since corresponding value for parameter has been found (look for the next parameter's value)
 						}
-					}				
+					}// for loop (parameterValueList)
 					
 				}
 				
@@ -610,44 +620,26 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		return parameterWithParameterValueMap;
 	}// obtainfUmlInputParameters
 	
-	private Object_ obtainFUmlObjectFromActivityExecution(ActivityEntryEvent event) throws Exception {
-		for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
-			if (extensionalValue.hashCode() == event.getActivityExecutionID()) {
-				ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
-				Object_ fUmlObject = activityExecution.context;
-				return fUmlObject;
-			}
-		}
-	
-		// If no prior return has been occurred, throw an Exception
-		throw new Exception("Failed to obtain the fUML Object_ from ActivityExecution.");
-	}// obtainFUmlObjectFromActivityExecution
-	
 	/**
 	 * Obtains the referring {@link Object_} from an {@link AddStructuralFeatureValueAction}'s object {@link InputPin}
 	 * 
 	 * @param event {@link Event} of type {@link ActivityNodeEntryEvent} before firing {@link AddStructuralFeatureValueAction}
 	 * @param addStructuralFeatureValueAction {@link AddStructuralFeatureValueAction} to obtain the object {@link InputPin} from
 	 * @return {@link Object_} referenced at the {@link AddStructuralFeatureValueAction}'s object InputPin
-	 * @throws Exception
+	 * @throws Exception from {@link IntegrationLayerImpl.getEventActivityExecution}
 	 */
 	private Object_ obtainFUmlObjectFromAddStructuralFeatureValueActivationInputPin(ActivityNodeEntryEvent event, AddStructuralFeatureValueAction addStructuralFeatureValueAction) throws Exception {
 
-		for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
-			if (extensionalValue.hashCode() == event.getActivityExecutionID()) {
-				ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
-				
-				AddStructuralFeatureValueActionActivation activation = (AddStructuralFeatureValueActionActivation) activityExecution.activationGroup.getNodeActivation(addStructuralFeatureValueAction);
-				InputPinActivation inputPinActivation = (InputPinActivation) activation.getPinActivation(addStructuralFeatureValueAction.object);
-				
-				ObjectToken objectToken = (ObjectToken) inputPinActivation.heldTokens.get(0);
-				Reference object_Reference = (Reference) objectToken.value;
-				Object_ fUmlObject = object_Reference.referent;
-				return fUmlObject;
-			}
-		}
+		ActivityExecution activityExecution = getEventActivityExecution(event);
+		
+		AddStructuralFeatureValueActionActivation activation = (AddStructuralFeatureValueActionActivation) activityExecution.activationGroup.getNodeActivation(addStructuralFeatureValueAction);
+		InputPinActivation inputPinActivation = (InputPinActivation) activation.getPinActivation(addStructuralFeatureValueAction.object);
+		
+		ObjectToken objectToken = (ObjectToken) inputPinActivation.heldTokens.get(0);
+		Reference object_Reference = (Reference) objectToken.value;
+		Object_ fUmlObject = object_Reference.referent;
+		return fUmlObject;
 
-		throw new Exception("Failed to obtain the fUML Object_ from AddStructuralFeatureValueActivation's object InputPin.");
 	}// obtainFUmlObjectFromAddStructuralFeatureValueActivationInputPin
 	
 
@@ -660,6 +652,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	 *            it's node must be an instance of {@link CreateObjectAction}
 	 * @param fUmlObject
 	 *            fUML {@link Object_} to set at the {@link ObjectToken}
+	 * @throws Exception from {@link IntegrationLayerImpl.getEventActivityExecution}
 	 */
 	private void assignObject_ToCreateObjectActionOutputPin(ActivityNodeExitEvent event, Object_ fUmlObject) throws Exception {
 		CreateObjectAction createObjectAction = EventHelper.getExternalCreateObjectAction(event);
@@ -667,41 +660,32 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		 * Obtained the CreateObjectAction, next: navigate to the correct node
 		 * that is equal to the obtained CreateObjectAction
 		 */
+		ActivityExecution activityExecution = getEventActivityExecution(event);
+		
+		/*
+		 * Arrived at the correct ActivityExecution, next: obtain
+		 * CreateObjectAction's result OutputPin
+		 */
+		CreateObjectActionActivation createObjectActionActivation = (CreateObjectActionActivation) activityExecution.activationGroup
+				.getNodeActivation(createObjectAction);
+		OutputPinActivation outputPinActivation = (OutputPinActivation) createObjectActionActivation
+				.getPinActivation(createObjectAction.result);
 
-		for (ExtensionalValue extensionalValue : executionContext.getLocus().extensionalValues) {
-			if (extensionalValue instanceof ActivityExecution && extensionalValue.hashCode() == event.getActivityExecutionID()) {
-				ActivityExecution activityExecution = (ActivityExecution) extensionalValue;
-				/*
-				 * Arrived at the correct ActivityExecution, next: obtain
-				 * CreateObjectAction's result OutputPin
-				 */
-				CreateObjectActionActivation createObjectActionActivation = (CreateObjectActionActivation) activityExecution.activationGroup
-						.getNodeActivation(createObjectAction);
-				OutputPinActivation outputPinActivation = (OutputPinActivation) createObjectActionActivation
-						.getPinActivation(createObjectAction.result);
+		/**
+		 * Create a new ObjectToken that references the Object_ and
+		 * add it to the CreateObjectActionActivation's
+		 * OutputPinActivation
+		 */
+		ObjectToken objectToken = new ObjectToken();
 
-				/**
-				 * Create a new ObjectToken that references the Object_ and
-				 * add it to the CreateObjectActionActivation's
-				 * OutputPinActivation
-				 */
-				ObjectToken objectToken = new ObjectToken();
+		Reference reference = new Reference();
+		reference.referent = fUmlObject;
 
-				Reference reference = new Reference();
-				reference.referent = fUmlObject;
+		objectToken.value = reference;
 
-				objectToken.value = reference;
-
-				outputPinActivation.addToken(objectToken);
-				Debug.out(this, "Successfully assigned Object_ Reference to CreateObjectAction's OutputPin.");
-				return; // exit
-
-			}
-
-		}// ExtensionalValue loop
-
-		// If prior return did not occur, throw Exception
-		throw new Exception("Error occured while trying to assign Object_ to CreateObjectAction's result OutputPin.");
+		outputPinActivation.addToken(objectToken);
+		
+		Debug.out(this, "Successfully assigned Object_ Reference to CreateObjectAction's OutputPin.");
 
 	}// assignObject_ToCreateObjectActionOutputPin
 
