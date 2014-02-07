@@ -6,22 +6,9 @@ package org.modelexecution.fuml.extlib.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.uml2.uml.Activity;
-import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.uml2.uml.resource.UMLResource;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.IntegrationLayer;
 import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
 import org.modelexecution.fuml.extlib.umlpreparer.UML2Preparer;
@@ -34,7 +21,11 @@ import fUML.Semantics.Classes.Kernel.StringValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
 import fUML.Semantics.Loci.LociL1.Locus;
+import fUML.Syntax.Actions.BasicActions.CallOperationAction;
+import fUML.Syntax.Actions.IntermediateActions.AddStructuralFeatureValueAction;
+import fUML.Syntax.Actions.IntermediateActions.CreateObjectAction;
 import fUML.Syntax.Classes.Kernel.Property;
+import fUML.Syntax.Classes.Kernel.StructuralFeature;
 
 /**
  * Integration Test (IT) Class for {@link IntegrationLayer}
@@ -47,15 +38,7 @@ import fUML.Syntax.Classes.Kernel.Property;
  */
 public class IntegrationLayerIT {
 
-	private ResourceSet resourceSet;
 	private IntegrationLayerImpl integrationLayer = new IntegrationLayerImpl();
-
-	@Before
-	public void prepareResourceSet() {
-		resourceSet = new ResourceSetImpl();
-		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
-	}
 
 	@Before
 	public void setUp() {
@@ -74,29 +57,35 @@ public class IntegrationLayerIT {
 		// reset ExecutionContext (preparation for next test)
 		integrationLayer.getExecutionContext().reset();
 	}
+	
+	/**
+	 * Tests {@link CreateObjectAction} that invokes an Object from an external
+	 * library and a {@link CallOperationAction} on the invoked Object
+	 */
+	@Test
+	public void externalCreateObjectActionAndCallOperationActionNewTest() {
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithExternalCreateObjectActionAndCallOperationAction/VehiclesActivityDiagram.uml";
+		String activityName = "ShipActivity1";
 
-	private Activity loadActivity(String path, String activityName, String... furtherPaths) {
-		return obtainActivity(getResource(path, furtherPaths), activityName);
-	}
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
-	private Resource getResource(String activitypath, String... paths) {
-		for (String path : paths) {
-			resourceSet.getResource(URI.createFileURI(new File(path).getAbsolutePath()), true);
-		}
-		return resourceSet.getResource(URI.createFileURI(new File(activitypath).getAbsolutePath()), true);
-	}
+		Locus locus = integrationLayer.getExecutionContext().getLocus();
+		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
 
-	private Activity obtainActivity(Resource resource, String activityName) {
-		for (TreeIterator<EObject> iterator = resource.getAllContents(); iterator.hasNext();) {
-			EObject next = iterator.next();
-			if (next instanceof Activity) {
-				Activity activity = (Activity) next;
-				if (activityName.equals(activity.getName())) {
-					return activity;
-				}
-			}
-		}
-		return null;
+		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
+		assertEquals(0, ((IntegerValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
+
+		assertEquals("name", fUmlObject.getFeatureValues().get(1).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(1).values.get(0) instanceof StringValue);
+		assertEquals("NoName", ((StringValue) fUmlObject.getFeatureValues().get(1).values.get(0)).value);
+
+		assertEquals("oceanLiner", fUmlObject.getFeatureValues().get(2).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
+		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
+
 	}
 
 	/**
@@ -105,20 +94,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void externalCreateObjectActionAndCallOperationActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithExternalCreateObjectActionAndCallOperationAction/VehiclesActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithExternalCreateObjectActionAndCallOperationAction/VehiclesActivityDiagram.uml";
 		String activityName = "ShipActivity1";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		// Execute the constructor call of Ship()
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
@@ -144,20 +125,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void stringReturnValueFromExternalCallOperationActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
 		String activityName = "StringReturnValueActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		// Execute the constructor call of Ship()
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
@@ -191,20 +164,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void integerReturnValueFromExternalCallOperationActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
 		String activityName = "IntegerReturnValueActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		// Execute the constructor call of Ship()
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
@@ -238,20 +203,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void booleanReturnValueFromExternalCallOperationActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveReturnValueActivityDiagram.uml";
 		String activityName = "BooleanReturnValueActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		// Execute fUML Activity
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
@@ -284,20 +241,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void booleanInputValueFromExternalCallOperationActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
 		String activityName = "BooleanInputValueActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		// Execute fUML Activity
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
@@ -322,20 +271,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void integerInputValueFromExternalCallOperationActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
 		String activityName = "IntegerInputValueActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		// Execute fUML Activity
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
@@ -360,21 +301,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void stringInputValueFromExternalCallOperationActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveInputValueActivityDiagram.uml";
 		String activityName = "StringInputValueActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		
-		// Execute fUML Activity
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
@@ -398,21 +330,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void multipleInputValueFromExternalCallOperationActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesMultiplePrimitiveInputValueActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesMultiplePrimitiveInputValueActivityDiagram.uml";
 		String activityName = "MultipleInputValueOperationCallActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		
-		// Execute fUML Activity
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
@@ -436,21 +359,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void inputValueFromInheritedExternalCallOperationActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveInputValueToInheritedOperationActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveInputValueToInheritedOperationActivityDiagram.uml";
 		String activityName = "InputValueInheritedOperationCallActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		
-		// Execute fUML Activity
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
@@ -478,20 +392,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void integerInputValueAndBooleanReturnValueFromExternalCallOperationActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveInputAndReturnValueActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveInputAndReturnValueActivityDiagram.uml";
 		String activityName = "IntegerInputAndBooleanReturnValueActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		// Execute fUML Activity
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
@@ -529,20 +435,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void noInputValueAndNoReturnValueFromExternalCallOperationActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesNoInputAndNoReturnValueActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesNoInputAndNoReturnValueActivityDiagram.uml";
 		String activityName = "NoInputAndNoReturnValueActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		// Execute fUML Activity
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
@@ -573,20 +471,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void simpleEngineReturnValueFromExternalCallOperationActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithComplexValues/VehiclesComplexReturnValueActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithComplexValues/VehiclesComplexReturnValueActivityDiagram.uml";
 		String activityName = "SimpleEngineReturnValueActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		// Execute the constructor call of Car
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
@@ -633,20 +523,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void simpleEngineReturnThisValueFromExternalCallOperationActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithComplexValues/VehiclesComplexReturnValueActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithComplexValues/VehiclesComplexReturnValueActivityDiagram.uml";
 		String activityName = "SimpleEngineReturnThisValueActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		// Execute the constructor call of Car
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
@@ -695,20 +577,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void simpleEngineInputValueFromExternalCallOperationActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithComplexValues/VehiclesComplexInputValueActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithComplexValues/VehiclesComplexInputValueActivityDiagram.uml";
 		String activityName = "SimpleEngineInputValueActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		// Execute the constructor call of Car
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
@@ -733,20 +607,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void setBooleanVariableValueUsingAddStructuralFeatureValueActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithStructuralFeatureValueActions/VehiclesSetVariableValueActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithStructuralFeatureValueActions/VehiclesSetVariableValueActivityDiagram.uml";
 		String activityName = "VehiclesSetBooleanVariableValueActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		// Execute the constructor call of Car
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
@@ -772,20 +638,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void setIntegerVariableValueUsingAddStructuralFeatureValueActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithStructuralFeatureValueActions/VehiclesSetVariableValueActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithStructuralFeatureValueActions/VehiclesSetVariableValueActivityDiagram.uml";
 		String activityName = "VehiclesSetIntegerVariableValueActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		// Execute the constructor call of Car
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
@@ -811,20 +669,12 @@ public class IntegrationLayerIT {
 	 */
 	@Test
 	public void setStringVariableValueUsingAddStructuralFeatureValueActionTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/activityWithStructuralFeatureValueActions/VehiclesSetVariableValueActivityDiagram.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithStructuralFeatureValueActions/VehiclesSetVariableValueActivityDiagram.uml";
 		String activityName = "VehiclesSetStringVariableValueActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		// Execute the constructor call of Car
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);

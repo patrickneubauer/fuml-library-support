@@ -3,6 +3,7 @@
  */
 package org.modelexecution.fuml.extlib;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -15,6 +16,15 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.uml2.uml.UMLPackage;
+import org.eclipse.uml2.uml.resource.UMLResource;
+import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.helper.ActionHelper;
 import org.modelexecution.fuml.extlib.helper.ActivityHelper;
 import org.modelexecution.fuml.extlib.helper.EventHelper;
@@ -46,6 +56,7 @@ import fUML.Semantics.Classes.Kernel.Reference;
 import fUML.Semantics.Classes.Kernel.StringValue;
 import fUML.Semantics.Classes.Kernel.ValueList;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
+import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
 import fUML.Syntax.Actions.BasicActions.CallOperationAction;
 import fUML.Syntax.Actions.BasicActions.InputPin;
 import fUML.Syntax.Actions.BasicActions.OutputPin;
@@ -85,6 +96,63 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 	private List<Event> eventList = new ArrayList<Event>();
 
 	private ExtensionalValueList previousExtensionalValueList = new ExtensionalValueList();
+	
+	private ResourceSet resourceSet;
+	
+	private fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity;
+	
+	public void prepareResourceSet() {
+		resourceSet = new ResourceSetImpl();
+		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
+	}// prepareResourceSet
+
+	@Override
+	public boolean loadActivity(String libraryModel, String activityName, String umlModel) {
+		if (resourceSet==null) {
+			prepareResourceSet();
+		}
+		org.eclipse.uml2.uml.Activity umlActivity = loadActivityFromFileSystem(umlModel, activityName, libraryModel);
+		UML2Converter converter = new UML2Converter();
+		
+		if (!converter.canConvert(umlActivity)) {
+			// UML Activity cannot be converted
+			return false;
+		}
+		this.fUMLActivity = converter.convert(umlActivity).getActivities().iterator()
+				.next();
+		
+		return true;
+	}// loadActivity
+	
+	private org.eclipse.uml2.uml.Activity loadActivityFromFileSystem(String umlModelPath, String activityName, String libraryModelPath) {
+		return obtainActivity(getResource(umlModelPath, libraryModelPath), activityName);
+	}// loadActivity
+
+	private Resource getResource(String umlModelPath, String... libraryModelPaths) {
+		for (String path : libraryModelPaths) {
+			resourceSet.getResource(URI.createFileURI(new File(path).getAbsolutePath()), true);
+		}
+		return resourceSet.getResource(URI.createFileURI(new File(umlModelPath).getAbsolutePath()), true);
+	}// getResource
+
+	private org.eclipse.uml2.uml.Activity obtainActivity(Resource resource, String activityName) {
+		for (TreeIterator<EObject> iterator = resource.getAllContents(); iterator.hasNext();) {
+			EObject next = iterator.next();
+			if (next instanceof org.eclipse.uml2.uml.Activity) {
+				org.eclipse.uml2.uml.Activity activity = (org.eclipse.uml2.uml.Activity) next;
+				if (activityName.equals(activity.getName())) {
+					return activity;
+				}
+			}
+		}
+		return null;
+	}// obtainActivity
+	
+	@Override
+	public void executeActivity(Object_ context, ParameterValueList inputs) {
+		this.executionContext.execute(fUMLActivity, context, inputs);
+	}// executeActivity
 
 	/*
 	 * Whenever the {@link IntegrationLayer} is added as an {@link

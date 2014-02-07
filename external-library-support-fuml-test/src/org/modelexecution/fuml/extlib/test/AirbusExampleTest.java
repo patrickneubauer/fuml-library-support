@@ -43,15 +43,7 @@ import fUML.Semantics.Loci.LociL1.Locus;
  */
 public class AirbusExampleTest {
 
-	private ResourceSet resourceSet;
 	private IntegrationLayerImpl integrationLayer = new IntegrationLayerImpl();
-
-	@Before
-	public void prepareResourceSet() {
-		resourceSet = new ResourceSetImpl();
-		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
-	}
 
 	@Before
 	public void setUp() {
@@ -71,50 +63,18 @@ public class AirbusExampleTest {
 		integrationLayer.getExecutionContext().reset();
 	}
 
-	private Activity loadActivity(String path, String activityName, String... furtherPaths) {
-		return obtainActivity(getResource(path, furtherPaths), activityName);
-	}
-
-	private Resource getResource(String activitypath, String... paths) {
-		for (String path : paths) {
-			resourceSet.getResource(URI.createFileURI(new File(path).getAbsolutePath()), true);
-		}
-		return resourceSet.getResource(URI.createFileURI(new File(activitypath).getAbsolutePath()), true);
-	}
-
-	private Activity obtainActivity(Resource resource, String activityName) {
-		for (TreeIterator<EObject> iterator = resource.getAllContents(); iterator.hasNext();) {
-			EObject next = iterator.next();
-			if (next instanceof Activity) {
-				Activity activity = (Activity) next;
-				if (activityName.equals(activity.getName())) {
-					return activity;
-				}
-			}
-		}
-		return null;
-	}
-
 	/**
 	 * Tests {@link CreateObjectAction} that invokes an Object from an external
 	 * library and a {@link CallOperationAction} on the invoked Object
 	 */
 	@Test
 	public void airbusExampleTest() {
-		String externalUmlFilePath = "models/modelsAccessingAnExternalLibrary/VehiclesWithAirplaneConverted.uml";
-		String activityDiagramFilePath = "models/modelsAccessingAnExternalLibrary/airplaneActivity/airbusExample.uml";
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesWithAirplaneConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/airplaneActivity/airbusExample.uml";
 		String activityName = "AirbusExampleActivity";
 
-		Activity umlActivity = loadActivity(activityDiagramFilePath, activityName, externalUmlFilePath);
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = new UML2Converter().convert(umlActivity).getActivities().iterator()
-				.next();
-
-		Assert.assertEquals(umlActivity.getName(), fUMLActivity.name);
-		Assert.assertEquals(umlActivity.isAbstract(), fUMLActivity.isAbstract);
-		Assert.assertEquals(umlActivity.isActive(), fUMLActivity.isActive);
-
-		// Execute the constructor call of Ship()
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
