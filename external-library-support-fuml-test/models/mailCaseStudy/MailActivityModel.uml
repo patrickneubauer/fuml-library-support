@@ -37,11 +37,11 @@
     </node>
     <node xmi:type="uml:ValueSpecificationAction" xmi:id="_oD46cMnmEeKxc-VJTUBXSA" name="AuthenticationUserNameValueSpecificationAction">
       <result xmi:id="_zDie4MnmEeKxc-VJTUBXSA" name="userName" outgoing="_TnSEoMnsEeKxc-VJTUBXSA"/>
-      <value xmi:type="uml:LiteralString" xmi:id="_vySwkMnmEeKxc-VJTUBXSA" value="franzmair1980"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_vySwkMnmEeKxc-VJTUBXSA" value="fumlextlib"/>
     </node>
     <node xmi:type="uml:ValueSpecificationAction" xmi:id="_3OVrYMnmEeKxc-VJTUBXSA" name="AuthenticationPasswordValueSpecificationAction">
       <result xmi:id="_8tyWoMnmEeKxc-VJTUBXSA" name="password" outgoing="_Uf8K8MnsEeKxc-VJTUBXSA"/>
-      <value xmi:type="uml:LiteralString" xmi:id="_6SkRYMnmEeKxc-VJTUBXSA" value="1980franzmair"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_6SkRYMnmEeKxc-VJTUBXSA" value="extlibfuml12345"/>
     </node>
     <node xmi:type="uml:ValueSpecificationAction" xmi:id="_ABgKIMnnEeKxc-VJTUBXSA" name="SSLOnConnectValueSpecificationAction">
       <result xmi:id="_IzTW8MnnEeKxc-VJTUBXSA" name="ssl" outgoing="_VdjCsMnsEeKxc-VJTUBXSA"/>
@@ -49,7 +49,7 @@
     </node>
     <node xmi:type="uml:ValueSpecificationAction" xmi:id="_QunnsMnnEeKxc-VJTUBXSA" name="FromValueSpecificationAction">
       <result xmi:id="_em1UsMnnEeKxc-VJTUBXSA" name="from" outgoing="_WhpkAMnsEeKxc-VJTUBXSA"/>
-      <value xmi:type="uml:LiteralString" xmi:id="_ZMvDgMnnEeKxc-VJTUBXSA" name="" value="franzmair1980@gmail.com"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_ZMvDgMnnEeKxc-VJTUBXSA" name="" value="fumlextlib@gmail.com"/>
     </node>
     <node xmi:type="uml:ValueSpecificationAction" xmi:id="_sc2pUMnnEeKxc-VJTUBXSA" name="SubjectValueSpecificationAction">
       <result xmi:id="_6s1WEMnnEeKxc-VJTUBXSA" name="subject" outgoing="_XdBnIMnsEeKxc-VJTUBXSA"/>
@@ -61,7 +61,7 @@
     </node>
     <node xmi:type="uml:ValueSpecificationAction" xmi:id="_QSLG0MnoEeKxc-VJTUBXSA" name="AddToValueSpecificationAction">
       <result xmi:id="_-fVIkMntEeKxc-VJTUBXSA" name="addTo" outgoing="_ZXcFYMnsEeKxc-VJTUBXSA"/>
-      <value xmi:type="uml:LiteralString" xmi:id="_SD0qoMnoEeKxc-VJTUBXSA" value="franzmair1980@gmail.com"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_SD0qoMnoEeKxc-VJTUBXSA" value="fumlextlib@gmail.com"/>
     </node>
     <node xmi:type="uml:CallOperationAction" xmi:id="_uPDjkMnjEeKxc-VJTUBXSA" name="SetHostNameCallOperationAction">
       <argument xmi:id="_36pF0MnoEeKxc-VJTUBXSA" name="hostName" incoming="_RgkPwMnsEeKxc-VJTUBXSA"/>

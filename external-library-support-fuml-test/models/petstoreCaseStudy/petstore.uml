@@ -1275,7 +1275,7 @@
       <result xmi:id="_d7j60B7xEeOBfdNOw9-NAA" name="result" outgoing="_t2DEwB71EeOUIq7mNkGnmw">
         <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8S660B7xEeOBfdNOw9-NAA" name="" value="1"/>
       </result>
-      <value xmi:type="uml:LiteralString" xmi:id="_frZgwB7xEeOBfdNOw9-NAA" name="" value="franzmair1980@gmail.com"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_frZgwB7xEeOBfdNOw9-NAA" name="" value="fumlextlib@gmail.com"/>
     </node>
     <node xmi:type="uml:ForkNode" xmi:id="_sdCqcB71EeOUIq7mNkGnmw" name="ForkNode3" outgoing="_w58TkB71EeOUIq7mNkGnmw" incoming="_t2DEwB71EeOUIq7mNkGnmw"/>
     <node xmi:type="uml:ForkNode" xmi:id="_z8rr0B71EeOUIq7mNkGnmw" name="ForkNode4" outgoing="_3FG1UB71EeOUIq7mNkGnmw" incoming="_1PuoEB71EeOUIq7mNkGnmw"/>
@@ -4021,11 +4021,11 @@
     </node>
     <node xmi:type="uml:ValueSpecificationAction" xmi:id="_VMxyYh-gEeOvJIGgO48agQ" name="AuthenticationUserNameValueSpecificationAction">
       <result xmi:id="_VMxyYx-gEeOvJIGgO48agQ" name="userName" outgoing="_VMxyUR-gEeOvJIGgO48agQ"/>
-      <value xmi:type="uml:LiteralString" xmi:id="_VMxyZB-gEeOvJIGgO48agQ" value="franzmair1980"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_VMxyZB-gEeOvJIGgO48agQ" value="fumlextlib"/>
     </node>
     <node xmi:type="uml:ValueSpecificationAction" xmi:id="_VMxyZR-gEeOvJIGgO48agQ" name="AuthenticationPasswordValueSpecificationAction">
       <result xmi:id="_VMxyZh-gEeOvJIGgO48agQ" name="password" outgoing="_VMxyUh-gEeOvJIGgO48agQ"/>
-      <value xmi:type="uml:LiteralString" xmi:id="_VMxyZx-gEeOvJIGgO48agQ" value="1980franzmair"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_VMxyZx-gEeOvJIGgO48agQ" value="extlibfuml12345"/>
     </node>
     <node xmi:type="uml:ValueSpecificationAction" xmi:id="_VMxyaB-gEeOvJIGgO48agQ" name="SSLOnConnectValueSpecificationAction">
       <result xmi:id="_VMxyaR-gEeOvJIGgO48agQ" name="ssl" outgoing="_VMxyUx-gEeOvJIGgO48agQ"/>
@@ -4033,7 +4033,7 @@
     </node>
     <node xmi:type="uml:ValueSpecificationAction" xmi:id="_VMxyax-gEeOvJIGgO48agQ" name="FromValueSpecificationAction">
       <result xmi:id="_VMxybB-gEeOvJIGgO48agQ" name="from" outgoing="_VMxyVB-gEeOvJIGgO48agQ"/>
-      <value xmi:type="uml:LiteralString" xmi:id="_VMxybR-gEeOvJIGgO48agQ" name="" value="franzmair1980@gmail.com"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_VMxybR-gEeOvJIGgO48agQ" name="" value="fumlextlib@gmail.com"/>
     </node>
     <node xmi:type="uml:ValueSpecificationAction" xmi:id="_VMxybh-gEeOvJIGgO48agQ" name="SubjectValueSpecificationAction">
       <result xmi:id="_VMxybx-gEeOvJIGgO48agQ" name="subject" outgoing="_VMxyVR-gEeOvJIGgO48agQ"/>

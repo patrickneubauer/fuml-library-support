@@ -1275,7 +1275,7 @@
       <result xmi:id="_d7j60B7xEeOBfdNOw9-NAA" name="result" outgoing="_t2DEwB71EeOUIq7mNkGnmw">
         <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8S660B7xEeOBfdNOw9-NAA" name="" value="1"/>
       </result>
-      <value xmi:type="uml:LiteralString" xmi:id="_frZgwB7xEeOBfdNOw9-NAA" name="" value="franzmair1980@gmail.com"/>
+      <value xmi:type="uml:LiteralString" xmi:id="_frZgwB7xEeOBfdNOw9-NAA" name="" value="fumlextlib@gmail.com"/>
     </node>
     <node xmi:type="uml:ForkNode" xmi:id="_sdCqcB71EeOUIq7mNkGnmw" name="ForkNode3" outgoing="_w58TkB71EeOUIq7mNkGnmw" incoming="_t2DEwB71EeOUIq7mNkGnmw"/>
     <node xmi:type="uml:ForkNode" xmi:id="_z8rr0B71EeOUIq7mNkGnmw" name="ForkNode4" outgoing="_3FG1UB71EeOUIq7mNkGnmw" incoming="_1PuoEB71EeOUIq7mNkGnmw"/>
