@@ -75,9 +75,6 @@ public class AirbusExampleTest {
 
 		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
 		integrationLayer.executeActivity(null, new ParameterValueList());
-
-		Locus locus = integrationLayer.getExecutionContext().getLocus();
-		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
 		
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
