@@ -8,40 +8,34 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.papyrus.infra.core.sashwindows.di.util.DiResourceFactoryImpl;
-import org.eclipse.uml2.uml.Activity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.modelexecution.fuml.convert.ConverterRegistry;
 import org.modelexecution.fuml.convert.IConversionResult;
 import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.IntegrationLayer;
 import org.modelexecution.fuml.extlib.IntegrationLayerImpl;
-import org.modelexecution.fuml.extlib.umlpreparer.UML2Preparer;
 import org.modelexecution.fuml.extlib.papyrus.PapyrusModelILExecutor;
+import org.modelexecution.fuml.extlib.umlpreparer.UML2Preparer;
 import org.modelexecution.fumldebug.core.ExecutionEventListener;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
 import org.modelexecution.fumldebug.core.trace.tracemodel.Trace;
+import org.modelexecution.fumldebug.libraryregistry.LibraryRegistry;
+import org.modelexecution.fumldebug.libraryregistry.OpaqueBehaviorCallReplacer;
 
 import fUML.Semantics.Classes.Kernel.Reference;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValue;
 import fUML.Semantics.CommonBehaviors.BasicBehaviors.ParameterValueList;
-import fUML.Syntax.Actions.BasicActions.CallBehaviorAction;
-import fUML.Syntax.Activities.CompleteStructuredActivities.StructuredActivityNode;
-import fUML.Syntax.Activities.IntermediateActivities.ActivityNode;
-import fUML.Syntax.Activities.IntermediateActivities.DecisionNode;
-import fUML.Syntax.CommonBehaviors.BasicBehaviors.Behavior;
 import fUML.Syntax.CommonBehaviors.BasicBehaviors.OpaqueBehavior;
 
 /**
@@ -57,17 +51,8 @@ public class PetstoreCaseStudyPOC implements ExecutionEventListener {
 	private ResourceSet resourceSet;
 	private List<Event> eventlist = new ArrayList<Event>();
 	private IntegrationLayerImpl integrationLayer = new IntegrationLayerImpl();
-	
-	// -----------------
-	
-	private static final ConverterRegistry converterRegistry = ConverterRegistry
-			.getInstance();
-	private static final String PLATFORM_RESOURCE = "platform:/resource";
 	private IConversionResult conversionResult;
-	private Resource diResource;
 	
-	// -----------------
-
 	public PetstoreCaseStudyPOC() {
 		integrationLayer.getExecutionContext().addEventListener(this);
 	}
@@ -109,10 +94,6 @@ public class PetstoreCaseStudyPOC implements ExecutionEventListener {
 		integrationLayer.getExecutionContext().reset();
 	}
 
-	private Activity loadActivity(String path, String activityName, String... furtherPaths) {
-		return obtainActivity(getResource(path, furtherPaths), activityName);
-	}
-
 	private Resource getResource(String activitypath, String... paths) {
 		for (String path : paths) {
 			resourceSet.getResource(URI.createFileURI(new File(path).getAbsolutePath()), true);
@@ -120,68 +101,6 @@ public class PetstoreCaseStudyPOC implements ExecutionEventListener {
 		return resourceSet.getResource(URI.createFileURI(new File(activitypath).getAbsolutePath()), true);
 	}
 
-	private Activity obtainActivity(Resource resource, String activityName) {
-		for (TreeIterator<EObject> iterator = resource.getAllContents(); iterator.hasNext();) {
-			EObject next = iterator.next();
-			if (next instanceof Activity) {
-				Activity activity = (Activity) next;
-				if (activityName.equals(activity.getName())) {
-					return activity;
-				}
-			}
-		}
-		return null;
-	}
-	
-	// -------------------
-	
-	private void replaceOpaqueBehaviors(fUML.Syntax.Activities.IntermediateActivities.Activity activity) {
-		List<ActivityNode> nodesWithBehavior = new ArrayList<ActivityNode>();
-		nodesWithBehavior.addAll(getBehaviorNodes(activity.node));
-
-		for (ActivityNode node : nodesWithBehavior) {
-			if (node instanceof CallBehaviorAction) {
-				CallBehaviorAction callBehaviorAction = (CallBehaviorAction) node;
-				Behavior behavior = callBehaviorAction.behavior;
-				OpaqueBehavior behaviorReplacement = integrationLayer.getExecutionContext()
-						.getOpaqueBehavior(behavior.name);
-				if (behaviorReplacement != null) {
-					callBehaviorAction.behavior = behaviorReplacement;
-				}
-			} else if (node instanceof DecisionNode) {
-				DecisionNode decision = (DecisionNode) node;
-				Behavior behavior = decision.decisionInput;
-				OpaqueBehavior behaviorReplacement = integrationLayer.getExecutionContext()
-						.getOpaqueBehavior(behavior.name);
-				if (behaviorReplacement != null) {
-					decision.decisionInput = behaviorReplacement;
-				}
-			}
-		}
-	}
-	
-	private List<ActivityNode> getBehaviorNodes(List<ActivityNode> nodes) {
-		List<ActivityNode> nodesWithBehavior = new ArrayList<ActivityNode>();
-		for (ActivityNode node : nodes) {
-			if (node instanceof CallBehaviorAction) {
-				CallBehaviorAction action = (CallBehaviorAction) node;
-				nodesWithBehavior.add(action);
-			} else if (node instanceof DecisionNode) {
-				DecisionNode decision = (DecisionNode) node;
-				if (decision.decisionInput != null) {
-					nodesWithBehavior.add(decision);
-				}
-			}
-			if (node instanceof StructuredActivityNode) {
-				StructuredActivityNode structurednode = (StructuredActivityNode) node;
-				nodesWithBehavior.addAll(getBehaviorNodes(structurednode.node));
-			}
-		}
-		return nodesWithBehavior;
-	}
-	
-	// -------------------
-	
 	private void clearLocus(PapyrusModelILExecutor executor) {
 		executor.getExecutionContext().removeEventListener(this);
 		executor.getExecutionContext().addEventListener(this);
@@ -201,18 +120,13 @@ public class PetstoreCaseStudyPOC implements ExecutionEventListener {
 		
 		// Convert
 		Resource resource = getResource(activityDiagramFilePath, externalUmlFilePath);
+		EcoreUtil.resolveAll(resourceSet);
 		UML2Converter uml2Converter = new UML2Converter();
-		IConversionResult conversionResult2 = uml2Converter.convert(resource.getContents().get(0));
+		conversionResult = uml2Converter.convert(resource);
+		registerOpaqueBehaviors();
 		
-		// Replace Opaque Behaviors
-		Iterator<fUML.Syntax.Activities.IntermediateActivities.Activity> iterator = conversionResult2.getActivities().iterator();
-		while(iterator.hasNext()) {
-			fUML.Syntax.Activities.IntermediateActivities.Activity activity = iterator.next();
-			replaceOpaqueBehaviors(activity);
-		}
-
 		// Get Activity
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = conversionResult2.getActivity(activityName);
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = conversionResult.getActivity(activityName);
 		
 		// Execute fUML Activity
 		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
@@ -244,18 +158,14 @@ public class PetstoreCaseStudyPOC implements ExecutionEventListener {
 		
 		// Convert
 		Resource resource = getResource(activityDiagramFilePath, externalUmlFilePath);
+		EcoreUtil.resolveAll(resourceSet);
 		UML2Converter uml2Converter = new UML2Converter();
-		IConversionResult conversionResult2 = uml2Converter.convert(resource.getContents().get(0));
+		conversionResult = uml2Converter.convert(resource);
+		registerOpaqueBehaviors();
 		
-		// Replace Opaque Behaviors
-		Iterator<fUML.Syntax.Activities.IntermediateActivities.Activity> iterator = conversionResult2.getActivities().iterator();
-		while(iterator.hasNext()) {
-			fUML.Syntax.Activities.IntermediateActivities.Activity activity = iterator.next();
-			replaceOpaqueBehaviors(activity);
-		}
-
+		
 		// Get Activity
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = conversionResult2.getActivity(activityName);
+		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = conversionResult.getActivity(activityName);
 		
 		// Execute fUML Activity
 		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
@@ -338,6 +248,13 @@ public class PetstoreCaseStudyPOC implements ExecutionEventListener {
 		assertEquals("orderDate", orderReference.getFeatureValues().get(0).feature.name);
 		assertEquals("orderLines", orderReference.getFeatureValues().get(1).feature.name);
 		assertEquals("customer", orderReference.getFeatureValues().get(2).feature.name);
+	}
+	
+	private void registerOpaqueBehaviors() {
+		LibraryRegistry libraryRegistry = new LibraryRegistry(integrationLayer.getExecutionContext());
+		Map<String, OpaqueBehavior> registeredOpaqueBehaviors = libraryRegistry.loadRegisteredLibraries();
+		OpaqueBehaviorCallReplacer.instance.replaceOpaqueBehaviorCalls(conversionResult
+				.getAllActivities(), registeredOpaqueBehaviors);				
 	}
 
 }
