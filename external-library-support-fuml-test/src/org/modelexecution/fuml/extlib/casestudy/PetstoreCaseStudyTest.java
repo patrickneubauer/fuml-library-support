@@ -95,19 +95,10 @@ public class PetstoreCaseStudyTest {
 		String activityDiagramFilePath = "models/petstoreCaseStudy/petstore.uml";
 		String activityName = "SendEmail";
 
-		// Convert
-		Resource resource = getResource(activityDiagramFilePath, externalUmlFilePath);
-		EcoreUtil.resolveAll(resourceSet);
-		UML2Converter uml2Converter = new UML2Converter();
-		conversionResult = uml2Converter.convert(resource);
-		registerOpaqueBehaviors();
+		// Load and execute Activity
+		integrationLayer.loadActivity(externalUmlFilePath, activityName, activityDiagramFilePath);
+		integrationLayer.executeActivity(null, new ParameterValueList());
 		
-		// Get Activity
-		fUML.Syntax.Activities.IntermediateActivities.Activity fUMLActivity = conversionResult.getActivity(activityName);
-		
-		// Execute fUML Activity
-		integrationLayer.getExecutionContext().execute(fUMLActivity, null, new ParameterValueList());
-
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
 		ParameterValue outputParameterValue = integrationLayer.getOutputParameterValue("ActivityEntryEvent", "SendEmail");
@@ -118,10 +109,4 @@ public class PetstoreCaseStudyTest {
 		assertTrue(((StringValue) outputParameterValue.values.get(0)).value.contains("JavaMail")); // otherwise it would throw an exception
 	}
 
-	private void registerOpaqueBehaviors() {
-		LibraryRegistry libraryRegistry = new LibraryRegistry(integrationLayer.getExecutionContext());
-		Map<String, OpaqueBehavior> registeredOpaqueBehaviors = libraryRegistry.loadRegisteredLibraries();
-		OpaqueBehaviorCallReplacer.instance.replaceOpaqueBehaviorCalls(conversionResult
-				.getAllActivities(), registeredOpaqueBehaviors);				
-	}
 }

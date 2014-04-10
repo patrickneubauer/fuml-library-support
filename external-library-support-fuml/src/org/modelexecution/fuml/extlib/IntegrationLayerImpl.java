@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
+import org.modelexecution.fuml.convert.IConversionResult;
 import org.modelexecution.fuml.convert.uml2.UML2Converter;
 import org.modelexecution.fuml.extlib.helper.ActionHelper;
 import org.modelexecution.fuml.extlib.helper.ActivityHelper;
@@ -37,6 +38,8 @@ import org.modelexecution.fumldebug.core.event.ActivityNodeEvent;
 import org.modelexecution.fumldebug.core.event.ActivityNodeExitEvent;
 import org.modelexecution.fumldebug.core.event.Event;
 import org.modelexecution.fumldebug.core.event.ExtensionalValueEvent;
+import org.modelexecution.fumldebug.libraryregistry.LibraryRegistry;
+import org.modelexecution.fumldebug.libraryregistry.OpaqueBehaviorCallReplacer;
 
 import fUML.Semantics.Actions.BasicActions.CallOperationActionActivation;
 import fUML.Semantics.Actions.BasicActions.InputPinActivation;
@@ -76,6 +79,7 @@ import fUML.Syntax.Classes.Kernel.Parameter;
 import fUML.Syntax.Classes.Kernel.ParameterDirectionKind;
 import fUML.Syntax.Classes.Kernel.Property;
 import fUML.Syntax.Classes.Kernel.StructuralFeature;
+import fUML.Syntax.CommonBehaviors.BasicBehaviors.OpaqueBehavior;
 
 /**
  * Implementation of the {@link IntegrationLayer}
@@ -119,8 +123,14 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 			// UML Activity cannot be converted
 			return false;
 		}
-		this.fUMLActivity = converter.convert(umlActivity).getActivities().iterator()
-				.next();
+		
+		// Convert UML to fUML
+		IConversionResult iConversionResult = converter.convert(umlActivity);
+		
+		// Register OpaqueBehaviors
+		this.registerOpaqueBehaviors(iConversionResult);
+		
+		this.fUMLActivity = iConversionResult.getActivity(activityName);
 		
 		return true;
 	}// loadActivity
@@ -960,5 +970,12 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 		}
 		return null; // No ActivityNodeEntryEvent with the specified action name found
 	}// getActivityNodeEntryEventOutputParameterValue
+	
+	
+	private void registerOpaqueBehaviors(IConversionResult iConversionResult) {
+		LibraryRegistry libraryRegistry = new LibraryRegistry(this.getExecutionContext());
+		Map<String, OpaqueBehavior> registeredOpaqueBehaviors = libraryRegistry.loadRegisteredLibraries();
+		OpaqueBehaviorCallReplacer.instance.replaceOpaqueBehaviorCalls(iConversionResult.getAllActivities(), registeredOpaqueBehaviors);				
+	}// registerOpaqueBehaviors
 
 }// IntegrationLayerImpl
