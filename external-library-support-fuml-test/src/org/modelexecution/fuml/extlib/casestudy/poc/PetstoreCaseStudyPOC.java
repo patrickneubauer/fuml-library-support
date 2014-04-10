@@ -188,7 +188,7 @@ public class PetstoreCaseStudyPOC implements ExecutionEventListener {
 		assertEquals("liz", customerReference.getFeatureValues().get(1).values.get(0).toString());
 		
 		assertEquals("email", customerReference.getFeatureValues().get(4).feature.name);
-		assertEquals("franzmair1980@gmail.com", customerReference.getFeatureValues().get(4).values.get(0).toString());		
+		assertEquals("fumlextlib@gmail.com", customerReference.getFeatureValues().get(4).values.get(0).toString());		
 	}
 	
 	/**
@@ -220,7 +220,7 @@ public class PetstoreCaseStudyPOC implements ExecutionEventListener {
 		assertEquals("liz", customerReference.getFeatureValues().get(1).values.get(0).toString());
 		
 		assertEquals("email", customerReference.getFeatureValues().get(4).feature.name);
-		assertEquals("franzmair1980@gmail.com", customerReference.getFeatureValues().get(4).values.get(0).toString());
+		assertEquals("fumlextlib@gmail.com", customerReference.getFeatureValues().get(4).values.get(0).toString());
 	}
 	
 	/**
