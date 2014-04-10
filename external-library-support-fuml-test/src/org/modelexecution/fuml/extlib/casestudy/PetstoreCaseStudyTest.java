@@ -163,8 +163,8 @@ public class PetstoreCaseStudyTest {
 	 */
 	@Test
 	public void petstoreCaseStudyTest() {		
-		String externalUmlFilePath = "models/PetstoreCaseStudy/commons-email-1.3.1Converted.uml";
-		String activityDiagramFilePath = "models/PetstoreCaseStudy/petstore.uml";
+		String externalUmlFilePath = "models/petstoreCaseStudy/commons-email-1.3.1Converted.uml";
+		String activityDiagramFilePath = "models/petstoreCaseStudy/petstore.uml";
 		String activityName = "SendEmail";
 
 		// Convert
