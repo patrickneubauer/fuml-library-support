@@ -237,6 +237,45 @@ public class IntegrationLayerIT {
 	
 	/**
 	 * Tests {@link CreateObjectAction} that invokes an Object from an external
+	 * library and a {@link CallOperationAction} calling a static method on the invoked Object returning
+	 * a {@link BooleanValue}
+	 */
+	@Test
+	public void booleanReturnValueFromStaticOperationExternalCallOperationActionTest() {
+		String libraryModel = "models/modelsAccessingAnExternalLibrary/VehiclesConverted.uml";
+		String umlModel = "models/modelsAccessingAnExternalLibrary/activityWithPrimitiveValues/VehiclesPrimitiveReturnValueFromStaticOperationActivityDiagram.uml";
+		String activityName = "BooleanReturnValueFromStaticOperationActivity";
+
+		integrationLayer.loadActivity(libraryModel, activityName, umlModel);
+		integrationLayer.executeActivity(null, new ParameterValueList());
+
+		Locus locus = integrationLayer.getExecutionContext().getLocus();
+		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
+
+		assertEquals("length", fUmlObject.getFeatureValues().get(0).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(0).values.get(0) instanceof IntegerValue);
+		assertEquals(0, ((IntegerValue) fUmlObject.getFeatureValues().get(0).values.get(0)).value);
+
+		assertEquals("name", fUmlObject.getFeatureValues().get(1).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(1).values.get(0) instanceof StringValue);
+		assertEquals("NoName", ((StringValue) fUmlObject.getFeatureValues().get(1).values.get(0)).value);
+
+		assertEquals("oceanLiner", fUmlObject.getFeatureValues().get(2).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
+		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
+
+		// Check if correct output ParameterValue exists in the
+		// IntegrationLayer's ExecutionContext.activityExecutionOutput
+		ParameterValue outputParameterValue = integrationLayer.getOutputParameterValue("ActivityNodeEntryEvent", "HasNoWheelsCallOperationAction");
+
+		assertTrue(outputParameterValue != null);
+		assertTrue(outputParameterValue.values.get(0) instanceof BooleanValue);
+		assertEquals(true, ((BooleanValue) outputParameterValue.values.get(0)).value);
+
+	}
+	
+	/**
+	 * Tests {@link CreateObjectAction} that invokes an Object from an external
 	 * library and a {@link CallOperationAction} on the invoked Object setting a {@link BooleanValue} field
 	 */
 	@Test
@@ -381,9 +420,23 @@ public class IntegrationLayerIT {
 		assertTrue(fUmlObject.getFeatureValues().get(2).values.get(0) instanceof BooleanValue);
 		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(2).values.get(0)).value);
 	
-		assertEquals("seats", fUmlObject.getFeatureValues().get(4).feature.name);
-		assertTrue(fUmlObject.getFeatureValues().get(4).values.get(0) instanceof IntegerValue);
-		assertEquals(50, ((IntegerValue) fUmlObject.getFeatureValues().get(4).values.get(0)).value);
+		assertEquals("hasNoWheels", fUmlObject.getFeatureValues().get(3).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(3).values.get(0) instanceof BooleanValue);
+		assertEquals(true, ((BooleanValue) fUmlObject.getFeatureValues().get(3).values.get(0)).value);
+		
+		assertEquals("captain", fUmlObject.getFeatureValues().get(4).feature.name);		
+		Property captainProperty = (Property) fUmlObject.getFeatureValues().get(4).feature;
+		assertEquals("Captain", captainProperty.class_.name);
+		
+		assertEquals("doors", fUmlObject.getFeatureValues().get(5).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(5).values.get(0) instanceof IntegerValue);
+		assertEquals(4, ((IntegerValue) fUmlObject.getFeatureValues().get(5).values.get(0)).value);
+		
+		assertEquals("seats", fUmlObject.getFeatureValues().get(6).feature.name);
+		assertTrue(fUmlObject.getFeatureValues().get(6).values.get(0) instanceof IntegerValue);
+		assertEquals(50, ((IntegerValue) fUmlObject.getFeatureValues().get(6).values.get(0)).value);
+		
+	
 	}
 	
 	/**
@@ -481,7 +534,8 @@ public class IntegrationLayerIT {
 		Locus locus = integrationLayer.getExecutionContext().getLocus();
 		Object_ fUmlObject = (Object_) locus.extensionalValues.get(0);
 
-		assertEquals("engine", fUmlObject.getFeatureValues().get(0).feature.name);
+		assertEquals("driver", fUmlObject.getFeatureValues().get(0).feature.name);
+		assertEquals("engine", fUmlObject.getFeatureValues().get(1).feature.name);
 
 		// Check if correct output ParameterValue exists in the
 		// IntegrationLayer's ExecutionContext.activityExecutionOutput
@@ -589,13 +643,18 @@ public class IntegrationLayerIT {
 
 		// Check if the fUmlObject is a Car with a SimpleEngine having horsePower equal to 100
 		assertEquals("Car", fUmlObject.types.get(0).name);
-		assertEquals("engine", fUmlObject.getFeatureValues().get(0).feature.name);
+		assertEquals("driver", fUmlObject.getFeatureValues().get(0).feature.name);
+		assertEquals("engine", fUmlObject.getFeatureValues().get(1).feature.name);
+
 		assertTrue(fUmlObject.getFeatureValues().get(0).feature instanceof Property);
+		assertTrue(fUmlObject.getFeatureValues().get(1).feature instanceof Property);
 		
-		Property simpleEngineProperty = (Property) fUmlObject.getFeatureValues().get(0).feature;
+		Property driverProperty = (Property) fUmlObject.getFeatureValues().get(0).feature;
+		assertEquals("Driver", driverProperty.class_.name);
+		Property simpleEngineProperty = (Property) fUmlObject.getFeatureValues().get(1).feature;
 		assertEquals("SimpleEngine", simpleEngineProperty.class_.name);
 		
-		Object_ simpleEngineObject_ = (Object_)fUmlObject.getFeatureValues().get(0).values.get(0);
+		Object_ simpleEngineObject_ = (Object_)fUmlObject.getFeatureValues().get(1).values.get(0);
 		assertEquals(100, ((IntegerValue) simpleEngineObject_.featureValues.get(0).values.get(0)).value);
 		assertEquals("NoVendor", ((StringValue) simpleEngineObject_.featureValues.get(1).values.get(0)).value);
 

@@ -5,6 +5,7 @@ package org.modelexecution.fuml.extlib;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -519,8 +520,13 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				
 				javaMethod = javaClass.getMethod(methodName, (Class<?>[]) null);
 
+				try {
 				// Warning: the following invocation alters javaObject (!)
 				javaMethodReturnValue = javaMethod.invoke(javaObject, (Object[]) null);
+			
+				} catch (InvocationTargetException e) {
+					System.out.println(e);
+				}
 			}
 			
 			// ------------------------------------------------

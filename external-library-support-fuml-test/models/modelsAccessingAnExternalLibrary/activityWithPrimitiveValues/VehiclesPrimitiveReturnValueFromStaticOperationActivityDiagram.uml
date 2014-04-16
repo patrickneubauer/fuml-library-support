@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_K-8U8FWwEeKaTuVFD778jg">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_h_vLAKKnEeKXtemGD7H-lw" name="BooleanReturnValueFromStaticOperationActivity" node="_h_vLAqKnEeKXtemGD7H-lw _h_vLBKKnEeKXtemGD7H-lw _L3gKwKK2EeKXtemGD7H-lw">
+    <ownedParameter xmi:id="_IvClAKK2EeKXtemGD7H-lw" name="outputParameter" direction="out"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_h_vLAaKnEeKXtemGD7H-lw" name="ObjectFlowFromCreateToCall" source="_h_vLA6KnEeKXtemGD7H-lw" target="_h_vLBaKnEeKXtemGD7H-lw"/>
+    <edge xmi:type="uml:ObjectFlow" xmi:id="_Ri8qoKK2EeKXtemGD7H-lw" name="ObjectFlowCallToFinal" source="_h_vLBqKnEeKXtemGD7H-lw" target="_L3gKwKK2EeKXtemGD7H-lw"/>
+    <node xmi:type="uml:CreateObjectAction" xmi:id="_h_vLAqKnEeKXtemGD7H-lw" name="CreateShipObject">
+      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_J_qYOsVlEeOQXeukQSofzA"/>
+      <result xmi:id="_h_vLA6KnEeKXtemGD7H-lw" name="target" outgoing="_h_vLAaKnEeKXtemGD7H-lw"/>
+    </node>
+    <node xmi:type="uml:CallOperationAction" xmi:id="_h_vLBKKnEeKXtemGD7H-lw" name="HasNoWheelsCallOperationAction">
+      <argument xmi:id="_h_vLBaKnEeKXtemGD7H-lw" name="target" incoming="_h_vLAaKnEeKXtemGD7H-lw"/>
+      <result xmi:id="_h_vLBqKnEeKXtemGD7H-lw" name="hasNoWheelsReturnValue" outgoing="_Ri8qoKK2EeKXtemGD7H-lw"/>
+      <operation href="../VehiclesConverted.uml#_J_qYYMVlEeOQXeukQSofzA"/>
+    </node>
+    <node xmi:type="uml:ActivityParameterNode" xmi:id="_L3gKwKK2EeKXtemGD7H-lw" name="OutputBoolean" incoming="_Ri8qoKK2EeKXtemGD7H-lw" parameter="_IvClAKK2EeKXtemGD7H-lw"/>
+  </packagedElement>
+</uml:Model>

@@ -5,18 +5,18 @@
     <edge xmi:type="uml:ObjectFlow" xmi:id="_PJcxQMYkEeKFmLRp2CnBCQ" name="ObjectFlowFromCreateToCall" source="_N45x4JGLEeKJdIXWZWqBdw" target="_O7a-0JGLEeKJdIXWZWqBdw"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_P49ioMYkEeKFmLRp2CnBCQ" name="ObjectFlowFromCallToFinal" source="_Pp-t8JGLEeKJdIXWZWqBdw" target="_QrMSUKKtEeKXtemGD7H-lw"/>
     <node xmi:type="uml:CreateObjectAction" xmi:id="_LRLhsJGLEeKJdIXWZWqBdw" name="CreateCarObject">
-      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQbUQdmpEeK6iduXuBguHQ"/>
+      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_J_qY8MVlEeOQXeukQSofzA"/>
       <result xmi:id="_N45x4JGLEeKJdIXWZWqBdw" name="target" outgoing="_PJcxQMYkEeKFmLRp2CnBCQ"/>
     </node>
     <node xmi:type="uml:CallOperationAction" xmi:id="_NQP2cJGLEeKJdIXWZWqBdw" name="GetEngineCallOperationAction">
       <argument xmi:id="_O7a-0JGLEeKJdIXWZWqBdw" name="target" incoming="_PJcxQMYkEeKFmLRp2CnBCQ"/>
       <result xmi:id="_Pp-t8JGLEeKJdIXWZWqBdw" name="getEngineReturnValue" outgoing="_P49ioMYkEeKFmLRp2CnBCQ">
-        <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_vd9l2chBEeK327ZXB80yuQ"/>
+        <type xmi:type="uml:Class" href=""/>
       </result>
-      <operation href="../VehiclesConverted.uml#_KQbUR9mpEeK6iduXuBguHQ"/>
+      <operation href="../VehiclesConverted.uml#_J_qY-cVlEeOQXeukQSofzA"/>
     </node>
     <node xmi:type="uml:ActivityParameterNode" xmi:id="_QrMSUKKtEeKXtemGD7H-lw" name="OutputSimpleEngine" incoming="_P49ioMYkEeKFmLRp2CnBCQ" parameter="_LFi4cKKtEeKXtemGD7H-lw">
-      <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_vd9l2chBEeK327ZXB80yuQ"/>
+      <type xmi:type="uml:Class" href=""/>
     </node>
   </packagedElement>
   <packagedElement xmi:type="uml:Activity" xmi:id="_Fc8FINmrEeKZpYgxfl3dvQ" name="SimpleEngineReturnThisValueActivity" node="_Fc8FJNmrEeKZpYgxfl3dvQ _Fc8FJtmrEeKZpYgxfl3dvQ _Fc8FKdmrEeKZpYgxfl3dvQ">
@@ -24,18 +24,18 @@
     <edge xmi:type="uml:ObjectFlow" xmi:id="_Fc8FItmrEeKZpYgxfl3dvQ" name="ObjectFlowFromCreateToCall" source="_Fc8FJdmrEeKZpYgxfl3dvQ" target="_Fc8FJ9mrEeKZpYgxfl3dvQ"/>
     <edge xmi:type="uml:ObjectFlow" xmi:id="_Fc8FI9mrEeKZpYgxfl3dvQ" name="ObjectFlowFromCallToFinal" source="_Fc8FKNmrEeKZpYgxfl3dvQ" target="_Fc8FKdmrEeKZpYgxfl3dvQ"/>
     <node xmi:type="uml:CreateObjectAction" xmi:id="_Fc8FJNmrEeKZpYgxfl3dvQ" name="CreateSimpleEngineObject">
-      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQbUVtmpEeK6iduXuBguHQ"/>
+      <classifier xmi:type="uml:Class" href="../VehiclesConverted.uml#_J_pyPcVlEeOQXeukQSofzA"/>
       <result xmi:id="_Fc8FJdmrEeKZpYgxfl3dvQ" name="target" outgoing="_Fc8FItmrEeKZpYgxfl3dvQ"/>
     </node>
     <node xmi:type="uml:CallOperationAction" xmi:id="_Fc8FJtmrEeKZpYgxfl3dvQ" name="GetEngineCallOperationAction">
       <argument xmi:id="_Fc8FJ9mrEeKZpYgxfl3dvQ" name="target" incoming="_Fc8FItmrEeKZpYgxfl3dvQ"/>
       <result xmi:id="_Fc8FKNmrEeKZpYgxfl3dvQ" name="getEngineReturnValue" outgoing="_Fc8FI9mrEeKZpYgxfl3dvQ">
-        <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_vd9l2chBEeK327ZXB80yuQ"/>
+        <type xmi:type="uml:Class" href=""/>
       </result>
-      <operation href="../VehiclesConverted.uml#_KQbUeNmpEeK6iduXuBguHQ"/>
+      <operation href="../VehiclesConverted.uml#_J_pyX8VlEeOQXeukQSofzA"/>
     </node>
     <node xmi:type="uml:ActivityParameterNode" xmi:id="_Fc8FKdmrEeKZpYgxfl3dvQ" name="OutputSimpleEngine" incoming="_Fc8FI9mrEeKZpYgxfl3dvQ" parameter="_Fc8FIdmrEeKZpYgxfl3dvQ">
-      <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_KQbUVtmpEeK6iduXuBguHQ"/>
+      <type xmi:type="uml:Class" href=""/>
     </node>
   </packagedElement>
 </uml:Model>
