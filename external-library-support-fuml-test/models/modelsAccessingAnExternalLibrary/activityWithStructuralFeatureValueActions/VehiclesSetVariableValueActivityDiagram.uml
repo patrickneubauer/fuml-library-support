@@ -17,7 +17,7 @@
       <object xmi:id="_AzCHQNpaEeKZpYgxfl3dvQ" name="object" incoming="_PVWhMNpaEeKZpYgxfl3dvQ">
         <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_J_qYOsVlEeOQXeukQSofzA"/>
       </object>
-      <structuralFeature xmi:type="uml:Property" href="../VehiclesConverted.uml#_J_qYOsVlEeOQXeukQSofzA"/>
+      <structuralFeature xmi:type="uml:Property" href="../VehiclesConverted.uml#_J_qYQsVlEeOQXeukQSofzA"/>
       <result xmi:id="_2lzJINpXEeKZpYgxfl3dvQ" name="result"/>
       <value xmi:id="_wFjdUNpZEeKZpYgxfl3dvQ" name="value" incoming="_OrqrANpaEeKZpYgxfl3dvQ"/>
     </node>
@@ -39,7 +39,7 @@
       <object xmi:id="_PxUVGd43EeKoAaC3_LV0dw" name="object" incoming="_PxUVEt43EeKoAaC3_LV0dw">
         <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_J_qYOsVlEeOQXeukQSofzA"/>
       </object>
-      <structuralFeature xmi:type="uml:Property" href="../VehiclesConverted.uml#_J_qYOsVlEeOQXeukQSofzA"/>
+      <structuralFeature xmi:type="uml:Property" href="../VehiclesConverted.uml#_J_qYPMVlEeOQXeukQSofzA"/>
       <result xmi:id="_PxUVGt43EeKoAaC3_LV0dw" name="result"/>
       <value xmi:id="_PxUVG943EeKoAaC3_LV0dw" name="value" incoming="_PxUVEd43EeKoAaC3_LV0dw"/>
     </node>
@@ -61,7 +61,7 @@
       <object xmi:id="_QNiXCN43EeKoAaC3_LV0dw" name="object" incoming="_QNiXAd43EeKoAaC3_LV0dw">
         <type xmi:type="uml:Class" href="../VehiclesConverted.uml#_J_qYOsVlEeOQXeukQSofzA"/>
       </object>
-      <structuralFeature xmi:type="uml:Property" href="../VehiclesConverted.uml#_J_qYOsVlEeOQXeukQSofzA"/>
+      <structuralFeature xmi:type="uml:Property" href="../VehiclesConverted.uml#_J_qYP8VlEeOQXeukQSofzA"/>
       <result xmi:id="_QNiXCd43EeKoAaC3_LV0dw" name="result"/>
       <value xmi:id="_QNiXCt43EeKoAaC3_LV0dw" name="value" incoming="_QNiXAN43EeKoAaC3_LV0dw"/>
     </node>
