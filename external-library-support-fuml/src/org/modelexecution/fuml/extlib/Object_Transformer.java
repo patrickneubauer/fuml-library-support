@@ -103,6 +103,20 @@ public class Object_Transformer {
 						} else {
 							featureValue.values.set(0, fUmlFieldValue);
 						}
+						
+					} else if (javaField.get(javaObject) instanceof java.lang.Long) {
+						
+						int javaFieldValue = ((Long) javaField.get(javaObject)).intValue();
+						IntegerValue fUmlFieldValue = new IntegerValue();
+						
+						// WARNING: int value of Long
+						fUmlFieldValue.value = javaFieldValue;
+						
+						if (featureValue.values.size() == 0) {
+							featureValue.values.add(0, fUmlFieldValue);
+						} else {
+							featureValue.values.set(0, fUmlFieldValue);
+						}
 
 					} else if (javaField.get(javaObject) instanceof java.lang.String) {
 
@@ -157,6 +171,7 @@ public class Object_Transformer {
 									childProperty = (Property)namedElement;
 									// Add the field property to the Association
 									association.memberEnd.add(childProperty);
+									break; // since correct namedElement has been found
 								}
 							}
 							
@@ -179,6 +194,7 @@ public class Object_Transformer {
 										// is the childProperty's Class
 										childProperty.class_ = (Class_) type;
 										newFUmlObject.types.add(childProperty.class_);
+										break;  // since correct type has been found
 									}
 								}
 							}

@@ -490,6 +490,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				if (javaInputParameterWithValueMap.values().toArray().length == 1 && 
 						!javaInputParameterWithValueMap.values().toArray()[0].toString().contains("boolean") &&
 						!javaInputParameterWithValueMap.values().toArray()[0].toString().contains("int") &&
+						!javaInputParameterWithValueMap.values().toArray()[0].toString().contains("long") &&
 						!javaInputParameterWithValueMap.values().toArray()[0].toString().contains("String")) {
 					// Case: SINGLE complex input parameter (no multiple or combination with primitive parameters)
 					
@@ -506,7 +507,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 					}
 					
 				} else {
-					// Case: Any number of primitive input parameter combination (int, boolean, String)
+					// Case: Any number of primitive input parameter combination (boolean, int, long, String)
 					// TODO: Add a condition to this else branch that allows it to execute only if
 					// all parameters in "javaInputParameterWithValueMap" are of primitive kind
 					
@@ -553,6 +554,13 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				IntegerValue integerValue = new IntegerValue();
 				integerValue.value = (int) javaMethodReturnValue;
 				outputParameterValue.values.add(integerValue);
+				
+			} else if (javaMethodReturnValue instanceof java.lang.Long) {
+
+				IntegerValue integerValue = new IntegerValue();
+				// WARNING: int value of Long
+				integerValue.value = ((Long) javaMethodReturnValue).intValue();
+				outputParameterValue.values.add(integerValue);
 
 			} else if (javaMethodReturnValue instanceof java.lang.String) {
 
@@ -572,6 +580,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 					
 					Object_Creator object_Creator = new Object_Creator(complexfUmlReturnObject, javaMethodReturnValue, executionContext);
 					complexfUmlReturnObject = object_Creator.getfUmlObject();
+					
 					targetfUmlObject.locus.add(complexfUmlReturnObject); // add new complex Object_ to Locus
 					complexfUmlReturnObject.locus = targetfUmlObject.locus; // same Locus ?
 					
@@ -580,7 +589,8 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 					outputParameterValue.values.add(reference);
 					
 					// Add objects to internal map
-					addObjects(targetfUmlObject, javaMethodReturnValue);
+					//addObjects(targetfUmlObject, javaMethodReturnValue);
+					addObjects(complexfUmlReturnObject, javaMethodReturnValue);
 				}
 				
 			}
@@ -646,6 +656,9 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 				} else if (fUmlInputParameter.type.name.toString().equals("int")) {
 					int javaInputParameterValue = (int) ((IntegerValue) fUmlInputParameterValue.values.get(0)).value;					
 					javaParameterWithValueMap.put(javaInputParameterValue, Integer.TYPE);
+				} else if (fUmlInputParameter.type.name.toString().equals("long")) {
+					long javaInputParameterValue = (long) ((IntegerValue) fUmlInputParameterValue.values.get(0)).value;					
+					javaParameterWithValueMap.put(javaInputParameterValue, Long.TYPE);
 				} else if (fUmlInputParameter.type.name.toString().equals("String")) {
 					String javaInputParameterValue = (String) ((StringValue) fUmlInputParameterValue.values.get(0)).value;					
 					javaParameterWithValueMap.put(javaInputParameterValue, String.class);
@@ -817,6 +830,7 @@ public class IntegrationLayerImpl implements IntegrationLayer {
 									 */
 									callOperationAction.target = inputPin;
 									Debug.out(this, "Successfully set CallOperationAction's target InputPin.");
+									return; // exit
 
 								}
 

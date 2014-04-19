@@ -47,7 +47,10 @@ public class Object_Creator {
 	private void create() {
 
 		Class<?> javaClass = javaObject.getClass();
-		Class_ fUmlClass = fUmlObject.types.get(0);
+		Class_ fUmlClass = new Class_();
+		if (fUmlObject.types.size() != 0) {
+			fUmlClass = fUmlObject.types.get(0);			
+		}
 		
 		for (Field javaField : javaClass.getDeclaredFields()) {
 			
@@ -88,6 +91,20 @@ public class Object_Creator {
 					
 					fUmlObject.featureValues.add(featureValue);
 					
+				} else if (javaField.get(javaObject) instanceof java.lang.Long) {
+					
+					long javaFieldValue = (long) javaField.get(javaObject);
+					IntegerValue fUmlFieldValue = new IntegerValue();
+					
+					// WARNING: int value of Long
+					fUmlFieldValue.value = ((Long) javaField.get(javaObject)).intValue();
+					
+					FeatureValue featureValue = new FeatureValue();
+					featureValue.values.add(fUmlFieldValue);
+					featureValue.feature = property;
+					
+					fUmlObject.featureValues.add(featureValue);
+										
 				} else if (javaField.get(javaObject) instanceof java.lang.String) {
 					
 					String javaFieldValue = (String) javaField.get(javaObject);
@@ -115,7 +132,7 @@ public class Object_Creator {
 					Link link = new Link();
 					Association association = new Association();
 					Property parentProperty = new Property();			// Car property
-					Property childProperty = null;						// SimpleEngine property
+					Property childProperty = null;						// SimpleEngine property					
 					
 					parentProperty.class_ = fUmlClass;
 					parentProperty.association = association;
@@ -133,9 +150,10 @@ public class Object_Creator {
 					// ------------------------------------------------
 					
 					Class<?> classOfJavaField = javaField.getType();
-					Object newJavaObject = null;
+					Object newJavaObject = javaField.get(javaObject);
 					
 					Object_ newFUmlObject = new Object_();
+					newFUmlObject.types.add(new fUML.Syntax.Classes.Kernel.Class_());
 					
 					if (childProperty != null && childProperty.association != null) {
 						for (Type type : childProperty.association.endType) {
@@ -151,31 +169,31 @@ public class Object_Creator {
 				
 					// Trying to instantiate the Java Field using it's Classes default constructor (if available)
 					// If the Java Field is instantiated successfully, a corresponding Object_ is created
-						
+			
 					try {
-						newJavaObject = classOfJavaField.newInstance();
-						Object_Creator object_Creator = new Object_Creator(newFUmlObject, newJavaObject, executionContext);
-						newFUmlObject = object_Creator.getfUmlObject();
-					} catch(Exception e) {
-						Debug.out(this, "Java Field (" + javaField.getName() + ") of Type (" + classOfJavaField.getName() + ") is set to null. Private default constructor? Exception: " + e);
-					}
-					
-					// ------------------------------------------------
-					
-					FeatureValue featureValue = new FeatureValue();
-					featureValue.values.add(newFUmlObject);
-					featureValue.feature = property;
-					
-					// ------------------------------------------------
-					
-					// Add a fUML Link (UML association) between the newly created complex Object_ and its parent Object_
-					association.memberEnd.add(parentProperty);				
-					link.type = association;
-					//link.addTo(executionContext.getLocus()); // TODO Check where the Link instance has to be put
-					
-					fUmlObject.featureValues.add(featureValue);
-					
+							Object_Creator object_Creator = new Object_Creator(newFUmlObject, newJavaObject, executionContext);
+							newFUmlObject = object_Creator.getfUmlObject();
+						} catch(Exception e) {
+							Debug.out(this, "Java Field (" + javaField.getName() + ") of Type (" + classOfJavaField.getName() + ") is set to null. Private default constructor? Exception: " + e);
+						}
+						
+						// ------------------------------------------------
+						
+						FeatureValue featureValue = new FeatureValue();
+						featureValue.values.add(newFUmlObject);
+						featureValue.feature = property;
+						
+						// ------------------------------------------------
+						
+						// Add a fUML Link (UML association) between the newly created complex Object_ and its parent Object_
+						association.memberEnd.add(parentProperty);				
+						link.type = association;
+						//link.addTo(executionContext.getLocus()); // TODO Check where the Link instance has to be put
+						
+						fUmlObject.featureValues.add(featureValue);
+						
 				} 
+				
 				
 			} catch (Exception e) {
 				Debug.out(this, "Error occured while transforming the Java Object to a fUML Object_ representation. " + e);
