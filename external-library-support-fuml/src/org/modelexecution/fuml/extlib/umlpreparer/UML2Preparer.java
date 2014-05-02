@@ -148,13 +148,18 @@ public class UML2Preparer {
 
 					// add Placeholder Parameter to Placeholder Activity
 					placeholderActivity.getOwnedParameters().add(placeholderParameter);
-
+					
+					
 					ActivityParameterNode activityParameterNode = UMLFactory.eINSTANCE.createActivityParameterNode();
 
 					// reference the Placeholder Parameter in the
 					// ActivityParameterNode
 					activityParameterNode.setParameter(placeholderParameter);
-
+					
+					// NOT COPIED AUTOMATICALLY
+					activityParameterNode.setUpperBound(placeholderParameter.getUpperValue());
+					placeholderParameter.setType(operationParameter.getType());
+					
 					// add the ActivityParameterNode to the Placeholder Activity
 					placeholderActivity.getOwnedNodes().add(activityParameterNode);
 
