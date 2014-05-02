@@ -15,7 +15,8 @@ public class Debug {
 	public enum DEBUG_MODE {
 		SYSTEM_OUT_ONLY,
 		SYSTEM_OUT_AND_FILE_OUT,
-		FILE_OUT_ONLY
+		FILE_OUT_ONLY,
+		NONE
 	}
 	public static File DEBUG_FILE = new File("debug.out");
 	public static DEBUG_MODE debugMode = DEBUG_MODE.SYSTEM_OUT_AND_FILE_OUT;
@@ -29,7 +30,9 @@ public class Debug {
 			appendToFile(output, true);
 		} else if (debugMode == DEBUG_MODE.FILE_OUT_ONLY) {
 			appendToFile(output, true);
-		} 
+		} else if (debugMode == DEBUG_MODE.NONE) {
+			System.out.println("DEBUG_MODE = NONE");
+		}
 	}
 	
 	public static void out(Object object, String output) {
